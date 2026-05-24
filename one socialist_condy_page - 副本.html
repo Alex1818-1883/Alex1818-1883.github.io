@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社会主义建设与过渡理论</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        header::after {
+            content: "经典文库";
+            display: inline-block;
+            visibility: hidden;
+            pointer-events: none;
+
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.4) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+        .hero {
+            min-height: 58vh;
+            padding: 130px 24px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: #FFFFFF;
+            overflow: visible;
+        }
+
+        .hero-divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 4px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+
+            color: #CC0000;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1;
+
+            overflow: visible;
+
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            display: block;
+            flex: 1;
+
+            height: 4px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .hero-inner {
+            width: min(940px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            color: #DD0000;
+            font-size: 4.3rem;
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 3.5px;
+            margin-bottom: 22px;
+        }
+
+        .hero-lead {
+            width: min(800px, 100%);
+            margin: 0 auto;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+
+            text-align: center;
+        }
+
+        .btn-main,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .btn-main {
+            background-color: #CC0000;
+            color: #FFFFFF;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #CC0000;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-main:hover,
+        .btn-outline:hover {
+            transform: scale(1.05) translateZ(0);
+        }
+
+        .btn-outline:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        .btn-main:hover {
+            background-color: #A80000;
+            border-color: #A80000;
+        }
+
+        .btn-main:active,
+        .btn-outline:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        main {
+            padding: 70px 24px 80px;
+        }
+
+        .study-shell {
+            width: min(980px, 100%);
+            margin: 0 auto;
+        }
+
+        .main-panel {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 64px;
+        }
+
+        .article-section {
+            padding: 24px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .article-section:first-of-type {
+            padding-top: 0;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article-section h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .article-section p {
+            color: #444444;
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        .article-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-red {
+            color: #CC0000;
+            font-weight: 900;
+        }
+
+.quote-line {
+    width: min(820px, 100%);
+    margin: 32px auto;
+    padding: 20px 30px 20px calc(30px + 1em);
+    color: #A80000;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 2;
+    text-align: justify;
+    background-color: #FFF7F7;
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    text-indent: -1em;
+}
+
+        .article-section + .quote-line {
+            margin-top: 56px;
+        }
+
+        .reading-panel {
+            width: min(900px, 100%);
+            margin: 0 auto;
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .reading-head {
+            margin-bottom: 16px;
+        }
+
+        .reading-panel h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .reading-line {
+            width: 100%;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .reading-list {
+            display: grid;
+            gap: 0;
+        }
+
+        .reading-item {
+            padding: 18px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .reading-item:last-child {
+            border-bottom: none;
+        }
+
+        .reading-book {
+            color: #CC0000;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.7;
+            margin-bottom: 4px;
+        }
+
+        .reading-desc {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.85;
+            text-align: justify;
+        }
+
+        .page-actions {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+footer h3 {
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+}
+
+footer h3::selection {
+    background: transparent;
+}
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .hero {
+                min-height: 56vh;
+                padding: 126px 18px 54px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-lead {
+                font-size: 17px;
+                line-height: 1.8;
+                letter-spacing: 1px;
+            }
+
+            main {
+                padding: 52px 18px 64px;
+            }
+
+            .main-panel,
+            .reading-panel {
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .main-panel {
+                border-left-width: 0;
+            }
+
+            .article-section {
+                padding: 20px 0;
+            }
+
+            .article-section h2 {
+                font-size: 22px;
+            }
+
+            .article-section p,
+            .quote-line {
+                font-size: 15px;
+            }
+
+            .quote-line {
+                margin: 26px auto;
+                padding: 17px 20px 17px 24px;
+                border-left-width: 6px;
+                border-radius: 16px;
+            }
+
+            .reading-panel h2 {
+                font-size: 22px;
+            }
+
+            .reading-line {
+                height: 3px;
+            }
+
+            .reading-item {
+                padding: 16px 0;
+            }
+
+            .reading-book {
+                font-size: 16px;
+            }
+
+            .reading-desc {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .btn-main,
+            .btn-outline {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>社会主义建设与过渡理论</h1>
+        <p class="hero-lead">
+            在旧社会遗留条件中改造生产关系并走向共产主义的理论
+        </p>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<main id="study-start">
+    <div class="study-shell">
+        <section class="main-panel">
+            <div class="quote-line">
+                “从资本主义社会到共产主义社会之间，有一个从前者变为后者的革命转变时期。同这个时期相适应的也有一个政治上的过渡时期。”
+            </div>
+
+            <div class="article-section">
+                <h2>过渡时期不是一句口号</h2>
+                <p>
+                    社会主义不是在无产阶级夺取政权之后自动完成的状态，而是从资本主义向共产主义过渡的历史过程。旧社会留下来的生产关系、城乡差别、脑体差别、商品交换、资产阶级法权和旧思想习惯，都不会因为政权更替而立即消失。
+                </p>
+                <p>
+                    因此，社会主义建设必须把政治上的无产阶级专政同经济、文化和社会关系的持续改造结合起来。过渡时期的任务，不只是宣布新制度成立，而是逐步消灭产生剥削、等级、官僚化和资本主义复辟的物质基础。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “权利永远不能超出社会的经济结构以及由经济结构制约的社会的文化发展。”
+            </div>
+
+            <div class="article-section">
+                <h2>不能脱离物质条件谈平等</h2>
+                <p>
+                    社会主义建设不能靠抽象愿望跳过现实发展阶段。旧社会遗留下来的生产力水平、劳动分工和生活资料供给状况，决定了新社会在初期仍然不能立即实行充分的按需分配，也不能立即消灭一切差别。
+                </p>
+                <p>
+                    但是，承认物质条件的限制，并不等于维护旧差别。社会主义的方向，是在发展生产力的同时改造生产关系，使劳动者逐步提高管理社会、管理生产和管理国家的能力，缩小旧社会造成的各种差别。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “共产主义就是苏维埃政权加全国电气化。”
+            </div>
+
+            <div class="article-section">
+                <h2>社会主义建设必须发展生产力</h2>
+                <p>
+                    无产阶级政权不能建立在贫穷、落后和分散的小生产基础上。社会主义要战胜资本主义，必须组织大规模社会化生产，发展工业、农业、交通、科学技术和社会基础设施，提高整个社会的物质生产能力。
+                </p>
+                <p>
+                    发展生产力不是资本主义式的盲目积累，也不是为了少数人的利润，而是为了改善劳动群众生活，缩短必要劳动时间，扩大群众受教育和参与管理的条件，为逐步消灭阶级差别创造现实基础。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “小生产是经常地、每日每时地、自发地和大批地产生着资本主义和资产阶级的。”
+            </div>
+
+            <div class="article-section">
+                <h2>改造小生产与自发资本主义倾向</h2>
+                <p>
+                    过渡时期的一个重大问题，是旧社会留下的大量小生产和分散经营。小生产在形式上似乎只是个体劳动，但它会不断产生交换、竞争、贫富分化和资本主义自发倾向，从而成为资本主义复辟的土壤。
+                </p>
+                <p>
+                    因此，社会主义建设不能只依靠国家命令，也不能简单压制农民和小生产者，而要通过合作化、集体化、技术改造、国家支持和群众路线，把分散劳动逐步引向社会化、组织化和共同富裕的方向。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “无产阶级专政的最高原则就是保持无产阶级同农民的联盟。”
+            </div>
+
+            <div class="article-section">
+                <h2>工农联盟与社会主义国家</h2>
+                <p>
+                    落后国家的社会主义建设，不能离开工农联盟。无产阶级必须依靠自身的领导地位，同时团结广大农民和其他劳动群众，解决工业和农业、城市和乡村、国家计划和群众利益之间的关系。
+                </p>
+                <p>
+                    工农联盟不是临时策略，而是过渡时期国家稳定和社会改造的阶级基础。没有工农联盟，社会主义国家就会失去广大劳动群众的支持；没有无产阶级领导，联盟又可能被小生产自发性和资产阶级力量所瓦解。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “在社会主义社会中，基本的矛盾仍然是生产关系和生产力之间的矛盾，上层建筑和经济基础之间的矛盾。”
+            </div>
+
+            <div class="article-section">
+                <h2>社会主义社会仍然存在矛盾</h2>
+                <p>
+                    社会主义不是没有矛盾的社会。新的生产关系建立以后，仍然会同生产力发展发生适应与不适应的矛盾；新的上层建筑建立以后，也仍然会同经济基础发生适应与不适应的矛盾。
+                </p>
+                <p>
+                    正确认识社会主义社会的矛盾，才能避免把问题掩盖起来。官僚主义、等级分工、脱离群众、分配不公、城乡差别和旧思想影响，都不是简单的个人作风问题，而必须从生产关系和上层建筑的改造中去解决。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “在社会主义这个历史阶段中，还存在着阶级、阶级矛盾和阶级斗争。”
+            </div>
+
+            <div class="article-section">
+                <h2>阶级斗争没有自动结束</h2>
+                <p>
+                    无产阶级取得政权以后，剥削阶级在政治上被打倒，但其社会基础、思想影响、关系网络和复辟愿望仍然可能长期存在。旧社会遗留的资产阶级法权、等级分工和商品关系，也会不断产生新的不平等和新资产阶级因素。
+                </p>
+                <p>
+                    因此，社会主义建设必须继续坚持阶级分析。反对复辟不只是反对旧剥削阶级的公开反扑，也包括反对党和国家机关内部脱离群众、追求特权、走资本主义道路的倾向。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “我们的方针是统筹兼顾，适当安排。”
+            </div>
+
+            <div class="article-section">
+                <h2>计划、比例与群众生活</h2>
+                <p>
+                    社会主义经济建设不能被资本主义利润规律支配，而要根据社会需要、国家计划和群众利益来组织生产。计划经济的意义，不只是集中资源发展重工业，也包括协调工业和农业、积累和消费、国家需要和群众生活之间的关系。
+                </p>
+                <p>
+                    如果忽视群众生活，社会主义建设就会失去群众基础；如果没有必要积累和长远规划，社会化生产也难以巩固。统筹兼顾，就是要在阶级路线指导下处理各种矛盾，使建设服务于劳动群众的根本利益。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “各尽所能，按需分配！”
+            </div>
+
+            <div class="article-section">
+                <h2>过渡的目标是共产主义</h2>
+                <p>
+                    社会主义建设的意义，不是把某种过渡形式永恒化，而是为共产主义创造条件。共产主义不是平均贫穷，也不是行政命令制造出来的空想，而是建立在高度发展的社会生产力、劳动者全面发展和阶级消灭基础上的社会形态。
+                </p>
+                <p>
+                    因此，过渡理论要求我们既反对急于跳过阶段的空想主义，也反对把过渡时期的差别、国家和法权固定化的保守主义。社会主义必须不断向前推进：发展生产力，改造生产关系，扩大群众民主，缩小社会差别，最终为国家消亡和人的自由全面发展创造条件。
+                </p>
+            </div>
+        </section>
+
+        <section class="reading-panel" id="reading">
+            <div class="reading-head">
+                <h2>推荐阅读</h2>
+                <div class="reading-line" aria-hidden="true"></div>
+            </div>
+
+            <div class="reading-list">
+                <div class="reading-item">
+                    <div class="reading-book">马克思：《哥达纲领批判》</div>
+                    <div class="reading-desc">理解共产主义第一阶段、高级阶段以及过渡时期的基本理论。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《国家与革命》</div>
+                    <div class="reading-desc">理解无产阶级专政、国家消亡和资本主义向共产主义过渡的问题。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《论合作社》</div>
+                    <div class="reading-desc">理解在无产阶级政权下改造小生产、组织合作化和建设社会主义经济的道路。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《关于正确处理人民内部矛盾的问题》</div>
+                    <div class="reading-desc">理解社会主义社会矛盾、人民内部矛盾和阶级斗争的关系。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《论十大关系》</div>
+                    <div class="reading-desc">理解社会主义建设中工业、农业、地区、国家和群众利益之间的比例关系。</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-actions">
+            <a href="classics.html" class="btn-outline">经典文库</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <h3>全世界无产者，联合起来！</h3>
+</footer>
+
+</body>
+</html>

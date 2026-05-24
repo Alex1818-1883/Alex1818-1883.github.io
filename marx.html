@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>马列箴言 - 青年共产主义小组</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #A80000;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* 顶部导航栏 */
+        header {
+            position: absolute; top: 0; width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 26px; font-weight: 900; color: #CC0000; text-decoration: none; letter-spacing: 1px; display: flex; align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+        }
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+        .logo:hover { transform: scale(1.1) translateZ(0); }
+        .logo:hover .star { transform: scale(1.3) rotate(36deg) translateZ(0); color: #FFD700; }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-links a {
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .nav-links a:hover {
+            color: #FFFFFF;
+            background-color: #CC0000;
+            transform: scale(1.1) translateY(-3px) translateZ(0);
+        }
+        .nav-links a:active { transform: scale(0.95) translateZ(0); }
+
+        /* Hero */
+        .hero {
+            height: 45vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            background-color: #FFFFFF;
+            border-bottom: 3px solid #CC0000;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #DD0000;
+            letter-spacing: 4px;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #A80000;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* 📖 箴言标题专属链接样式 */
+        .book-link {
+            color: #DD0000;
+            text-decoration: none;
+            display: inline-block;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        .book-link:hover {
+            color: #FF1A1A;
+            text-shadow: none;
+transform: scale(1.05) translateZ(0);
+
+        }
+
+        /* 🚀 悬浮五角星：整体装甲 */
+        .book-star {
+            position: absolute;
+            top: -65px;
+            left: 50%;
+            margin-left: -27.5px;
+            width: 55px;
+            height: 55px;
+            opacity: 0;
+            transform: scale(0.2) translateY(20px) translateZ(0);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+        }
+        .book-link:hover .book-star {
+            opacity: 1;
+            transform: scale(1) translateY(0) translateZ(0);
+        }
+        .book-star svg {
+            width: 100%;
+            height: 100%;
+            animation: infinite-spin 6s linear infinite;
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+        @keyframes infinite-spin {
+            from { transform: rotate(0deg) translateZ(0); }
+            to { transform: rotate(360deg) translateZ(0); }
+        }
+
+        /* 主体容器 */
+        .content-container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        /* === 单条大字箴言舞台 === */
+        .quote-stage {
+            height: 440px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+.quote-display {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            
+            /* 🚀 核心排雷 1：抛弃 translate3d 这种强制 3D 指令，回归纯正的 2D 下沉！ */
+            transform: translateY(30px);
+            
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            contain: layout paint;
+            
+            /* 🚀 核心排雷 2：彻底删掉 will-change、backface-visibility 和 -webkit-font-smoothing！
+               不再向显卡申请任何特殊图层！ */
+        }
+        
+        .quote-display.visible {
+            opacity: 1;
+            /* 🚀 终极杀招：动画到位停稳的瞬间，立刻执行 none！
+               把排版权 100% 交还给 CPU，彻底粉碎边缘的磨砂感！ */
+            transform: none;
+        }
+     .quote-text {
+    font-size: 52px;
+    font-weight: 900;
+    color: #CC0000;
+    line-height: 1.6;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    display: inline-block;
+    text-align: left;
+    max-width: 100%;
+}
+.quote-text.medium { font-size: 42px; }
+.quote-text.long { font-size: 34px; }
+.quote-text.super-long { font-size: 28px; }
+
+
+
+        /* 🚩 出处与红色虚线样式 */
+        .quote-meta {
+            text-align: right;
+            padding-top: 20px;
+            padding-bottom: 15px;
+            margin-left: auto;
+            margin-right: 40px;
+        }
+        .quote-source {
+            display: inline-block;
+            vertical-align: middle;
+        }
+.source-link {
+    font-weight: bold;
+    color: #A80000;
+    font-size: 20px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 10px 20px 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.source-link:hover {
+    color: #FFFFFF;
+    background-color: #CC0000;
+}
+
+.source-link:active {
+    color: #FFFFFF;
+    background-color: #CC0000;
+}
+        .quote-dash {
+            display: inline-block;
+            width: 60px;
+            border-top: 2px dashed #CC0000;
+            vertical-align: middle;
+            margin-right: 12px;
+        }
+
+   @media (max-width: 900px) {
+    .quote-text { font-size: 36px; }
+    .quote-text.medium { font-size: 32px; }
+    .quote-text.long { font-size: 28px; }
+    .quote-text.super-long { font-size: 24px; }
+    .quote-stage { height: 420px; }
+    .quote-meta { margin-right: 20px; }
+}
+     @media (max-width: 600px) {
+    .quote-text { font-size: 28px; letter-spacing: 1px; }
+    .quote-text.medium { font-size: 24px; }
+    .quote-text.long { font-size: 22px; }
+    .quote-text.super-long { font-size: 20px; }
+}
+
+        /* 底部控制按钮 */
+        .quote-controls {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 60px;
+        }
+        .btn-arrow {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #FFFFFF;
+            color: #CC0000;
+            border: 2px solid #CC0000;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            font-size: 48px;
+            font-weight: bold;
+            cursor: pointer;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: none;
+            padding: 0;
+            line-height: 0;
+            padding-bottom: 8px;
+            padding-left: 4px;
+        }
+        .btn-arrow:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+            transform: scale(1.15) translateY(-3px) translateZ(0);
+            box-shadow: none;
+        }
+        .btn-arrow:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+        footer h3 {
+            font-size: 26px;
+            color: #FFFFFF;
+            letter-spacing: 4px;
+        }
+
+/* === 交互元素禁止选中：电脑端 + 手机端 === */
+.logo,
+.logo *,
+.nav-links a,
+.book-link,
+.book-link *,
+.book-star,
+.book-star *,
+.source-link,
+.source-link *,
+.btn-arrow,
+.btn-arrow *,
+footer h3 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    -webkit-user-drag: none;
+}
+
+/* 防止拖选时出现蓝底高亮 */
+.logo::selection,
+.logo *::selection,
+.nav-links a::selection,
+.book-link::selection,
+.book-link *::selection,
+.book-star::selection,
+.book-star *::selection,
+.source-link::selection,
+.source-link *::selection,
+.btn-arrow::selection,
+.btn-arrow *::selection,
+footer h3::selection {
+    background: transparent;
+}
+
+
+@media (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .nav-links {
+        display: flex;
+        justify-content: center;
+        gap: 0;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+        margin: 0 8px;
+
+        font-size: 16px;
+        padding: 7px 18px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    footer h3 {
+        font-size: 20px;
+    }
+
+
+    /* === 手机端：下一条按钮取消 hover 残留，点击后自动回白底红箭头 === */
+    .btn-arrow:hover {
+        background-color: #FFFFFF;
+        color: #CC0000;
+        border-color: #CC0000;
+        transform: scale(1) translateZ(0);
+    }
+
+    .btn-arrow:focus,
+    .btn-arrow:focus-visible {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .btn-arrow:focus:not(:active):not(.is-tapping),
+    .btn-arrow:focus-visible:not(:active):not(.is-tapping) {
+        background-color: #FFFFFF;
+        color: #CC0000;
+        border-color: #CC0000;
+        transform: scale(1) translateZ(0);
+    }
+
+    .btn-arrow:active,
+    .btn-arrow.is-tapping {
+        background-color: #CC0000;
+        color: #FFFFFF;
+        border-color: #CC0000;
+        transform: scale(0.95) translateZ(0);
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <a href="classics.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+        <div class="nav-links">
+            <a href="quotes.html">毛主席语录</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>
+            <a href="classics.html" class="book-link">
+                <div class="book-star">
+                    <svg viewBox="-50 -50 100 100">
+                        <polygon points="0,-47 11,-14.5 45,-14.5 17.8,6 28.5,38.5 0,18.5 -28.5,38.5 -17.8,6 -45,-14.5 -11,-14.5" fill="#CC0000" stroke="#CC0000" stroke-width="3" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                马恩列箴言
+            </a>
+        </h1>
+        <p>批判的武器 · 武器的批判</p>
+    </section>
+
+    <div class="content-container">
+        <div class="quote-stage">
+            <div class="quote-display" id="quoteDisplay">
+      
+                <div class="quote-text" id="quoteText"></div>
+                <div class="quote-meta">
+                    <span class="quote-dash"></span><span class="quote-source" id="quoteSource"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-controls">
+            <button class="btn-arrow" id="moreBtn" onclick="nextQuote()">›</button>
+        </div>
+    </div>
+
+    <footer>
+        <h3>全世界无产者，联合起来！</h3>
+    </footer>
+
+    <script>
+       // ======== 马列箴言数据库（扩充版） ========
+        const QUOTES = [
+            // ========== 马克思 ==========
+            {
+                author: "马克思",
+                text: "哲学家们只是用不同的方式解释世界，问题在于改变世界。",
+                source: "《关于费尔巴哈的提纲》",
+                link: "books/《关于费尔巴哈的提纲》.html"
+            },
+            {
+                author: "马克思",
+                text: "社会生活在本质上是实践的。凡是把理论导致神秘主义的神秘东西，都能在人的实践中以及对这个实践的理解中得到合理的解决。",
+                source: "《关于费尔巴哈的提纲》",
+               link: "books/《关于费尔巴哈的提纲》.html"
+            },
+            {
+                author: "马克思",
+                text: "人的思维是否具有客观的真理性，这不是一个理论的问题，而是一个实践的问题。人应该在实践中证明自己思维的真理性。",
+                source: "《关于费尔巴哈的提纲》",
+                link: "books/《关于费尔巴哈的提纲》.html"
+            },
+            {
+                author: "马克思",
+                text: "人的本质不是单个人所固有的抽象物，在其现实性上，它是一切社会关系的总和。",
+                source: "《关于费尔巴哈的提纲》",
+               link: "books/《关于费尔巴哈的提纲》.html"
+            },
+            {
+                author: "马克思",
+                text: "一切划时代的体系的真正的内容都是由于产生这些体系的那个时期的需要而形成起来的。",
+                source: "《德意志意识形态》",
+                link: "books/《对各式各样先知所代表的德国社会主义的批判》.html"
+            },
+            {
+                author: "马克思",
+                text: "手工磨产生的是封建主为首的社会，蒸汽磨产生的是工业资本家为首的社会。",
+                source: "《哲学的贫困》",
+                link: "books/《哲学的贫困》.pdf"
+            },
+            {
+                author: "马克思",
+                text: "人们在自己生活的社会生产中发生一定的、必然的、不以他们的意志为转移的关系，即同他们的物质生产力的一定发展阶段相适合的生产关系。",
+                source: "《〈政治经济学批判〉序言》",
+                link: "books/《政治经济学批判序言》.html"
+            },
+            {
+                author: "马克思",
+                text: "物质生活的生产方式制约着整个社会生活、政治生活和精神生活的过程。不是人们的意识决定人们的存在，相反，是人们的社会存在决定人们的意识。",
+                source: "《〈政治经济学批判〉序言》",
+        link: "books/《政治经济学批判序言》.html"
+            },
+            {
+                author: "马克思",
+                text: "社会的物质生产力发展到一定阶段，便同它们一直在其中运动的现存生产关系或财产关系（这只是生产关系的法律用语）发生矛盾。于是这些关系便由生产力的发展形式变成生产力的桎梏。那时社会革命的时代就到来了。",
+                source: "《〈政治经济学批判〉序言》",
+            link: "books/《政治经济学批判序言》.html"
+            },
+            {
+                author: "马克思",
+                text: "无论哪一个社会形态，在它所能容纳的全部生产力发挥出来以前，是决不会灭亡的；而新的更高的生产关系，在它的物质存在条件在旧社会的胎胞里成熟以前，是决不会出现的。",
+                source: "《〈政治经济学批判〉序言》",
+          link: "books/《政治经济学批判序言》.html"
+            },
+            {
+                author: "马克思",
+                text: "随着经济基础的变更，全部庞大的上层建筑也或慢或快地发生变革。",
+                source: "《〈政治经济学批判〉序言》",
+        link: "books/《政治经济学批判序言》.html"
+            },
+            {
+                author: "马克思",
+                text: "资本来到世间，从头到脚，每个毛孔都滴着血和肮脏的东西。",
+                source: "《资本论》第一卷",
+                link: "books/《资本论第一卷》.pdf"
+            },
+            {
+                author: "马克思",
+                text: "在资本主义体系内部，一切提高社会劳动生产力的方法都是靠牺牲工人个人来实现的，一切发展生产的手段都变成统治和剥削生产者的手段，都使工人畸形发展，成为局部的人，把工人贬低为机器的附属品，使工人受劳动的折磨。",
+                source: "《资本论》第一卷",
+             link: "books/《资本论第一卷》.pdf"
+            },
+            {
+                author: "马克思",
+                text: "自由王国只是在由必需和外在目的规定要做的劳动终止的地方才开始；因而按照事物的本性来说，它存在于真正物质生产领域的彼岸。",
+                source: "《资本论》第三卷",
+                   link: "books/《资本论第三卷》.pdf"
+            },
+            {
+                author: "马克思",
+                text: "无产者在这个革命中失去的只是锁链，他们获得的将是整个世界。",
+                source: "《共产党宣言》",
+                link: "books/《共产党宣言》.html"
+            },
+            {
+                author: "马克思",
+                text: "一切等级的和固定的东西都烟消云散了，一切神圣的东西都被亵渎了。人们终于不得不用冷静的眼光来看他们的生活地位、他们的相互关系。",
+                source: "《共产党宣言》",
+                     link: "books/《共产党宣言》.html"
+            },
+            {
+                author: "马克思",
+                text: "至今一切社会的历史都是阶级斗争的历史。",
+                source: "《共产党宣言》",
+                   link: "books/《共产党宣言》.html"
+            },
+            {
+                author: "马克思",
+                text: "代替那存在着阶级和阶级对立的资产阶级旧社会的，将是这样一个联合体，在那里，每个人的自由发展是一切人的自由发展的条件。",
+                source: "《共产党宣言》",
+                     link: "books/《共产党宣言》.html"
+            },
+            {
+                author: "马克思",
+                text: "共产党人可以把自己的理论概括为一句话：消灭私有制。",
+                source: "《共产党宣言》",
+                     link: "books/《共产党宣言》.html"
+            },
+            {
+                author: "马克思",
+                text: "各尽所能，按需分配。",
+                source: "《哥达纲领批判》",
+                link: "Article ge da pipan.html"
+            },
+            {
+                author: "马克思",
+                text: "在资本主义社会和共产主义社会之间，有一个从前者变为后者的革命转变时期。同这个时期相适应的也有一个政治上的过渡时期，这个时期的国家只能是无产阶级的革命专政。",
+                source: "《哥达纲领批判》",
+                link: "Article ge da pipan.html"
+            },
+            {
+                author: "马克思",
+                text: "人们自己创造自己的历史，但是他们并不是随心所欲地创造，并不是在他们自己选定的条件下创造，而是在直接碰到的、既定的、从过去承继下来的条件下创造。",
+                source: "《路易·波拿巴的雾月十八日》",
+                link: "books/《路易·波拿巴的雾月十八日》.html"
+            },
+            {
+                author: "马克思",
+                text: "黑格尔在某个地方说过，一切伟大的世界历史事变和人物，可以说都出现两次。他忘记补充一点：第一次是作为悲剧出现，第二次是作为笑剧出现。",
+                source: "《路易·波拿巴的雾月十八日》",
+            link: "books/《路易·波拿巴的雾月十八日》.html"
+            },
+            {
+                author: "马克思",
+                text: "一切已死的先辈们的传统，像梦魇一样纠缠着活人的头脑。",
+                source: "《路易·波拿巴的雾月十八日》",
+         link: "books/《路易·波拿巴的雾月十八日》.html"
+            },
+            {
+                author: "马克思",
+                text: "工人阶级不能简单地掌握现成的国家机器，并运用它来达到自己的目的。",
+                source: "《法兰西内战》",
+                link: "books/《法兰西内战》.html"
+            },
+            {
+                author: "马克思",
+                text: "公社的真正秘密就在于：它实质上是工人阶级的政府，是生产者阶级同占有者阶级斗争的产物，是终于发现的可以使劳动在经济上获得解放的政治形式。",
+                source: "《法兰西内战》",
+           link: "books/《法兰西内战》.html"
+            },
+            {
+                author: "马克思",
+                text: "共产主义对我们来说不是应当确立的状况，不是现实应当与之相适应的理想。我们所称为共产主义的是那种消灭现存状况的现实的运动。",
+                source: "《德意志意识形态》",
+                  link: "books/《德意志意识形态》.html"
+            },
+            {
+                author: "马克思",
+                text: "统治阶级的思想在每一时代都是占统治地位的思想。这就是说，一个阶级是社会上占统治地位的物质力量，同时也是社会上占统治地位的精神力量。",
+                source: "《德意志意识形态》",
+                link: "books/《德意志意识形态》.html"
+            },
+            {
+                author: "马克思",
+                text: "批判的武器当然不能代替武器的批判，物质力量只能用物质力量来摧毁；但是理论一经掌握群众，也会变成物质力量。",
+                source: "《〈黑格尔法哲学批判〉导言》",
+                 link: "books/《黑格尔法哲学批判》导言.html"
+            },
+            {
+                author: "马克思",
+                text: "理论只要说服人，就能掌握群众；而理论只要彻底，就能说服人。所谓彻底，就是抓住事物的根本。但人的根本就是人本身。",
+                source: "《〈黑格尔法哲学批判〉导言》",
+            link: "books/《黑格尔法哲学批判》导言.html"
+            },
+            {
+                author: "马克思",
+                text: "权利永远不能超出社会的经济结构以及由经济结构所制约的社会的文化发展。",
+                source: "《哥达纲领批判》",
+            link: "Article ge da pipan.html"
+            },
+            {
+                author: "马克思",
+                text: "宗教是被压迫生灵的叹息，是无情世界的感情，正像它是没有精神的制度的精神一样。宗教是人民的鸦片。",
+                source: "《〈黑格尔法哲学批判〉导言》",
+                link: "books/《黑格尔法哲学批判》导言.html"
+            },
+            {
+                author: "马克思",
+                text: "历史不过是追求着自己目的的人的活动而已。",
+                source: "《神圣家族》",
+                link: "books/马克思恩格斯全集 第二卷.pdf"
+            },
+            {
+                author: "马克思",
+                text: "工人生产的财富越多，他的产品力量和数量越大，他就越贫穷。工人创造的商品越多，他就越变成廉价的商品。物的世界的增值同人的世界的贬值成正比。",
+                source: "《1844年经济学哲学手稿》",
+                link: "books/《1844年经济学哲学手稿》.html"
+            },
+            {
+                author: "马克思",
+                text: "私有制使我们变得如此愚蠢和片面，以致一个对象，只有当它为我们拥有的时候，也就是说，当它对我们来说作为资本而存在，或者它被我们直接占有，被我们吃、喝、穿、住等等的时候，简言之，在它被我们使用的时候，才是我们的。",
+                source: "《1844年经济学哲学手稿》",
+                link: "books/《1844年经济学哲学手稿》.html"
+            },
+            {
+                author: "马克思",
+                text: "我的新贡献就是证明了下列几点：（1）阶级的存在仅仅同生产发展的一定历史阶段相联系；（2）阶级斗争必然要导致无产阶级专政；（3）这个专政不过是达到消灭一切阶级和进入无阶级社会的过渡。",
+                source: "《马克思致约瑟夫·魏德迈》",
+                link: "books/《马克思致约瑟夫·魏德迈》.html"
+            },
+
+            // ========== 恩格斯 ==========
+            {
+                author: "恩格斯",
+                text: "一个民族要想站在科学的最高峰，就一刻也不能没有理论思维。",
+                source: "《自然辩证法》",
+                     link: "books/《自然辩证法》.pdf"
+            },
+            {
+                author: "恩格斯",
+                text: "自然界为劳动提供材料，劳动把材料变为财富。但是劳动还远不止如此。它是整个人类生活的第一个基本条件，而且达到这样的程度，以致我们在某种意义上不得不说：劳动创造了人本身。",
+                source: "《劳动在从猿到人转变过程中的作用》",
+                link: "books/《劳动在从猿到人转变过程中的作用》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "一切社会变迁和政治变革的终极原因，不应当到人们的头脑中，到人们对永恒的真理和正义的日益增进的认识中去寻找，而应当到生产方式和交换方式的变更中去寻找；不应当到有关时代的哲学中去寻找，而应当到有关时代的经济中去寻找。",
+                source: "《社会主义从空想到科学的发展》",
+             link: "books/《社会主义从空想到科学的发展》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "辩证法不过是关于自然界、人类社会和思维的运动和发展的普遍规律的科学。",
+                source: "《反杜林论》",
+            link: "books/《反杜林论》.pdf"
+            },
+            {
+                author: "恩格斯",
+                text: "自由不在于幻想中摆脱自然规律而独立，而在于认识这些规律，从而能够有计划地使自然规律为一定的目的服务。",
+                source: "《反杜林论》",
+                    link: "books/《反杜林论》.pdf"
+            },
+            {
+                author: "恩格斯",
+                text: "暴力在历史中还起着另一种作用，革命的作用；暴力，用马克思的话说，是每一个孕育着新社会的旧社会的助产婆",
+                source: "《反杜林论》",
+                   link: "books/《反杜林论》.pdf"
+            },
+            {
+                author: "恩格斯",
+                text: "无产阶级将取得国家政权，并且首先把生产资料变为国家财产。但是这样一来，它就消灭了作为无产阶级的自身，消灭了一切阶级差别和阶级对立，也消灭了作为国家的国家。",
+                source: "《社会主义从空想到科学的发展》",
+                   link: "books/《社会主义从空想到科学的发展》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "马克思和我，可以说是从德国唯心主义哲学中拯救了自觉的辩证法并且把它转为唯物主义的自然观和历史观的唯一的人。",
+                source: "《反杜林论》",
+                 link: "books/《反杜林论》.pdf"
+            },
+            {
+                author: "恩格斯",
+                text: "原则不是研究的出发点，而是它的最终结果；这些原则不是被应用于自然界和人类历史，而是从它们中抽象出来的。",
+                source: "《反杜林论》",
+                   link: "books/《反杜林论》.pdf"
+            },
+            {
+                author: "恩格斯",
+                text: "蔑视辩证法是不能不受惩罚的。",
+                source: "《自然辩证法》",
+                link: "books/《自然辩证法》.pdf"
+            },
+            {
+                author: "恩格斯",
+                text: "国家并不是从来就有的。曾经有过不需要国家、而且根本不知国家和国家权力为何物的社会。",
+                source: "《家庭、私有制和国家的起源》",
+                link: "books/《家庭、私有制和国家的起源》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "国家决不是从外部强加于社会的一种力量……国家是社会在一定发展阶段上的产物；国家是承认：这个社会陷入了不可解决的自我矛盾，分裂为不可调和的对立面而又无力摆脱这些对立面。",
+                source: "《家庭、私有制和国家的起源》",
+                 link: "books/《家庭、私有制和国家的起源》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "随着阶级的消失，国家也不可避免地要消失。在生产者自由平等的联合体的基础上按新方式来组织生产的社会，将把全部国家机器放到它应该去的地方，即放到古物陈列馆去，同纺车和青铜斧陈列在一起。",
+                source: "《家庭、私有制和国家的起源》",
+                link: "books/《家庭、私有制和国家的起源》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "全部哲学，特别是近代哲学的重大的基本问题，是思维和存在的关系问题。",
+                source: "《路德维希·费尔巴哈和德国古典哲学的终结》",
+                link: "books/《费尔巴哈和德国古典哲学的终结》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "世界不是既成事物的集合体，而是过程的集合体，其中各个似乎稳定的事物同它们在我们头脑中的思想映象即概念一样都处在生成和灭亡的不断变化中。",
+                source: "《路德维希·费尔巴哈和德国古典哲学的终结》",
+                link: "books/《费尔巴哈和德国古典哲学的终结》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "在社会历史领域内进行活动的，全是具有意识的、经过思虑或凭激情行动的、追求某种目的的人；任何事情的发生都不是没有自觉的意图，没有预期的目的的。",
+                source: "《路德维希·费尔巴哈和德国古典哲学的终结》",
+              link: "books/《费尔巴哈和德国古典哲学的终结》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "无产阶级将取得公共权力，并且利用这个权力把脱离资产阶级掌握的社会生产资料变为公共财产。",
+                source: "《社会主义从空想到科学的发展》",
+                link: "books/《社会主义从空想到科学的发展》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "历史从哪里开始，思想进程也应当从哪里开始，而思想进程的进一步发展不过是历史过程在抽象的、理论上前后一贯的形式上的反映。",
+                source: "《卡尔·马克思〈政治经济学批判〉》",
+                link: "books/《卡尔·马克思”政治经济学批判“》.html"
+            },
+            {
+                author: "恩格斯",
+                text: "马克思发现了人类历史的发展规律，即历来为繁芜丛杂的意识形态所掩盖着的一个简单事实：人们首先必须吃、喝、住、穿，然后才能从事政治、科学、艺术、宗教等等。",
+                source: "《在马克思墓前的讲话》",
+                link: "marx-speech.html"
+            },
+            {
+                author: "恩格斯",
+                text: "马克思首先是一个革命家。他毕生的真正使命，就是以这种或那种方式参加推翻资本主义社会及其所建立的国家设施的事业，参加现代无产阶级的解放事业。",
+                source: "《在马克思墓前的讲话》",
+                link: "marx-speech.html"
+            },
+            {
+                author: "恩格斯",
+                text: "他的英名和事业将永垂不朽！",
+                source: "《在马克思墓前的讲话》",
+                link: "marx-speech.html"
+            },
+            {
+                author: "恩格斯",
+                text: "没有哪一次巨大的历史灾难不是以历史的进步为补偿的。",
+                source: "《恩格斯致尼古拉·弗兰策维奇·丹尼尔逊》",
+                link: "books/《恩格斯致尼古拉·弗兰策维奇·丹尼尔逊》.html"
+            },
+
+            // ========== 列宁 ==========
+            {
+                author: "列宁",
+                text: "没有革命的理论，就不会有革命的运动。",
+                source: "《怎么办？》",
+                link: "books/列宁全集第6卷.pdf"
+            },
+            {
+                author: "列宁",
+                text: "只有以先进理论为指南的党，才能实现先进战士的作用。",
+                source: "《怎么办？》",
+                link: "books/列宁全集第6卷.pdf"
+            },
+            {
+                author: "列宁",
+                text: "马克思学说具有无限力量，就是因为它正确。它完备而严密，它给人们提供了决不同任何迷信、任何反动势力、任何为资产阶级压迫所作的辩护相妥协的完整的世界观。",
+                source: "《马克思主义的三个来源和三个组成部分》",
+                 link: "books/《马克思主义的三个来源和三个组成部分》.html"
+            },
+            {
+                author: "列宁",
+                text: "只有马克思的哲学唯物主义，才给无产阶级指明了如何摆脱一切被压迫阶级至今深受其害的精神奴役的出路。只有马克思的经济理论，才阐明了无产阶级在整个资本主义制度中的真正地位。",
+                source: "《马克思主义的三个来源和三个组成部分》",
+                link: "books/《马克思主义的三个来源和三个组成部分》.html"
+            },
+            {
+                author: "列宁",
+                text: "要举行革命，还必须要剥削者也不能照旧生活和统治下去。只有“下层”不愿照旧生活而“上层”也不能照旧维持下去的时候，革命才能获得胜利。",
+                  source: "《共产主义运动中的“左派”幼稚病》",
+                   link: "books/《共产主义运动中的“左派”幼稚病》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "国家是阶级矛盾不可调和的产物和表现。在阶级矛盾客观上不能调和的地方、时候和条件下，便产生国家。",
+                source: "《国家与革命》",
+                link: "books/《国家与革命》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "旧社会灭亡的时候，它的尸体是不能装进棺材、埋入坟墓的。它在我们中间腐烂发臭并且毒害我们。",
+                source: "《关于同饥荒作斗争的报告》",
+                link: "books/《全俄中央执行委员会、莫斯科苏维埃和工会联席会议文献》.html"
+            },
+            {
+                author: "列宁",
+                text: "当伟大的革命家在世时，压迫阶级总是不断迫害他们，以最恶毒的敌意、最疯狂的仇恨、最放肆的造谣和诽谤对待他们的学说。在他们逝世以后，便试图把他们变为无害的神像，可以说是把他们偶像化，赋予他们的名字某种荣誉，以便“安慰”和愚弄被压迫阶级，同时却阉割革命学说的内容，磨去它的革命锋芒，把它庸俗化。",
+                source: "《国家与革命》",
+                link: "books/《国家与革命》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "国家是一个阶级压迫另一个阶级的机器，是迫使一切从属的阶级服从于一个阶级的机器。这个机器有各种不同的形式。奴隶占有制国家可以是君主国，贵族共和国，甚至可以是民主共和国。",
+                source: "《论国家》",
+                link: "books/《论国家》.html"
+            },
+            {
+                author: "列宁",
+                text: "帝国主义是资本主义的垄断阶段。",
+                source: "《帝国主义是资本主义的最高阶段》",
+                link: "books/《帝国主义是资本主义的最高阶段》.html"
+            },
+            {
+                author: "列宁",
+                text: "帝国主义是寄生的或腐朽的资本主义",
+                source: "《帝国主义是资本主义的最高阶段》",
+                link: "books/《帝国主义是资本主义的最高阶段》.html"
+            },
+            {
+                author: "列宁",
+                text: "小生产是经常地、每日每时地、自发地和大批地产生着资本主义和资产阶级的。",
+       source: "《共产主义运动中的“左派”幼稚病》",
+                   link: "books/《共产主义运动中的“左派”幼稚病》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "群众是划分为阶级的，阶级通常是由政党领导的，政党通常是由比较稳定的集团主持的，而这个集团是由最有威信、最有影响、最有经验、被选出来担任最重要职务而称为领袖的人们组成的。",
+      source: "《共产主义运动中的“左派”幼稚病》",
+                link: "books/《共产主义运动中的“左派”幼稚病》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "一个政党对自己的错误所抱的态度，是衡量这个党是否郑重，是否真正履行它对本阶级和劳动群众所负义务的一个最重要最可靠的尺度。",
+             source: "《共产主义运动中的“左派”幼稚病》",
+                 link: "books/《共产主义运动中的“左派”幼稚病》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "资本主义社会里的民主是一种残缺不全的、贫乏的和虚伪的民主，是只供富人、只供少数人享受的民主。无产阶级专政，向共产主义过渡的时期，将第一次提供人民享受的、大多数人享受的民主，同时对少数人即剥削者实行必要的镇压。",
+                source: "《国家与革命》",
+                link: "books/《国家与革命》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "革命是被压迫者和被剥削者的盛大节日。人民群众在任何时候都不能象在革命时期这样以新社会制度的积极创造者的身分出现。",
+                source: "《社会民主党在民主革命中的两种策略》",
+                link: "books/《社会民主党在民主革命中的两种策略》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "要是知道自己懂得太少，那就要设法使自己懂得多一些，但是如果有人说自己是共产主义者，同时又认为自己根本不需要任何扎实的知识，那他就根本不能成为共产主义者。",
+                source: "《青年团的任务》",
+                link: "books/《青年团的任务》.html"
+            },
+            {
+                author: "列宁",
+                text: "马克思主义在理论上的胜利，逼得它的敌人装扮成马克思主义者，历史的辩证法就是如此。",
+                source: "《马克思学说的历史命运》",
+                link: "books/《马克思学说的历史命运》.html"
+            },
+            {
+                author: "列宁",
+                text: "政治同经济相比不能不占首位。不肯定这一点，就是忘记了马克思主义的最起码的常识。",
+                source: "《再论工会、目前局势及托洛茨基同志和布哈林同志的错误》",
+                link: "books/《再论工会、目前局势及托洛茨基同志和布哈林同志的错误》.html"
+            },
+            {
+                author: "列宁",
+                text: "共产主义就是苏维埃政权加全国电气化。",
+                source: "《全俄中央执行委员会和人民委员会关于对外对内政策的报告》",
+                link: "books/《全俄苏维埃第八次代表大会文献》.html"
+            },
+            {
+                author: "列宁",
+                text: "社会主义就是消灭阶级。",
+                source: "《无产阶级专政时代的经济和政治》",
+                link: "books/《无产阶级专政时代的经济和政治》.html"
+            },
+            {
+                author: "列宁",
+                text: "没有民主，就不可能有社会主义，这包括两个意思：（1）无产阶级如果不通过争取民主的斗争为社会主义革命作好准备，它就不能实现这个革命；（2）胜利了的社会主义如果不实行充分的民主，就不能保持它所取得的胜利，并且引导人类走向国家的消亡。",
+           source: "《论面目全非的马克思主义和“帝国主义经济主义”》",
+                link: "books/《论面目全非的马克思主义和“帝国主义经济主义”》.html"
+            },
+            {
+                author: "列宁",
+                text: "在分析任何一个社会问题时，马克思主义理论的绝对要求，就是要把问题提到一定的历史范围之内；此外，如果谈到某一国家（例如，谈到这个国家的民族纲领），那就要估计到在同一历史时代这个国家不同于其他各国的具体特点。",
+                source: "《论民族自决权》",
+                link: "books/《论民族自决权》.html"
+            },
+            {
+                author: "列宁",
+                text: "马克思主义的活的灵魂：对具体情况作具体分析。",
+                source: "《共产主义》",
+                link: "books/《共产主义》.html"
+            },
+            {
+                author: "列宁",
+                text: "生活、实践的观点，应该是认识论的首先的和基本的观点。",
+                source: "《唯物主义和经验批判主义》",
+                link: "books/《唯物主义和经验批判主义》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "物质是标志客观实在的哲学范畴，这种客观实在是人通过感觉感知的，它不依赖于我们的感觉而存在，为我们的感觉所复写、摄影、反映。",
+                source: "《唯物主义和经验批判主义》",
+                link: "books/《唯物主义和经验批判主义》.pdf"
+            },
+            {
+                author: "列宁",
+                text: "宁肯少些，但要好些。",
+                source: "《宁肯少些，但要好些》",
+                link: "books/《宁肯少些，但要好些》.html"
+            },
+          {
+            author: "列宁",
+             text: "任何革命的最主要的问题都是国家政权问题。政权在哪一个阶级手里，这一点决定一切。",
+            source: "《革命的一个根本问题》",
+             link: "books/《革命的一个根本问题》.html"
+            }
+        ];
+
+        // ======== 状态 ========
+        let shownIndexes = [];
+        let currentIdx = -1;
+        let transitionLock = null;
+
+        // ======== 核心函数 ========
+        function pickRandomUnshown() {
+            const remaining = QUOTES
+                .map((_, i) => i)
+                .filter(i => !shownIndexes.includes(i) && i !== currentIdx);
+            if (remaining.length === 0) return -1;
+            return remaining[Math.floor(Math.random() * remaining.length)];
+        }
+
+        function renderQuote(quote) {
+            const textElement = document.getElementById('quoteText');
+
+            textElement.innerText = quote.text;
+       
+
+            const href = quote.link || "#";
+            const target = quote.link ? ' target="_blank"' : '';
+            document.getElementById('quoteSource').innerHTML = `<a href="${href}"${target} class="source-link">${quote.source}</a>`;
+
+            // 字号自适应
+            textElement.classList.remove('medium', 'long', 'super-long');
+            if (quote.text.length >= 82) {
+                textElement.classList.add('super-long');
+            } else if (quote.text.length >= 42) {
+                textElement.classList.add('long');
+            } else if (quote.text.length >= 25) {
+                textElement.classList.add('medium');
+            }
+        }
+
+        function nextQuote() {
+            if (transitionLock) return;
+
+            const idx = pickRandomUnshown();
+            if (idx === -1) {
+                shownIndexes = currentIdx === -1 ? [] : [currentIdx];
+                return nextQuote();
+            }
+
+            const display = document.getElementById('quoteDisplay');
+            display.classList.remove('visible');
+
+            transitionLock = setTimeout(() => {
+                currentIdx = idx;
+                shownIndexes.push(idx);
+                renderQuote(QUOTES[idx]);
+
+                void display.offsetHeight;
+
+                requestAnimationFrame(() => {
+                    display.classList.add('visible');
+                    transitionLock = null;
+                });
+            }, 400);
+        }
+
+        // ======== 初始化 ========
+        (function init() {
+            const idx = Math.floor(Math.random() * QUOTES.length);
+            currentIdx = idx;
+            shownIndexes.push(idx);
+            renderQuote(QUOTES[idx]);
+            requestAnimationFrame(() => {
+                document.getElementById('quoteDisplay').classList.add('visible');
+            });
+        })();
+// === 手机端：下一条按钮点击反馈，防止 hover 残留 ===
+(function fixMobileArrowTap() {
+    const button = document.getElementById("moreBtn");
+
+    if (!button) return;
+
+    function isMobile() {
+        return window.matchMedia("(max-width: 768px)").matches;
+    }
+
+    function pressButton() {
+        if (!isMobile()) return;
+
+        button.classList.add("is-tapping");
+    }
+
+    function releaseButton() {
+        if (!isMobile()) return;
+
+        setTimeout(() => {
+            button.classList.remove("is-tapping");
+            button.blur();
+        }, 160);
+    }
+
+    button.addEventListener("pointerdown", pressButton);
+    button.addEventListener("pointerup", releaseButton);
+    button.addEventListener("pointercancel", releaseButton);
+    button.addEventListener("pointerleave", releaseButton);
+})();
+    </script>
+</body>
+</html>

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在马克思墓前的讲话 - 青年共产主义小组</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+}
+        body {
+            /* 🚀 全局字体与经典配色锁定 */
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #FDFDFD;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+    overflow-x: hidden;
+        }
+
+        /* === 顶部导航栏 (完全沿用) === */
+        header {
+            background-color: #FFFFFF;
+            border-bottom: 3px solid #CC0000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 26px; font-weight: 900; color: #CC0000;
+            text-decoration: none; letter-spacing: 1px;
+            display: flex; align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+        }
+        .logo .star {
+            display: inline-block; margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+        .logo:hover { transform: scale(1.15) translateZ(0); }
+        .logo:hover .star { transform: scale(1.4) rotate(36deg) translateZ(0); color: #FFD700; }
+        .logo:active { transform: scale(0.95) translateZ(0); }
+
+        .nav-links a {
+            display: inline-block;
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 30px;
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: 
+                transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #FFFFFF;
+            background-color: #CC0000;
+            transform: scale(1.1) translateY(-3px) translateZ(0);
+        }
+        .nav-links a:active { transform: scale(0.95) translateZ(0); }
+
+.nav-placeholder {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+        /* === 文章头部 (史诗感碑文设计) === */
+        .article-header {
+            text-align: center;
+            padding: 80px 30px 50px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .article-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #DD0000;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+.article-subtitle {
+    color: #A80000;
+    font-size: 1.25rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 30px;
+}
+
+/* 作者签名 */
+.article-author {
+    margin-bottom: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.engels-signature {
+    width: 400px;
+    height: auto;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+        /* === 正文主体 (长文阅读优化版) === */
+        main {
+            flex: 1;
+            padding: 0px 30px 60px;
+        }
+
+        .article-body {
+            max-width: 1100px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 2.0; /* 🚀 极其舒适的长文行高 */
+            color: #333333; /* 🚀 护眼深灰，告别纯黑的刺眼 */
+            text-align: justify;
+        }
+
+   .article-body > p {
+    margin-bottom: 0;
+    text-indent: 2em;
+}
+
+
+        /* 强调文字的渲染 */
+        .article-body strong {
+            color: #CC0000;
+        }
+
+/* 文章来源说明 */
+.article-source-note {
+    width: fit-content;
+    margin: 34px 0 0 auto;
+
+    font-size: 16px;
+    line-height: 1.8;
+    color: #666666;
+
+    text-align: left;
+    letter-spacing: 0.5px;
+}
+
+/* 文章注释区 */
+.article-footnotes {
+    margin-top: 58px;
+    color: #333333;
+}
+
+/* 注释弹窗 */
+.footnote-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.48);
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.footnote-modal.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.footnote-panel {
+    width: min(680px, 100%);
+    max-height: 82vh;
+    overflow-y: auto;
+
+    background-color: #FFFFFF;
+
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    padding: 32px 38px 30px 42px;
+    position: relative;
+}
+
+.footnote-title {
+    color: #CC0000;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+}
+
+.footnote-text {
+    color: #333333;
+    font-size: 16px;
+    line-height: 2;
+    text-align: justify;
+}
+
+.footnote-close {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    top: 18px;
+    right: 20px;
+
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: transparent;
+    color: #CC0000;
+
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+
+    touch-action: manipulation;
+
+    outline: none;
+    box-shadow: none;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.footnote-close:focus,
+.footnote-close:focus-visible,
+.footnote-close:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.footnote-close:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+}
+
+
+
+.article-footnotes::before {
+    content: "";
+    display: block;
+
+    width: 55%;
+    height: 0;
+
+    border-top: 2px dashed #CC0000;
+
+    margin-bottom: 26px;
+}
+
+.article-footnotes h2 {
+    font-size: 18px;
+    font-weight: 900;
+color: #CC0000;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.article-footnotes p {
+    margin-bottom: 0;
+    text-indent: 0;
+
+    font-size: 16px;
+    line-height: 2.1;
+    color: #222222;
+    text-align: justify;
+}
+
+.article-footnotes .note-number {
+    font-weight: 900;
+    color: #CC0000;
+}
+
+/* 正文内联注释编号：右上角标注形式，和《哥达纲领批判》一致 */
+.citation-ref {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: inline-block;
+
+    margin: 0 2px;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+    background: transparent;
+
+    color: #CC0000;
+    font: inherit;
+    font-size: 0.72em;
+    font-weight: 900;
+    line-height: 1;
+
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    position: relative;
+    top: -0.45em;
+
+    vertical-align: baseline;
+
+    transition: none;
+}
+
+.citation-ref:hover {
+    color: #FF0000;
+    background: transparent;
+}
+
+.citation-ref:focus-visible {
+    outline: none;
+    color: #FF0000;
+    background: transparent;
+}
+
+
+/* 文章开头分界线 */
+.article-start-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    /* 关键：突破 article-header 的 max-width，拉到整个屏幕宽度 */
+    width: 100vw;
+    margin: 28px 0 0;
+    margin-left: calc(50% - 50vw);
+
+    color: #CC0000;
+    font-size: 36px;
+    line-height: 1;
+}
+
+.article-start-divider::before,
+.article-start-divider::after {
+    content: "";
+    display: block;
+    flex: 1;
+    height: 3px;
+    background: #CC0000;
+    border-radius: 999px;
+}
+        /* === 页脚 === */
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 40px;
+        }
+        footer h3 {
+            font-size: 26px;
+            color: #FFFFFF;
+            letter-spacing: 4px;
+        }
+
+/* === 交互元素禁止选中：电脑端 + 手机端 === */
+.logo,
+.logo *,
+.nav-links a,
+.nav-links a *,
+.nav-placeholder,
+.nav-placeholder *,
+.engels-signature,
+.article-start-divider,
+.article-start-divider *,
+.citation-ref,
+.citation-ref *,
+.footnote-close,
+.footnote-close *,
+footer h3 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+
+    touch-action: manipulation;
+}
+
+/* 防止拖选时出现蓝底高亮 */
+.logo::selection,
+.logo *::selection,
+.nav-links a::selection,
+.nav-links a *::selection,
+.nav-placeholder::selection,
+.nav-placeholder *::selection,
+.engels-signature::selection,
+.article-start-divider::selection,
+.article-start-divider *::selection,
+.citation-ref::selection,
+.citation-ref *::selection,
+.footnote-close::selection,
+.footnote-close *::selection,
+footer h3::selection {
+    background: transparent;
+}
+
+
+
+        /* === 响应式 === */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; flex-direction: column; gap: 10px; }
+            .nav-links a { margin-left: 0; margin: 0 8px; }
+            .article-header { padding: 50px 20px 30px; }
+            .article-title { font-size: 2.2rem; letter-spacing: 2px; }
+.article-subtitle {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+}
+   .article-author {
+    margin-bottom: 34px;
+}
+
+.article-start-divider {
+    gap: 12px;
+    margin: 22px 0 0;
+    margin-left: calc(50% - 50vw);
+    font-size: 30px;
+}
+
+.article-start-divider::before,
+.article-start-divider::after {
+    height: 3px;
+}
+
+.article-source-note {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 30px;
+}
+
+.article-footnotes {
+    margin-top: 46px;
+}
+
+.article-footnotes::before {
+    width: 62%;
+    height: 0;
+    border-top: 2px dashed #CC0000;
+    margin-bottom: 22px;
+}
+
+.article-footnotes h2 {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.article-footnotes p {
+    font-size: 14px;
+    line-height: 1.95;
+}
+
+.footnote-panel {
+    padding: 30px 22px 26px 26px;
+    border-radius: 18px;
+    border-left-width: 6px;
+}
+
+.footnote-title {
+    font-size: 23px;
+    margin-bottom: 16px;
+}
+
+.footnote-text {
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.footnote-close {
+    top: 14px;
+    right: 14px;
+}
+
+.engels-signature {
+    width: 220px;
+}
+            .article-body { font-size: 16px; line-height: 1.9; }
+            footer h3 { font-size: 20px; letter-spacing: 2px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+
+    <div class="nav-links" aria-hidden="true">
+        <a href="classics.html" class="nav-placeholder" tabindex="-1">返回文库</a>
+    </div>
+</header>
+
+<div class="article-header">
+    <h1 class="article-title">在马克思墓前的讲话</h1>
+
+    <div class="article-subtitle">弗里德里希 · 恩格斯</div>
+
+    <div class="article-author">
+        <img src="Friedrich_Engels_Signature.svg" class="engels-signature" alt="恩格斯签名" draggable="false">
+    </div>
+
+    <div class="article-start-divider" aria-hidden="true">★</div>
+</div>
+
+    <main>
+        <article class="article-body">
+            <p>3月14日下午两点三刻，当代最伟大的思想家停止思想了。 让他一个人留在房里还不到两分钟，当我们进去的时候，便发现他在安乐椅上安静地睡着了———但已经永远地睡着了。</p>
+            
+            <p>这个人的逝世，对于欧美战斗的无产阶级，对于历史科学，都是不可估量的损失。这位巨人逝世以后所形成的空白，不久就会使人感觉到。</p>
+
+            <p>正像达尔文发现有机界的发展规律一样，马克思发现了人类历史的发展规律，即历来为繁芜丛杂的意识形态所掩盖着的一个简单事实：人们首先必须吃、喝、住、穿，然后才能从事政治、科学、艺术、宗教等等；所以，直接的物质的生活资料的生产，从而一 个民族或一个时代的一定的经济发展阶段，便构成基础，人们的国家设施、法的观点、艺术以至宗教观念，就是从这个基础上发展起来的，因而，也必须由这个基础来解释，而不是像过去那样做得相反。</p>
+
+            <p>不仅如此。马克思还发现了现代资本主义生产方式和它所产生的资产阶级社会的特殊的运动规律。由于剩余价值的发现，这里就豁然开朗了，而先前无论资产阶级经济学家或者社会主义批评家所做的一切研究都只是在黑暗中摸索。</p>
+
+            <p>一生中能有这样两个发现，该是很够了。即使只能作出一个这样的发现，也已经是幸福的了。但是马克思在他所研究的每一 个领域，甚至在数学领域，都有独到的发现，这样的领域是很多的， 而且其中任何一个领域他都不是浅尝辄止。</p>
+
+            <p>他作为科学家就是这样。但是这在他身上远不是主要的。在马克思看来，科学是一种在历史上起推动作用的、革命的力量。任何一门理论科学中的每一个新发现———它的实际应用也许还根本无法预见———都使马克思感到衷心喜悦，而当他看到那种对工业、对一般历史发展立即产生革命性影响的发现的时候，他的喜悦就非同寻常了。例如，他曾经密切注视电学方面各种发现的进展情况，不久以前，他还密切注视马塞尔·德普勒的发现。</p>
+
+            <p>因为马克思首先是一个革命家。他毕生的真正使命，就是以这种或那种方式参加推翻资本主义社会及其所建立的国家设施的事业，参加现代无产阶级的解放事业，正是他第一次使现代无产阶级意识到自身的地位和需要，意识到自身解放的条件。斗争是他的生命要素。很少有人像他那样满腔热情、坚韧不拔和卓有成效地进行斗争。最早的《莱茵报》（1842年），巴黎的《前进报》（1844年）<button type="button" class="citation-ref" data-note="229" aria-label="查看注释229">[229]</button>，《德意志—布鲁塞尔报》（1847年），《新莱茵报》（1848—1849年），《纽约每日论坛报》（1852—1861年），以及许多富有战斗性的小册子，在巴黎、布鲁塞尔和伦敦各组织中的工作，最后，作为全部活动的顶峰，创立伟大的国际工人协会，———老实说，协会的这位创始人即使没有别的什么建树，单凭这一成果也可以自豪。</p>
+
+            <p>正因为这样，所以马克思是当代最遭嫉恨和最受诬蔑的人。 各国政府———无论专制政府或共和政府，都驱逐他；资产者———无论保守派或极端民主派，都竞相诽谤他，诅咒他。他对这一切毫不在意，把它们当做蛛丝一样轻轻拂去，只是在万不得已时才给以回敬。现在他逝世了，在整个欧洲和美洲，从西伯利亚矿井到加利福尼亚，千百万革命战友无不对他表示尊敬、爱戴和悼念，而我可以大胆地说：他可能有过许多敌人，但未必有一个私敌。</p>
+
+            <p style="text-align: center; font-size: 24px; font-weight: bold; color: #CC0000; margin-top: 50px; text-indent: 0;">
+                他的英名和事业将永垂不朽！
+            </p>
+
+<div class="article-source-note">
+    <div>载于1883年3月22日“社会民主党人报”第13号</div>
+    <div>署名：弗·恩格斯</div>
+    <div>原文是德文</div>
+    <div>俄文译自《社会民主党人报》</div>
+</div>
+
+<section class="article-footnotes" aria-label="注释">
+    <h2>注释：</h2>
+
+    <p>
+        <span class="note-number">[229]</span>“前进报”（《Vorwärts!》）是德国的报纸，该报于1844年1月至12月在巴黎出版，每周出两次。马克思和恩格斯在该报发表过文章。马克思从1844年夏天起开始密切地参与该报的编辑工作，该报在他的影响下开始具有共产主义性质；该报对普鲁士反动制度展开了尖锐的批评。根据普鲁士政府的要求，基佐内阁于1845年1月下令把马克思及该报其他一些工作人员驱逐出法国；“前进报”因而停刊。——第375页。
+    </p>
+</section>
+        </article>
+
+    </main>
+
+    <footer>
+        <h3>全世界无产者，联合起来！</h3>
+    </footer>
+
+<div class="footnote-modal is-hidden" id="footnoteModal" aria-hidden="true">
+    <div class="footnote-panel" role="dialog" aria-modal="true" aria-labelledby="footnoteTitle">
+        <button type="button" class="footnote-close" id="footnoteClose" aria-label="关闭注释">×</button>
+
+        <h2 class="footnote-title" id="footnoteTitle">注释 [229]</h2>
+
+        <div class="footnote-text" id="footnoteText"></div>
+    </div>
+</div>
+
+<script>
+    const footnoteDetails = {
+        "229": "“前进报”（《Vorwärts!》）是德国的报纸，该报于1844年1月至12月在巴黎出版，每周出两次。马克思和恩格斯在该报发表过文章。马克思从1844年夏天起开始密切地参与该报的编辑工作，该报在他的影响下开始具有共产主义性质；该报对普鲁士反动制度展开了尖锐的批评。根据普鲁士政府的要求，基佐内阁于1845年1月下令把马克思及该报其他一些工作人员驱逐出法国；“前进报”因而停刊。——第375页。"
+    };
+
+    const footnoteModal = document.getElementById("footnoteModal");
+    const footnoteTitle = document.getElementById("footnoteTitle");
+    const footnoteText = document.getElementById("footnoteText");
+    const footnoteClose = document.getElementById("footnoteClose");
+
+    function escapeHTML(text) {
+        return text
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+function openFootnote(noteNumber) {
+    const text = footnoteDetails[noteNumber];
+
+    if (!text) return;
+
+    footnoteTitle.textContent = `注释 [${noteNumber}]`;
+    footnoteText.innerHTML = `<p>${escapeHTML(text)}</p>`;
+
+    footnoteModal.classList.remove("is-hidden");
+    footnoteModal.setAttribute("aria-hidden", "false");
+}
+
+function closeFootnote() {
+    footnoteModal.classList.add("is-hidden");
+    footnoteModal.setAttribute("aria-hidden", "true");
+}
+
+    document.querySelectorAll(".citation-ref").forEach(button => {
+        button.addEventListener("click", () => {
+            openFootnote(button.dataset.note);
+        });
+    });
+
+    footnoteClose.addEventListener("click", closeFootnote);
+
+    footnoteModal.addEventListener("click", event => {
+        if (event.target === footnoteModal) {
+            closeFootnote();
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !footnoteModal.classList.contains("is-hidden")) {
+            closeFootnote();
+        }
+    });
+</script>
+
+</body>
+</html>

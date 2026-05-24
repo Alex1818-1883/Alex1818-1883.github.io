@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人民战争与群众路线</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        header::after {
+            content: "经典文库";
+            display: inline-block;
+            visibility: hidden;
+            pointer-events: none;
+
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.4) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+        .hero {
+            min-height: 58vh;
+            padding: 130px 24px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: #FFFFFF;
+            overflow: visible;
+        }
+
+        .hero-divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 4px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+
+            color: #CC0000;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1;
+
+            overflow: visible;
+
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            display: block;
+            flex: 1;
+
+            height: 4px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .hero-inner {
+            width: min(940px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            color: #DD0000;
+            font-size: 4.3rem;
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 3.5px;
+            margin-bottom: 22px;
+        }
+
+        .hero-lead {
+            width: min(800px, 100%);
+            margin: 0 auto;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+
+            text-align: center;
+        }
+
+        .btn-main,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .btn-main {
+            background-color: #CC0000;
+            color: #FFFFFF;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #CC0000;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-main:hover,
+        .btn-outline:hover {
+            transform: scale(1.05) translateZ(0);
+        }
+
+        .btn-outline:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        .btn-main:hover {
+            background-color: #A80000;
+            border-color: #A80000;
+        }
+
+        .btn-main:active,
+        .btn-outline:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        main {
+            padding: 70px 24px 80px;
+        }
+
+        .study-shell {
+            width: min(980px, 100%);
+            margin: 0 auto;
+        }
+
+        .main-panel {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 64px;
+        }
+
+        .article-section {
+            padding: 24px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .article-section:first-of-type {
+            padding-top: 0;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article-section h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .article-section p {
+            color: #444444;
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        .article-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-red {
+            color: #CC0000;
+            font-weight: 900;
+        }
+
+.quote-line {
+    width: min(820px, 100%);
+    margin: 32px auto;
+    padding: 20px 30px 20px calc(30px + 1em);
+    color: #A80000;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 2;
+    text-align: justify;
+    background-color: #FFF7F7;
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    text-indent: -1em;
+}
+
+        .article-section + .quote-line {
+            margin-top: 56px;
+        }
+
+        .reading-panel {
+            width: min(900px, 100%);
+            margin: 0 auto;
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .reading-head {
+            margin-bottom: 16px;
+        }
+
+        .reading-panel h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .reading-line {
+            width: 100%;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .reading-list {
+            display: grid;
+            gap: 0;
+        }
+
+        .reading-item {
+            padding: 18px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .reading-item:last-child {
+            border-bottom: none;
+        }
+
+        .reading-book {
+            color: #CC0000;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.7;
+            margin-bottom: 4px;
+        }
+
+        .reading-desc {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.85;
+            text-align: justify;
+        }
+
+        .page-actions {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+footer h3 {
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+}
+
+footer h3::selection {
+    background: transparent;
+}
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .hero {
+                min-height: 56vh;
+                padding: 126px 18px 54px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-lead {
+                font-size: 17px;
+                line-height: 1.8;
+                letter-spacing: 1px;
+            }
+
+            main {
+                padding: 52px 18px 64px;
+            }
+
+            .main-panel,
+            .reading-panel {
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .main-panel {
+                border-left-width: 0;
+            }
+
+            .article-section {
+                padding: 20px 0;
+            }
+
+            .article-section h2 {
+                font-size: 22px;
+            }
+
+            .article-section p,
+            .quote-line {
+                font-size: 15px;
+            }
+
+            .quote-line {
+                margin: 26px auto;
+                padding: 17px 20px 17px 24px;
+                border-left-width: 6px;
+                border-radius: 16px;
+            }
+
+            .reading-panel h2 {
+                font-size: 22px;
+            }
+
+            .reading-line {
+                height: 3px;
+            }
+
+            .reading-item {
+                padding: 16px 0;
+            }
+
+            .reading-book {
+                font-size: 16px;
+            }
+
+            .reading-desc {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .btn-main,
+            .btn-outline {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>人民战争与群众路线</h1>
+        <p class="hero-lead">
+            依靠群众、发动群众、组织群众并夺取胜利的革命道路
+        </p>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<main id="study-start">
+    <div class="study-shell">
+        <section class="main-panel">
+            <div class="quote-line">
+                “革命战争是群众的战争，只有动员群众才能进行战争，只有依靠群众才能进行战争。”
+            </div>
+
+            <div class="article-section">
+                <h2>人民战争不是单纯军事路线</h2>
+                <p>
+                    人民战争首先不是少数军事专家的技术方案，而是无产阶级政党依靠人民群众、发动人民群众、组织人民群众的革命战争路线。它把战争看作政治的继续，把军事斗争同阶级斗争、土地革命、根据地建设和群众组织结合起来。
+                </p>
+                <p>
+                    因此，人民战争反对脱离群众的军阀主义和冒险主义。军队只有植根于群众，才能获得兵员、情报、粮食、交通、掩护和政治支持；革命只有变成群众自己的事业，才能从局部斗争发展为推翻旧制度的历史力量。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “战争的伟力之最深厚的根源，存在于民众之中。”
+            </div>
+
+            <div class="article-section">
+                <h2>群众是战争力量的根源</h2>
+                <p>
+                    反动派可以暂时占有更多武器、城市、交通线和物质资源，但它们脱离人民、压迫人民，因而在政治上是孤立的。人民战争的力量不只来自枪炮数量，更来自群众对革命目标的理解、支持和参与。
+                </p>
+                <p>
+                    当群众被发动起来以后，敌人的优势就会被分散、消耗和瓦解。群众能够提供侦察、运输、隐蔽、生产、补给和政治动员，使革命战争获得深厚的社会基础。没有群众，就没有真正持久的革命战争。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “兵民是胜利之本。”
+            </div>
+
+            <div class="article-section">
+                <h2>军队和人民相结合</h2>
+                <p>
+                    人民战争要求人民军队同群众形成血肉联系。军队不能把群众当成被动支援者，更不能以军队利益压倒群众利益；军队必须宣传群众、组织群众、武装群众，并在纪律上保护群众利益。
+                </p>
+                <p>
+                    这种军民结合，使革命战争不再是军队孤立作战，而成为整个人民的战争。前线作战、后方生产、群众组织、政治教育和根据地建设彼此支撑，形成反动统治无法轻易摧毁的社会战争力量。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “没有一个人民的军队，便没有人民的一切。”
+            </div>
+
+            <div class="article-section">
+                <h2>人民军队是人民政权的支柱</h2>
+                <p>
+                    在阶级社会中，反动统治不会因为人民的苦难和正义要求而自动退场。地主武装、军阀军队、警察机关和帝国主义军事力量，都是旧秩序维持自身统治的暴力工具。
+                </p>
+                <p>
+                    因此，被压迫人民必须有自己的军队。人民军队不是旧式雇佣军，也不是脱离政治的职业集团，而是在无产阶级政治领导下，为人民利益服务、同群众相结合、承担夺取和保卫人民政权任务的武装力量。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “抗日战争是持久战，最后胜利是中国的——这就是我们的结论。”
+            </div>
+
+            <div class="article-section">
+                <h2>持久战与战略主动</h2>
+                <p>
+                    人民战争常常从敌强我弱的条件出发，不能幻想通过一次决战立刻取得胜利。革命力量必须保存自己、发展自己、消耗敌人、瓦解敌人，在战略防御、相持和反攻的过程中逐步改变力量对比。
+                </p>
+                <p>
+                    持久战不是消极拖延，而是在政治动员、群众组织、根据地建设和灵活作战中争取主动。它要求把局部斗争和全局目标结合起来，把暂时退却和长期进攻方向结合起来，在敌人的强大压力中创造胜利条件。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “在我党的一切实际工作中，凡属正确的领导，必须是从群众中来，到群众中去。”
+            </div>
+
+            <div class="article-section">
+                <h2>群众路线的基本方法</h2>
+                <p>
+                    群众路线不是简单地迎合群众眼前情绪，也不是领导机关替群众包办一切。它要求共产党人深入群众，把群众分散的、不系统的意见集中起来，经过马克思主义分析和路线化，再回到群众中去宣传、组织和实践。
+                </p>
+                <p>
+                    这就是“从群众中来，到群众中去”。它既反对命令主义和官僚主义，也反对尾巴主义和自发主义。正确领导必须来自群众实践，又高于零散经验，再通过群众实践接受检验和修正。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “没有调查，没有发言权。”
+            </div>
+
+            <div class="article-section">
+                <h2>调查研究是群众路线的前提</h2>
+                <p>
+                    要实行群众路线，首先必须了解群众的实际生活、阶级关系、利益要求和斗争状况。离开调查研究，领导机关就容易用抽象口号代替具体分析，用主观愿望代替现实矛盾。
+                </p>
+                <p>
+                    调查研究不是形式主义材料收集，而是深入群众、认识社会、把握矛盾的工作方法。只有掌握真实情况，才能制定正确政策，才能把群众的积极性组织起来，并避免脱离实际的盲动和保守。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “人民，只有人民，才是创造世界历史的动力。”
+            </div>
+
+            <div class="article-section">
+                <h2>群众是真正的历史主体</h2>
+                <p>
+                    人民战争和群众路线共同反对把历史看成少数英雄、军事天才或上层人物任意创造的结果。革命领袖和革命政党能够发挥重要作用，但这种作用必须建立在群众实践、群众组织和群众创造之上。
+                </p>
+                <p>
+                    群众不是被动接受解放的对象，而是自己解放自己的主体。无产阶级政党的任务，是把群众的分散力量组织起来，把群众的斗争经验上升为革命路线，使群众在斗争中提高觉悟、改造社会并改造自身。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “共产党人的一切言论行动，必须以合乎最广大人民群众的最大利益，为最广大人民群众所拥护为最高标准。”
+            </div>
+
+            <div class="article-section">
+                <h2>一切为了人民群众</h2>
+                <p>
+                    群众路线不仅是工作方法，也是无产阶级政党的阶级立场。共产党人的政策、组织、宣传和军事行动，都必须以最广大人民群众的根本利益为标准，而不能以少数干部、少数集团或一时功利为标准。
+                </p>
+                <p>
+                    这要求革命组织始终接受群众监督，反对脱离群众的特权思想、命令主义和官僚主义。只有把人民利益作为最高标准，革命才能保持无产阶级方向，人民战争才能保持群众基础，胜利以后也才能防止新的压迫关系滋长。
+                </p>
+            </div>
+        </section>
+
+        <section class="reading-panel" id="reading">
+            <div class="reading-head">
+                <h2>推荐阅读</h2>
+                <div class="reading-line" aria-hidden="true"></div>
+            </div>
+
+            <div class="reading-list">
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《论持久战》</div>
+                    <div class="reading-desc">系统理解人民战争、持久战、战略阶段和群众动员的关系。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《关心群众生活，注意工作方法》</div>
+                    <div class="reading-desc">理解革命战争必须依靠群众、动员群众和解决群众实际问题。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《关于领导方法的若干问题》</div>
+                    <div class="reading-desc">理解“从群众中来，到群众中去”的群众路线方法。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《反对本本主义》</div>
+                    <div class="reading-desc">理解调查研究、反对主观主义和反对脱离实际的重要性。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《论联合政府》</div>
+                    <div class="reading-desc">理解人民群众创造历史、人民军队和人民民主政治的关系。</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-actions">
+            <a href="classics.html" class="btn-outline">经典文库</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <h3>全世界无产者，联合起来！</h3>
+</footer>
+
+</body>
+</html>

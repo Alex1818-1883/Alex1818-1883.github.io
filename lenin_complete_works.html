@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列宁全集 - 马列毛经典文库</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #A80000;
+            line-height: 1.6;
+            font-size: 18px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.3) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+        .logo:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+.nav-placeholder::after {
+    content: "返回文库";
+    display: inline-block;
+    visibility: hidden;
+    pointer-events: none;
+
+    color: #CC0000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 8px 22px;
+    border: 2px solid #CC0000;
+    border-radius: 30px;
+}
+
+
+
+/* === 首屏标题区：对齐“无产阶级专政下继续革命”页面 === */
+.hero {
+    min-height: 58vh;
+    padding: 130px 24px 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    position: relative;
+    background-color: #FFFFFF;
+    overflow: visible;
+}
+
+.hero-inner {
+    width: min(940px, 100%);
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    color: #DD0000;
+    font-size: 4.3rem;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: 3.5px;
+    margin-bottom: 22px;
+}
+
+.hero-lead {
+    width: min(800px, 100%);
+    margin: 0 auto;
+
+    color: #A80000;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.8;
+
+    text-align: center;
+}
+
+/* 标题区底部红线 */
+.hero-divider {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+
+    color: #CC0000;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+
+    overflow: visible;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+    content: "";
+    display: block;
+    flex: 1;
+
+    height: 4px;
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 54px 36px 90px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+.category-section .section-title {
+    margin-bottom: 44px;
+}
+
+        .section-title h2 {
+            color: #CC0000;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+
+
+        .intro-box {
+            width: min(900px, 100%);
+   margin: 0 auto 44px;
+            padding: 24px 32px;
+            background-color: #FFF7F7;
+            border-left: 7px solid #CC0000;
+            border-radius: 18px;
+
+            color: #A80000;
+            font-size: 17px;
+            font-weight: 800;
+            line-height: 2;
+            text-align: justify;
+        }
+
+        .intro-box p + p {
+            margin-top: 10px;
+        }
+
+
+
+        /* === 分类按钮 === */
+.category-section {
+    margin-top: 0;
+}
+
+.category-buttons {
+    --slider-x: -4px;
+    --slider-y: -4px;
+    --slider-width: 0px;
+    --slider-height: 0px;
+
+    position: relative;
+
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+
+    width: min(960px, 100%);
+margin: 0 auto 52px;
+
+    padding: 5px;
+
+    border: 2px solid #CC0000;
+    border-radius: 999px;
+
+    background-color: #FFFFFF;
+
+    overflow: visible;
+}
+
+.category-buttons::before {
+    content: "";
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: var(--slider-width);
+    height: var(--slider-height);
+
+    background-color: #CC0000;
+    border-radius: 999px;
+
+    opacity: 0;
+
+    transform: translate3d(var(--slider-x), var(--slider-y), 0);
+    will-change: transform, opacity;
+
+    transition:
+        transform 0.26s ease,
+        opacity 0.18s ease;
+
+    z-index: 0;
+}
+
+.category-buttons.no-slider-transition::before {
+    transition: none !important;
+}
+
+.category-buttons.no-slider-transition .category-btn {
+    transition: none !important;
+}
+
+.category-buttons.has-active::before {
+    opacity: 1;
+}
+
+.category-btn {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: relative;
+    z-index: 1;
+
+    height: 46px;
+
+    border: none;
+    border-radius: 999px;
+    background-color: transparent;
+    color: #CC0000;
+
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    overflow: visible;
+    isolation: isolate;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        color 0.22s ease,
+        background-color 0.22s ease;
+}
+
+.category-btn::before {
+    content: "";
+    position: absolute;
+
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+
+    border-radius: 999px;
+    background-color: rgba(204, 0, 0, 0.10);
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    transition: opacity 0.22s ease;
+}
+
+.category-btn:hover::before {
+    opacity: 1;
+}
+
+.category-btn.active::before,
+.category-btn.active:hover::before {
+    opacity: 0;
+}
+
+.category-btn:hover {
+    background-color: transparent;
+    color: #FF0000;
+}
+
+.category-btn.active {
+    color: #FFFFFF;
+    background-color: transparent;
+}
+
+.category-btn.active:hover {
+    color: #FFFFFF;
+    background-color: transparent;
+}
+
+.category-intro {
+    width: min(920px, 100%);
+    margin: 0 auto 52px;
+    padding: 18px 26px;
+
+            border-top: 2px dashed rgba(204, 0, 0, 0.35);
+            border-bottom: 2px dashed rgba(204, 0, 0, 0.35);
+
+              text-align: left;
+            color: #A80000;
+            font-weight: 800;
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        /* === 卷册目录 === */
+.volume-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    margin-top: 0;
+}
+
+.volume-link {
+    position: relative;
+    min-height: 104px;
+    padding: 18px 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: #FFFFFF;
+    border: 2px solid #FFE1E1;
+    border-radius: 16px;
+    text-decoration: none;
+    overflow: hidden;
+
+    transform: none;
+    will-change: auto;
+    backface-visibility: visible;
+
+    transition:
+        border-color 0.28s ease,
+        background-color 0.28s ease;
+}
+
+        .volume-link::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(204, 0, 0, 0.08), rgba(255, 255, 255, 0));
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease;
+        }
+
+.volume-link:hover {
+    border-color: #CC0000;
+    background-color: #FFF8F8;
+    transform: none;
+}
+
+        .volume-link:hover::before {
+            opacity: 1;
+        }
+
+        .volume-no {
+            position: relative;
+            z-index: 1;
+            color: #CC0000;
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .volume-meta {
+            position: relative;
+            z-index: 1;
+            color: #A80000;
+            font-size: 14px;
+            font-weight: 800;
+            opacity: 0.78;
+        }
+
+        .volume-link.disabled {
+            opacity: 0.42;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .volume-link.disabled .volume-meta::after {
+            content: " · 整理中";
+        }
+
+        .volume-link.is-hidden {
+            display: none;
+        }
+
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+            color: #FFFFFF;
+        }
+
+        footer h3 {
+            font-size: 26px;
+            color: #FFFFFF;
+            letter-spacing: 4px;
+        }
+
+/* === 只禁止交互区域选中：电脑端 + 手机端 === */
+.logo,
+.logo *,
+.nav-links a,
+.nav-links a *,
+.category-buttons,
+.category-buttons *,
+.category-btn,
+.category-btn *,
+.volume-link,
+.volume-link *,
+footer h3 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    -webkit-user-drag: none;
+}
+
+/* 防止这些交互区域拖选时出现蓝底 */
+.logo::selection,
+.logo *::selection,
+.nav-links a::selection,
+.nav-links a *::selection,
+.category-buttons::selection,
+.category-buttons *::selection,
+.category-btn::selection,
+.category-btn *::selection,
+.volume-link::selection,
+.volume-link *::selection,
+footer h3::selection {
+    background: transparent;
+}
+
+/* === 手机端：普通文字允许长按选中，但点击时不出现蓝色高亮 === */
+body {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+.hero h1,
+.hero-lead,
+.section-title,
+.section-title *,
+.intro-box,
+.intro-box *,
+.category-intro,
+.category-intro * {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+
+    -webkit-touch-callout: default;
+}
+
+        @media (max-width: 900px) {
+            .category-buttons {
+                grid-template-columns: repeat(3, 1fr);
+                border-radius: 28px;
+            }
+
+
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+                letter-spacing: 1px;
+                transform-origin: center center;
+            }
+
+            .nav-links {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+
+
+
+.nav-placeholder::after {
+    font-size: 16px;
+    padding: 6px 22px;
+}
+
+.hero {
+    min-height: 56vh;
+    padding: 126px 18px 54px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+.hero-lead {
+    font-size: 17px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+}
+            main {
+                padding: 42px 16px 70px;
+            }
+
+            .section-title h2 {
+                font-size: 28px;
+                letter-spacing: 2px;
+            }
+
+.category-section .section-title {
+    margin-bottom: 40px;
+}
+
+
+
+.intro-box {
+    padding: 20px 22px 20px 26px;
+    border-left-width: 6px;
+    border-radius: 16px;
+    font-size: 16px;
+    line-height: 1.9;
+    margin-bottom: 40px;
+}
+
+
+
+
+.category-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 24px;
+    padding: 4px;
+    margin-bottom: 40px;
+}
+
+
+.category-btn {
+    height: 42px;
+    font-size: 15px;
+    letter-spacing: 0;
+}
+
+.category-btn::before {
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+}
+
+.category-intro {
+    padding: 16px 18px;
+    font-size: 15px;
+    line-height: 1.85;
+    margin-bottom: 40px;
+}
+
+            .volume-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .volume-link {
+                min-height: 92px;
+                padding: 15px 12px;
+                border-radius: 14px;
+            }
+
+            .volume-no {
+                font-size: 18px;
+            }
+
+            .volume-meta {
+                font-size: 13px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .volume-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+
+<div class="nav-links nav-placeholder" aria-hidden="true"></div>
+    </header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>《列宁全集》</h1>
+        <p class="hero-lead">帝国主义时代的革命理论宝库</p>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+    <main>
+<section class="intro-section">
+    <div class="intro-box">
+        <p>《列宁全集》集中呈现列宁在哲学、政治经济学、帝国主义理论、无产阶级政党建设、国家与革命、社会主义革命与建设等方面的理论斗争和实践总结。</p>
+        <p>读列宁，重点不是把革命理论当成静止教条，而是理解帝国主义时代阶级斗争、革命组织、策略转变和无产阶级专政之间的内在联系。</p>
+    </div>
+
+        </section>
+
+        <section id="volumes" class="category-section">
+            <div class="section-title">
+                <h2>卷册分类</h2>
+            </div>
+
+
+            <div class="category-buttons" id="categoryButtons">
+                <button class="category-btn active" type="button" data-category="all">全部卷册</button>
+                <button class="category-btn" type="button" data-category="early">早期斗争</button>
+                <button class="category-btn" type="button" data-category="party">建党路线</button>
+                <button class="category-btn" type="button" data-category="war">战争革命</button>
+                <button class="category-btn" type="button" data-category="state">国家政权</button>
+                <button class="category-btn" type="button" data-category="late">建设晚期</button>
+            </div>
+
+         <div class="category-intro" id="categoryIntro">
+    收录列宁1893至1923年间著作、演说、书信与批注共六十卷，涵盖从早年论战、建党理论、帝国主义批判，到十月革命与苏维埃建设的完整思想历程。
+</div>
+
+            <div id="volumeGrid" class="volume-grid"></div>
+
+
+        </section>
+    </main>
+
+    <footer>
+        <h3>全世界无产者，联合起来！</h3>
+    </footer>
+
+    <script>
+        const TOTAL_VOLUMES = 54;
+
+        /*
+            你现在说有 53 个 PDF，所以这里先默认第 54 卷为“整理中”。
+            如果你缺的不是第 54 卷，比如缺第 27 卷，就改成：
+            const DISABLED_VOLUMES = [27];
+
+            如果以后 54 卷齐了，就改成：
+            const DISABLED_VOLUMES = [];
+        */
+        const DISABLED_VOLUMES = [54];
+
+        const BOOK_FOLDER = "books";
+
+        /*
+            当前默认文件名：
+            books/列宁全集第1卷.pdf
+            books/列宁全集第2卷.pdf
+            ...
+            books/列宁全集第54卷.pdf
+
+            如果你的文件名是：列宁全集 第1卷.pdf
+            就改成：
+            return `${BOOK_FOLDER}/列宁全集 第${n}卷.pdf`;
+
+            如果你的文件名是：列宁全集[第1卷].pdf
+            就改成：
+            return `${BOOK_FOLDER}/列宁全集[第${n}卷].pdf`;
+
+            如果你的文件名是：lenin-01.pdf
+            就改成：
+            return `${BOOK_FOLDER}/lenin-${String(n).padStart(2, "0")}.pdf`;
+        */
+        function buildFilePath(n) {
+            return `${BOOK_FOLDER}/列宁全集第${n}卷.pdf`;
+        }
+
+        const CATEGORY_INFO = {
+            all: {
+                intro: "收录列宁1893至1923年间著作、演说、书信与批注共六十卷，涵盖从早年论战、建党理论、帝国主义批判，到十月革命与苏维埃建设的完整思想历程。",
+                range: [1, 54]
+            },
+            early: {
+                intro: "第一至八卷，1893—1904年。批判民粹主义与经济主义，以《俄国资本主义的发展》奠定分析框架，以《怎么办？》确立先锋队建党路线。",
+                range: [1, 8]
+            },
+            party: {
+                intro: "第九至十八卷，1905—1913年。横跨1905年革命与斯托雷平反动时期，以《唯物主义和经验批判主义》肃清党内哲学混乱，持续与孟什维主义论战。",
+                range: [9, 18]
+            },
+            war: {
+                intro: "第十九至二十九卷，1913—1919年。以《帝国主义论》揭示战争根源，以《四月提纲》扭转策略方向，以《国家与革命》奠定十月革命的理论基础。",
+                range: [19, 29]
+            },
+            state: {
+                intro: "第三十至四十卷，1919—1921年。苏维埃政权抵御武装干涉、巩固专政的关键年份，《左派幼稚病》批判极左主义，战时共产主义走向终结。",
+                range: [30, 40]
+            },
+            late: {
+                intro: "第四十一至五十三卷，1921—1923年。新经济政策的理论阐发，晚年政治遗嘱对党内官僚主义与大俄罗斯沙文主义的批判，是研究苏联历史走向的第一手文献。",
+                range: [41, 54]
+            }
+        };
+
+        function toChineseNumber(n) {
+            const units = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+
+            if (n === 10) return "十";
+            if (n < 10) return units[n];
+
+            if (n < 20) {
+                return "十" + units[n % 10];
+            }
+
+            const ten = Math.floor(n / 10);
+            const one = n % 10;
+
+            if (one === 0) {
+                return units[ten] + "十";
+            }
+
+            return units[ten] + "十" + units[one];
+        }
+
+        function getCategoryForVolume(n) {
+            if (n >= 1 && n <= 8) return "early";
+            if (n >= 9 && n <= 18) return "party";
+            if (n >= 19 && n <= 29) return "war";
+            if (n >= 30 && n <= 40) return "state";
+            return "late";
+        }
+
+        function renderVolumes() {
+            const grid = document.getElementById("volumeGrid");
+            let html = "";
+
+            for (let i = 1; i <= TOTAL_VOLUMES; i++) {
+                const isDisabled = DISABLED_VOLUMES.includes(i);
+                const label = `第${toChineseNumber(i)}卷`;
+                const href = buildFilePath(i);
+                const category = getCategoryForVolume(i);
+
+                if (isDisabled) {
+                    html += `
+                        <a class="volume-link disabled" data-category="${category}" aria-disabled="true">
+                            <span class="volume-no">${label}</span>
+                            <span class="volume-meta">PDF </span>
+                        </a>
+                    `;
+                } else {
+                    html += `
+                        <a href="${href}" target="_blank" class="volume-link" data-category="${category}">
+                            <span class="volume-no">${label}</span>
+                            <span class="volume-meta">PDF </span>
+                        </a>
+                    `;
+                }
+            }
+
+            grid.innerHTML = html;
+        }
+
+function moveCategorySlider(button) {
+    const group = document.getElementById("categoryButtons");
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    const extraWidth = isMobile ? 12 : 18;
+    const extraHeight = isMobile ? 12 : 18;
+
+    const x = button.offsetLeft - extraWidth / 2;
+    const y = button.offsetTop - extraHeight / 2;
+
+    const width = button.offsetWidth + extraWidth;
+    const height = button.offsetHeight + extraHeight;
+
+    group.style.setProperty("--slider-x", `${x}px`);
+    group.style.setProperty("--slider-y", `${y}px`);
+    group.style.setProperty("--slider-width", `${width}px`);
+    group.style.setProperty("--slider-height", `${height}px`);
+}
+
+        function filterVolumes(category) {
+            const cards = document.querySelectorAll(".volume-link");
+            const info = CATEGORY_INFO[category];
+
+            document.getElementById("categoryIntro").innerText = info.intro;
+
+            cards.forEach(card => {
+                const cardCategory = card.dataset.category;
+                const shouldShow = category === "all" || cardCategory === category;
+
+                card.classList.toggle("is-hidden", !shouldShow);
+            });
+        }
+
+        function initCategories() {
+            const group = document.getElementById("categoryButtons");
+            const buttons = document.querySelectorAll(".category-btn");
+
+            const activeButton = document.querySelector(".category-btn.active");
+            group.classList.add("no-slider-transition");
+            group.classList.add("has-active");
+            moveCategorySlider(activeButton);
+
+            group.offsetHeight;
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    group.classList.remove("no-slider-transition");
+                });
+            });
+
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    buttons.forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+
+                    group.classList.add("has-active");
+                    moveCategorySlider(this);
+                    filterVolumes(this.dataset.category);
+                });
+            });
+
+            window.addEventListener("resize", () => {
+                const current = document.querySelector(".category-btn.active");
+                if (current) {
+                    moveCategorySlider(current);
+                }
+            });
+        }
+
+        renderVolumes();
+        initCategories();
+    </script>
+</body>
+</html>

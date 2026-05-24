@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>经典文库 - 青年共产主义小组</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+   body {
+
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #Fdfdfd;
+            color: #333333; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            
+
+            line-height: 1.6;
+            font-size: 18px;
+            
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+     /* 🚀 步骤一：导航栏隐形悬浮引擎 */
+        header {
+            position: absolute; /* 绝对定位，脱离文档流，悬浮在最上层 */
+            top: 0; left: 0; width: 100%;
+            background-color: transparent; /* 彻底透明 */
+            border-bottom: none; /* 卸掉红线边界 */
+            padding: 20px 40px; 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            z-index: 100; /* 保证它永远在最上层 */
+        }
+        .logo {
+    font-size: 26px; font-weight: 900; color: #CC0000; 
+    text-decoration: none; letter-spacing: 1px;
+    display: flex; align-items: center;
+  transform: scale(1) translateZ(0);
+    will-change: transform;
+   backface-visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: left center;
+}
+        .logo .star {
+            display: inline-block; margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+        .logo:hover { transform: scale(1.15) translateZ(0); }
+        .logo:hover .star {
+           transform: scale(1.4) rotate(36deg) translateZ(0); color: #FFD700;
+        }
+.logo:active {
+   transform: scale(0.95) translateZ(0);
+}
+
+   
+  /* 🚀 常态装甲：保持白底、红字、红色实体边框，稳固阵地 */
+        .nav-links a {
+            display: inline-block;
+            color: #CC0000; 
+            text-decoration: none; 
+            font-size: 18px;
+            font-weight: bold; 
+            
+            /* 🚀 坐标修复：把 30px 改回与 index.html 绝对一致的 15px */
+            margin-left: 15px; 
+            
+            padding: 8px 22px; 
+            border: 2px solid #CC0000; 
+            border-radius: 30px; 
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        background-color 0.3s ease, 
+                        color 0.3s ease;
+        }
+
+        /* 🌟 爆发装甲：悬停时红底白字，并完全对齐 quotes.html 的强力弹射动画！ */
+        .nav-links a:hover {
+            color: #FFFFFF; 
+            background-color: #CC0000; 
+            /* 🚀 核心火力升级：将缩放倍数提升至 1.1 倍，Y轴升空 -3px，恢复强烈的视觉冲击力！ */
+            transform: scale(1.1) translateY(-3px) translateZ(0);
+            box-shadow:  none; 
+        }
+.nav-links a:active {
+    transform: scale(0.95) translateZ(0);
+}
+
+/* === 🚀 经典文库首屏：全息史诗 100vh 引擎 === */
+.library-header {
+    position: relative;
+    /* 🚀 核心指令：高度拉满，占据一整个屏幕！ */
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #FFFFFF;
+    border-bottom: 3px solid #CC0000; /* 保留底部的警戒线 */
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* 🌟 动画引擎：向上浮现 */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px) translateZ(0); }
+    to { opacity: 1; transform: translateY(0) translateZ(0); }
+}
+
+/* 🌟 动画引擎：水印呼吸显现 */
+@keyframes watermark-fade {
+    from { opacity: 0; transform: translate(-50%, -40%) scale(0.9) translateZ(0); }
+    to { opacity: 0.06; transform: translate(-50%, -50%) scale(1) translateZ(0); }
+}
+
+/* 🌟 Marx 签名：右下角落款署名版 */
+.marx-signature {
+    position: absolute;
+    /* 🚀 坐标重新锁定：右下角阵地 */
+    bottom: 12%; 
+    right: 15%;  
+    
+    /* 🚀 尺寸收缩：变成真实的签名大小 */
+    width: 360px; 
+    height: auto;
+    opacity: 0; 
+    pointer-events: none;
+    user-select: none;
+    z-index: 2; 
+
+    /* 🚀 专属入场动画：略微延迟，像落款一样最后从右侧缓缓浮现 */
+animation: signature-fade 1.2s ease-out 0.8s forwards;
+    will-change: transform, opacity;
+}
+
+.header-inner {
+    position: relative;
+    z-index: 2; 
+    
+    /* 🚀 战术拔高：语法修复完毕，重新激活向上牵引引擎！
+       这里暂设为 -12vh，如果觉得不够高，可以继续加大到 -15vh 或 -18vh */
+    margin-top: -14vh; 
+}
+
+/* 🌟 动画引擎：署名浮现（彻底消除滑冰效应） */
+@keyframes signature-fade {
+    0% { 
+        opacity: 0; 
+        /* 🚀 战术收缩：将距离从 30px 缩短到 15px，消除“滑行感”，改为“定点浮现感” */
+        transform: translateX(15px) translateZ(0); 
+    }
+    
+    /* 🚀 核心刹车机制：在动画进行到 75% 的时候（即 0.9秒 时） */
+    75% { 
+        opacity: 0.85; 
+        /* 强制位移归零！提前刹车钉死在原地，绝不许再往左滑一步！ */
+        transform: translateX(0) translateZ(0); 
+    }
+    
+    /* 🚀 最后的 25% 时间，物体已经绝对静止，只允许透明度继续饱满到 100% */
+    100% { 
+        opacity: 1; 
+        transform: translateX(0) translateZ(0); 
+    }
+}
+
+/* 🌟 伟人凝视：置于标题上方的图腾（绝对悬浮脱钩版） */
+.marx-portrait {
+    position: absolute;
+    
+    bottom: calc(100% + 28px); 
+    left: 0;
+    right: 0;
+    
+    /* 🚀 水平绝对居中，并且向下与大标题保持 30px 的神圣距离 */
+    margin: 0 auto 0px auto; 
+    
+    /* 尺寸与入场引擎保持不变 */
+    width: 140px; 
+    height: auto;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.1s forwards;
+    will-change: transform, opacity;
+   -webkit-user-drag: none;
+    user-select: none;
+}
+
+
+.library-header h1 {
+    font-size: 5rem; 
+    font-weight: 900;
+    color: #DD0000; 
+    letter-spacing: 6px;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+    will-change: transform, opacity;
+}
+
+/* 🌟 外层包装：独占入场动画，绝不干涉内层交互 */
+.slogan-wrapper {
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.6s forwards;
+    will-change: transform, opacity;
+    /* 🚀 关键：动画只作用在这个包装层，按钮本身的 transform 完全自由 */
+}
+
+/* 🌟 革命标语胶囊按钮：弹性引擎专属，saga 同款手感 */
+.library-slogan-btn {
+    display: inline-block;
+    
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #A80000;
+    letter-spacing: 4px;
+    text-decoration: none;
+    
+    padding: 10px 32px;
+    border-radius: 40px;
+    cursor: pointer;
+    
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.library-slogan-btn:hover {
+    color: #FFFFFF;
+    background-color: #CC0000;
+}
+
+.library-slogan-btn:active {
+    color: #FFFFFF;
+    background-color: #CC0000;
+}
+
+
+/* === 🚀 搜索弹窗全屏覆盖系 === */
+        .search-modal {
+            display: none; /* 初始隐藏 */
+            position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(255, 255, 255, 0.96); /* 纯白磨砂质感，对眼睛极其友好 */
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .search-modal.show {
+            display: block; 
+            opacity: 1;
+        }
+
+        /* 搜索框居中容器 */
+        .search-box-wrapper {
+            position: absolute;
+            top: 20%; /* 停留在屏幕偏上方，符合人类视觉重心 */
+            left: 50%;
+            /* 🚀 极其纯净的 2D 居中，绝不加 translateZ */
+            transform: translateX(-50%); 
+            width: 90%;
+            max-width: 650px;
+        }
+
+        /* 🚀 终极武器：Google 式胶囊搜索框 */
+        .search-input {
+            width: 100%;
+            padding: 20px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #CC0000;
+            background-color: #FFFFFF;
+            border: 2px solid #CC0000;
+            border-radius: 40px; /* 🚀 胶囊形核心参数 */
+            outline: none;
+       box-shadow: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        /* 聚焦时的爆发光晕 */
+        .search-input:focus {
+        box-shadow: none;
+            border-color: #FF0000;
+        }
+        .search-input::placeholder { color: #FFCCCC; font-weight: normal; }
+
+        /* 🚀 实时下拉面板 */
+        .search-results {
+            margin-top: 15px;
+            background: #FFFFFF;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            display: none; /* 没打字时不显示 */
+            max-height: 50vh;
+            overflow-y: auto;
+            border: 1px solid #FFEEEE;
+        }
+
+        /* 每一条搜索结果的样式 */
+        .search-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 25px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #FFF0F0;
+            transition: background-color 0.2s;
+        }
+        .search-item:last-child { border-bottom: none; }
+        .search-item:hover { background-color: #FFF5F5; }
+        .search-item-title { font-weight: bold; color: #CC0000; font-size: 18px; }
+        .search-item-author { font-size: 14px; color: #A80000; opacity: 0.8; }
+        
+
+
+/* 📱 移动端适配 */
+@media (max-width: 768px) {
+            .library-header { height: 100vh; min-height: auto; padding: 0 20px; } /* 🚀 手机端也锁定全屏 */
+.marx-portrait { width: 100px; margin: 0 auto 20px auto; }
+.library-slogan-btn { font-size: 1.2rem; letter-spacing: 2px; padding: 7px 22px; }
+            .marx-signature { 
+                width: 240px; 
+                bottom: 8%; 
+                right: 8%; 
+            }
+}
+
+/* === 革命导师筛选区 === */
+.mentor-section {
+    text-align: center;
+    margin: 0 auto 100px;
+    max-width: 760px;
+}
+
+.mentor-section h2 {
+    color: #CC0000;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+}
+
+.mentor-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+
+margin: 0 auto 46px;
+}
+
+.mentor-divider span {
+    flex: 1;
+    max-width: 260px;
+    height: 3px;
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+.mentor-divider strong {
+    color: #CC0000;
+    font-size: 32px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.mentor-buttons {
+    --slider-x: -4px;
+    --slider-width: 0px;
+
+    position: relative;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    width: min(680px, 100%);
+margin: 0 auto;
+
+    padding: 5px;
+
+    border: 2px solid #CC0000;
+    border-radius: 999px;
+
+    background-color: #FFFFFF;
+
+    /* 关键：允许里面的红色短胶囊稍微超出外层 */
+    overflow: visible;
+}
+
+.mentor-buttons::before {
+    content: "";
+    position: absolute;
+
+    top: -3px;
+    bottom: -3px;
+
+    left: 0;
+    width: var(--slider-width);
+
+    background-color: #CC0000;
+    border-radius: 999px;
+
+    opacity: 0;
+
+    transform: translate3d(var(--slider-x), 0, 0);
+    will-change: transform, opacity;
+
+    transition:
+        transform 0.26s ease,
+        opacity 0.18s ease;
+
+    z-index: 0;
+}
+
+.mentor-buttons.no-slider-transition::before {
+    transition: none !important;
+}
+
+.mentor-buttons.no-slider-transition .mentor-btn {
+    transition: none !important;
+}
+
+.mentor-buttons.has-active::before {
+    opacity: 1;
+}
+
+
+.mentor-btn {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: relative;
+    z-index: 1;
+
+    height: 46px;
+
+    border: none;
+    border-radius: 999px;
+    background-color: transparent;
+    color: #CC0000;
+
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    overflow: visible;
+    isolation: isolate;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        color 0.22s ease,
+        background-color 0.22s ease;
+}
+
+.mentor-btn::before {
+    content: "";
+    position: absolute;
+
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+
+    border-radius: 999px;
+    background-color: rgba(204, 0, 0, 0.10);
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    transition: opacity 0.22s ease;
+}
+
+.mentor-btn:hover::before {
+    opacity: 1;
+}
+
+.mentor-btn.active::before,
+.mentor-btn.active:hover::before {
+    opacity: 0;
+}
+
+.mentor-btn:hover {
+    background-color: transparent;
+    color: #FF0000;
+}
+
+.mentor-btn.active {
+    color: #FFFFFF;
+    background-color: transparent;
+}
+
+.mentor-btn.active:hover {
+    color: #FFFFFF;
+    background-color: transparent;
+}
+.book-card.is-hidden {
+    display: none;
+}
+
+        main { flex: 1; padding: 60px 50px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .book-card {
+            background: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #EEE;
+            
+            /* 🚀 核心修复 1：保留结界，保护内部渲染不受外部干扰 */
+            position: relative;
+            contain: layout style paint;
+
+   translate: 0 0;
+            
+            transform: translateY(0);
+            
+            transition: transform 0.4s ease, 
+                        box-shadow 0.4s ease, 
+                        border-color 0.4s ease;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-10px);
+            
+            box-shadow: 0 15px 30px rgba(204,0,0,0.06);
+            border-color: #FFCCCC;
+        }
+
+@keyframes bookCardFadeUp {
+    from {
+        opacity: 0;
+        translate: 0 18px;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+.book-card.card-enter {
+    animation: bookCardFadeUp 1.5s ease-out both;
+}
+
+
+
+
+        .book-cover {
+            background: linear-gradient(135deg, #A80000 0%, #CC0000 100%);
+            border-left: 12px solid #730000;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFD700;
+            font-size: 32px;
+            font-family: "楷体", "STKaiti", serif;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            padding: 20px;
+            text-align: center;
+       overflow: hidden; 
+            transform: translateZ(0);
+        }
+        .book-cover.long-title { font-size: 26px; }
+
+        .book-info {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+.book-title { 
+            font-size: 22px; 
+            color: #CC0000; 
+            font-weight: bold; 
+            margin-bottom: 8px; 
+       
+            margin-left: -10px; 
+        }
+
+.book-title-long {
+    font-size: 20px;
+}
+
+.book-title-france-class {
+    font-size: 18.5px;
+}
+        .book-author { font-size: 14px; color: #666; margin-bottom: 20px; border-bottom: 1px solid #EEE; padding-bottom: 10px; }
+  .book-quote { 
+            font-size: 16px; color: #555;font-style: normal;
+            margin-bottom: 25px; line-height: 1.6; flex: 1;
+            
+            /* 🚀 核心排版修复：中文全角标点悬挂技术！与 media.html 完美对标！ */
+            padding-left: 1em;  /* 先把整段文字向右推移一个字的距离 */
+            text-indent: -1em;  /* 再把第一行（带有引号的那行）强行向左拉回一个字的距离！ */
+        }
+        
+        .download-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .btn-read {
+    text-align: center; background-color: #CC0000; color: #FFF;
+    text-decoration: none; font-size: 14px; font-weight: bold;
+    padding: 10px 5px; border-radius: 4px;
+   transform: scale(1) translateZ(0);
+    will-change: transform;
+      backface-visibility: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+        .btn-read:hover { background-color: #A80000;transform: scale(1.02) translateZ(0); }
+           .btn-read:active {
+            transform: scale(0.95) translateZ(0);
+          }
+        .btn-single { grid-column: span 2; font-size: 16px; padding: 12px 0; }
+
+/* === 禁止关键按钮和书封文字被选中：电脑端 + 手机端 === */
+.logo,
+.logo *,
+.nav-links a,
+.library-slogan-btn,
+.btn-read,
+.book-cover,
+.book-cover *,
+.search-item,
+.search-item *,
+.search-item-title,
+.search-item-author,
+footer h3 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    -webkit-user-drag: none;
+}
+
+/* 防止拖选时出现蓝色选中背景 */
+.logo::selection,
+.logo *::selection,
+.nav-links a::selection,
+.library-slogan-btn::selection,
+.btn-read::selection,
+.book-cover::selection,
+.book-cover *::selection,
+.search-item::selection,
+.search-item *::selection,
+.search-item-title::selection,
+.search-item-author::selection,
+footer h3::selection {
+    background: transparent;
+}
+
+        footer { background-color: #CC0000; text-align: center; padding: 40px 20px; }
+        footer h3 { font-size: 26px; color: #FFFFFF; letter-spacing: 4px; }
+
+
+
+@media (max-width: 768px) {
+    header {
+        padding: 14px 20px 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo {
+        font-size: 22px;
+        letter-spacing: 1px;
+        transform-origin: center center;
+    }
+
+    .nav-links {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+        font-size: 16px;
+        padding: 6px 22px;
+    }
+
+    .library-header h1 {
+        font-size: 40px;
+        letter-spacing: 1px;
+    }
+
+    footer h3 {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+
+
+    main { padding: 30px 15px; }
+.mentor-section {
+    margin-bottom: 64px;
+}
+
+.mentor-section h2 {
+    font-size: 27px;
+    letter-spacing: 2px;
+}
+
+.mentor-divider {
+    gap: 12px;
+    margin-bottom: 34px;
+}
+
+.mentor-divider strong {
+    font-size: 28px;
+}
+
+.mentor-buttons {
+    --slider-x: -2px;
+
+    width: 100%;
+    padding: 4px;
+}
+
+.mentor-buttons::before {
+    top: -2px;
+    bottom: -2px;
+}
+
+.mentor-btn {
+    height: 42px;
+    font-size: 15px;
+    letter-spacing: 0;
+}
+
+.mentor-btn::before {
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+}
+
+.books-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.book-cover {
+    height: 140px;
+    font-size: 24px;
+}
+
+
+  .book-quote {
+        padding-left: 0;
+        text-indent: 0;
+        text-align: left;
+    }
+
+/* === 手机端搜索结果：右侧作者不换行 === */
+.search-item {
+    gap: 14px;
+    align-items: center;
+}
+
+.search-item-title {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.55;
+}
+
+.search-item-author {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    text-align: right;
+    font-size: 14px;
+}
+
+
+
+
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+   <div class="nav-links">
+            <a onclick="toggleSearchModal(true)" style="cursor: pointer;">搜索</a>
+        </div>
+    </header>
+
+    <div class="library-header">
+    <div class="header-inner">
+<img src="great marx.svg" class="marx-portrait" alt="马克思" draggable="false">
+        <h1>马列毛经典文库</h1>
+ <div class="slogan-wrapper">
+    <a href="marx.html" class="library-slogan-btn">解释世界 · 改变世界</a>
+</div>
+    </div>
+<img src="Karl_Marx_signature_(red_version).svg" class="marx-signature" alt="" draggable="false">
+</div>
+
+   <main>
+    <section class="mentor-section">
+        <h2>革命导师</h2>
+
+        <div class="mentor-divider" aria-hidden="true">
+            <span></span>
+            <strong>★</strong>
+            <span></span>
+        </div>
+
+        <div class="mentor-buttons">
+            <button class="mentor-btn" type="button" data-filter="marx">马克思</button>
+            <button class="mentor-btn" type="button" data-filter="engels">恩格斯</button>
+            <button class="mentor-btn" type="button" data-filter="lenin">列宁</button>
+            <button class="mentor-btn" type="button" data-filter="mao">毛泽东</button>
+        </div>
+    </section>
+
+    <div class="books-grid">
+            
+       <div class="book-card" data-mentor="marx engels">
+                <div class="book-cover">共产党宣言</div>
+                <div class="book-info">
+                    <div class="book-title">《共产党宣言》</div>
+                    <div class="book-author">马克思 / 恩格斯</div>
+           <div class="book-quote">“代替那存在着阶级和阶级对立的资产阶级旧社会的，将是这样一个联合体，在那里，每个人的自由发展是一切人的自由发展的条件。”</div>
+                    <a href="books/《共产党宣言》.html" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+          <div class="book-card" data-mentor="marx">
+                <div class="book-cover">资本论</div>
+                <div class="book-info">
+                    <div class="book-title">《资本论》第一卷</div>
+                    <div class="book-author">卡尔·马克思</div>
+    <div class="book-quote">“本书的最终目的就是揭示现代社会的经济运动规律。”</div>
+                    <a href="books/《资本论第一卷》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+          <div class="book-card" data-mentor="marx">
+                <div class="book-cover">资本论</div>
+                <div class="book-info">
+                    <div class="book-title">《资本论》第二卷</div>
+                    <div class="book-author">卡尔·马克思</div>
+                 <div class="book-quote">“资本的循环，不是当作孤立的行为，而是当作周期性的过程时，叫做资本的周转。”</div>
+                    <a href="books/《资本论第二卷》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+          <div class="book-card" data-mentor="marx">
+                <div class="book-cover">资本论</div>
+                <div class="book-info">
+                    <div class="book-title">《资本论》第三卷</div>
+                    <div class="book-author">卡尔·马克思</div>
+                <div class="book-quote">“资本主义生产过程，就整体来看，是生产过程和流通过程的统一。”</div>
+                    <a href="books/《资本论第三卷》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+<div class="book-card" data-mentor="marx">
+    <div class="book-cover">哥达纲领批判</div>
+    <div class="book-info">
+        <div class="book-title">《哥达纲领批判》</div>
+        <div class="book-author">卡尔·马克思</div>
+        <div class="book-quote">“一步实际运动比一打纲领更重要。”</div>
+        <a href="Article ge da pipan.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+
+<div class="book-card" data-mentor="marx">
+    <div class="book-cover">1844年手稿</div>
+    <div class="book-info">
+        <div class="book-title">《1844年经济学哲学手稿》</div>
+        <div class="book-author">卡尔·马克思</div>
+   <div class="book-quote">“工人同自己的劳动产品的关系，就是同一个异己的对象的关系。”</div>
+        <a href="books/《1844年经济学哲学手稿》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx engels">
+    <div class="book-cover">德意志意识形态</div>
+    <div class="book-info">
+        <div class="book-title">《德意志意识形态》</div>
+        <div class="book-author">马克思 / 恩格斯</div>
+        <div class="book-quote">“不是意识决定生活，而是生活决定意识。”</div>
+        <a href="books/《德意志意识形态》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx">
+    <div class="book-cover">法兰西内战</div>
+    <div class="book-info">
+        <div class="book-title">《法兰西内战》</div>
+        <div class="book-author">卡尔·马克思</div>
+        <div class="book-quote">“工人阶级不能简单地掌握现成的国家机器，并运用它来达到自己的目的。”</div>
+        <a href="books/《法兰西内战》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx">
+    <div class="book-cover">雇佣劳动与资本</div>
+    <div class="book-info">
+        <div class="book-title">《雇佣劳动与资本》</div>
+        <div class="book-author">卡尔·马克思</div>
+ <div class="book-quote">“纺纱机是纺棉花的机器。只有在一定的关系下，它才成为资本。”</div>
+        <a href="books/《雇佣劳动与资本》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx">
+<div class="book-cover">法兰西阶级斗争</div>
+    <div class="book-info">
+<div class="book-title book-title-france-class">《1848年至1850年的法兰西阶级斗争》</div>
+        <div class="book-author">卡尔·马克思</div>
+        <div class="book-quote">“革命是历史的火车头。”</div>
+        <a href="books/《法兰西阶级斗争》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx">
+ <div class="book-cover">雾月十八日</div>
+    <div class="book-info">
+   <div class="book-title">《路易·波拿巴的雾月十八日》</div>
+        <div class="book-author">卡尔·马克思</div>
+        <div class="book-quote">“人们自己创造自己的历史，但是他们并不是随心所欲地创造。”</div>
+        <a href="books/《路易·波拿巴的雾月十八日》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="engels">
+   <div class="book-cover long-title">社会主义从空想到科学的发展</div>
+    <div class="book-info">
+<div class="book-title">《社会主义从空想到科学的发展》</div>
+        <div class="book-author">弗里德里希·恩格斯</div>
+<div class="book-quote">“现代社会主义，就其内容来说，首先是对现代社会中普遍存在的阶级对立以及生产中普遍存在的无政府状态这两个方面进行考察的结果。”</div>
+        <a href="books/《社会主义从空想到科学的发展》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="engels">
+<div class="book-cover long-title">家庭、私有制和国家的<br>起源</div>
+    <div class="book-info">
+        <div class="book-title">《家庭、私有制和国家的起源》</div>
+        <div class="book-author">弗里德里希·恩格斯</div>
+        <div class="book-quote">“国家是社会在一定发展阶段上的产物。”</div>
+        <a href="books/《家庭、私有制和国家的起源》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx engels">
+<div class="book-cover">马恩论中国</div>
+    <div class="book-info">
+<div class="book-title">《马克思恩格斯论中国》</div>
+        <div class="book-author">马克思 / 恩格斯</div>
+        <div class="book-quote">“中国人在行动起来了。”</div>
+        <a href="books/《马克思恩格斯论中国》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx engels">
+<div class="book-cover">马恩全集</div>
+    <div class="book-info">
+<div class="book-title">《马克思恩格斯全集》</div>
+        <div class="book-author">马克思 / 恩格斯</div>
+        <div class="book-quote">“让统治阶级在共产主义革命面前发抖吧。无产者在这个革命中失去的只是锁链。他们获得的将是整个世界。”</div>
+        <a href="marx_engels_complete_works.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+         <div class="book-card" data-mentor="marx engels">
+                <div class="book-cover">马恩选集</div>
+                <div class="book-info">
+                    <div class="book-title">《马克思恩格斯选集》</div>
+                    <div class="book-author">马克思 / 恩格斯</div>
+              <div class="book-quote">“马克思的整个世界观不是教义，而是方法。”</div>
+                    <div class="download-group">
+                        <a href="《马克思恩格斯选集》 第一卷.pdf" target="_blank" class="btn-read">第一卷</a>
+                        <a href="《马克思恩格斯选集》 第二卷.pdf" target="_blank" class="btn-read">第二卷</a>
+                        <a href="《马克思恩格斯选集》 第三卷.pdf" target="_blank" class="btn-read">第三卷</a>
+                        <a href="《马克思恩格斯选集》 第四卷.pdf" target="_blank" class="btn-read">第四卷</a>
+                    </div>
+                </div>
+            </div>
+
+          <div class="book-card" data-mentor="engels">
+                <div class="book-cover">反杜林论</div>
+                <div class="book-info">
+                    <div class="book-title">《反杜林论》</div>
+                    <div class="book-author">弗里德里希·恩格斯</div>
+                    <div class="book-quote">“一切社会变迁和政治变革的终极原因，应当到生产方式和交换方式的变更中去寻找。”</div>
+                    <a href="books/《反杜林论》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+         <div class="book-card" data-mentor="engels">
+                <div class="book-cover">自然辩证法</div>
+                <div class="book-info">
+                    <div class="book-title">《自然辩证法》</div>
+                    <div class="book-author">弗里德里希·恩格斯</div>
+                    <div class="book-quote">“生命是蛋白体的存在方式，这种存在方式的基本因素在于和它周围的外部自然界不断地新陈代谢。”</div>
+                    <a href="books/《自然辩证法》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+  <div class="book-card" data-mentor="engels">
+                <div class="book-cover">在马克思墓前的讲话</div>
+                <div class="book-info">
+                    <div class="book-title">《在马克思墓前的讲话》</div>
+                    <div class="book-author">弗里德里希·恩格斯</div>
+                    <div class="book-quote">“他的英名和事业将永垂不朽！”</div>
+                    <a href="marx-speech.html" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+         <div class="book-card" data-mentor="lenin">
+                <div class="book-cover">国家与革命</div>
+                <div class="book-info">
+                    <div class="book-title">《国家与革命》</div>
+                    <div class="book-author">弗拉基米尔·列宁</div>
+                    <div class="book-quote">“国家是阶级矛盾不可调和的产物和表现。”</div>
+                    <a href="books/《国家与革命》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+         <div class="book-card" data-mentor="lenin">
+                <div class="book-cover">“左派”幼稚病</div>
+                <div class="book-info">
+                    <div class="book-title book-title-long">《共产主义运动中的“左派”幼稚病》</div>
+                    <div class="book-author">弗拉基米尔·列宁</div>
+                    <div class="book-quote">“无产阶级专政是新阶级对更强大的敌人，对资产阶级进行的最奋勇和最无情的战争。”</div>
+                    <a href="books/《共产主义运动中的“左派”幼稚病》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+         <div class="book-card" data-mentor="lenin">
+                <div class="book-cover long-title">唯物主义和经验批判主义</div>
+                <div class="book-info">
+                    <div class="book-title book-title-long">《唯物主义和经验批判主义》</div>
+                    <div class="book-author">弗拉基米尔·列宁</div>
+                    <div class="book-quote">“人的思维是否具有客观的真理性，这并不是一个理论的问题，而是一个实践的问题。”</div>
+                    <a href="books/《唯物主义和经验批判主义》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+        <div class="book-card" data-mentor="lenin">
+                <div class="book-cover long-title">无产阶级革命和叛徒<br>考茨基</div>
+
+                <div class="book-info">
+                    <div class="book-title book-title-long">《无产阶级革命和叛徒考茨基》</div>
+                    <div class="book-author">弗拉基米尔·列宁</div>
+                    <div class="book-quote">“无产阶级的革命专政是由无产阶级对资产阶级采用暴力手段来获得和维持的政权，是不受任何法律约束的政权。”</div>
+                    <a href="books/《无产阶级革命和叛徒考茨基》.html" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+    <div class="book-card" data-mentor="lenin">
+                <div class="book-cover">列宁全集</div>
+                <div class="book-info">
+                    <div class="book-title">《列宁全集》</div>
+                    <div class="book-author">弗拉基米尔·列宁</div>
+                    <div class="book-quote">“旧社会灭亡的时候，它的死尸是不能装进棺材、埋入坟墓的。”</div>
+                    <a href="lenin_complete_works.html" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+           <div class="book-card" data-mentor="lenin">
+                <div class="book-cover">列宁选集</div>
+                <div class="book-info">
+                    <div class="book-title">《列宁选集》</div>
+                    <div class="book-author">弗拉基米尔·列宁</div>
+                    <div class="book-quote">“没有革命的理论，就不会有革命的运动。”</div>
+                    <div class="download-group">
+                        <a href="列宁选集[第1卷]2012年版.pdf" target="_blank" class="btn-read">第一卷</a>
+                        <a href="列宁选集[第2卷]2012年版.pdf" target="_blank" class="btn-read">第二卷</a>
+                        <a href="列宁选集[第3卷]2012年版.pdf" target="_blank" class="btn-read">第三卷</a>
+                        <a href="列宁选集[第4卷]2012年版.pdf" target="_blank" class="btn-read">第四卷</a>
+                    </div>
+                </div>
+            </div>
+
+      <div class="book-card" data-mentor="lenin">
+                  <div class="book-cover">帝国主义论</div>
+                <div class="book-info">
+<div class="book-title book-title-long">《帝国主义是资本主义的最高阶段》</div>
+                    <div class="book-author">弗拉基米尔·列宁</div>
+          <div class="book-quote">“帝国主义是垄断的资本主义。”</div>
+                    <a href="books/《帝国主义是资本主义的最高阶段》.html" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+           <div class="book-card" data-mentor="mao">
+                <div class="book-cover">毛泽东选集</div>
+                <div class="book-info">
+                    <div class="book-title">《毛泽东选集》</div>
+                    <div class="book-author">毛泽东</div>
+                    <div class="book-quote">“谁是我们的敌人？谁是我们的朋友？这个问题是革命的首要问题。”</div>
+                    <a href="《毛泽东选集》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+                </div>
+            </div>
+
+<div class="book-card" data-mentor="mao">
+    <div class="book-cover">实践论</div>
+    <div class="book-info">
+        <div class="book-title">《实践论》</div>
+        <div class="book-author">毛泽东</div>
+<div class="book-quote">“通过实践而发现真理，又通过实践而证实真理和发展真理。”</div>
+        <a href="books/《实践论》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
+    <div class="book-cover">关于哲学问题的讲话</div>
+    <div class="book-info">
+        <div class="book-title">《关于哲学问题的讲话》</div>
+        <div class="book-author">毛泽东</div>
+<div class="book-quote">“辩证法的生命就是不断走向反面。人类最后也要到末日。宗教家说末日，是悲观主义，吓唬人。我们说人类灭亡，是产生比人类更进步的东西，现在人类很幼稚。”</div>
+        <a href="books/《关于哲学问题的讲话》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
+    <div class="book-cover long-title">关于正确处理人民内部<br>矛盾的问题</div>
+    <div class="book-info">
+        <div class="book-title book-title-long">《关于正确处理人民内部矛盾的问题》</div>
+        <div class="book-author">毛泽东</div>
+<div class="book-quote">“凡属于思想性质的问题，凡属于人民内部的争论问题，只能用民主的方法去解决。”</div>
+        <a href="books/《关于正确处理人民内部矛盾的问题》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
+    <div class="book-cover">论十大关系</div>
+    <div class="book-info">
+        <div class="book-title">《论十大关系》</div>
+        <div class="book-author">毛泽东</div>
+<div class="book-quote">“提出这十个问题，都是围绕着一个基本方针，就是要把国内外一切积极因素调动起来，为社会主义事业服务。”</div>
+        <a href="books/《论十大关系》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
+    <div class="book-cover">矛盾论</div>
+    <div class="book-info">
+        <div class="book-title">《矛盾论》</div>
+        <div class="book-author">毛泽东</div>
+        <div class="book-quote">“矛盾存在于一切事物的发展过程中。”</div>
+        <a href="books/《矛盾论》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
+    <div class="book-cover">论持久战</div>
+    <div class="book-info">
+        <div class="book-title">《论持久战》</div>
+        <div class="book-author">毛泽东</div>
+<div class="book-quote">“中国会亡吗？答复：不会亡，最后胜利是中国的。中国能够速胜吗？答复：不能速胜，抗日战争是持久战。”</div>
+        <a href="books/《论持久战》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
+<div class="book-cover">新民主主义论</div>
+    <div class="book-info">
+        <div class="book-title">《新民主主义论》</div>
+        <div class="book-author">毛泽东</div>
+<div class="book-quote">“中国革命的历史进程，必须分为两步，其第一步是民主主义的革命，其第二步是社会主义的革命。”</div>
+        <a href="books/《新民主主义论》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
+    <div class="book-cover">毛主席语录</div>
+    <div class="book-info">
+        <div class="book-title">《毛主席语录》</div>
+        <div class="book-author">毛泽东</div>
+        <div class="book-quote">“人民，只有人民，才是创造世界历史的动力。”</div>
+        <a href="maoyulu.pdf" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+        </div>
+    </main>
+
+<div id="searchModal" class="search-modal" onclick="closeSearch(event)">
+        <div class="search-box-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="输入文献名、作者或关键字..." autocomplete="off">
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
+
+    <footer>
+        <h3>全世界无产者，联合起来！</h3>
+    </footer>
+
+<script>
+        // === 🚀 1. 建立《经典文库》全局数据库 ===
+        const LIBRARY_DATA = [
+            { title: "《共产党宣言》", author: "马克思 / 恩格斯", link: "books/《共产党宣言》.html" },
+            { title: "《资本论》第一卷", author: "卡尔·马克思", link: "books/《资本论第一卷》.pdf" },
+     { title: "《资本论》第二卷", author: "卡尔·马克思", link: "books/《资本论第二卷》.pdf" },
+     { title: "《资本论》第三卷", author: "卡尔·马克思", link: "books/《资本论第三卷》.pdf" },
+            { title: "《哥达纲领批判》", author: "卡尔·马克思", link: "Article ge da pipan.html" },
+{ title: "《1844年经济学哲学手稿》", author: "卡尔·马克思", link: "books/《1844年经济学哲学手稿》.html" },
+{ title: "《德意志意识形态》", author: "马克思 / 恩格斯", link: "books/《德意志意识形态》.html" },
+{ title: "《法兰西内战》", author: "卡尔·马克思", link: "books/《法兰西内战》.html" },
+{ title: "《雇佣劳动与资本》", author: "卡尔·马克思", link: "books/《雇佣劳动与资本》.html" },
+{ title: "《1848年至1850年的法兰西阶级斗争》", author: "卡尔·马克思", link: "books/《法兰西阶级斗争》.pdf" },
+{ title: "《路易·波拿巴的雾月十八日》", author: "卡尔·马克思", link: "books/《路易·波拿巴的雾月十八日》.html" },
+{ title: "《社会主义从空想到科学的发展》", author: "弗里德里希·恩格斯", link: "books/《社会主义从空想到科学的发展》.html" },
+{ title: "《家庭、私有制和国家的起源》", author: "弗里德里希·恩格斯", link: "books/《家庭、私有制和国家的起源》.html" },
+{ title: "《马克思恩格斯论中国》", author: "马克思 / 恩格斯", link: "books/《马克思恩格斯论中国》.pdf" },
+{ title: "《马克思恩格斯全集》", author: "马克思 / 恩格斯", link: "marx_engels_complete_works.html" },
+         { title: "《马克思恩格斯选集》第一卷", author: "马克思 / 恩格斯", link: "《马克思恩格斯选集》 第一卷.pdf" },
+{ title: "《马克思恩格斯选集》第二卷", author: "马克思 / 恩格斯", link: "《马克思恩格斯选集》 第二卷.pdf" },
+{ title: "《马克思恩格斯选集》第三卷", author: "马克思 / 恩格斯", link: "《马克思恩格斯选集》 第三卷.pdf" },
+{ title: "《马克思恩格斯选集》第四卷", author: "马克思 / 恩格斯", link: "《马克思恩格斯选集》 第四卷.pdf" },
+            { title: "《反杜林论》", author: "弗里德里希·恩格斯", link: "books/《反杜林论》.pdf" },
+          { title: "《自然辩证法》", author: "弗里德里希·恩格斯", link: "books/《自然辩证法》.pdf" },
+      { title: "《在马克思墓前的讲话》", author: "弗里德里希·恩格斯", link: "marx-speech.html" },
+            { title: "《国家与革命》", author: "弗拉基米尔·列宁", link: "books/《国家与革命》.pdf" },
+       { title: "《共产主义运动中的“左派”幼稚病》", author: "弗拉基米尔·列宁", link: "books/《共产主义运动中的“左派”幼稚病》.pdf" },
+       { title: "《无产阶级革命和叛徒考茨基》", author: "弗拉基米尔·列宁", link: "books/《无产阶级革命和叛徒考茨基》.html" },
+       { title: "《唯物主义和经验批判主义》", author: "弗拉基米尔·列宁", link: "books/《唯物主义和经验批判主义》.pdf" },
+      { title: "《列宁选集》第一卷", author: "弗拉基米尔·列宁", link: "列宁选集[第1卷]2012年版.pdf" },
+{ title: "《列宁选集》第二卷", author: "弗拉基米尔·列宁", link: "列宁选集[第2卷]2012年版.pdf" },
+{ title: "《列宁选集》第三卷", author: "弗拉基米尔·列宁", link: "列宁选集[第3卷]2012年版.pdf" },
+{ title: "《列宁选集》第四卷", author: "弗拉基米尔·列宁", link: "列宁选集[第4卷]2012年版.pdf" },
+      { title: "《列宁全集》", author: "弗拉基米尔·列宁", link: "lenin_complete_works.html" },
+            { title: "《帝国主义是资本主义的最高阶段》", author: "弗拉基米尔·列宁", link: "books/《帝国主义是资本主义的最高阶段》.html" },
+            { title: "《毛泽东选集》", author: "毛泽东", link: "《毛泽东选集》.pdf" },
+{ title: "《实践论》", author: "毛泽东", link: "books/《实践论》.html" },
+{ title: "《关于哲学问题的讲话》", author: "毛泽东", link: "books/《关于哲学问题的讲话》.html" },
+{ title: "《关于正确处理人民内部矛盾的问题》", author: "毛泽东", link: "books/《关于正确处理人民内部矛盾的问题》.html" },
+{ title: "《矛盾论》", author: "毛泽东", link: "books/《矛盾论》.html" },
+{ title: "《论持久战》", author: "毛泽东", link: "books/《论持久战》.html" },
+{ title: "《新民主主义论》", author: "毛泽东", link: "books/《新民主主义论》.html" },
+{ title: "《论十大关系》", author: "毛泽东", link: "books/《论十大关系》.html" },
+{ title: "《毛主席语录》", author: "毛泽东", link: "maoyulu.pdf" }
+        ];
+
+        // === 🚀 2. 雷达开关控制系统 ===
+        const searchModal = document.getElementById('searchModal');
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+const mentorButtons = document.querySelectorAll('.mentor-btn');
+const mentorGroup = document.querySelector('.mentor-buttons');
+const bookCards = document.querySelectorAll('.book-card');
+
+function moveMentorSlider(button) {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const extraWidth = isMobile ? 12 : 18;
+
+    const x = button.offsetLeft - extraWidth / 2;
+    const width = button.offsetWidth + extraWidth;
+
+    mentorGroup.style.setProperty('--slider-x', `${x}px`);
+    mentorGroup.style.setProperty('--slider-width', `${width}px`);
+}
+
+let mentorSliderInitialized = false;
+
+function animateBookCard(card) {
+    card.classList.remove('card-enter');
+
+    // 强制浏览器重新读取状态，确保动画每次都能重新触发
+    card.offsetHeight;
+
+    card.classList.add('card-enter');
+
+    card.addEventListener('animationend', () => {
+        card.classList.remove('card-enter');
+    }, { once: true });
+}
+
+function applyMentorFilter(filter) {
+    bookCards.forEach(card => {
+        const mentors = card.dataset.mentor || "";
+        const shouldShow = mentors.split(" ").includes(filter);
+
+        card.classList.toggle('is-hidden', !shouldShow);
+
+        if (shouldShow) {
+            animateBookCard(card);
+        }
+    });
+}
+
+mentorButtons.forEach(button => {
+    button.addEventListener('click', function () {
+        const filter = this.dataset.filter;
+        const isAlreadyActive = this.classList.contains('active');
+
+        mentorButtons.forEach(btn => btn.classList.remove('active'));
+
+if (isAlreadyActive) {
+    mentorGroup.classList.remove('has-active');
+
+    bookCards.forEach(card => {
+        card.classList.remove('is-hidden');
+        animateBookCard(card);
+    });
+
+    return;
+}
+
+        if (!mentorSliderInitialized) {
+            mentorGroup.classList.add('no-slider-transition');
+
+            moveMentorSlider(this);
+
+            this.classList.add('active');
+            mentorGroup.classList.add('has-active');
+
+            applyMentorFilter(filter);
+
+            // 强制浏览器先把“无动画的正确位置”吃进去
+            mentorGroup.offsetHeight;
+
+        requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+        mentorGroup.classList.remove('no-slider-transition');
+        mentorSliderInitialized = true;
+    });
+});
+
+            return;
+        }
+
+        moveMentorSlider(this);
+
+        this.classList.add('active');
+        mentorGroup.classList.add('has-active');
+
+        applyMentorFilter(filter);
+    });
+});
+
+window.addEventListener('resize', function () {
+    const activeButton = document.querySelector('.mentor-btn.active');
+
+    if (activeButton) {
+        moveMentorSlider(activeButton);
+    }
+});
+
+        function toggleSearchModal(show) {
+            if(show) {
+                searchModal.classList.add('show');
+                searchInput.value = '';           // 打开时清空输入框
+                searchResults.style.display = 'none'; // 隐藏结果面板
+                setTimeout(() => searchInput.focus(), 100); // 100ms后光标自动闪烁，准备战斗！
+            } else {
+                searchModal.classList.remove('show');
+                searchInput.blur();
+            }
+        }
+
+        // 点击空白处即可关闭弹窗
+        function closeSearch(e) {
+            if (e.target.id === 'searchModal') toggleSearchModal(false);
+        }
+
+        // === 🚀 3. 核心：实时击键扫描引擎 ===
+        searchInput.addEventListener('input', function(e) {
+            const keyword = e.target.value.trim(); // 获取你输入的字，去掉多余空格
+            
+            if (keyword === '') {
+                searchResults.style.display = 'none'; // 没字就收起面板
+                return;
+            }
+
+            // 扫描数据库：看看书名或者作者里，有没有包含你输入的字
+            const matches = LIBRARY_DATA.filter(book => 
+                book.title.includes(keyword) || book.author.includes(keyword)
+            );
+
+            // 渲染面板
+            searchResults.style.display = 'block';
+            
+      if (matches.length > 0) {
+                // 🚀 终极极简渲染：彻底废除高亮替换，直接输出纯净的原生文本！
+                searchResults.innerHTML = matches.map(book => {
+                    return `
+                        <a href="${book.link}" class="search-item" target="_blank">
+                            <span class="search-item-title">${book.title}</span>
+                            <span class="search-item-author">${book.author}</span>
+                        </a>
+                    `;
+                }).join('');
+            } else {
+                // 如果没找到
+                searchResults.innerHTML = '<div style="padding: 25px; text-align: center; color: #A80000; font-weight: bold;">报告：未侦测到相关文献</div>';
+            }
+        });
+    </script>
+
+</body>
+</html>

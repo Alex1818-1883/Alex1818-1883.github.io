@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>革命理论文库 - 马列毛经典文库</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #FDFDFD;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            padding: 20px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background-color: transparent;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+
+            display: flex;
+            align-items: center;
+
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+            transform-origin: left center;
+
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+
+            transition:
+                transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.3) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+        .logo:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            display: inline-block;
+
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            padding: 8px 22px;
+
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FFFFFF;
+            background-color: #CC0000;
+            transform: scale(1.1) translateY(-3px) translateZ(0);
+        }
+
+        .nav-links a:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+/* === 搜索弹窗 === */
+.search-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.search-modal.show {
+    display: block;
+    opacity: 1;
+}
+
+.search-box-wrapper {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: 90%;
+    max-width: 650px;
+}
+
+.search-input {
+    width: 100%;
+
+    padding: 20px 30px;
+
+    font-size: 20px;
+    font-weight: bold;
+    color: #CC0000;
+
+    background-color: #FFFFFF;
+    border: 2px solid #CC0000;
+    border-radius: 40px;
+
+    outline: none;
+    box-shadow: none;
+
+    transition: border-color 0.3s ease;
+
+    font-family: inherit;
+}
+
+.search-input:focus {
+    border-color: #FF0000;
+    box-shadow: none;
+}
+
+.search-input::placeholder {
+    color: #FFCCCC;
+    font-weight: normal;
+}
+
+.search-results {
+    margin-top: 15px;
+
+    background-color: #FFFFFF;
+    border: 1px solid #FFEEEE;
+    border-radius: 20px;
+
+    overflow: hidden;
+    display: none;
+
+    max-height: 50vh;
+    overflow-y: auto;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+.search-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+
+    padding: 18px 25px;
+
+    text-decoration: none;
+    color: #333333;
+
+    border-bottom: 1px solid #FFF0F0;
+
+    transition: background-color 0.2s ease;
+}
+
+.search-item:last-child {
+    border-bottom: none;
+}
+
+.search-item:hover {
+    background-color: #FFF5F5;
+}
+
+.search-item-title {
+    font-weight: bold;
+    color: #CC0000;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.search-item-author {
+    flex: 0 0 auto;
+
+    font-size: 14px;
+    color: #A80000;
+    opacity: 0.8;
+
+    white-space: nowrap;
+}
+
+        /* === 首屏标题区 === */
+        .library-hero {
+            min-height: 58vh;
+            padding: 130px 24px 64px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+            text-align: center;
+            background-color: #FFFFFF;
+            overflow: visible;
+        }
+
+        .hero-inner {
+            width: min(980px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .library-hero h1 {
+            color: #DD0000;
+            font-size: 4.3rem;
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 3.5px;
+            margin-bottom: 22px;
+        }
+
+        .hero-lead {
+            width: min(860px, 100%);
+            margin: 0 auto;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .hero-divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 4px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+
+            color: #CC0000;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1;
+
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            display: block;
+            flex: 1;
+
+            height: 4px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 58px 50px 90px;
+        }
+
+/* === 分类目录框：哥达批判目录式 === */
+.category-filter {
+    width: min(820px, 100%);
+    margin: 0 auto 58px;
+    padding: 28px 42px 28px 46px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 42px;
+    row-gap: 16px;
+
+    background-color: #FFFFFF;
+
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.045);
+    overflow: hidden;
+}
+
+.category-btn {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: relative;
+
+display: inline-block;
+width: fit-content;
+max-width: 100%;
+justify-self: start;
+    padding: 0 0 0 18px;
+
+    border: none;
+    background-color: transparent;
+
+    color: #333333;
+
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.7;
+    letter-spacing: 0;
+
+    text-align: left;
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+
+    touch-action: manipulation;
+
+    transition: color 0.2s ease;
+}
+
+.category-btn::before {
+    content: "·";
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    color: #CC0000;
+    font-weight: 900;
+}
+
+.category-btn:hover {
+    color: #CC0000;
+}
+
+.category-btn.active {
+    color: #CC0000;
+    font-weight: 900;
+}
+
+.category-btn.active::before {
+    content: "➤";
+    font-size: 14px;
+    top: 2px;
+}
+
+        /* === 书籍卡片 === */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .book-card {
+            background: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+            border: 1px solid #EEEEEE;
+            position: relative;
+            contain: layout style paint;
+
+            transform: translateY(0);
+
+            transition:
+                transform 0.4s ease,
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(204,0,0,0.06);
+            border-color: #FFCCCC;
+        }
+
+        .book-card.is-hidden {
+            display: none;
+        }
+
+        @keyframes bookCardFadeUp {
+            from {
+                opacity: 0;
+                translate: 0 18px;
+            }
+
+            to {
+                opacity: 1;
+                translate: 0 0;
+            }
+        }
+
+        .book-card.card-enter {
+            animation: bookCardFadeUp 1.1s ease-out both;
+        }
+
+        .book-cover {
+            height: 180px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 20px;
+            text-align: center;
+
+            background: linear-gradient(135deg, #A80000 0%, #CC0000 100%);
+            border-left: 12px solid #730000;
+
+            color: #FFD700;
+            font-size: 31px;
+            font-family: "楷体", "STKaiti", serif;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .book-cover.long-title {
+            font-size: 25px;
+            line-height: 1.45;
+        }
+
+        .book-info {
+            padding: 30px;
+
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .book-title {
+            font-size: 22px;
+            color: #CC0000;
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-left: -10px;
+            line-height: 1.45;
+        }
+
+        .book-title-long {
+            font-size: 20px;
+        }
+
+        .book-author {
+            font-size: 14px;
+            color: #666666;
+
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .book-desc {
+            flex: 1;
+
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.75;
+            margin-bottom: 25px;
+
+            text-align: left;
+        }
+
+        .btn-read {
+            text-align: center;
+            background-color: #CC0000;
+            color: #FFFFFF;
+
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+
+            padding: 12px 0;
+            border-radius: 4px;
+
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+
+            transition:
+                transform 0.3s ease,
+                background-color 0.3s ease;
+        }
+
+        .btn-read:hover {
+            background-color: #A80000;
+            transform: scale(1.02) translateZ(0);
+        }
+
+        .btn-read:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+
+.btn-read-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.btn-read-part {
+    text-align: center;
+    background-color: #CC0000;
+    color: #FFFFFF;
+
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+
+    padding: 12px 0;
+    border-radius: 4px;
+
+    transform: scale(1) translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+
+    transition:
+        transform 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.btn-read-part:hover {
+    background-color: #A80000;
+    transform: scale(1.02) translateZ(0);
+}
+
+.btn-read-part:active {
+    transform: scale(0.95) translateZ(0);
+}
+
+
+
+
+
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+            color: #FFFFFF;
+        }
+
+        footer h3 {
+            font-size: 26px;
+            color: #FFFFFF;
+            letter-spacing: 4px;
+        }
+
+        /* === 禁止交互区域选中：电脑端 + 手机端 === */
+.logo,
+.logo *,
+.nav-links a,
+.category-filter,
+.category-filter *,
+.category-btn,
+.category-btn *,
+.btn-read,
+.btn-read-part,
+.btn-read-part *,
+.book-cover,
+.book-cover *,
+.search-item,
+.search-item *,
+.search-item-title,
+.search-item-author,
+footer h3 {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+
+            -webkit-user-drag: none;
+        }
+
+        .logo::selection,
+        .logo *::selection,
+        .nav-links a::selection,
+        .category-filter::selection,
+        .category-filter *::selection,
+        .category-btn::selection,
+        .category-btn *::selection,
+        .btn-read::selection,
+.btn-read-part::selection,
+.btn-read-part *::selection,
+        .book-cover::selection,
+        .book-cover *::selection,
+.search-item::selection,
+.search-item *::selection,
+.search-item-title::selection,
+.search-item-author::selection,
+        footer h3::selection {
+            background: transparent;
+        }
+
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+                letter-spacing: 1px;
+                transform-origin: center center;
+            }
+
+            .nav-links {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .nav-links a {
+                margin-left: 0;
+                font-size: 16px;
+                padding: 6px 22px;
+            }
+
+.search-box-wrapper {
+    top: 18%;
+    width: 90%;
+}
+
+.search-input {
+    padding: 17px 24px;
+    font-size: 18px;
+}
+
+.search-item {
+    gap: 14px;
+    align-items: center;
+}
+
+.search-item-title {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.55;
+}
+
+.search-item-author {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    text-align: right;
+    font-size: 14px;
+}
+
+            .library-hero {
+                min-height: 56vh;
+                padding: 126px 18px 54px;
+            }
+
+            .library-hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-lead {
+                font-size: 17px;
+                line-height: 1.8;
+                letter-spacing: 1px;
+            }
+
+            main {
+                padding: 42px 16px 70px;
+            }
+
+.category-filter {
+    width: 100%;
+    margin-bottom: 42px;
+    padding: 24px 22px 24px 26px;
+
+    grid-template-columns: 1fr;
+    row-gap: 14px;
+
+    border-left-width: 6px;
+    border-radius: 18px;
+}
+
+.category-btn {
+    font-size: 15px;
+    line-height: 1.7;
+    padding-left: 18px;
+}
+
+            .books-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .book-cover {
+                height: 140px;
+                font-size: 24px;
+            }
+
+            .book-cover.long-title {
+                font-size: 21px;
+            }
+
+            .book-info {
+                padding: 26px;
+            }
+
+            .book-title {
+                font-size: 21px;
+            }
+
+            .book-title-long {
+                font-size: 19px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+
+<div class="nav-links">
+<a href="javascript:void(0)" onclick="toggleSearchModal(true)">搜索</a>
+</div>
+    </header>
+
+    <section class="library-hero">
+        <div class="hero-inner">
+            <h1>革命理论文库</h1>
+            <p class="hero-lead">国际共运史、理论研究与资料汇编</p>
+        </div>
+
+        <div class="hero-divider" aria-hidden="true">★</div>
+    </section>
+
+    <main>
+  <section class="category-filter" id="categoryFilter">
+    <button class="category-btn active" type="button" data-category="all">全部文献</button>
+    <button class="category-btn" type="button" data-category="revolutionaries">革命家著作</button>
+    <button class="category-btn" type="button" data-category="international">国际共产主义运动</button>
+    <button class="category-btn" type="button" data-category="china">革命与继续革命</button>
+    <button class="category-btn" type="button" data-category="reference">辞典与工具书</button>
+    <button class="category-btn" type="button" data-category="economy">政治经济学研究</button>
+    <button class="category-btn" type="button" data-category="memoir">传记与回忆录</button>
+    <button class="category-btn" type="button" data-category="literature">左翼经典文学</button>
+</section>
+
+        <section class="books-grid" id="booksGrid"></section>
+    </main>
+
+<div id="searchModal" class="search-modal" onclick="closeSearch(event)">
+    <div class="search-box-wrapper">
+        <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="输入文献名、作者或关键字..."
+            autocomplete="off"
+        >
+        <div id="searchResults" class="search-results"></div>
+    </div>
+</div>
+
+    <footer>
+        <h3>全世界无产者，联合起来！</h3>
+    </footer>
+
+    <script>
+      const BOOKS = [
+    {
+        title: "《巴黎公社》",
+        cover: "巴黎公社",
+        author: "北京大学国际政治系",
+        category: "international",
+        desc: "围绕巴黎公社的产生、斗争、失败与历史意义展开，是理解无产阶级政权问题和国家机器问题的重要辅助材料。",
+        link: "books/《巴黎公社》.pdf"
+    },
+    {
+        title: "《俄国革命史》",
+        cover: "俄国革命史",
+        author: "列夫·托洛茨基",
+        category: "international",
+        desc: "以俄国革命进程为中心，呈现革命形势、阶级力量、政党斗争和群众运动之间的复杂关系。",
+        link: "books/《俄国革命史》.pdf"
+    },
+    {
+        title: "《联共（布）党史简明教程》",
+        cover: "联共（布）党史",
+        author: "联共（布）中央特设委员会",
+        category: "international",
+        desc: "集中呈现布尔什维克党的形成、路线斗争、革命实践和社会主义建设经验，是研究国际共产主义运动的重要资料。",
+        link: "books/《联共（布）党史简明教程》.pdf",
+   
+    },
+    {
+        title: "《国际共产主义运动简史》",
+        cover: "国际共运简史",
+        author: "上海师范大学政治教育系",
+        category: "international",
+        desc: "简明梳理从第一国际到二十世纪中期国际共产主义运动的历史脉络，是系统把握世界共产主义运动发展线索的入门教材。",
+        link: "books/《国际共产主义运动简史》.pdf"
+    },
+    {
+        title: "《国际共产主义运动史》·上",
+        cover: "国际共运史",
+        author: "北京大学国际政治系",
+        category: "international",
+        desc: "系统梳理国际共产主义运动的发展过程，适合理解各国革命斗争与世界革命形势之间的联系。",
+        link: "books/《国际共产主义运动史上》.pdf",
+  },
+
+    {
+        title: "《国际共产主义运动史》·下",
+        cover: "国际共运史",
+        author: "广西民族学院政治系",
+        category: "international",
+        desc: "续接上卷，重点呈现二十世纪中期以后国际共产主义运动的分化、论战与各国革命实践，适合对照上卷连贯阅读。",
+        link: "books/《国际共产主义运动史下》.pdf",
+  },
+
+    {
+        title: "《斯大林选集》",
+        cover: "斯大林选集",
+        author: "约瑟夫·斯大林",
+        category: "revolutionaries",
+        desc: "收录斯大林关于列宁主义、社会主义建设、民族问题、党内斗争和国际形势的重要论述。",
+        link: "books/《斯大林选集》.pdf"
+    },
+    {
+        title: "《论列宁主义基础》",
+        cover: "论列宁主义基础",
+        author: "约瑟夫·斯大林",
+        category: "revolutionaries",
+        desc: "围绕列宁主义的历史根源、理论基础、无产阶级专政和党的建设等问题展开系统阐述。",
+        link: "books/《论列宁主义基础》.html",
+
+    },
+    {
+        title: "《被背叛的革命》",
+        cover: "被背叛的革命",
+        author: "列夫·托洛茨基",
+        category: "revolutionaries",
+        desc: "托洛茨基对苏联官僚化过程的系统批判，分析斯大林主义的阶级性质与革命蜕变机制，是研究苏联复辟问题的重要参照文献。",
+        link: "books/《被背叛的革命》.pdf",
+
+    },
+    {
+        title: "《历史唯物主义理论》",
+        cover: "历史唯物主义理论",
+        author: "布哈林",
+        category: "revolutionaries",
+        desc: "系统阐述历史唯物主义的基本范畴，涵盖生产力与生产关系、经济基础与上层建筑、阶级斗争与社会形态更替等核心问题。",
+        link: "books/《历史唯物主义理论》.pdf"
+    },
+
+    {
+        title: "《长征》",
+        cover: "长征",
+        author: "王树增",
+        category: "china",
+        desc: "王树增的长征纪实文学，以大量史料重现二万五千里长征的全过程，呈现这一历史事件的战略意义与人民军队的革命意志。",
+        link: "books/《长征》.pdf",
+
+    },
+    {
+        title: "《托洛茨基论中国革命》",
+        cover: "托洛茨基论中国革命",
+        author: "列夫·托洛茨基",
+        category: "china",
+        desc: "收录托洛茨基对1925—1927年中国大革命的系统分析，围绕统一战线政策失误、国共关系与革命失败根源展开批判性考察。",
+        link: "books/《托洛茨基论中国革命》.pdf",
+    },
+    {
+        title: "《红星照耀中国》",
+        cover: "红星照耀中国",
+        author: "埃德加·斯诺",
+        category: "china",
+        desc: "斯诺深入陕甘宁边区的实地报道，记录长征后的红军实况与毛泽东等领导人访谈，是了解早期中国革命的重要第一手文献。",
+        link: "books/《红星照耀中国》.pdf"
+    },
+
+    {
+        title: "《漫长的革命》",
+        cover: "漫长的革命",
+        author: "埃德加·斯诺",
+        category: "china",
+        desc: "斯诺1970年重访中国的观察报告，记录文化大革命时期的社会变革、群众运动与毛泽东晚年的政治路线，是了解这一时期中国的重要外部视角。",
+        link: "books/《漫长的革命》.pdf"
+    },
+
+    {
+        title: "《苏联社会主义经济问题》",
+        cover: "苏联社会主义<br>经济问题",
+        author: "约瑟夫·斯大林",
+        category: "economy",
+        desc: "斯大林晚年关于社会主义政治经济学的系统论述，围绕经济规律的客观性、商品生产与价值规律及向共产主义过渡等问题展开。",
+        link: "books/《苏联社会主义经济问题》.pdf",
+
+
+    },
+    {
+        title: "《金融资本》",
+        cover: "金融资本",
+        author: "希法亭",
+        category: "economy",
+        desc: "研究银行资本与工业资本的结合、金融寡头的形成以及垄断资本主义的发展机制。",
+        link: "books/《金融资本》.pdf"
+    },
+    {
+        title: "《资本积累论》",
+        cover: "资本积累论",
+        author: "罗莎·卢森堡",
+        category: "economy",
+        desc: "围绕资本主义生产方式的发展、积累、危机和阶级结构变化展开研究。",
+        link: "books/《资本积累论》.pdf",
+
+    },
+    {
+        title: "《政治经济学概论》",
+        cover: "政治经济学概论",
+        author: "徐禾",
+        category: "economy",
+        desc: "以马克思主义为基础系统阐述政治经济学基本原理，涵盖商品、货币、资本、剩余价值及社会主义经济规律等核心范畴。",
+        link: "books/《政治经济学概论》.pdf",
+
+    },
+
+    {
+        title: "《现代西方哲学辞典》",
+        cover: "现代西方哲学辞典",
+        author: "夏基松",
+        category: "reference",
+        desc: "收录实证主义、存在主义、分析哲学、法兰克福学派等流派的核心概念，适合批判资产阶级意识形态时作参照工具。",
+        link: "books/《现代西方哲学辞典》.pdf",
+
+    },
+    {
+        title: "《马克思主义思想辞典》",
+        cover: "思想辞典",
+        author: "汤姆·博托莫尔",
+        category: "reference",
+        desc: "收录马克思主义哲学相关概念、范畴和术语，便于查阅辩证唯物主义与历史唯物主义基本问题。",
+        link: "books/《马克思主义思想辞典》.pdf",
+
+    },
+{
+    title: "《政治经济学辞典》",
+    cover: "政治经济学辞典",
+    author: "许涤新",
+    category: "reference",
+    desc: "解释政治经济学中的基本范畴和术语，适合作为阅读资本主义批判相关文本时的辅助工具。",
+    parts: [
+        {
+            label: "上册",
+            link: "books/《政治经济学辞典上》.pdf"
+        },
+        {
+            label: "下册",
+            link: "books/《政治经济学辞典下》.pdf"
+        }
+    ]
+},
+    {
+        title: "《国际共产主义运动史大事记》",
+        cover: "国际共运史大事记",
+        author: "辽宁第一师范学院政教系",
+        category: "reference",
+        desc: "以时间线方式整理国际共产主义运动的重要事件，有助于把理论文本放回具体历史脉络中理解。",
+        link: "books/《国际共产主义运动大事记》.pdf",
+
+    },
+
+    {
+        title: "《列宁传》",
+        cover: "列宁传",
+        author: "普·凯尔任采夫",
+        category: "memoir",
+        desc: "围绕列宁的革命活动、理论创造和建党实践展开，是理解布尔什维克革命传统的重要传记材料。",
+        link: "books/《列宁传》.pdf"
+    },
+    {
+        title: "《恩格斯传》",
+        cover: "恩格斯传",
+        author: "戴维·麦克莱伦",
+        category: "memoir",
+        desc: "以恩格斯的革命生涯和理论工作为主线，呈现其与马克思的合作、对马克思主义的独立贡献及晚年对第二国际的思想影响。",
+        link: "books/《恩格斯传》.pdf"
+    },
+    {
+        title: "《马克思传》",
+        cover: "马克思传",
+        author: "戴维·麦克莱伦",
+        category: "memoir",
+        desc: "系统呈现马克思的生平与思想发展历程，涵盖从早期哲学批判到《资本论》写作及第一国际领导工作的完整传记叙述。",
+        link: "books/《马克思传记》.pdf",
+
+    },
+    {
+        title: "《毛泽东传》",
+        cover: "毛泽东传",
+        author: "罗斯·特里尔",
+        category: "memoir",
+        desc: "以毛泽东革命历程为主线，系统呈现从湖南农民运动到延安整风、新中国建立与社会主义建设时期的历史实践与理论创造。",
+        link: "books/《毛泽东传》.pdf"
+    },
+
+    {
+        title: "《母亲》",
+        cover: "母亲",
+        author: "马克西姆·高尔基",
+        category: "literature",
+        desc: "以革命运动中的普通劳动群众觉醒为主题，展现阶级意识在斗争中的形成过程。",
+        link: "books/《母亲》.pdf"
+    },
+    {
+        title: "《狂人日记》",
+        cover: "狂人日记",
+        author: "鲁迅",
+        category: "literature",
+        desc: "鲁迅短篇小说集，以狂人视角揭示封建礼教“吃人”的本质，是五四时期批判旧文化旧道德的重要文学文献。",
+        link: "books/《狂人日记》.pdf"
+    },
+    {
+        title: "《红岩》",
+        cover: "红岩",
+        author: "罗广斌、杨益言",
+        category: "literature",
+        desc: "以革命者在严酷斗争环境中的坚守为主题，展现信仰、组织和阶级立场的力量。",
+        link: "books/《红岩》.pdf"
+    },
+    {
+        title: "《晋绥革命根据地文艺作品选》",
+        cover: "晋绥革命根据地文艺作品选",
+        author: "中国作家协会山西分会",
+        category: "literature",
+        desc: "描写人民军队和群众在革命战争中的斗争实践，体现人民战争和革命英雄主义。",
+        link: "books/《晋绥革命根据地文艺作品选》.pdf"
+    },
+    {
+        title: "《钢铁是怎样练成的》",
+        cover: "钢铁是怎样练成的",
+        author: "奥斯特洛夫斯基",
+        category: "literature",
+        desc: "以保尔·柯察金的成长历程为主线，展现无产阶级革命者在战争、劳动与病痛的磨砺中锤炼革命意志的过程。",
+        link: "books/《钢铁是怎样练成的》.pdf",
+
+    }
+];
+
+function renderBooks() {
+    const grid = document.getElementById("booksGrid");
+
+    grid.innerHTML = BOOKS.map(book => {
+        const coverClass = book.longCover ? "book-cover long-title" : "book-cover";
+        const titleClass = book.longTitle ? "book-title book-title-long" : "book-title";
+
+        const readButtons = book.parts
+            ? `
+                <div class="btn-read-group">
+                    ${book.parts.map(part => `
+                        <a href="${part.link}" target="_blank" class="btn-read-part">${part.label}</a>
+                    `).join("")}
+                </div>
+            `
+            : `<a href="${book.link}" target="_blank" class="btn-read">阅读</a>`;
+
+        return `
+            <div class="book-card" data-category="${book.category}">
+                <div class="${coverClass}">${book.cover}</div>
+
+                <div class="book-info">
+                    <div class="${titleClass}">${book.title}</div>
+                    <div class="book-author">${book.author}</div>
+                    <div class="book-desc">${book.desc}</div>
+                    ${readButtons}
+                </div>
+            </div>
+        `;
+    }).join("");
+}
+
+        function animateBookCard(card) {
+            card.classList.remove("card-enter");
+            card.offsetHeight;
+            card.classList.add("card-enter");
+
+            card.addEventListener("animationend", () => {
+                card.classList.remove("card-enter");
+            }, { once: true });
+        }
+
+        function filterBooks(category) {
+            const cards = document.querySelectorAll(".book-card");
+
+            cards.forEach(card => {
+                const shouldShow = category === "all" || card.dataset.category === category;
+
+                card.classList.toggle("is-hidden", !shouldShow);
+
+                if (shouldShow) {
+                    animateBookCard(card);
+                }
+            });
+        }
+
+        function initCategories() {
+            const buttons = document.querySelectorAll(".category-btn");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    buttons.forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+
+                    filterBooks(this.dataset.category);
+                });
+            });
+        }
+
+        renderBooks();
+        initCategories();
+
+// === 搜索数据库：自动从 BOOKS 生成 ===
+function buildLibraryData() {
+    return BOOKS.flatMap(book => {
+        if (book.parts) {
+            return book.parts.map(part => ({
+                title: `${book.title}·${part.label}`,
+                author: book.author,
+                desc: book.desc || "",
+                link: part.link
+            }));
+        }
+
+        return [{
+            title: book.title,
+            author: book.author,
+            desc: book.desc || "",
+            link: book.link
+        }];
+    });
+}
+
+const LIBRARY_DATA = buildLibraryData();
+
+const searchModal = document.getElementById("searchModal");
+const searchInput = document.getElementById("searchInput");
+const searchResults = document.getElementById("searchResults");
+
+function toggleSearchModal(show) {
+    if (show) {
+        searchModal.classList.add("show");
+        searchInput.value = "";
+        searchResults.style.display = "none";
+        searchResults.innerHTML = "";
+
+        setTimeout(() => {
+            searchInput.focus();
+        }, 100);
+    } else {
+        searchModal.classList.remove("show");
+        searchInput.blur();
+    }
+}
+
+function closeSearch(event) {
+    if (event.target.id === "searchModal") {
+        toggleSearchModal(false);
+    }
+}
+
+searchInput.addEventListener("input", function (event) {
+    const keyword = event.target.value.trim();
+
+    if (keyword === "") {
+        searchResults.style.display = "none";
+        searchResults.innerHTML = "";
+        return;
+    }
+
+    const keywordLower = keyword.toLowerCase();
+
+const matches = LIBRARY_DATA.filter(book => {
+    const searchableText = `${book.title} ${book.author}`.toLowerCase();
+    return searchableText.includes(keywordLower);
+});
+
+    searchResults.style.display = "block";
+
+    if (matches.length > 0) {
+        searchResults.innerHTML = matches.map(book => `
+            <a href="${book.link}" class="search-item" target="_blank">
+                <span class="search-item-title">${book.title}</span>
+                <span class="search-item-author">${book.author}</span>
+            </a>
+        `).join("");
+    } else {
+        searchResults.innerHTML = `
+            <div style="padding: 25px; text-align: center; color: #A80000; font-weight: bold;">
+                报告：未侦测到相关文献
+            </div>
+        `;
+    }
+});
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        toggleSearchModal(false);
+    }
+});
+    </script>
+</body>
+</html>

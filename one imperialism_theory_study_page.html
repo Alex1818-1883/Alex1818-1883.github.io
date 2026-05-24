@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帝国主义理论</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        header::after {
+            content: "经典文库";
+            display: inline-block;
+            visibility: hidden;
+            pointer-events: none;
+
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.4) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+        .hero {
+            min-height: 58vh;
+            padding: 130px 24px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: #FFFFFF;
+            overflow: visible;
+        }
+
+        .hero-divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 4px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+
+            color: #CC0000;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1;
+
+            overflow: visible;
+
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            display: block;
+            flex: 1;
+
+            height: 4px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .hero-inner {
+            width: min(940px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            color: #DD0000;
+            font-size: 4.3rem;
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 3.5px;
+            margin-bottom: 22px;
+        }
+
+        .hero-lead {
+            width: min(800px, 100%);
+            margin: 0 auto;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+
+            text-align: center;
+        }
+
+        .btn-main,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .btn-main {
+            background-color: #CC0000;
+            color: #FFFFFF;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #CC0000;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-main:hover,
+        .btn-outline:hover {
+            transform: scale(1.05) translateZ(0);
+        }
+
+        .btn-outline:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        .btn-main:hover {
+            background-color: #A80000;
+            border-color: #A80000;
+        }
+
+        .btn-main:active,
+        .btn-outline:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        main {
+            padding: 70px 24px 80px;
+        }
+
+        .study-shell {
+            width: min(980px, 100%);
+            margin: 0 auto;
+        }
+
+        .main-panel {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 64px;
+        }
+
+        .article-section {
+            padding: 24px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .article-section:first-of-type {
+            padding-top: 0;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article-section h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .article-section p {
+            color: #444444;
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        .article-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-red {
+            color: #CC0000;
+            font-weight: 900;
+        }
+
+.quote-line {
+    width: min(820px, 100%);
+    margin: 32px auto;
+    padding: 20px 30px 20px calc(30px + 1em);
+    color: #A80000;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 2;
+    text-align: justify;
+    background-color: #FFF7F7;
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    text-indent: -1em;
+}
+
+        .article-section + .quote-line {
+            margin-top: 56px;
+        }
+
+        .reading-panel {
+            width: min(900px, 100%);
+            margin: 0 auto;
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .reading-head {
+            margin-bottom: 16px;
+        }
+
+        .reading-panel h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .reading-line {
+            width: 100%;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .reading-list {
+            display: grid;
+            gap: 0;
+        }
+
+        .reading-item {
+            padding: 18px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .reading-item:last-child {
+            border-bottom: none;
+        }
+
+        .reading-book {
+            color: #CC0000;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.7;
+            margin-bottom: 4px;
+        }
+
+        .reading-desc {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.85;
+            text-align: justify;
+        }
+
+        .page-actions {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+footer h3 {
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+}
+
+footer h3::selection {
+    background: transparent;
+}
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .hero {
+                min-height: 56vh;
+                padding: 126px 18px 54px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-lead {
+                font-size: 17px;
+                line-height: 1.8;
+                letter-spacing: 1px;
+            }
+
+            main {
+                padding: 52px 18px 64px;
+            }
+
+            .main-panel,
+            .reading-panel {
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .main-panel {
+                border-left-width: 0;
+            }
+
+            .article-section {
+                padding: 20px 0;
+            }
+
+            .article-section h2 {
+                font-size: 22px;
+            }
+
+            .article-section p,
+            .quote-line {
+                font-size: 15px;
+            }
+
+            .quote-line {
+                margin: 26px auto;
+                padding: 17px 20px 17px 24px;
+                border-left-width: 6px;
+                border-radius: 16px;
+            }
+
+            .reading-panel h2 {
+                font-size: 22px;
+            }
+
+            .reading-line {
+                height: 3px;
+            }
+
+            .reading-item {
+                padding: 16px 0;
+            }
+
+            .reading-book {
+                font-size: 16px;
+            }
+
+            .reading-desc {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .btn-main,
+            .btn-outline {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>帝国主义理论</h1>
+        <p class="hero-lead">
+            揭示垄断资本主义和世界体系矛盾的革命理论
+        </p>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<main id="study-start">
+    <div class="study-shell">
+        <section class="main-panel">
+            <div class="quote-line">
+                “帝国主义是资本主义的垄断阶段。”
+            </div>
+
+            <div class="article-section">
+                <h2>帝国主义是垄断资本主义</h2>
+                <p>
+                    帝国主义不是资本主义之外的偶然政策，而是资本主义发展到一定阶段后的必然形态。自由竞争在资本积累和生产集中中不断产生大企业、大银行和垄断组织，最后使资本主义从自由竞争资本主义转入<span class="bold-red">垄断资本主义</span>。
+                </p>
+                <p>
+                    因此，分析帝国主义不能停留在外交冲突、领土争夺或民族仇恨的表面，而要从资本主义生产集中、垄断形成和资本扩张的经济基础出发。帝国主义的根子不在某个国家的道德败坏，而在资本主义本身发展出的垄断关系。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “帝国主义最深厚的经济基础就是垄断。”
+            </div>
+
+            <div class="article-section">
+                <h2>自由竞争走向垄断</h2>
+                <p>
+                    资本主义自由竞争并不会永远保持无数小资本平等竞争的状态。竞争推动资本不断集中和积聚，先进企业吞并落后企业，大资本排挤小资本，最后形成卡特尔、辛迪加、托拉斯等垄断组织。
+                </p>
+                <p>
+                    垄断并没有消灭竞争，而是把竞争提高到更尖锐、更巨大的规模。垄断组织之间、垄断资本同非垄断资本之间、各国垄断集团之间仍然进行斗争，只是这种斗争已经同国家机器、殖民体系、世界市场和战争更紧密地结合在一起。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “银行和工业的融合或混合生长，——这就是金融资本产生的历史和这一概念的内容。”
+            </div>
+
+            <div class="article-section">
+                <h2>金融资本与金融寡头</h2>
+                <p>
+                    在帝国主义阶段，银行不再只是普通的中介机构，而是集中大量资本、控制信贷命脉、支配工业资本的重要力量。银行资本同工业资本相互渗透、相互融合，形成金融资本。
+                </p>
+                <p>
+                    金融资本的集中，必然产生少数金融寡头。它们通过银行、证券、股份公司、债务关系和国家政策控制整个经济生活，使社会财富和政治权力进一步集中在少数垄断集团手中。所谓“市场自由”，在这里已经变成金融寡头支配社会的形式。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “在旧资本主义时期，在自由竞争占完全统治地位的时期，典型的是商品输出。在最新资本主义时期，在垄断占统治地位的时期，典型的是资本输出。”
+            </div>
+
+            <div class="article-section">
+                <h2>资本输出成为突出特征</h2>
+                <p>
+                    帝国主义阶段的资本主义，已经不满足于把商品卖到国外。垄断资本在本国获得巨额积累后，越来越需要把资本输出到利润率更高、劳动力更廉价、资源更丰富、政治控制更便利的地区。
+                </p>
+                <p>
+                    资本输出不是单纯投资行为，而是资本主义世界体系形成的重要机制。贷款、铁路、矿山、港口、工厂和特许权背后，往往伴随着政治压力、军事威胁和国家间的不平等关系。资本输出把资本主义剥削从一国内部扩展到世界范围。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “资本家同盟已经把世界瓜分完了。”
+            </div>
+
+            <div class="article-section">
+                <h2>国际垄断同盟瓜分世界</h2>
+                <p>
+                    垄断资本不仅在国内形成垄断组织，也在国际范围内结成资本家同盟，对原料产地、市场、运输线和投资范围进行瓜分。世界经济不再只是分散商品交换的网络，而越来越成为少数垄断集团争夺和分割的对象。
+                </p>
+                <p>
+                    这种瓜分绝不是和平稳定的。不同垄断集团、不同帝国主义国家之间的力量会随着经济发展而变化，旧的瓜分格局迟早同新的力量对比发生冲突。帝国主义的国际秩序，正是在这种不平衡和重新瓜分的冲动中不断走向危机。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “帝国主义是发展到垄断组织和金融资本的统治已经确立、资本输出具有突出意义、国际托拉斯开始瓜分世界、一些最大的资本主义国家已把世界全部领土瓜分完毕这一阶段的资本主义。”
+            </div>
+
+            <div class="article-section">
+                <h2>世界领土瓜分完毕</h2>
+                <p>
+                    帝国主义阶段的一个重要特征，是主要资本主义强国已经把世界领土基本瓜分完毕。殖民地、半殖民地和势力范围被纳入帝国主义体系，成为原料产地、商品市场、资本输出场所和军事战略支点。
+                </p>
+                <p>
+                    当世界已经被瓜分完毕时，新兴帝国主义国家要扩大势力范围，就不能简单寻找“无主土地”，而只能要求重新瓜分。这就使帝国主义国家之间的矛盾更加尖锐，使世界战争成为资本主义最高阶段的必然危险。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “1914—1918年的战争，从双方来说，都是帝国主义的（即侵略的、掠夺的、强盗的）战争，都是为了瓜分世界，为了瓜分和重新瓜分殖民地、金融资本的‘势力范围’等等而进行的战争。”
+            </div>
+
+            <div class="article-section">
+                <h2>帝国主义战争的阶级本质</h2>
+                <p>
+                    帝国主义战争不能只从外交口号、民族仇恨或国家荣誉来解释。它的真实性质，要从各交战国统治阶级的经济利益和世界瓜分格局中去分析。战争往往是垄断资本重新瓜分市场、殖民地、势力范围和金融控制权的暴力形式。
+                </p>
+                <p>
+                    这也说明，无产阶级不能跟在本国资产阶级后面，以“保卫祖国”的名义为帝国主义利益流血。马克思主义对战争的分析，必须揭示战争背后的阶级内容，把反对帝国主义战争同反对本国资产阶级统治联系起来。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “帝国主义是无产阶级社会革命的前夜。”
+            </div>
+
+            <div class="article-section">
+                <h2>帝国主义与无产阶级革命</h2>
+                <p>
+                    帝国主义把资本主义基本矛盾推向世界范围：垄断和竞争并存，生产社会化和资本私人占有更加尖锐，少数强国同被压迫民族之间的矛盾加深，帝国主义国家之间也不断发生重新瓜分世界的冲突。
+                </p>
+                <p>
+                    正因为帝国主义把资本主义的腐朽性、寄生性和危机性集中表现出来，它也为无产阶级革命和被压迫民族解放斗争创造了新的历史条件。革命不再只是单个国家内部的社会问题，也成为反帝、反殖民、反压迫的世界历史进程。
+                </p>
+            </div>
+        </section>
+
+        <section class="reading-panel" id="reading">
+            <div class="reading-head">
+                <h2>推荐阅读</h2>
+                <div class="reading-line" aria-hidden="true"></div>
+            </div>
+
+            <div class="reading-list">
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《帝国主义是资本主义的最高阶段》</div>
+                    <div class="reading-desc">系统理解垄断、金融资本、资本输出、世界瓜分和帝国主义战争。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《社会主义与战争》</div>
+                    <div class="reading-desc">理解帝国主义战争的阶级性质以及无产阶级的革命立场。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《无产阶级革命和叛徒考茨基》</div>
+                    <div class="reading-desc">理解反对机会主义、社会沙文主义和议会迷信的斗争。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《中国革命和中国共产党》</div>
+                    <div class="reading-desc">理解帝国主义、封建主义和官僚资本主义如何构成半殖民地半封建社会的压迫结构。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《新民主主义论》</div>
+                    <div class="reading-desc">理解被压迫民族革命如何同世界无产阶级社会主义革命相联系。</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-actions">
+            <a href="classics.html" class="btn-outline">经典文库</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <h3>全世界无产者，联合起来！</h3>
+</footer>
+
+</body>
+</html>

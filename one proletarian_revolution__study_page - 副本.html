@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无产阶级革命与专政</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        header::after {
+            content: "经典文库";
+            display: inline-block;
+            visibility: hidden;
+            pointer-events: none;
+
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.4) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+        .hero {
+            min-height: 58vh;
+            padding: 130px 24px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: #FFFFFF;
+            overflow: visible;
+        }
+
+        .hero-divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 4px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+
+            color: #CC0000;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1;
+
+            overflow: visible;
+
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            display: block;
+            flex: 1;
+
+            height: 4px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .hero-inner {
+            width: min(940px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            color: #DD0000;
+            font-size: 4.3rem;
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 3.5px;
+            margin-bottom: 22px;
+        }
+
+        .hero-lead {
+            width: min(800px, 100%);
+            margin: 0 auto;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+
+            text-align: center;
+        }
+
+        .btn-main,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .btn-main {
+            background-color: #CC0000;
+            color: #FFFFFF;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #CC0000;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-main:hover,
+        .btn-outline:hover {
+            transform: scale(1.05) translateZ(0);
+        }
+
+        .btn-outline:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        .btn-main:hover {
+            background-color: #A80000;
+            border-color: #A80000;
+        }
+
+        .btn-main:active,
+        .btn-outline:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        main {
+            padding: 70px 24px 80px;
+        }
+
+        .study-shell {
+            width: min(980px, 100%);
+            margin: 0 auto;
+        }
+
+        .main-panel {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 64px;
+        }
+
+        .article-section {
+            padding: 24px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .article-section:first-of-type {
+            padding-top: 0;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article-section h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .article-section p {
+            color: #444444;
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        .article-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-red {
+            color: #CC0000;
+            font-weight: 900;
+        }
+
+.quote-line {
+    width: min(820px, 100%);
+    margin: 32px auto;
+    padding: 20px 30px 20px calc(30px + 1em);
+    color: #A80000;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 2;
+    text-align: justify;
+    background-color: #FFF7F7;
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    text-indent: -1em;
+}
+
+        .article-section + .quote-line {
+            margin-top: 56px;
+        }
+
+        .reading-panel {
+            width: min(900px, 100%);
+            margin: 0 auto;
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .reading-head {
+            margin-bottom: 16px;
+        }
+
+        .reading-panel h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .reading-line {
+            width: 100%;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .reading-list {
+            display: grid;
+            gap: 0;
+        }
+
+        .reading-item {
+            padding: 18px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .reading-item:last-child {
+            border-bottom: none;
+        }
+
+        .reading-book {
+            color: #CC0000;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.7;
+            margin-bottom: 4px;
+        }
+
+        .reading-desc {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.85;
+            text-align: justify;
+        }
+
+        .page-actions {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+footer h3 {
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+}
+
+footer h3::selection {
+    background: transparent;
+}
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .hero {
+                min-height: 56vh;
+                padding: 126px 18px 54px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-lead {
+                font-size: 17px;
+                line-height: 1.8;
+                letter-spacing: 1px;
+            }
+
+            main {
+                padding: 52px 18px 64px;
+            }
+
+            .main-panel,
+            .reading-panel {
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .main-panel {
+                border-left-width: 0;
+            }
+
+            .article-section {
+                padding: 20px 0;
+            }
+
+            .article-section h2 {
+                font-size: 22px;
+            }
+
+            .article-section p,
+            .quote-line {
+                font-size: 15px;
+            }
+
+            .quote-line {
+                margin: 26px auto;
+                padding: 17px 20px 17px 24px;
+                border-left-width: 6px;
+                border-radius: 16px;
+            }
+
+            .reading-panel h2 {
+                font-size: 22px;
+            }
+
+            .reading-line {
+                height: 3px;
+            }
+
+            .reading-item {
+                padding: 16px 0;
+            }
+
+            .reading-book {
+                font-size: 16px;
+            }
+
+            .reading-desc {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .btn-main,
+            .btn-outline {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>无产阶级革命与专政</h1>
+        <p class="hero-lead">
+            夺取政权、打碎旧国家机器并建立新型国家的革命理论
+        </p>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<main id="study-start">
+    <div class="study-shell">
+        <section class="main-panel">
+            <div class="quote-line">
+                “工人阶级不能简单地掌握现成的国家机器，并运用它来达到自己的目的。”
+            </div>
+
+            <div class="article-section">
+                <h2>必须打碎旧国家机器</h2>
+                <p>
+                    无产阶级革命不是把旧国家机器原封不动地接收过来，然后换一个阶级名称继续使用。旧国家机器是在资产阶级统治、官僚制度、常备军、警察、法院和行政机关中形成的，它的结构本身就是为了维护旧的生产关系和阶级压迫。
+                </p>
+                <p>
+                    因此，无产阶级夺取政权，不能停留在议会多数或政府更替上，而必须打碎资产阶级国家机器，建立能够镇压剥削阶级反抗、组织群众参加管理、改造旧社会关系的新型国家权力。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “革命的根本问题是国家政权问题。”
+            </div>
+
+            <div class="article-section">
+                <h2>革命的中心是政权问题</h2>
+                <p>
+                    革命不是单纯的思想宣传，也不是一般的社会改革。只要国家政权仍然掌握在剥削阶级手中，旧制度就仍然拥有军队、警察、财政、司法和行政体系，能够不断把群众斗争限制、吸收或镇压下去。
+                </p>
+                <p>
+                    无产阶级革命必须把夺取政权作为中心问题，把分散的经济斗争、政治斗争和思想斗争提高到推翻旧统治、建立新权力的高度。离开政权问题，革命就会退化为改良主义、议会幻想或自发抗议。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “从资本主义社会到共产主义社会之间，有一个从前者变为后者的革命转变时期。同这个时期相适应的也有一个政治上的过渡时期，这个时期的国家只能是无产阶级的革命专政。”
+            </div>
+
+            <div class="article-section">
+                <h2>无产阶级专政是过渡时期的国家形式</h2>
+                <p>
+                    无产阶级专政不是抽象的强权崇拜，而是资本主义向共产主义过渡时期的阶级国家形式。在旧社会刚被推翻以后，剥削阶级不会自动消失，旧思想、旧关系、旧习惯和旧权力网络也不会立刻消灭。
+                </p>
+                <p>
+                    因此，过渡时期需要无产阶级掌握国家权力，对被推翻的剥削阶级实行专政，同时对广大劳动群众实行最广泛的民主。它的历史任务，是镇压复辟力量，改造生产关系，扩大群众管理，并为国家最终消亡创造条件。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “国家是阶级矛盾不可调和的产物和表现。”
+            </div>
+
+            <div class="article-section">
+                <h2>专政不是超阶级国家</h2>
+                <p>
+                    马克思主义从来不把国家看成超阶级的公共工具。任何阶级社会中的国家，都是一定阶级统治的机关。资产阶级国家以“全民国家”的形式出现，实际上保护资本关系、私有财产和资产阶级秩序。
+                </p>
+                <p>
+                    无产阶级专政的不同之处在于，它不是少数人压迫多数人的工具，而是多数劳动群众镇压少数剥削者、改造旧社会的工具。它公开承认阶级斗争没有随着夺取政权而结束，并把国家权力用于推动阶级消灭的历史过程。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “巴黎公社已经不再是原来意义上的国家了。”
+            </div>
+
+            <div class="article-section">
+                <h2>巴黎公社与新型政权</h2>
+                <p>
+                    巴黎公社给无产阶级革命提供了新型国家的历史经验。它废除常备军，以人民武装代替；公职人员由选举产生并可以随时撤换；公职人员工资限制在普通工人工资水平；立法和行政不再成为脱离群众的特权机关。
+                </p>
+                <p>
+                    这些原则表明，无产阶级专政不是复制旧官僚国家，而是要用群众能够监督、参与和撤换的新型权力机构代替旧国家机器。它的方向不是巩固官僚特权，而是削弱脱离群众的特殊权力。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “只有承认阶级斗争，同时也承认无产阶级专政的人，才是马克思主义者。”
+            </div>
+
+            <div class="article-section">
+                <h2>反对改良主义和议会幻想</h2>
+                <p>
+                    只承认阶级斗争而否认无产阶级专政，实际上就是把阶级斗争限制在资本主义制度允许的范围内。改良主义和议会主义往往承认社会不平等，却否认必须打碎旧国家机器，否认无产阶级必须建立自己的阶级政权。
+                </p>
+                <p>
+                    马克思主义同各种机会主义的分界，集中体现在国家和革命问题上。无产阶级不能把解放希望寄托在资产阶级议会、合法主义形式或统治阶级施舍上，而必须依靠群众斗争和革命组织夺取并改造政权。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “凡是反动的东西，你不打，它就不倒。”
+            </div>
+
+            <div class="article-section">
+                <h2>革命需要主动的阶级斗争</h2>
+                <p>
+                    旧统治不会因为道义批判而自动退出历史舞台。剥削阶级掌握经济资源、暴力机关、意识形态和社会关系，它们会用各种形式维持自身统治，并在必要时采取公开暴力镇压群众。
+                </p>
+                <p>
+                    因此，无产阶级革命不能停留在等待危机自动成熟上，而必须在群众中开展政治斗争、组织斗争和思想斗争。只有把群众发动起来、组织起来，才能把分散的不满转化为推翻旧秩序的现实力量。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “无产阶级文化大革命，只能是群众自己解放自己。”
+            </div>
+
+            <div class="article-section">
+                <h2>继续革命与防止复辟</h2>
+                <p>
+                    无产阶级夺取政权以后，阶级斗争并不会立刻消失。旧社会留下的生产关系、等级分工、官僚主义、资产阶级法权和思想习惯，仍然可能成为资本主义复辟的土壤。专政不仅要对外镇压反革命，也要在内部防止新特权和新资产阶级形成。
+                </p>
+                <p>
+                    继续革命的意义，就在于把群众监督、群众批判和群众参与管理推进到社会主义建设过程中，使无产阶级专政不变成脱离群众的官僚统治。它要求在政治、经济、文化和思想领域继续破除旧关系，为更高形式的劳动者民主和社会解放创造条件。
+                </p>
+            </div>
+        </section>
+
+        <section class="reading-panel" id="reading">
+            <div class="reading-head">
+                <h2>推荐阅读</h2>
+                <div class="reading-line" aria-hidden="true"></div>
+            </div>
+
+            <div class="reading-list">
+                <div class="reading-item">
+                    <div class="reading-book">马克思：《法兰西内战》</div>
+                    <div class="reading-desc">理解巴黎公社和无产阶级新型政权的基本原则。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">马克思：《哥达纲领批判》</div>
+                    <div class="reading-desc">理解资本主义到共产主义过渡时期和无产阶级革命专政。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《国家与革命》</div>
+                    <div class="reading-desc">系统理解国家的阶级性质、打碎旧国家机器和无产阶级专政。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《无产阶级革命和叛徒考茨基》</div>
+                    <div class="reading-desc">理解马克思主义同改良主义、议会迷信和机会主义的斗争。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《论人民民主专政》</div>
+                    <div class="reading-desc">理解中国革命胜利后新型国家政权的阶级基础和历史任务。</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-actions">
+            <a href="classics.html" class="btn-outline">经典文库</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <h3>全世界无产者，联合起来！</h3>
+</footer>
+
+</body>
+</html>

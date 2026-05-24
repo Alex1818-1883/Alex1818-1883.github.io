@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无产阶级专政下继续革命</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        header::after {
+            content: "经典文库";
+            display: inline-block;
+            visibility: hidden;
+            pointer-events: none;
+
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.4) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+        .hero {
+            min-height: 58vh;
+            padding: 130px 24px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: #FFFFFF;
+            overflow: visible;
+        }
+
+        .hero-divider {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 4px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+
+            color: #CC0000;
+            font-size: 48px;
+            font-weight: 900;
+            line-height: 1;
+
+            overflow: visible;
+
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            display: block;
+            flex: 1;
+
+            height: 4px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .hero-inner {
+            width: min(940px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            color: #DD0000;
+            font-size: 4.3rem;
+            font-weight: 900;
+            line-height: 1.25;
+            letter-spacing: 3.5px;
+            margin-bottom: 22px;
+        }
+
+        .hero-lead {
+            width: min(800px, 100%);
+            margin: 0 auto;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+
+            text-align: center;
+        }
+
+        .btn-main,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .btn-main {
+            background-color: #CC0000;
+            color: #FFFFFF;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #CC0000;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-main:hover,
+        .btn-outline:hover {
+            transform: scale(1.05) translateZ(0);
+        }
+
+        .btn-outline:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        .btn-main:hover {
+            background-color: #A80000;
+            border-color: #A80000;
+        }
+
+        .btn-main:active,
+        .btn-outline:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        main {
+            padding: 70px 24px 80px;
+        }
+
+        .study-shell {
+            width: min(980px, 100%);
+            margin: 0 auto;
+        }
+
+        .main-panel {
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 0;
+            margin-bottom: 64px;
+        }
+
+        .article-section {
+            padding: 24px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .article-section:first-of-type {
+            padding-top: 0;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article-section h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .article-section p {
+            color: #444444;
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        .article-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-red {
+            color: #CC0000;
+            font-weight: 900;
+        }
+
+.quote-line {
+    width: min(820px, 100%);
+    margin: 32px auto;
+    padding: 20px 30px 20px calc(30px + 1em);
+    color: #A80000;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 2;
+    text-align: justify;
+    background-color: #FFF7F7;
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    text-indent: -1em;
+}
+
+        .article-section + .quote-line {
+            margin-top: 56px;
+        }
+
+        .reading-panel {
+            width: min(900px, 100%);
+            margin: 0 auto;
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .reading-head {
+            margin-bottom: 16px;
+        }
+
+        .reading-panel h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-align: left;
+            margin-bottom: 12px;
+        }
+
+        .reading-line {
+            width: 100%;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .reading-list {
+            display: grid;
+            gap: 0;
+        }
+
+        .reading-item {
+            padding: 18px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .reading-item:last-child {
+            border-bottom: none;
+        }
+
+        .reading-book {
+            color: #CC0000;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1.7;
+            margin-bottom: 4px;
+        }
+
+        .reading-desc {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.85;
+            text-align: justify;
+        }
+
+        .page-actions {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+footer h3 {
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+}
+
+footer h3::selection {
+    background: transparent;
+}
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .hero {
+                min-height: 56vh;
+                padding: 126px 18px 54px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-lead {
+                font-size: 17px;
+                line-height: 1.8;
+                letter-spacing: 1px;
+            }
+
+            main {
+                padding: 52px 18px 64px;
+            }
+
+            .main-panel,
+            .reading-panel {
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .main-panel {
+                border-left-width: 0;
+            }
+
+            .article-section {
+                padding: 20px 0;
+            }
+
+            .article-section h2 {
+                font-size: 22px;
+            }
+
+            .article-section p,
+            .quote-line {
+                font-size: 15px;
+            }
+
+            .quote-line {
+                margin: 26px auto;
+                padding: 17px 20px 17px 24px;
+                border-left-width: 6px;
+                border-radius: 16px;
+            }
+
+            .reading-panel h2 {
+                font-size: 22px;
+            }
+
+            .reading-line {
+                height: 3px;
+            }
+
+            .reading-item {
+                padding: 16px 0;
+            }
+
+            .reading-book {
+                font-size: 16px;
+            }
+
+            .reading-desc {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .btn-main,
+            .btn-outline {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>无产阶级专政下继续革命</h1>
+        <p class="hero-lead">
+            防止资本主义复辟、改造上层建筑并推进社会主义前进的理论
+        </p>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<main id="study-start">
+    <div class="study-shell">
+        <section class="main-panel">
+            <div class="quote-line">
+                “在社会主义这个历史阶段中，还存在着阶级、阶级矛盾和阶级斗争，存在着社会主义同资本主义两条道路的斗争，存在着资本主义复辟的危险性。”
+            </div>
+
+            <div class="article-section">
+                <h2>社会主义社会仍然存在阶级斗争</h2>
+                <p>
+                    无产阶级夺取政权并建立社会主义制度以后，阶级斗争并不会自动消失。旧社会遗留下来的生产关系、思想习惯、等级分工、资产阶级法权和社会差别，仍然会在新的条件下继续发生作用。
+                </p>
+                <p>
+                    继续革命理论的出发点，正是反对把社会主义看成没有矛盾、没有阶级斗争、没有复辟危险的静止状态。社会主义是一个过渡时期，既有共产主义因素，也残留着旧社会因素；两条道路的斗争贯穿其中。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “千万不要忘记阶级斗争。”
+            </div>
+
+            <div class="article-section">
+                <h2>反对阶级斗争熄灭论</h2>
+                <p>
+                    如果认为社会主义胜利以后阶级斗争已经结束，就会放松对资本主义复辟危险的警惕，把官僚主义、特权化、利润挂帅和资产阶级思想看成普通管理问题，而不是路线和阶级问题。
+                </p>
+                <p>
+                    阶级斗争熄灭论的危险在于，它会掩盖新旧社会关系之间的斗争，使群众失去监督权和批判权，使党和国家机关内部可能滋长脱离群众的新特权层。继续革命要求从阶级关系和路线斗争中认识这些问题。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “修正主义上台，也就是资产阶级上台。”
+            </div>
+
+            <div class="article-section">
+                <h2>修正主义与资本主义复辟</h2>
+                <p>
+                    修正主义不是简单的理论错误，而是在社会主义条件下用资产阶级路线改造社会主义制度的政治倾向。它可能打着马克思主义、生产发展、秩序稳定或现代化的旗号，实际把利润、等级、特权和商品关系重新放在支配地位。
+                </p>
+                <p>
+                    一旦修正主义掌握领导权，无产阶级专政就可能被改变性质，社会主义公有制和群众政治权力也可能被逐步瓦解。继续革命理论强调，反对资本主义复辟，必须反对政治路线上的修正主义。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “共产党内走资本主义道路的当权派。”
+            </div>
+
+            <div class="article-section">
+                <h2>识别走资派问题</h2>
+                <p>
+                    社会主义条件下，资产阶级力量并不只存在于社会外部，也可能通过党和国家机关内部的权力、管理、分配和意识形态关系表现出来。掌握一定权力的人，如果推行资本主义路线，就会成为复辟力量的重要代表。
+                </p>
+                <p>
+                    继续革命理论把问题推进到政治权力和路线斗争层面：关键不只是有没有公有制名义，而是谁掌握权力、为谁服务、按什么路线组织生产和分配、群众能不能监督和批判掌权者。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “无产阶级文化大革命，只能是群众自己解放自己。”
+            </div>
+
+            <div class="article-section">
+                <h2>群众监督与群众解放</h2>
+                <p>
+                    继续革命不能靠少数领导人自上而下替群众完成，也不能靠官僚机构内部自我修补。要防止新的特权和新的资产阶级形成，必须依靠群众监督权、批判权和参与管理的权利。
+                </p>
+                <p>
+                    群众自己解放自己，意味着劳动群众不仅是生产者和被管理者，更应成为社会主义社会的主人。只有发动群众揭露和批判脱离群众的特权关系，才能使无产阶级专政保持群众基础和革命方向。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “斗私，批修。”
+            </div>
+
+            <div class="article-section">
+                <h2>思想改造与路线斗争</h2>
+                <p>
+                    继续革命不仅是制度和权力问题，也是思想和文化问题。旧社会遗留下来的私有观念、等级观念、名利思想、个人主义和崇拜权威的习惯，会在社会主义条件下继续影响人们的行为。
+                </p>
+                <p>
+                    思想改造不能变成空洞道德说教，而要同批判修正主义路线、改造社会关系、反对特权和扩大群众民主结合起来。只有把思想斗争同现实制度和阶级关系联系起来，才能避免把继续革命降低为个人修养问题。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “要斗私，批修；要在斗私批修中改造自己的世界观。”
+            </div>
+
+            <div class="article-section">
+                <h2>改造世界观不是脱离实践</h2>
+                <p>
+                    社会主义建设中的干部、党员和群众，都处在旧思想和新思想的斗争之中。世界观改造不是关起门来自我反省，而是在阶级斗争、生产斗争和科学实验中不断检验自己的立场和路线。
+                </p>
+                <p>
+                    对共产党人来说，关键是是否真正站在无产阶级和劳动群众一边，是否反对特权、反对官僚主义、反对用资本主义办法解决社会主义问题。世界观改造必须落实到实际路线和实际工作中。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “人民，只有人民，才是创造世界历史的动力。”
+            </div>
+
+            <div class="article-section">
+                <h2>依靠群众防止复辟</h2>
+                <p>
+                    防止资本主义复辟，不能只依靠国家机关和少数干部的自我约束。真正能够监督权力、揭露问题、推动路线斗争深入发展的，是广大劳动群众的实践和创造。
+                </p>
+                <p>
+                    继续革命理论强调，要把群众组织起来，使群众能够参加政治生活、管理生产、监督干部、批判错误路线。社会主义如果脱离群众，就会失去自身最深厚的力量源泉，并为官僚化和资本主义复辟打开道路。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “破字当头，立在其中。”
+            </div>
+
+            <div class="article-section">
+                <h2>破除旧关系与建立新关系</h2>
+                <p>
+                    继续革命不是单纯破坏，也不是停留在口号上的激进姿态。它要破除的是旧社会遗留下来的压迫关系、特权关系、等级秩序和资产阶级思想，同时在斗争中建立新的群众关系、新的管理方式和新的社会主义文化。
+                </p>
+                <p>
+                    “破”和“立”必须统一。只破不立，会造成混乱；只立不破，则会把旧关系包裹在新名义之下。继续革命的意义，是在破除资本主义复辟条件的同时，推进劳动群众对社会生活的实际掌握。
+                </p>
+            </div>
+
+            <div class="quote-line">
+                “造反有理。”
+            </div>
+
+            <div class="article-section">
+                <h2>反对压制群众批判</h2>
+                <p>
+                    在社会主义社会中，如果群众对官僚主义、特权化和错误路线的批判被压制，党和国家机关就可能逐渐脱离群众，形成新的等级和新的压迫。继续革命强调，群众对错误路线和不合理权力关系的批判具有正当性。
+                </p>
+                <p>
+                    这里的“造反”，不是无原则的个人破坏，而是劳动群众反对压迫、反对修正主义、反对走资本主义道路的革命批判。它必须同无产阶级政治方向、群众利益和社会主义前途结合起来。
+                </p>
+            </div>
+        </section>
+
+        <section class="reading-panel" id="reading">
+            <div class="reading-head">
+                <h2>推荐阅读</h2>
+                <div class="reading-line" aria-hidden="true"></div>
+            </div>
+
+            <div class="reading-list">
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《关于正确处理人民内部矛盾的问题》</div>
+                    <div class="reading-desc">理解社会主义社会仍然存在矛盾、阶级斗争和思想斗争的问题。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《在中国共产党全国宣传工作会议上的讲话》</div>
+                    <div class="reading-desc">理解意识形态领域斗争、人民内部矛盾和社会主义教育问题。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">毛泽东：《论十大关系》</div>
+                    <div class="reading-desc">理解社会主义建设中各类矛盾的处理，以及反对照搬和官僚主义倾向。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">列宁：《国家与革命》</div>
+                    <div class="reading-desc">理解无产阶级专政、国家消亡和过渡时期继续阶级斗争的理论基础。</div>
+                </div>
+
+                <div class="reading-item">
+                    <div class="reading-book">马克思：《哥达纲领批判》</div>
+                    <div class="reading-desc">理解共产主义第一阶段仍然带有旧社会痕迹，必须继续向更高阶段过渡。</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-actions">
+            <a href="classics.html" class="btn-outline">经典文库</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <h3>全世界无产者，联合起来！</h3>
+</footer>
+
+</body>
+</html>

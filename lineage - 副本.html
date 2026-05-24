@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>革命理论斗争与发展 - 马列毛主义研习社</title>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+}
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #FFFFFF;
+            color: #A80000;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+             left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.3) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+header::after {
+    content: "返回主页";
+    display: inline-block;
+    visibility: hidden;
+    pointer-events: none;
+
+    color: #CC0000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 8px 22px;
+    border: 2px solid #CC0000;
+    border-radius: 30px;
+
+    transform: scale(1) translateZ(0);
+}
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px 22px;
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        background-color 0.3s ease,
+                        color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FFFFFF;
+            background-color: #CC0000;
+            transform: scale(1.1) translateY(-3px) translateZ(0);
+        }
+
+        .nav-links a:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+ .hero {
+    min-height: 420px;
+    padding: 96px 20px 58px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    background-color: #FFFFFF;
+
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) translateZ(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateZ(0);
+    }
+}
+
+@keyframes signatureReveal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.10;
+    }
+}
+
+@keyframes lineFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 3px;
+
+    background-color: #CC0000;
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+
+    animation: lineFadeIn 1s ease-out 1.15s forwards;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+transform: translate(-50%, -50%) translateZ(0);
+
+    width: 980px;
+    height: 300px;
+
+    background-image: url("Karl_Marx_signature_(red_version).svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+
+    animation: signatureReveal 1.5s ease-out 0.15s forwards;
+will-change: opacity;
+}
+
+.hero h1 {
+    color: #DD0000;
+    font-size: 3.4rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+
+    position: relative;
+    z-index: 1;
+
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.25s forwards;
+    will-change: transform, opacity;
+}
+
+.hero-keywords {
+    color: #A80000;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.8;
+
+    position: relative;
+    z-index: 1;
+
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.5s forwards;
+    will-change: transform, opacity;
+}
+
+        .content {
+            max-width: 1040px;
+            margin: 76px auto 100px;
+            padding: 0 24px;
+        }
+
+       .axis {
+    margin-bottom: 92px;
+
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 0.75s forwards;
+    will-change: transform, opacity;
+}
+
+        .axis-title {
+            color: #CC0000;
+            font-size: 31px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-align: center;
+            margin-bottom: 34px;
+        }
+
+        .axis-line {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 2px solid #CC0000;
+            border-radius: 999px;
+            overflow: hidden;
+            background-color: #FFFFFF;
+            margin-bottom: 34px;
+        }
+
+        .axis-node {
+            padding: 18px 16px;
+            text-align: center;
+            color: #CC0000;
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            border-right: 2px solid #CC0000;
+        }
+
+        .axis-node:last-child {
+            border-right: none;
+        }
+
+        .axis-node strong {
+            display: block;
+            color: #A80000;
+            font-size: 13px;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .axis-text {
+            color: #555555;
+            font-size: 16px;
+            line-height: 2;
+            text-align: justify;
+            max-width: 940px;
+            margin: 0 auto;
+   transform: translateY(14px);
+        }
+
+        .axis-text strong {
+            color: #A80000;
+            font-weight: 900;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            color: #CC0000;
+            font-size: 36px;
+            line-height: 1;
+            margin: 82px 0 70px;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: "";
+            display: block;
+            flex: 1;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .theory-section {
+            margin-bottom: 86px;
+        }
+
+        .section-head {
+            margin-bottom: 28px;
+        }
+
+        .section-label {
+            color: #A80000;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            color: #CC0000;
+            font-size: 33px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .title-line {
+            width: 100%;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .section-subtitle {
+            color: #A80000;
+            font-size: 19px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            margin: 26px 0 24px;
+        }
+
+        .section-body p {
+            color: #555555;
+            font-size: 16px;
+            line-height: 1.95;
+            text-align: justify;
+            margin-bottom: 18px;
+        }
+
+        .section-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-body strong {
+            color: #A80000;
+            font-weight: 900;
+        }
+
+        .route-strip {
+            margin-top: 34px;
+            border-top: 2px dashed #FFCCCC;
+        }
+
+.route-row {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 2px dashed #FFCCCC;
+
+    align-items: center;
+}
+
+.route-name {
+    color: #CC0000;
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.35;
+
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 118px;
+    padding: 8px 20px;
+
+    border: 2px solid transparent;
+    border-radius: 999px;
+
+    cursor: pointer;
+    user-select: none;
+    text-align: center;
+white-space: nowrap;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.route-name:hover {
+    color: #FFFFFF;
+    background-color: #CC0000;
+    border-color: #CC0000;
+}
+
+
+.route-name:focus-visible {
+    outline: 3px solid rgba(204, 0, 0, 0.22);
+    outline-offset: 4px;
+}
+
+.route-content {
+    min-width: 0;
+}
+
+.route-type {
+    display: inline-block;
+    color: #CC0000;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin-bottom: 9px;
+}
+
+.route-text {
+    color: #555555;
+    font-size: 16px;
+    line-height: 1.95;
+    text-align: justify;
+    font-weight: 400;
+}
+
+.route-text strong {
+    color: #CC0000;
+    font-weight: 900;
+}
+
+.profile-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.48);
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.profile-modal.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.profile-panel {
+    width: min(700px, 100%);
+    max-height: 82vh;
+    overflow-y: auto;
+
+    background-color: #FFFFFF;
+
+border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    box-shadow: none;
+
+    padding: 34px 38px 32px 42px;
+    position: relative;
+}
+
+
+
+
+.profile-title {
+    color: #CC0000;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    padding-right: 48px;
+}
+
+.profile-close {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    top: 26px;
+    right: 28px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 34px;
+    height: 34px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: transparent;
+    color: #CC0000;
+
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+
+    touch-action: manipulation;
+
+    outline: none;
+    box-shadow: none;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.profile-close:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+}
+
+.profile-close:focus,
+.profile-close:focus-visible,
+.profile-close:active {
+    outline: none;
+    box-shadow: none;
+}
+
+.profile-close::selection {
+    background: transparent;
+}
+
+
+.profile-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+
+    width: 100%;
+    margin: 4px 0 24px;
+}
+
+.profile-line span {
+    flex: 1;
+    height: 3px;
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+.profile-line strong {
+    color: #CC0000;
+    font-size: 36px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.profile-text p {
+    color: #555555;
+    font-size: 16px;
+    line-height: 2;
+    text-align: justify;
+    margin-bottom: 16px;
+}
+
+.profile-text p:last-child {
+    margin-bottom: 0;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+
+
+.theory-end-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    margin: 100px 0 44px;
+
+    pointer-events: none;
+    user-select: none;
+}
+
+.theory-end-divider span {
+    flex: 1;
+    height: 3px;
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+.theory-end-divider img {
+    width: 92px;
+    height: auto;
+    display: block;
+}
+
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        footer h3 {
+            font-size: 26px;
+            color: #FFFFFF;
+            letter-spacing: 4px;
+        }
+
+/* === 交互元素禁止选中：电脑端 + 手机端 === */
+.logo,
+.logo *,
+.route-name,
+.route-name *,
+.profile-close,
+.profile-close *,
+footer h3 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    -webkit-user-drag: none;
+}
+
+/* 防止拖选时出现蓝底高亮 */
+.logo::selection,
+.logo *::selection,
+.route-name::selection,
+.route-name *::selection,
+.profile-close::selection,
+.profile-close *::selection,
+footer h3::selection {
+    background: transparent;
+}
+
+
+
+        @media (max-width: 850px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero {
+                min-height: 360px;
+                padding-top: 96px;
+            }
+
+            .hero h1 {
+                font-size: 2.4rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 18px;
+                text-align: justify;
+            }
+
+            .axis-line {
+                grid-template-columns: 1fr;
+                border-radius: 24px;
+            }
+
+            .axis-node {
+                border-right: none;
+                border-bottom: 2px solid #CC0000;
+            }
+
+            .axis-node:last-child {
+                border-bottom: none;
+            }
+
+            .route-row {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+.route-name {
+    font-size: 22px;
+    text-align: left;
+    justify-self: start;
+    min-width: 0;
+    padding: 6px 14px;
+    margin-left: -14px;
+}
+        }
+
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 22px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                padding: 7px 18px;
+            }
+
+.profile-panel {
+    padding: 30px 22px 26px 26px;
+    border-radius: 18px;
+    border-left-width: 6px;
+}
+
+.profile-title {
+    font-size: 27px;
+}
+
+
+
+.profile-text p {
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.profile-close {
+    top: 24px;
+    right: 18px;
+
+    width: 32px;
+    height: 32px;
+
+    font-size: 22px;
+}
+
+.profile-title {
+    padding-right: 42px;
+}
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+header::after {
+    font-size: 16px;
+    padding: 7px 18px;
+}
+
+ 
+ .hero-keywords {
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+
+.hero::before {
+    width: 520px;
+    height: 180px;
+    top: 50%;
+    bottom: auto;
+}
+
+.theory-end-divider {
+    gap: 12px;
+    margin: 72px 0 34px;
+}
+
+.theory-end-divider img {
+    width: 64px;
+}
+
+.theory-end-divider span {
+    height: 3px;
+}
+
+            .content {
+                margin-top: 56px;
+                padding: 0 18px;
+            }
+
+       .axis-title,
+.section-title {
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+
+            .theory-section {
+                margin-bottom: 68px;
+            }
+
+            .section-label {
+                letter-spacing: 3px;
+            }
+
+            .section-subtitle {
+                font-size: 16px;
+            }
+
+            .section-divider {
+                gap: 12px;
+                font-size: 32px;
+                margin: 70px 0 56px;
+            }
+
+   
+            footer h3 {
+                font-size: 20px;
+            }
+.route-name {
+    font-size: 22px;
+    text-align: left;
+}
+
+.route-type {
+    font-size: 16px;
+}
+
+.route-text {
+    font-size: 15px;
+    line-height: 1.9;
+}
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+</header>
+
+<section class="hero">
+
+   <h1>革命理论的斗争与发展</h1>
+
+<div class="hero-keywords">
+“理论一经掌握群众，也会变成物质力量。”
+</div>
+</section>
+
+<main class="content">
+
+    <section class="axis">
+        <h2 class="axis-title">马列毛主义发展主轴</h2>
+
+        <div class="axis-line">
+            <div class="axis-node">
+                <strong>MARXISM</strong>
+                资本主义批判
+            </div>
+            <div class="axis-node">
+                <strong>LENINISM</strong>
+                帝国主义时代革命
+            </div>
+            <div class="axis-node">
+                <strong>MAOISM</strong>
+                社会主义继续革命
+            </div>
+        </div>
+
+        <p class="axis-text">
+            不是抽象的思想继承，而是无产阶级在不同历史条件下对现实矛盾的回答。马克思主义揭示资本主义生产关系和阶级统治的根源；列宁主义回答帝国主义时代如何组织革命、夺取政权和建立无产阶级专政；毛主义则把问题推进到半殖民地半封建社会的革命道路，以及社会主义条件下怎样防止修正主义和资本主义复辟。
+        </p>
+    </section>
+
+    <div class="section-divider" aria-hidden="true">★</div>
+
+<section class="theory-section">
+    <div class="section-head">
+        <div class="section-label">FORMATION</div>
+        <h2 class="section-title">从唯心主义批判到历史唯物主义</h2>
+        <div class="title-line"></div>
+    </div>
+
+    <div class="section-body">
+        <div class="section-subtitle">马克思主义不是从抽象观念出发，而是从现实的社会关系和物质生产出发</div>
+
+        <p>
+            马克思主义的形成，首先是在德国哲学内部完成一次根本断裂。青年黑格尔派把批判停留在意识、宗教和观念领域，费尔巴哈虽然批判了宗教和唯心主义，却仍然把人理解为抽象的人。马克思和恩格斯的突破在于，把问题从观念批判推进到现实社会关系、物质生产和阶级斗争之中。
+        </p>
+
+        <p>
+            历史唯物主义由此产生：不是意识决定存在，而是现实的社会存在决定意识；不是抽象的人创造历史，而是处在一定生产关系和阶级关系中的群众创造历史。理论必须从现实矛盾出发，才能成为改造世界的武器。
+        </p>
+
+        <div class="route-strip">
+    <div class="route-row">
+        <div class="route-name">
+            黑格尔
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">唯心辩证法</div>
+            <div class="route-text">
+                黑格尔的辩证法揭示了矛盾、运动和发展的思想形式，但它仍然把历史运动最终归结为绝对精神的发展。马克思主义批判地改造辩证法，把它从唯心主义中解放出来，转向现实的物质生产和阶级关系。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            青年黑格尔派
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">狭隘观念批判</div>
+            <div class="route-text">
+                青年黑格尔派把批判集中在宗教、意识和思想形式上，似乎只要批判旧观念，社会就能获得解放。马克思主义则指出，观念的根源在现实社会关系之中，必须批判并改造产生这些观念的物质基础。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            鲍威尔
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">自我意识哲学</div>
+            <div class="route-text">
+                鲍威尔把解放理解为少数批判者的自我意识活动，把群众看成被动对象。马克思主义反对这种精英式观念批判，强调真正的历史主体不是孤立的批判家，而是现实阶级斗争中的人民群众。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            费尔巴哈
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">旧唯物主义</div>
+            <div class="route-text">
+                费尔巴哈批判宗教和唯心主义，把哲学拉回感性的人，但他仍然停留在抽象的人和直观的唯物主义上，没有把人放进生产关系、阶级关系和革命实践之中。马克思主义由此推进到实践的、历史的唯物主义。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            马克思、恩格斯
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">历史唯物主义</div>
+            <div class="route-text">
+                马克思和恩格斯把哲学批判从观念领域推进到现实历史过程，揭示社会存在决定社会意识，生产力和生产关系的矛盾推动社会发展，阶级斗争是阶级社会历史运动的直接动力。
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+    <section class="theory-section">
+        <div class="section-head">
+            <div class="section-label">SOCIALISM</div>
+            <h2 class="section-title">从资本主义批判到科学社会主义</h2>
+            <div class="title-line"></div>
+        </div>
+
+        <div class="section-body">
+            <div class="section-subtitle">马克思主义不是道德控诉，而是对资本主义生产关系的科学批判</div>
+
+            <p>
+                马克思和恩格斯的理论贡献，不在于一般地同情穷人，而在于揭示资本主义社会的秘密：资本不是单纯的财富，而是一种支配劳动、榨取剩余劳动并不断扩大自身的社会关系。无产阶级不是资本主义外部的受害者，而是资本主义自身生产出来的革命阶级。
+            </p>
+
+            <p>
+                因此，马克思主义从一开始就同空想社会主义、小资产阶级社会主义划清界限。它不把解放寄托在仁慈改革、合作实验或道德劝说上，而是把社会变革建立在阶级斗争、生产关系变革和无产阶级自我解放之上。
+            </p>
+
+       <div class="route-strip">
+    <div class="route-row">
+        <div class="route-name">
+            马克思、恩格斯
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">科学社会主义</div>
+            <div class="route-text">
+                以历史唯物主义、剩余价值学说和阶级斗争理论为基础，使社会主义成为无产阶级认识和改造世界的科学武器。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            蒲鲁东
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">小资产阶级社会主义</div>
+            <div class="route-text">
+                批判资本主义，却幻想保留商品交换、小生产和私有形式来消除剥削，其局限在于不触及资本主义生产关系本身。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            拉萨尔
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">国家社会主义</div>
+            <div class="route-text">
+                把工人解放寄托在国家援助和合法组织上，模糊国家的阶级性质。马克思主义则强调国家是阶级统治机器。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            欧根·杜林
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">折衷主义</div>
+            <div class="route-text">
+                杜林把社会主义包装成一套脱离历史唯物主义和阶级斗争的抽象体系，企图用主观道德、平等观念和个人体系取代马克思主义。
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    </section>
+
+    <section class="theory-section">
+        <div class="section-head">
+            <div class="section-label">ORGANIZATION</div>
+            <h2 class="section-title">同无政府主义的分裂</h2>
+            <div class="title-line"></div>
+        </div>
+
+        <div class="section-body">
+            <div class="section-subtitle">第一国际的斗争集中表现为政党、国家和革命组织问题</div>
+
+            <p>
+                第一国际时期，问题不只是工人阶级是否联合，而是工人阶级如何组织自身、如何夺取政治权力。马克思主义强调阶级政党、政治斗争和无产阶级政权；无政府主义则幻想绕开国家和政党，直接通过自发暴动废除一切权力形式。
+            </p>
+
+            <p>
+                巴枯宁主义看似激进，实际上回避了最根本的问题：旧统治阶级如何被打倒，革命胜利后如何保卫新政权，群众如何在新的政治形式中组织起来。没有组织、纪律和政权问题，激进口号只能停留在情绪爆发。
+            </p>
+
+  <div class="route-strip">
+    <div class="route-row">
+        <div class="route-name">
+            施蒂纳
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">个人无政府主义</div>
+            <div class="route-text">
+                施蒂纳把个人的绝对自我放在社会关系和阶级关系之上，最终把解放理解为孤立个人对一切共同形式的拒绝。马克思主义则强调，人不是抽象孤立的个人，而是处在现实生产关系和阶级关系之中的社会存在。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            巴枯宁
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">集体无政府主义</div>
+            <div class="route-text">
+                巴枯宁反对国家，也反对无产阶级政党和集中组织，幻想通过自发暴动直接废除一切权力形式。其问题在于无法回答革命胜利后怎样镇压旧阶级反抗、怎样建立群众政权、怎样保卫革命成果。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            克鲁泡特金
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">无政府共产主义</div>
+            <div class="route-text">
+                克鲁泡特金批判资本主义和国家压迫，但倾向于把共产主义理解为无需无产阶级专政、无需革命国家过渡的自治联合。马克思主义则认为，在阶级尚未消灭以前，革命必须面对国家机器、阶级镇压和政权建设问题。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            布朗基
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">布朗基主义</div>
+            <div class="route-text">
+                布朗基主义强调少数革命者密谋夺权，容易把革命理解为少数英雄的行动，而不是群众阶级斗争的展开。马克思主义并不否定组织和斗争意志，但反对用少数人的密谋代替无产阶级群众的自我解放。
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    </section>
+
+    <section class="theory-section">
+        <div class="section-head">
+            <div class="section-label">CRISIS</div>
+            <h2 class="section-title">第二国际与修正主义</h2>
+            <div class="title-line"></div>
+        </div>
+
+        <div class="section-body">
+            <div class="section-subtitle">修正主义的危险，是用社会主义词句取消革命目标</div>
+
+            <p>
+                第二国际时期，工人政党扩大，议会活动发展，但合法斗争的扩大也产生了新的危险：一部分人开始把社会主义改造成资本主义秩序内部的温和改良。修正主义并不总是公开反对社会主义，它更常见的形式，是保留社会主义语言，同时取消革命、无产阶级专政和资本主义制度的根本变革。
+            </p>
+
+            <p>
+                伯恩施坦把改良说成道路本身，考茨基则在理论上保留正统词句，却在革命实践中反对无产阶级夺取政权。第二国际的破产说明：没有反机会主义斗争，工人组织会变成议会机器；没有革命目标，社会主义会变成资产阶级秩序的装饰品。
+            </p>
+
+         <div class="route-strip">
+    <div class="route-row">
+        <div class="route-name">
+            伯恩施坦
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">修正主义</div>
+            <div class="route-text">
+                否认资本主义矛盾走向革命爆发，否认无产阶级专政，主张通过议会改革逐步进入社会主义。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            考茨基
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">中派机会主义</div>
+            <div class="route-text">
+                以正统马克思主义话语掩盖实际投降，在关键时刻反对布尔什维克革命，反对无产阶级夺取政权。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            卢森堡
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">反修正主义与组织问题</div>
+            <div class="route-text">
+                坚持反对改良主义和帝国主义战争，强调群众斗争主动性，但对革命党组织和夺权准备估计不足。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            米勒兰主义
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">入阁主义与阶级合作</div>
+            <div class="route-text">
+                米勒兰主义表现为社会党人进入资产阶级政府，幻想在资产阶级国家机器内部推进社会主义。它的实质是把无产阶级独立政治变成资产阶级秩序的附属物，模糊了国家政权的阶级性质。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            社会沙文主义
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">帝国主义战争中的机会主义</div>
+            <div class="route-text">
+                第一次世界大战中，第二国际多数党以“保卫祖国”为名支持本国资产阶级政府，背叛无产阶级。它说明机会主义在和平时期表现为议会改良，在战争时期则会转化为公开的阶级背叛。
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    </section>
+
+    <section class="theory-section">
+        <div class="section-head">
+            <div class="section-label">DEVELOPMENT</div>
+            <h2 class="section-title">列宁主义的形成</h2>
+            <div class="title-line"></div>
+        </div>
+
+        <div class="section-body">
+            <div class="section-subtitle">帝国主义时代，无产阶级革命必须回答战争、民族解放和国家机器问题</div>
+
+            <p>
+                列宁主义不是对马克思主义的重复，而是在帝国主义时代和无产阶级革命时代的发展。列宁揭示帝国主义是资本主义发展的最高阶段，垄断资本、金融资本、资本输出和世界瓜分，使资本主义矛盾世界化。无产阶级革命因此同民族解放、殖民地革命和世界革命联系起来。
+            </p>
+
+            <p>
+                列宁主义同时回答了革命党怎样组织、旧国家机器怎样打碎、无产阶级专政怎样建立的问题。它是在反对孟什维克机会主义、社会沙文主义和第二国际破产的斗争中形成的。
+            </p>
+
+          <div class="route-strip">
+    <div class="route-row">
+        <div class="route-name">
+            列宁
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">帝国主义时代的马克思主义</div>
+            <div class="route-text">
+                把马克思主义推进到帝国主义和无产阶级革命时代，发展了革命党、国家与革命、无产阶级专政和民族殖民地问题理论。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            俄国民粹派
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">小生产社会主义幻想</div>
+            <div class="route-text">
+                俄国民粹派把农村公社和小生产理想化，低估资本主义关系在俄国的发展，也低估无产阶级的历史作用。列宁对民粹主义的批判说明，革命路线必须建立在现实阶级结构和资本主义发展分析之上，而不能建立在对小生产共同体的浪漫想象上。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            经济派
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">自发主义与经济斗争局限</div>
+            <div class="route-text">
+                经济派把工人运动限制在工资、工时和工会斗争范围内，低估政治斗争和革命理论的作用。列宁对经济派的批判说明，无产阶级不能停留在自发反抗中，必须由革命理论和先锋队组织把斗争提升到夺取政权的高度。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            孟什维克
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">组织路线上的机会主义</div>
+            <div class="route-text">
+                把党看成松散组织，低估无产阶级先锋队必要性。列宁主义建党理论正是在反对这种机会主义中形成。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            马赫主义
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">经验批判主义</div>
+            <div class="route-text">
+                马赫主义用主观经验和感觉材料削弱唯物主义，把认识论问题引向相对主义。列宁对马赫主义的批判，捍卫了物质第一性、意识第二性和客观真理的唯物主义立场，为革命理论反对哲学修正主义提供了基础。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            斯大林
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">社会主义建设实践</div>
+            <div class="route-text">
+                集中提出落后国家如何工业化、如何保卫社会主义政权、如何处理民族问题和国际斗争的问题，也留下关于官僚化和群众政治生活不足的历史经验。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            托洛茨基、布哈林
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">过渡时期争论</div>
+            <div class="route-text">
+                分别从革命战略、组织纪律、市场力量和过渡时期阶级斗争问题上暴露出路线分歧，说明社会主义建设不是阶级矛盾自动消失。
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    </section>
+
+    <section class="theory-section">
+        <div class="section-head">
+            <div class="section-label">ROAD</div>
+            <h2 class="section-title">中国革命路线斗争</h2>
+            <div class="title-line"></div>
+        </div>
+
+        <div class="section-body">
+            <div class="section-subtitle">毛主义是在反对右倾投降、“左”倾冒险和教条主义中形成的</div>
+
+            <p>
+                中国革命的理论发展，不能只写毛主席个人，而必须写清楚毛主席理论是在反对各种错误路线中形成的。中国革命的特殊性在于半殖民地半封建社会、农民占人口多数、土地问题尖锐、帝国主义和封建势力交织。照搬外国经验，或者把领导权交给资产阶级，都不可能取得胜利。
+            </p>
+
+            <p>
+                毛主席从中国具体阶级结构和革命战争实际出发，形成新民主主义革命、农村包围城市、人民战争、统一战线、党的建设和群众路线等理论。这不是经验主义，而是马克思列宁主义同中国革命实际的结合。
+            </p>
+
+           <div class="route-strip">
+    <div class="route-row">
+        <div class="route-name">
+            陈独秀
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">右倾机会主义</div>
+            <div class="route-text">
+                在大革命中低估工农群众力量，把领导权让给资产阶级同盟者，最终导致革命失败。统一战线必须坚持无产阶级独立领导权。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            李立三
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">“左”倾冒险主义</div>
+            <div class="route-text">
+                脱离敌我力量对比，幻想中心城市立即暴动和全国胜利，是把革命愿望代替具体分析的教训。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            王明、博古
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">教条主义</div>
+            <div class="route-text">
+                把马克思列宁主义变成抽象公式，机械照搬外来经验，压制中国革命的具体探索。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            张国焘
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">分裂主义与军阀主义倾向</div>
+            <div class="route-text">
+                张国焘路线表现出对中央统一领导的破坏，以及把个人和局部力量置于革命整体路线之上的倾向。它说明革命队伍内部不仅有右倾和教条主义问题，也会出现破坏组织统一、脱离群众路线的分裂主义危险。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            毛泽东
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">新民主主义革命</div>
+            <div class="route-text">
+                从中国半殖民地半封建社会的土地问题、阶级结构和战争实际出发，形成农村包围城市、人民战争和群众路线。
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    </section>
+
+    <section class="theory-section">
+        <div class="section-head">
+            <div class="section-label">LEAP</div>
+            <h2 class="section-title">毛主义与反修防修</h2>
+            <div class="title-line"></div>
+        </div>
+
+        <div class="section-body">
+            <div class="section-subtitle">社会主义胜利不是阶级斗争的终点，而是继续革命问题的开始</div>
+
+            <p>
+                毛主义的飞跃，不只在新民主主义革命和人民战争，也在社会主义社会内部阶级斗争问题上。社会主义胜利以后，是否还存在阶级斗争？党和国家内部是否会产生新的资产阶级？怎样防止资本主义复辟？这些问题构成继续革命理论的核心。
+            </p>
+
+            <p>
+                无产阶级专政下继续革命理论指出，旧社会的思想残余、资产阶级法权、官僚特权和党内走资本主义道路的力量，都会成为资本主义复辟的社会基础。反修防修不能只靠上层整顿，而必须依靠群众监督权力，持续改造上层建筑和生产关系。
+            </p>
+
+            <div class="route-strip">
+    <div class="route-row">
+        <div class="route-name">
+            赫鲁晓夫
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">现代修正主义</div>
+            <div class="route-text">
+                以反个人崇拜为名，否定阶级斗争和无产阶级专政，提出全民党、全民国家、和平过渡等观点。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            铁托主义
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">市场社会主义倾向</div>
+            <div class="route-text">
+                反映社会主义名义下的民族主义、市场化和脱离无产阶级国际主义问题。社会主义性质必须从阶级关系和实际路线判断。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            刘少奇路线
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">社会主义时期路线斗争</div>
+            <div class="route-text">
+                围绕阶级斗争、群众运动、生产关系改造和专家治国等问题发生尖锐分歧，核心是社会主义条件下谁领导、依靠谁、向哪里去。
+            </div>
+        </div>
+    </div>
+
+    <div class="route-row">
+        <div class="route-name">
+            继续革命
+        </div>
+
+        <div class="route-content">
+            <div class="route-type">毛主义理论飞跃</div>
+            <div class="route-text">
+                提出社会主义条件下防止资本主义复辟的问题，把群众监督权力、改造上层建筑和反修防修推到理论核心位置。
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+    </section>
+
+    <div class="theory-end-divider" aria-hidden="true">
+    <span></span>
+    <img src="hammer.svg" alt="">
+    <span></span>
+</div>
+
+</main>
+
+<footer>
+    <h3>全世界无产者，联合起来！</h3>
+</footer>
+
+<div class="profile-modal is-hidden" id="profileModal" aria-hidden="true">
+    <div class="profile-panel" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+        <button type="button" class="profile-close" onclick="closeProfile()" aria-label="关闭介绍">×</button>
+
+        <h2 class="profile-title" id="profileTitle"></h2>
+
+        <div class="profile-line" aria-hidden="true">
+            <span></span>
+            <strong>★</strong>
+            <span></span>
+        </div>
+
+        <div class="profile-text" id="profileText"></div>
+    </div>
+</div>
+
+<script>
+const profileDetails = {
+    "黑格尔": [
+        "黑格尔代表德国古典哲学的高峰，他的辩证法把矛盾、否定、运动和发展提升为系统的思想形式，突破了形而上学把事物看成静止、孤立、片面的思维方式。",
+        "但黑格尔的体系仍然是唯心主义的，历史运动最终被归结为绝对精神的自我展开。马克思主义对黑格尔的继承不是照搬，而是批判地吸收其辩证法合理内核，把辩证法从唯心主义中解放出来，转向现实的物质生产、社会关系和阶级斗争。"
+    ],
+
+    "青年黑格尔派": [
+        "青年黑格尔派从黑格尔哲学中引申出对宗教、国家和旧思想形式的批判，在十九世纪德国思想界具有一定的破坏旧意识形态的作用。他们把批判的锋芒集中在观念、宗教和自我意识领域，试图通过思想批判来瓦解旧秩序。",
+        "但他们的根本局限在于把社会解放理解为观念解放，把历史动力看成少数批判者的思想活动。马克思主义正是在同青年黑格尔派的分离中形成的：不是从观念出发解释现实，而是从现实的生产方式、阶级关系和物质生活过程出发解释观念。"
+    ],
+
+    "鲍威尔": [
+        "鲍威尔是青年黑格尔派的重要代表，他把宗教批判和政治批判归结为自我意识的活动，认为少数批判者可以通过纯粹理论批判来推动社会解放。",
+        "马克思主义批判鲍威尔的关键，不在于否定思想批判本身，而在于指出思想批判如果脱离现实的阶级关系和群众实践，就会变成少数知识分子的自我循环。历史的主体不是孤立的批判家，而是在现实生产和斗争中行动的人民群众。"
+    ],
+
+    "费尔巴哈": [
+        "费尔巴哈批判宗教和唯心主义，把哲学重新拉回感性的人，这对马克思主义的形成具有重要意义。他反对把人的本质外化为神，揭示宗教不过是人的本质的异化表现。",
+        "但费尔巴哈的唯物主义仍然停留在直观和抽象的人上，没有把人理解为现实社会关系中的人，也没有把实践、生产关系和阶级斗争放在理论中心。马克思主义正是在批判费尔巴哈旧唯物主义的基础上，走向实践的、历史的唯物主义。"
+    ],
+
+    "马克思、恩格斯": [
+        "马克思和恩格斯把社会主义从空想推进到科学，把德国古典哲学、英国政治经济学和法国社会主义思想中的合理成果，改造为无产阶级革命的科学理论。",
+        "他们揭示资本主义生产关系的内在矛盾，说明无产阶级不是资本主义外部的受害者，而是资本主义自身生产出来的革命阶级。马克思主义由此成为无产阶级认识世界和改造世界的理论武器，而不是书斋中的抽象学说。"
+    ],
+
+    "蒲鲁东": [
+        "蒲鲁东对资本主义私有制和社会不平等作出过批判，但他的批判带有明显的小资产阶级性质。他反对大资本，却幻想保存商品交换、小生产和某种公平交换形式来消除剥削。",
+        "马克思主义批判蒲鲁东，正是因为他不能从资本主义生产关系本身理解剥削的根源。他企图在不消灭资本主义基本关系的前提下调和矛盾，结果只能把社会主义降低为小生产者的道德愿望。"
+    ],
+
+    "拉萨尔": [
+        "拉萨尔在德国工人运动早期具有一定影响，但他的路线把工人解放寄托在国家援助和合法组织上，容易模糊国家的阶级性质。",
+        "马克思主义反对这种国家社会主义幻想。资产阶级国家不是超阶级的公共机构，而是阶级统治的机器。无产阶级不能依靠旧国家机器赐予解放，而必须通过自己的阶级斗争和政治组织争取解放。"
+    ],
+
+    "欧根·杜林": [
+        "欧根·杜林试图建立一套包罗万象的个人理论体系，用抽象的平等、道德和理性原则解释社会问题，甚至企图取代马克思主义的科学社会主义。",
+        "恩格斯在《反杜林论》中系统批判杜林，实际上是在捍卫马克思主义的哲学、政治经济学和社会主义理论。杜林的错误说明，离开历史唯物主义和阶级斗争，社会主义就会重新退回主观体系和空洞道德说教。"
+    ],
+
+    "施蒂纳": [
+        "施蒂纳把个人的绝对自我置于一切社会关系之上，主张个人对国家、社会、共同体和一切普遍形式的拒绝。他的思想代表一种极端个人主义的无政府倾向。",
+        "马克思主义批判施蒂纳，是因为他把现实的人从生产关系和阶级关系中抽离出来，变成孤立的抽象个人。真正的解放不是个人在观念上宣布摆脱一切约束，而是人民群众通过现实斗争改造压迫他们的社会关系。"
+    ],
+
+    "巴枯宁": [
+        "巴枯宁反对国家权力，也反对无产阶级政党和集中组织，幻想通过自发暴动直接废除一切权力形式。他的思想在外表上很激进，但回避了革命胜利后的政权问题。",
+        "马克思主义批判巴枯宁主义，核心在于指出旧统治阶级不会因为口号而自动消失。无产阶级必须组织起来，打碎旧国家机器，建立自己的政权形式，并依靠群众监督和革命纪律保卫胜利成果。"
+    ],
+
+    "克鲁泡特金": [
+        "克鲁泡特金批判资本主义和国家压迫，主张自由联合与互助原则，在反对剥削方面有一定批判性。但他的无政府共产主义倾向于把未来社会理解为无需过渡、无需政权、无需阶级镇压的自治共同体。",
+        "马克思主义认为，在阶级尚未消灭、旧剥削阶级仍然存在反抗的历史时期，革命不能绕开国家和专政问题。没有无产阶级政权，就无法保卫新社会，也无法系统改造旧生产关系和旧思想。"
+    ],
+
+    "布朗基": [
+        "布朗基主义强调少数革命者的密谋、意志和突然夺权，体现出坚定反抗旧制度的一面，但也容易把革命理解为少数英雄人物的行动。",
+        "马克思主义并不否定组织、纪律和革命意志，但反对用少数人的密谋代替群众阶级斗争。无产阶级革命必须建立在广泛群众动员、阶级觉悟和现实社会矛盾成熟的基础上。"
+    ],
+
+    "伯恩施坦": [
+        "伯恩施坦是第二国际修正主义的代表，他公开否认资本主义必然走向灭亡，否认无产阶级专政，主张通过议会改革和渐进改良进入社会主义。",
+        "他的危险不在于完全抛弃社会主义词句，而在于保留社会主义外壳、取消革命内容。马克思主义批判伯恩施坦，正是为了说明没有革命目标和阶级斗争，工人运动就会被资产阶级秩序吸收。"
+    ],
+
+    "考茨基": [
+        "考茨基曾被视为第二国际的理论权威，长期使用正统马克思主义语言，但在无产阶级革命的关键问题上转向中派机会主义。",
+        "列宁批判考茨基，是因为他在口头上承认马克思主义，在实践中却反对布尔什维克革命和无产阶级夺取政权。考茨基主义说明，革命理论如果脱离革命实践，就会变成掩盖投降的空洞词句。"
+    ],
+
+    "卢森堡": [
+        "卢森堡坚决反对伯恩施坦修正主义和帝国主义战争，强调群众斗争的创造性和革命自发运动的重要意义，在第二国际腐化中保持了革命立场。",
+        "但从列宁主义角度看，卢森堡对革命党组织、集中领导和夺权准备的估计仍有不足。她的历史意义和局限都说明：群众主动性必须同坚强的无产阶级先锋队结合起来，才能形成稳定的革命力量。"
+    ],
+
+    "米勒兰主义": [
+        "米勒兰主义指社会党人参加资产阶级政府、在旧国家机器内部谋求改良的机会主义路线。它以现实政治和扩大影响为名，实际削弱无产阶级独立政治立场。",
+        "马克思主义批判米勒兰主义，是因为资产阶级国家不是中立工具。无产阶级政党一旦放弃独立性，进入资产阶级政府承担统治责任，就会从阶级斗争的组织者变成资本主义秩序的装饰。"
+    ],
+
+    "社会沙文主义": [
+        "社会沙文主义在第一次世界大战中集中暴露出来，第二国际多数党以保卫祖国为名支持本国资产阶级政府，背叛无产阶级国际主义。",
+        "列宁主义对社会沙文主义的批判说明，机会主义在和平时期表现为议会改良，在战争时期就会转化为公开支持帝国主义屠杀。无产阶级必须反对本国资产阶级的战争政策，坚持国际主义立场。"
+    ],
+
+    "列宁": [
+        "列宁把马克思主义推进到帝国主义和无产阶级革命时代，回答了垄断资本、帝国主义战争、民族殖民地问题和无产阶级夺取政权的问题。",
+        "列宁主义的核心不只是理论判断，更是组织路线和政权路线：必须建设无产阶级先锋队，打碎旧国家机器，建立无产阶级专政，并把革命同世界范围内的反帝斗争联系起来。"
+    ],
+
+    "俄国民粹派": [
+        "俄国民粹派把农村公社和小生产共同体理想化，认为俄国可以绕过资本主义发展，直接依靠农民村社进入社会主义。",
+        "列宁批判民粹派，不是轻视农民问题，而是反对用浪漫化的小生产幻想代替阶级分析。革命路线必须建立在现实资本主义发展、阶级分化和无产阶级历史作用的科学分析之上。"
+    ],
+
+    "经济派": [
+        "经济派把工人运动限制在工资、工时和工会斗争范围内，认为政治意识会从经济斗争中自然产生。他们实际上把无产阶级斗争降格为自发反抗。",
+        "列宁在反对经济派的斗争中提出，没有革命的理论，就不会有革命的运动。工人阶级必须通过先锋队组织和科学理论，把自发斗争提升到反对整个资本主义制度和夺取政权的高度。"
+    ],
+
+    "孟什维克": [
+        "孟什维克在组织路线上主张松散的党，低估职业革命家和集中统一的先锋队组织的重要性。在革命战略上，他们又倾向于把资产阶级民主革命的领导权让给自由资产阶级。",
+        "列宁主义正是在反对孟什维克机会主义中形成的。革命党不能只是同情者联盟，而必须是有纲领、有纪律、有组织、有战斗能力的无产阶级先锋队。"
+    ],
+
+    "马赫主义": [
+        "马赫主义和经验批判主义用感觉、经验和主观材料削弱唯物主义，把认识论引向相对主义和主观主义。",
+        "列宁在《唯物主义和经验批判主义》中批判马赫主义，捍卫物质第一性、意识第二性和客观真理。这个斗争说明，哲学问题不是中立问题，而会直接影响革命理论的世界观基础。"
+    ],
+
+    "斯大林": [
+        "斯大林在列宁逝世后领导苏联社会主义建设，集中回答落后国家如何工业化、如何保卫社会主义政权、如何处理民族问题和国际斗争的问题。",
+        "从马克思列宁主义发展史看，斯大林的实践既包含社会主义建设和反法西斯战争的重大历史经验，也留下官僚化、群众政治生活不足和社会主义过渡时期路线斗争的复杂教训。"
+    ],
+
+    "托洛茨基、布哈林": [
+        "托洛茨基和布哈林分别代表苏联过渡时期不同的理论和路线分歧。托洛茨基强调世界革命和高速工业化问题，布哈林则在新经济政策、市场关系和农民问题上提出自己的路线。",
+        "这些争论说明，社会主义建设不是阶级矛盾自动消失的过程。如何处理工农联盟、工业化、市场力量、国家计划和国际革命之间的关系，是无产阶级专政时期必须面对的重大问题。"
+    ],
+
+    "陈独秀": [
+        "陈独秀在中国共产党早期历史中具有重要地位，但在大革命后期形成严重右倾机会主义错误，低估工农群众力量，把统一战线中的领导权让给资产阶级同盟者。",
+        "中国革命的惨痛教训说明，统一战线必须坚持无产阶级独立性和领导权。没有工农群众的组织和武装力量，革命就会在资产阶级背叛面前陷入被动。"
+    ],
+
+    "李立三": [
+        "李立三路线代表一种“左”倾冒险主义倾向，脱离敌我力量对比和革命发展阶段，幻想通过中心城市暴动迅速取得全国胜利。",
+        "毛泽东路线对这种错误的克服，说明革命不能用主观愿望代替具体分析。半殖民地半封建中国的革命道路，必须从农村、土地、农民群众和长期武装斗争中寻找现实基础。"
+    ],
+
+    "王明、博古": [
+        "王明、博古代表中国革命中的教条主义路线，把马克思列宁主义变成抽象公式，机械照搬外来经验，忽视中国革命的具体条件。",
+        "毛泽东思想正是在反对这种教条主义中形成和发展起来的。真正的马克思主义不是背诵书本结论，而是把普遍真理同本国革命的具体阶级结构、战争形势和群众实践结合起来。"
+    ],
+
+    "张国焘": [
+        "张国焘路线表现出分裂主义、军阀主义和局部主义倾向，把个人权威和局部军事力量置于革命整体路线之上，破坏党的集中统一。",
+        "中国革命的经验说明，革命队伍内部不仅会出现右倾和教条主义，也会出现组织上的分裂危险。无产阶级革命必须坚持党的统一领导，同时把这种领导建立在正确路线和群众基础之上。"
+    ],
+
+    "毛泽东": [
+        "毛泽东把马克思列宁主义同中国革命实际结合起来，在半殖民地半封建社会条件下形成新民主主义革命、农村包围城市、人民战争和群众路线等理论。",
+        "毛主义的意义还在于把社会主义条件下的阶级斗争、反修防修和继续革命问题推到理论核心，提出无产阶级专政下继续革命的历史任务。"
+    ],
+
+    "赫鲁晓夫": [
+        "赫鲁晓夫修正主义以反个人崇拜为名，系统否定阶级斗争和无产阶级专政，提出全民党、全民国家、和平过渡等观点。",
+        "从反修防修角度看，赫鲁晓夫问题不是个人问题，而是社会主义国家内部官僚化、路线蜕变和资本主义复辟危险的集中表现。毛主义正是在同现代修正主义斗争中进一步发展。"
+    ],
+
+    "铁托主义": [
+        "铁托主义以社会主义名义推行市场化、民族主义和脱离无产阶级国际主义的路线，形成所谓市场社会主义模式。",
+        "马克思主义判断一个社会的性质，不能只看名称和旗号，而要看实际生产关系、阶级权力和政治路线。铁托主义的经验说明，社会主义如果离开无产阶级专政和国际主义，就可能滑向新的资本主义关系。"
+    ],
+
+    "刘少奇路线": [
+        "刘少奇路线在社会主义时期围绕阶级斗争、群众运动、生产关系改造和专家治国等问题同毛主席路线发生尖锐分歧。",
+        "从继续革命理论看，问题的核心是社会主义条件下依靠谁、为了谁、由谁监督权力，以及生产关系和上层建筑是否继续改造。毛主义强调，反修防修必须依靠群众参与，而不能只依靠上层管理。"
+    ],
+
+    "继续革命": [
+        "继续革命不是一般口号，而是毛主义对社会主义社会内部矛盾的理论回答。它指出，在社会主义制度建立以后，旧思想、旧习惯、资产阶级法权和官僚特权仍然会不断产生复辟倾向。",
+        "无产阶级专政下继续革命理论把群众监督权力、改造上层建筑、限制资产阶级法权和反对走资本主义道路的力量结合起来，形成毛主义区别于一般马克思列宁主义阶段理解的重大飞跃。"
+    ]
+};
+
+    const modal = document.getElementById("profileModal");
+
+    const profileTitle = document.getElementById("profileTitle");
+    const profileText = document.getElementById("profileText");
+
+    function escapeHTML(text) {
+        return text
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+function openProfile(nameElement) {
+    const row = nameElement.closest(".route-row");
+    const name = nameElement.textContent.trim();
+    const basicText = row.querySelector(".route-text")?.textContent.trim() || "";
+
+    const paragraphs = profileDetails[name] || [basicText];
+
+    profileTitle.textContent = name;
+
+    profileText.innerHTML = paragraphs
+        .map(paragraph => `<p>${escapeHTML(paragraph)}</p>`)
+        .join("");
+
+
+    modal.classList.remove("is-hidden");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+}
+
+function closeProfile() {
+    modal.classList.add("is-hidden");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+
+}
+
+    document.querySelectorAll(".route-name").forEach(nameElement => {
+        nameElement.setAttribute("role", "button");
+        nameElement.setAttribute("tabindex", "0");
+
+        nameElement.addEventListener("click", () => {
+            openProfile(nameElement);
+        });
+
+        nameElement.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openProfile(nameElement);
+            }
+        });
+    });
+
+
+    modal.addEventListener("click", event => {
+        if (event.target === modal) {
+            closeProfile();
+        }
+    });
+
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !modal.classList.contains("is-hidden")) {
+            closeProfile();
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>辩证唯物主义</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #333333;
+            line-height: 1.6;
+            font-size: 18px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+header::after {
+    content: "经典文库";
+    display: inline-block;
+    visibility: hidden;
+    pointer-events: none;
+
+    color: #CC0000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 8px 22px;
+    border: 2px solid #CC0000;
+    border-radius: 30px;
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: left center;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform: scale(1.4) rotate(36deg) translateZ(0);
+            color: #FFD700;
+        }
+
+
+
+
+        .hero {
+            min-height: 58vh;
+            padding: 130px 24px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background-color: #FFFFFF;
+overflow: visible;
+        }
+
+.hero-divider {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+
+    color: #CC0000;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+
+    overflow: visible;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+    content: "";
+    display: block;
+    flex: 1;
+
+    height: 4px;
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+        .hero-inner {
+            width: min(940px, 100%);
+            position: relative;
+            z-index: 1;
+        }
+
+.hero h1 {
+    color: #DD0000;
+    font-size: 4.3rem;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: 3.5px;
+    margin-bottom: 22px;
+}
+
+.hero-lead {
+    width: min(800px, 100%);
+    margin: 0 auto;
+
+    color: #A80000;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.8;
+
+    text-align: center;
+}
+
+        .btn-main,
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 46px;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            transition:
+                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .btn-main {
+            background-color: #CC0000;
+            color: #FFFFFF;
+            border: 2px solid #CC0000;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #CC0000;
+            border: 2px solid #CC0000;
+        }
+
+ .btn-main:hover,
+.btn-outline:hover {
+    transform: scale(1.05) translateZ(0);
+}
+
+        .btn-outline:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        .btn-main:hover {
+            background-color: #A80000;
+            border-color: #A80000;
+        }
+
+        .btn-main:active,
+        .btn-outline:active {
+            transform: scale(0.95) translateZ(0);
+        }
+
+        main {
+            padding: 70px 24px 80px;
+        }
+
+        .study-shell {
+            width: min(980px, 100%);
+            margin: 0 auto;
+        }
+
+.main-panel {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 64px;
+}
+
+
+
+
+
+
+
+        .article-section {
+            padding: 24px 0;
+            border-bottom: 2px dashed #FFCCCC;
+        }
+
+        .article-section:first-of-type {
+            padding-top: 0;
+        }
+
+        .article-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .article-section h2 {
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+        }
+
+        .article-section p {
+            color: #444444;
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: 14px;
+        }
+
+        .article-section p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bold-red {
+            color: #CC0000;
+            font-weight: 900;
+        }
+
+.quote-line {
+    width: min(820px, 100%);
+    margin: 32px auto;
+    padding: 20px 30px 20px calc(30px + 1em);
+    color: #A80000;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 2;
+    text-align: justify;
+    background-color: #FFF7F7;
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    text-indent: -1em;
+}
+
+.article-section + .quote-line {
+    margin-top: 56px;
+}
+
+
+
+.reading-panel {
+    width: min(900px, 100%);
+    margin: 0 auto;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.reading-head {
+    margin-bottom: 16px;
+}
+
+.reading-panel h2 {
+    color: #CC0000;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+.reading-line {
+    width: 100%;
+    height: 3px;
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+.reading-list {
+    display: grid;
+    gap: 0;
+}
+
+.reading-item {
+    padding: 18px 0;
+    border-bottom: 2px dashed #FFCCCC;
+}
+
+.reading-item:last-child {
+    border-bottom: none;
+}
+
+.reading-book {
+    color: #CC0000;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.7;
+    margin-bottom: 4px;
+}
+
+.reading-desc {
+    color: #555555;
+    font-size: 16px;
+    line-height: 1.85;
+    text-align: justify;
+}
+
+        .page-actions {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        footer {
+            background-color: #CC0000;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+footer h3 {
+    font-size: 26px;
+    color: #FFFFFF;
+    letter-spacing: 4px;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+}
+
+footer h3::selection {
+    background: transparent;
+}
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+                margin-left: 0;
+                padding: 7px 18px;
+            }
+
+            .hero {
+                min-height: 56vh;
+                padding: 126px 18px 54px;
+            }
+
+
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 2px;
+            }
+
+ .hero-lead {
+    font-size: 17px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+}
+
+            main {
+                padding: 52px 18px 64px;
+            }
+
+.main-panel,
+.reading-panel {
+    padding: 0;
+    border-radius: 0;
+}
+
+.main-panel {
+    border-left-width: 0;
+}
+
+
+
+            .article-section {
+                padding: 20px 0;
+            }
+
+            .article-section h2 {
+                font-size: 22px;
+            }
+
+.article-section p,
+.quote-line {
+    font-size: 15px;
+}
+
+.quote-line {
+    margin: 26px auto;
+    padding: 17px 20px 17px 24px;
+    border-left-width: 6px;
+    border-radius: 16px;
+}
+
+            .reading-panel h2 {
+                font-size: 22px;
+            }
+
+
+.reading-panel h2 {
+    font-size: 22px;
+}
+
+.reading-line {
+    height: 3px;
+}
+
+.reading-item {
+    padding: 16px 0;
+}
+
+.reading-book {
+    font-size: 16px;
+}
+
+.reading-desc {
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+
+            .btn-main,
+            .btn-outline {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+</header>
+
+<section class="hero">
+    <div class="hero-inner">
+        <h1>辩证唯物主义</h1>
+        <p class="hero-lead">
+            认识世界、改造世界的根本方法
+        </p>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<main id="study-start">
+    <div class="study-shell">
+<section class="main-panel">
+    <div class="quote-line">
+        “不是意识决定生活，而是生活决定意识。”
+    </div>
+
+    <div class="article-section">
+        <h2>物质第一性</h2>
+        <p>
+            辩证唯物主义首先反对把观念、道德、意志当成历史的最终原因。人的思想不是从天上掉下来的，而是在一定的社会存在、生产关系和阶级关系中形成的。
+        </p>
+        <p>
+            因此，分析问题不能停留在口号和情绪上，而要追问：这种思想服务于什么样的物质利益？它反映了什么样的社会关系？它掩盖了哪些阶级矛盾？
+        </p>
+    </div>
+
+    <div class="quote-line">
+        “世界不是既成事物的集合体，而是过程的集合体。”
+    </div>
+
+    <div class="article-section">
+        <h2>世界在矛盾中运动</h2>
+                <p>
+                    辩证法不是把事物看成孤立、静止、凝固的东西，而是把它们看成处在联系、斗争、转化和发展之中。事物发展的根源，不在外部装饰，而在内部矛盾。
+                </p>
+                <p>
+                    对资本主义社会来说，表面上是市场交换、契约自由和个人选择，深处却是<span class="bold-red">生产社会化和资本私人占有</span>之间的矛盾，是无产阶级同资产阶级之间的矛盾。
+                </p>
+            </div>
+
+<div class="quote-line">
+    “哲学家们只是用不同的方式解释世界，问题在于改变世界。”
+</div>
+
+            <div class="article-section">
+                <h2>理论必须回归实践</h2>
+                <p>
+                    辩证唯物主义不是背诵概念，而是一种认识和改造世界的方法。理论必须从实践中来，到实践中去，在群众斗争、生产实践和社会变革中接受检验。
+                </p>
+                <p>
+                    学习辩证唯物主义，最终不是为了获得一套漂亮话语，而是为了提高分析矛盾、把握方向、改造现实的能力。
+                </p>
+            </div>
+
+<div class="quote-line">
+    “通过实践而发现真理，又通过实践而证实真理和发展真理。”
+</div>
+
+<div class="article-section">
+    <h2>认识的过程</h2>
+    <p>
+        辩证唯物主义认为，人的认识不是从一开始就完整、纯粹、绝对正确的。认识总是在实践中产生，又在实践中受到检验、修正和发展。
+    </p>
+    <p>
+        从感性认识到理性认识，再从理性认识回到实践，这是认识发展的基本过程。离开实践，理论就会变成空洞的词句；离开理论，实践又容易停留在零散经验和自发反抗之中。
+    </p>
+</div>
+
+<div class="quote-line">
+    “研究任何过程，如果是存在着两个以上矛盾的复杂过程的话，就要用全力找出它的主要矛盾。”
+</div>
+
+<div class="article-section">
+    <h2>矛盾的主次</h2>
+    <p>
+        现实中的矛盾从来不是平均排列的。一个社会、一个运动、一个阶段，往往存在许多矛盾，但其中总有一种矛盾在特定条件下起支配作用，这就是主要矛盾。
+    </p>
+    <p>
+        抓不住主要矛盾，就会把斗争方向搞散；看不到矛盾的特殊性，就会把理论变成公式。真正的辩证分析，必须具体地研究具体情况，判断什么矛盾居于中心，什么力量代表前进方向。
+    </p>
+</div>
+
+<div class="quote-line">
+    “马克思以前的唯物论，离开人的社会性，离开人的历史发展，去观察认识问题，因此不能了解认识对社会实践的依赖关系，即认识对生产和阶级斗争的依赖关系。”
+</div>
+
+<div class="article-section">
+    <h2>反对机械唯物主义</h2>
+    <p>
+        唯物主义并不等于机械地解释一切。机械唯物主义只看到外部原因、数量堆积和表面因果，却看不到事物内部矛盾的运动，看不到人的实践活动在历史发展中的能动作用。
+    </p>
+    <p>
+        辩证唯物主义既坚持物质第一性，又承认人在一定物质条件下能够通过实践改变现实。群众不是被环境简单塑造的消极对象，而是在阶级斗争中改变社会、也改变自身的历史主体。
+    </p>
+</div>
+
+<div class="quote-line">
+    “没有革命的理论，就不会有革命的运动。”
+</div>
+
+<div class="article-section">
+    <h2>无产阶级的世界观和方法论</h2>
+    <p>
+        辩证唯物主义不是中立的思想游戏。它之所以成为无产阶级的世界观，是因为它揭示现实关系背后的阶级结构，反对用永恒人性、道德说教和抽象国家利益掩盖阶级压迫。
+    </p>
+    <p>
+        掌握辩证唯物主义，就是要学会从物质关系中看思想，从阶级斗争中看政治，从社会实践中看真理。它不是脱离现实的哲学装饰，而是无产阶级认识世界、组织群众、改造社会的思想武器。
+    </p>
+</div>
+
+
+        </section>
+
+  <section class="reading-panel" id="reading">
+    <div class="reading-head">
+        <h2>推荐阅读</h2>
+        <div class="reading-line" aria-hidden="true"></div>
+    </div>
+
+    <div class="reading-list">
+        <div class="reading-item">
+            <div class="reading-book">毛泽东：《实践论》</div>
+            <div class="reading-desc">理解认识从实践中来，又回到实践中去。</div>
+        </div>
+
+        <div class="reading-item">
+            <div class="reading-book">毛泽东：《矛盾论》</div>
+            <div class="reading-desc">理解矛盾的普遍性、特殊性和主要矛盾。</div>
+        </div>
+
+        <div class="reading-item">
+            <div class="reading-book">恩格斯：《反杜林论》哲学部分</div>
+            <div class="reading-desc">理解马克思主义世界观的基本展开。</div>
+        </div>
+
+        <div class="reading-item">
+            <div class="reading-book">列宁：《唯物主义和经验批判主义》</div>
+            <div class="reading-desc">理解唯物主义同主观唯心主义的斗争。</div>
+        </div>
+    </div>
+</section>
+
+ <div class="page-actions">
+    <a href="classics.html" class="btn-outline">经典文库</a>
+</div>
+    </div>
+</main>
+
+<footer>
+    <h3>全世界无产者，联合起来！</h3>
+</footer>
+
+</body>
+</html>
