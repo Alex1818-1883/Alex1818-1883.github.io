@@ -804,9 +804,9 @@ footer h3::selection {
 </svg>
 </div>
                 <div class="media-info">
-                    <h3>第一届政协会议上的讲话</h3>
-                    <p>“让那些内外反动派在我们面前发抖吧！”</p>
-                    <a class="btn-play" onclick="toggleVideoModal(true, '第一届政协会议上的讲话', '5-08.mp4')" style="cursor: pointer;">观看</a>
+                    <h3>毛主席八次接见红卫兵</h3>
+                    <p>“你们要关心国家大事，要把无产阶级文化大革命进行到底！ ”</p>
+                    <a class="btn-play" onclick="toggleVideoModal(true, '毛主席八次接见红卫兵', 'red.mp4')" style="cursor: pointer;">观看</a>
                 </div>
             </div>
 
@@ -894,6 +894,35 @@ footer h3::selection {
    style="cursor: pointer;">播放</a>
                 </div>
             </div>
+
+<!-- ============ 新增卡片：新历史影像 ============ -->
+<div class="media-card"> 
+    <div class="media-thumb">
+        <svg class="clapper-svg" viewBox="0 -20 100 120" width="95" height="114">
+            <g transform="translate(0, -12)">
+                <!-- 底板：红色实心 -->
+                <path d="M10,50 L90,50 L90,85 C90,87.8 87.8,90 85,90 L15,90 C12.2,90 10,87.8 10,85 Z" fill="#CC0000"/>
+
+                <!-- 上板：红色实心 + 白色斜条纹 -->
+                <g class="clapper-top">
+                    <path d="M10,34 L90,34 L90,50 L10,50 Z" fill="#CC0000"/>
+                    <polygon points="25,34 35,34 25,50 15,50" fill="#FFFFFF"/>
+                    <polygon points="45,34 55,34 45,50 35,50" fill="#FFFFFF"/>
+                    <polygon points="65,34 75,34 65,50 55,50" fill="#FFFFFF"/>
+                    <polygon points="85,34 90,34 90,42 85,50 75,50" fill="#FFFFFF"/>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+    <div class="media-info">
+        <h3>第一届政协会议上的讲话</h3>
+        <p>“让那些内外反动派在我们面前发抖罢！”</p>
+        <a class="btn-play"
+           onclick="toggleVideoModal(true, '第一届政协会议上的讲话', '5-08.mp4')"
+           style="cursor: pointer;">观看</a>
+    </div>
+</div>
         </div>  <!-- /carousel-track -->
     </div>  <!-- /carousel-viewport -->
     <button class="carousel-arrow carousel-next" onclick="carouselSlide(1)">›</button>
