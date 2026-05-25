@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>经典文库 - 青年共产主义小组</title>
+    <title>经典文库</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
    body {
@@ -325,7 +325,11 @@ animation: signature-fade 1.2s ease-out 0.8s forwards;
 /* 📱 移动端适配 */
 @media (max-width: 768px) {
             .library-header { height: 100vh; min-height: auto; padding: 0 20px; } /* 🚀 手机端也锁定全屏 */
-.marx-portrait { width: 100px; margin: 0 auto 20px auto; }
+.marx-portrait {
+    width: 100px;
+    bottom: calc(100% + 24px);
+    margin: 0 auto;
+}
 .library-slogan-btn { font-size: 1.2rem; letter-spacing: 2px; padding: 7px 22px; }
             .marx-signature { 
                 width: 240px; 
