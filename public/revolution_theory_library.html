@@ -515,6 +515,10 @@ justify-self: start;
         .book-title-long {
             font-size: 20px;
         }
+.book-title-extra-long {
+    font-size: 18px;
+    line-height: 1.45;
+}
 
         .book-author {
             font-size: 14px;
@@ -793,6 +797,11 @@ footer h3 {
             .book-title-long {
                 font-size: 19px;
             }
+.book-title-extra-long {
+    font-size: 17px;
+    line-height: 1.45;
+}
+
 
             footer h3 {
                 font-size: 20px;
@@ -929,6 +938,16 @@ footer h3 {
         category: "revolutionaries",
         desc: "托洛茨基对苏联官僚化过程的系统批判，分析斯大林主义的阶级性质与革命蜕变机制，是研究苏联复辟问题的重要参照文献。",
         link: "books/《被背叛的革命》.pdf",
+
+    },
+    {
+        title: "《为什么马克思主义反对个人恐怖主义》",
+        cover: "为什么马克思主义<br>反对个人恐怖主义",
+        author: "列夫·托洛茨基",
+        category: "revolutionaries",
+        desc: "系统批判了个人恐怖主义。他指出，马克思主义与之根本对立，因为它用个别“英雄”的密谋和炸弹，取代、贬低了作为历史创造者的有组织的工人阶级群众的阶级斗争。",
+        link: "books/《为什么马克思主义反对个人恐怖主义》.html",
+        extraLongTitle: true,
 
     },
     {
@@ -1139,7 +1158,11 @@ function renderBooks() {
 
     grid.innerHTML = BOOKS.map(book => {
         const coverClass = book.longCover ? "book-cover long-title" : "book-cover";
-        const titleClass = book.longTitle ? "book-title book-title-long" : "book-title";
+const titleClass = book.extraLongTitle
+    ? "book-title book-title-extra-long"
+    : book.longTitle
+        ? "book-title book-title-long"
+        : "book-title";
 
         const readButtons = book.parts
             ? `
