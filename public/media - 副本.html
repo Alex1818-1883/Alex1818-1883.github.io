@@ -413,9 +413,43 @@ footer h3::selection {
     }
 }
 .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
-        }
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0s linear 0.25s;
+}
+
+.modal.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.modal.is-closing {
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
+}
 .modal-content {
     background-color: #FFFFFF; 
     margin: 3% auto; 
@@ -973,34 +1007,67 @@ footer h3::selection {
         const videoPlayer = document.getElementById('videoPlayer');
         const audioModal = document.getElementById('audioModal');
         const audioPlayer = document.getElementById('audioPlayer');
+const MODAL_FADE_DURATION = 250;
 
-        // 🚀 视频弹窗控制器 (保持不变)
-        function toggleVideoModal(show, title, videoSrc) {
-            if (show) {
-                document.getElementById('modalTitle').innerText = title; 
-                videoPlayer.src = videoSrc; 
-                videoModal.style.display = "block"; 
-                videoPlayer.play(); 
-            } else {
-                videoModal.style.display = "none"; 
-                videoPlayer.pause(); 
-                videoPlayer.src = ""; 
-            }
-        }
+function showModal(modalEl) {
+    clearTimeout(modalEl._closeTimer);
 
-        // 🎵 新增：音频弹窗控制器
-        function toggleAudioModal(show, title, audioSrc) {
-            if (show) {
-                document.getElementById('audioModalTitle').innerText = title;
-                audioPlayer.src = audioSrc;
-                audioModal.style.display = "block";
-                audioPlayer.play();
-            } else {
-                audioModal.style.display = "none";
-                audioPlayer.pause();
-                audioPlayer.src = ""; // 清空源，节约资源
-            }
+    modalEl.style.display = "block";
+    modalEl.classList.remove('is-closing');
+
+    // 让浏览器先确认 display:block，再启动 opacity 过渡
+    void modalEl.offsetWidth;
+
+    modalEl.classList.add('is-visible');
+}
+
+function hideModal(modalEl, afterHidden) {
+    clearTimeout(modalEl._closeTimer);
+
+    modalEl.classList.remove('is-visible');
+    modalEl.classList.add('is-closing');
+
+    modalEl._closeTimer = setTimeout(() => {
+        modalEl.style.display = "none";
+        modalEl.classList.remove('is-closing');
+
+        if (typeof afterHidden === 'function') {
+            afterHidden();
         }
+    }, MODAL_FADE_DURATION);
+}
+
+function toggleVideoModal(show, title, videoSrc) {
+    if (show) {
+        document.getElementById('modalTitle').innerText = title;
+        videoPlayer.src = videoSrc;
+
+        showModal(videoModal);
+        videoPlayer.play();
+    } else {
+        videoPlayer.pause();
+
+        hideModal(videoModal, () => {
+            videoPlayer.src = "";
+        });
+    }
+}
+
+function toggleAudioModal(show, title, audioSrc) {
+    if (show) {
+        document.getElementById('audioModalTitle').innerText = title;
+        audioPlayer.src = audioSrc;
+
+        showModal(audioModal);
+        audioPlayer.play();
+    } else {
+        audioPlayer.pause();
+
+        hideModal(audioModal, () => {
+            audioPlayer.src = "";
+        });
+    }
+}
 
         // 🛡️ 增强交互：点击黑屏遮罩层时，关闭所有处于打开状态的弹窗
         window.onclick = function(event) {

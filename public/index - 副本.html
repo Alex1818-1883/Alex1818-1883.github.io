@@ -494,13 +494,50 @@ will-change: transform;
         .lyrics-display p { margin-bottom: 30px; } 
 
         /* 弹窗样式 */
-        .modal {
-    display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
-    align-items: center; justify-content: center;
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0s linear 0.25s;
 }
+
 .modal[style*="block"] {
     display: flex !important;
+}
+
+.modal.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.modal.is-closing {
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
 }
        .modal-content {
             background-color: #FFF5F5; margin: 0; padding: 30px 40px 40px;
@@ -514,10 +551,10 @@ will-change: transform;
         }
 
         /* 🚀 核心排雷 2：将动画里的 translateZ(0) 全部剔除，只保留纯粹的 2D 缩放 */
-        @keyframes modalFadeIn { 
-            from { opacity: 0; transform: scale(0.8); } 
-            to   { opacity: 1; transform: scale(1); } 
-        }
+@keyframes modalFadeIn { 
+    from { opacity: 0; transform: scale(0.8); } 
+    to   { opacity: 1; transform: none; } 
+}
 
 /* === 理论文库选择弹窗 === */
 .library-modal {
@@ -1564,31 +1601,67 @@ document.querySelectorAll('.article-arrow, .modal-arrow').forEach(button => {
 });
 
 const modal = document.getElementById('musicModal');
+const MODAL_FADE_DURATION = 250;
+let musicModalTimer = null;
+
+function showModal(modalEl) {
+    clearTimeout(modalEl._closeTimer);
+
+    modalEl.style.display = "block";
+    modalEl.classList.remove('is-closing');
+
+    // 让浏览器先确认 display:block，再启动 opacity 过渡
+    void modalEl.offsetWidth;
+
+    modalEl.classList.add('is-visible');
+}
+
+function hideModal(modalEl, afterHidden) {
+    clearTimeout(modalEl._closeTimer);
+
+    modalEl.classList.remove('is-visible');
+    modalEl.classList.add('is-closing');
+
+    modalEl._closeTimer = setTimeout(() => {
+        modalEl.style.display = "none";
+        modalEl.classList.remove('is-closing');
+
+        if (typeof afterHidden === 'function') {
+            afterHidden();
+        }
+    }, MODAL_FADE_DURATION);
+}
 
 function toggleMusicModal(show) {
     const quote = document.getElementById('modalQuote');
-    const indicator = document.getElementById('audioPageIndicator'); // 🚀 侦测到页码器
-    
+    const indicator = document.getElementById('audioPageIndicator');
+
     if (show) {
-        // 1. 弹窗打开前：立刻剥夺它们的显示状态，保证每次都是从零开始
+        clearTimeout(musicModalTimer);
+
+        // 弹窗打开前：重置引言和页码器状态
         quote.classList.remove('show');
+
         if (indicator) {
             indicator.classList.remove('show');
-            // 🚀 核心排雷：清空之前切歌时残留的内联样式，交还给 CSS 控制
-            indicator.style.opacity = ''; 
+            indicator.style.opacity = '';
         }
-        
-        modal.style.display = "block"; // 显示弹窗本体
-        
-        // 2. 延迟点火引擎：等待 450 毫秒（弹窗本体已经平滑展开后）
-        setTimeout(() => {
-            // 🚀 名言和页码器，同时开始优雅上浮显现！
+
+        showModal(modal);
+
+        // 等弹窗本体展开后，引言和页码器再上浮显现
+        musicModalTimer = setTimeout(() => {
             quote.classList.add('show');
             if (indicator) indicator.classList.add('show');
         }, 450);
-        
+
     } else {
-        modal.style.display = "none";
+        clearTimeout(musicModalTimer);
+
+        quote.classList.remove('show');
+        if (indicator) indicator.classList.remove('show');
+
+        hideModal(modal);
     }
 }
 window.onclick = function(event) {

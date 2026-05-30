@@ -297,10 +297,44 @@
   transform: scale(0.95) translateZ(0);
      }
 
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
-        }
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0s linear 0.25s;
+}
+
+.modal.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.modal.is-closing {
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
+}
        .modal-content {
             background-color: #FFF5F5; margin: 15% auto; padding: 40px; 
             width: 90%; max-width: 500px; border-radius: 20px; text-align: center; position: relative;
@@ -326,11 +360,10 @@
             margin: 3% auto;
         }
         
-        /* 🚀 绝杀排雷 2：将动画里的 translateZ(0) 彻底抹除！ */
-        @keyframes modalFadeIn { 
-            from { opacity: 0; transform: scale(0.8); } 
-            to { opacity: 1; transform: scale(1); } 
-        }
+@keyframes modalFadeIn { 
+    from { opacity: 0; transform: scale(0.8); } 
+    to { opacity: 1; transform: none; } 
+}
 
 .close-btn {
     appearance: none;
@@ -683,20 +716,59 @@ footer h3::selection {
     <script>
         const modal = document.getElementById('musicModal');
         const audio = document.getElementById('audioPlayer');
+const MODAL_FADE_DURATION = 250;
 
-        function toggleMusicModal(show) {
+function showModal(modalEl) {
+    clearTimeout(modalEl._closeTimer);
+
+    modalEl.style.display = "block";
+    modalEl.classList.remove('is-closing');
+
+    // 强制浏览器先确认 display:block，再启动 opacity 过渡
+    void modalEl.offsetWidth;
+
+    modalEl.classList.add('is-visible');
+}
+
+function hideModal(modalEl, afterHidden) {
+    clearTimeout(modalEl._closeTimer);
+
+    modalEl.classList.remove('is-visible');
+    modalEl.classList.add('is-closing');
+
+    modalEl._closeTimer = setTimeout(() => {
+        modalEl.style.display = "none";
+        modalEl.classList.remove('is-closing');
+
+        if (typeof afterHidden === 'function') {
+            afterHidden();
+        }
+    }, MODAL_FADE_DURATION);
+}
+
+let musicQuoteTimer = null;
+
+function toggleMusicModal(show) {
     const quote = document.getElementById('musicQuote');
+
     if (show) {
+        clearTimeout(musicQuoteTimer);
+
         quote.classList.remove('show');
-        modal.style.display = "block";
+        showModal(modal);
+
         if (audio.paused) {
             audio.play();
         }
-        setTimeout(() => {
+
+        musicQuoteTimer = setTimeout(() => {
             quote.classList.add('show');
         }, 450);
     } else {
-        modal.style.display = "none";
+        clearTimeout(musicQuoteTimer);
+        quote.classList.remove('show');
+
+        hideModal(modal);
     }
 }
 const videoModal = document.getElementById('videoModal');
@@ -704,12 +776,14 @@ const videoPlayer = document.getElementById('videoPlayer');
 
 function toggleVideoModal(show) {
     if (show) {
-        videoModal.style.display = "block";
+        showModal(videoModal);
         videoPlayer.play();
     } else {
-        videoModal.style.display = "none";
         videoPlayer.pause();
-        videoPlayer.currentTime = 0;
+
+        hideModal(videoModal, () => {
+            videoPlayer.currentTime = 0;
+        });
     }
 }
 
