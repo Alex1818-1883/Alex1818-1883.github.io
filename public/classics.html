@@ -243,31 +243,73 @@ animation: signature-fade 1.2s ease-out 0.8s forwards;
 }
 
 
-/* === 🚀 搜索弹窗全屏覆盖系 === */
-        .search-modal {
-            display: none; /* 初始隐藏 */
-            position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(255, 255, 255, 0.96); /* 纯白磨砂质感，对眼睛极其友好 */
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .search-modal.show {
-            display: block; 
-            opacity: 1;
-        }
+/* === 搜索弹窗：白幕渐显 + 搜索框轻微下落 === */
+.search-modal {
+    display: none;
 
-        /* 搜索框居中容器 */
-        .search-box-wrapper {
-            position: absolute;
-            top: 20%; /* 停留在屏幕偏上方，符合人类视觉重心 */
-            left: 50%;
-            /* 🚀 极其纯净的 2D 居中，绝不加 translateZ */
-            transform: translateX(-50%); 
-            width: 90%;
-            max-width: 650px;
-        }
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0s linear 0.25s;
+}
+
+.search-modal.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.search-modal.is-closing {
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+/* 搜索框居中容器 */
+.search-box-wrapper {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+
+    width: 90%;
+    max-width: 650px;
+
+    opacity: 0;
+    transform: translate(-50%, -14px);
+
+    transition:
+        opacity 0.28s ease,
+        transform 0.28s ease;
+}
+
+.search-modal.is-visible .search-box-wrapper {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.search-modal.is-closing .search-box-wrapper {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+}
 
         /* 🚀 终极武器：Google 式胶囊搜索框 */
         .search-input {
@@ -1416,17 +1458,50 @@ window.addEventListener('resize', function () {
     }
 });
 
-        function toggleSearchModal(show) {
-            if(show) {
-                searchModal.classList.add('show');
-                searchInput.value = '';           // 打开时清空输入框
-                searchResults.style.display = 'none'; // 隐藏结果面板
-                setTimeout(() => searchInput.focus(), 100); // 100ms后光标自动闪烁，准备战斗！
-            } else {
-                searchModal.classList.remove('show');
-                searchInput.blur();
-            }
-        }
+const SEARCH_FADE_DURATION = 250;
+let searchCloseTimer = null;
+let searchFocusTimer = null;
+
+function toggleSearchModal(show) {
+    if (show) {
+        clearTimeout(searchCloseTimer);
+        clearTimeout(searchFocusTimer);
+
+        searchInput.value = '';
+        searchResults.innerHTML = '';
+        searchResults.style.display = 'none';
+
+        searchModal.style.display = 'block';
+        searchModal.classList.remove('is-closing');
+
+        // 让浏览器先确认 display:block，再启动 opacity / transform 过渡
+        void searchModal.offsetWidth;
+
+        searchModal.classList.add('is-visible');
+
+        searchFocusTimer = setTimeout(() => {
+            searchInput.focus();
+        }, 280);
+
+    } else {
+        clearTimeout(searchCloseTimer);
+        clearTimeout(searchFocusTimer);
+
+        searchInput.blur();
+
+        searchModal.classList.remove('is-visible');
+        searchModal.classList.add('is-closing');
+
+        searchCloseTimer = setTimeout(() => {
+            searchModal.style.display = 'none';
+            searchModal.classList.remove('is-closing');
+
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+            searchResults.style.display = 'none';
+        }, SEARCH_FADE_DURATION);
+    }
+}
 
         // 点击空白处即可关闭弹窗
         function closeSearch(e) {

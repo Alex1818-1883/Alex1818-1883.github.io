@@ -125,9 +125,10 @@
             transform: scale(0.95) translateZ(0);
         }
 
-/* === 搜索弹窗 === */
+/* === 搜索弹窗：白幕渐显 + 搜索框轻微下落 === */
 .search-modal {
     display: none;
+
     position: fixed;
     z-index: 2000;
     left: 0;
@@ -140,12 +141,30 @@
     backdrop-filter: blur(10px);
 
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0s linear 0.25s;
 }
 
-.search-modal.show {
-    display: block;
+.search-modal.is-visible {
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+.search-modal.is-closing {
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
 }
 
 .search-box-wrapper {
@@ -153,10 +172,25 @@
     top: 20%;
     left: 50%;
 
-    transform: translateX(-50%);
-
     width: 90%;
     max-width: 650px;
+
+    opacity: 0;
+    transform: translate(-50%, -14px);
+
+    transition:
+        opacity 0.28s ease,
+        transform 0.28s ease;
+}
+
+.search-modal.is-visible .search-box-wrapper {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+.search-modal.is-closing .search-box-wrapper {
+    opacity: 0;
+    transform: translate(-50%, -10px);
 }
 
 .search-input {
@@ -1302,19 +1336,48 @@ const searchModal = document.getElementById("searchModal");
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
 
+const SEARCH_FADE_DURATION = 250;
+let searchCloseTimer = null;
+let searchFocusTimer = null;
+
 function toggleSearchModal(show) {
     if (show) {
-        searchModal.classList.add("show");
-        searchInput.value = "";
-        searchResults.style.display = "none";
-        searchResults.innerHTML = "";
+        clearTimeout(searchCloseTimer);
+        clearTimeout(searchFocusTimer);
 
-        setTimeout(() => {
+        searchInput.value = "";
+        searchResults.innerHTML = "";
+        searchResults.style.display = "none";
+
+        searchModal.style.display = "block";
+        searchModal.classList.remove("is-closing");
+
+        // 让浏览器先确认 display:block，再启动 opacity / transform 过渡
+        void searchModal.offsetWidth;
+
+        searchModal.classList.add("is-visible");
+
+        searchFocusTimer = setTimeout(() => {
             searchInput.focus();
-        }, 100);
+        }, 280);
+
     } else {
-        searchModal.classList.remove("show");
+        clearTimeout(searchCloseTimer);
+        clearTimeout(searchFocusTimer);
+
         searchInput.blur();
+
+        searchModal.classList.remove("is-visible");
+        searchModal.classList.add("is-closing");
+
+        searchCloseTimer = setTimeout(() => {
+            searchModal.style.display = "none";
+            searchModal.classList.remove("is-closing");
+
+            searchInput.value = "";
+            searchResults.innerHTML = "";
+            searchResults.style.display = "none";
+        }, SEARCH_FADE_DURATION);
     }
 }
 
@@ -1359,7 +1422,7 @@ const matches = LIBRARY_DATA.filter(book => {
 });
 
 document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && searchModal.classList.contains("is-visible")) {
         toggleSearchModal(false);
     }
 });
