@@ -695,12 +695,17 @@ margin: 0 auto;
 .nav-links a,
 .library-slogan-btn,
 .btn-read,
+.btn-read *,
 .book-cover,
 .book-cover *,
 .search-item,
 .search-item *,
 .search-item-title,
 .search-item-author,
+.nianpu-close,
+.nianpu-close *,
+.nianpu-line,     
+.nianpu-line *,
 footer h3 {
     user-select: none;
     -webkit-user-select: none;
@@ -719,12 +724,17 @@ footer h3 {
 .nav-links a::selection,
 .library-slogan-btn::selection,
 .btn-read::selection,
+.btn-read *::selection,
 .book-cover::selection,
 .book-cover *::selection,
 .search-item::selection,
 .search-item *::selection,
 .search-item-title::selection,
 .search-item-author::selection,
+.nianpu-close::selection,  
+.nianpu-close *::selection,
+.nianpu-line::selection,       
+.nianpu-line *::selection,
 footer h3::selection {
     background: transparent;
 }
@@ -855,6 +865,94 @@ footer h3::selection {
 
 
 
+}
+
+/* === 🚀 毛泽东年谱专属弹窗装甲 === */
+.nianpu-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3000; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.nianpu-modal.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.nianpu-panel {
+    width: min(650px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    background-color: #FFFFFF;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+    padding: 34px 40px 40px 40px;
+    position: relative;
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.nianpu-modal:not(.is-hidden) .nianpu-panel {
+  transform: none;
+}
+
+.nianpu-close {
+    appearance: none; -webkit-appearance: none;
+    position: absolute; top: 22px; right: 24px;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; padding: 0;
+    border: none; border-radius: 50%;
+    background-color: transparent; color: #CC0000;
+    font-size: 26px; font-weight: 900; line-height: 1;
+    cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease;
+}
+.nianpu-close:hover { background-color: #CC0000; color: #FFFFFF; }
+
+.nianpu-title {
+    color: #CC0000; font-size: 30px; font-weight: 900;
+    letter-spacing: 2px; margin-bottom: 10px; text-align: center;
+}
+
+.nianpu-line {
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; width: 100%; margin: 0 0 25px;
+}
+.nianpu-line span { flex: 1; height: 3px; background-color: #CC0000; border-radius: 999px; }
+.nianpu-line strong { color: #CC0000; font-size: 30px; line-height: 1; font-weight: 900; }
+
+.nianpu-category {
+    margin-bottom: 30px;
+}
+.nianpu-category:last-child {
+    margin-bottom: 0;
+}
+.nianpu-category h3 {
+    color: #A80000; font-size: 20px; font-weight: bold;
+    margin-bottom: 18px; border-bottom: 2px dashed #FFCCCC; padding-bottom: 10px;
+}
+.nianpu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 12px;
+}
+
+/* 📱 手机端火力收缩：变为 2 列矩阵 */
+@media (max-width: 600px) {
+    .nianpu-panel { padding: 30px 22px 26px 26px; border-left-width: 6px; }
+    .nianpu-grid { grid-template-columns: repeat(2, 1fr); }
+    .nianpu-close { top: 18px; right: 18px; }
+    .nianpu-title { font-size: 24px; }
+    .nianpu-category h3 { font-size: 18px; }
 }
     </style>
 </head>
@@ -1251,6 +1349,16 @@ footer h3::selection {
 </div>
 
 <div class="book-card" data-mentor="mao">
+    <div class="book-cover">毛泽东年谱</div>
+    <div class="book-info">
+        <div class="book-title">《毛泽东年谱》</div>
+        <div class="book-author">中共中央文献研究室 编</div>
+        <div class="book-quote">“把马克思列宁主义的普遍真理同中国革命的具体实际结合起来。”</div>
+        <button type="button" class="btn-read btn-single" onclick="toggleNianpuModal(true)" style="width: 100%; border: none; cursor: pointer; font-family: inherit;">阅读</button>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
     <div class="book-cover">矛盾论</div>
     <div class="book-info">
         <div class="book-title">《矛盾论》</div>
@@ -1300,6 +1408,41 @@ footer h3::selection {
         </div>
     </div>
 
+<div class="nianpu-modal is-hidden" id="nianpuModal" aria-hidden="true">
+    <div class="nianpu-panel" role="dialog" aria-modal="true" aria-labelledby="nianpuTitle">
+        <button type="button" class="nianpu-close" onclick="toggleNianpuModal(false)" aria-label="关闭卷宗">×</button>
+
+        <h2 class="nianpu-title" id="nianpuTitle">《毛泽东年谱》</h2>
+
+        <div class="nianpu-line" aria-hidden="true">
+            <span></span>
+            <strong>★</strong>
+            <span></span>
+        </div>
+
+        <div class="nianpu-category">
+            <h3>新民主主义革命时期 (1893 - 1949)</h3>
+            <div class="nianpu-grid">
+                <a href="books/毛泽东年谱 1893-1949(上).pdf" target="_blank" class="btn-read">上卷</a>
+                <a href="books/毛泽东年谱 1893-1949(中).pdf" target="_blank" class="btn-read">中卷</a>
+                <a href="books/毛泽东年谱 1893-1949(下).pdf" target="_blank" class="btn-read">下卷</a>
+            </div>
+        </div>
+
+        <div class="nianpu-category">
+            <h3>社会主义革命和建设时期 (1949 - 1976)</h3>
+            <div class="nianpu-grid">
+                <a href="books/毛泽东年谱 1949-1976第1卷.pdf" target="_blank" class="btn-read">第一卷</a>
+                <a href="books/毛泽东年谱 1949-1976第2卷.pdf" target="_blank" class="btn-read">第二卷</a>
+                <a href="books/毛泽东年谱 1949-1976第3卷.pdf" target="_blank" class="btn-read">第三卷</a>
+                <a href="books/毛泽东年谱 1949-1976第4卷.pdf" target="_blank" class="btn-read">第四卷</a>
+                <a href="books/毛泽东年谱 1949-1976第5卷.pdf" target="_blank" class="btn-read">第五卷</a>
+                <a href="books/毛泽东年谱 1949-1976第6卷.pdf" target="_blank" class="btn-read">第六卷</a>
+            </div>
+        </div>
+    </div>
+</div>
+
     <footer>
         <h3>全世界无产者，联合起来！</h3>
     </footer>
@@ -1348,6 +1491,15 @@ footer h3::selection {
 { title: "《关于正确处理人民内部矛盾的问题》", author: "毛泽东", link: "books/《关于正确处理人民内部矛盾的问题》.html" },
 { title: "《矛盾论》", author: "毛泽东", link: "books/《矛盾论》.html" },
 { title: "《论持久战》", author: "毛泽东", link: "books/《论持久战》.html" },
+{ title: "《毛泽东年谱》1893-1949(上)", author: "中共中央文献研究室", link: "books/毛泽东年谱 1893-1949(上).pdf" },
+{ title: "《毛泽东年谱》1893-1949(中)", author: "中共中央文献研究室", link: "books/毛泽东年谱 1893-1949(中).pdf" },
+{ title: "《毛泽东年谱》1893-1949(下)", author: "中共中央文献研究室", link: "books/毛泽东年谱 1893-1949(下).pdf" },
+{ title: "《毛泽东年谱》1949-1976 第一卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第1卷.pdf" },
+{ title: "《毛泽东年谱》1949-1976 第二卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第2卷.pdf" },
+{ title: "《毛泽东年谱》1949-1976 第三卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第3卷.pdf" },
+{ title: "《毛泽东年谱》1949-1976 第四卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第4卷.pdf" },
+{ title: "《毛泽东年谱》1949-1976 第五卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第5卷.pdf" },
+{ title: "《毛泽东年谱》1949-1976 第六卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第6卷.pdf" },
 { title: "《新民主主义论》", author: "毛泽东", link: "books/《新民主主义论》.html" },
 { title: "《论十大关系》", author: "毛泽东", link: "books/《论十大关系》.html" },
 { title: "《毛主席语录》", author: "毛泽东", link: "maoyulu.pdf" }
@@ -1540,6 +1692,35 @@ function toggleSearchModal(show) {
                 searchResults.innerHTML = '<div style="padding: 25px; text-align: center; color: #A80000; font-weight: bold;">报告：未侦测到相关文献</div>';
             }
         });
+
+// === 🚀 年谱弹窗控制系统 ===
+const nianpuModal = document.getElementById('nianpuModal');
+
+function toggleNianpuModal(show) {
+    if (show) {
+        nianpuModal.classList.remove('is-hidden');
+        nianpuModal.setAttribute('aria-hidden', 'false');
+        // 🚀 背景锁定已解除：不再隐藏滚动条，允许背景滑动
+    } else {
+        nianpuModal.classList.add('is-hidden');
+        nianpuModal.setAttribute('aria-hidden', 'true');
+        // 🚀 解除锁定代码同步移除
+    }
+}
+
+// 战术防御 1：点击弹窗外的黑色遮罩层自动关闭
+nianpuModal.addEventListener('click', event => {
+    if (event.target === nianpuModal) {
+        toggleNianpuModal(false);
+    }
+});
+
+// 战术防御 2：按下键盘 ESC 键全局秒切关闭
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !nianpuModal.classList.contains('is-hidden')) {
+        toggleNianpuModal(false);
+    }
+});
     </script>
 
 </body>
