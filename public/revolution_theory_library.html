@@ -209,13 +209,12 @@
     outline: none;
     box-shadow: none;
 
-    transition: border-color 0.3s ease;
 
     font-family: inherit;
 }
 
 .search-input:focus {
-    border-color: #FF0000;
+    border-color: #CC0000; 
     box-shadow: none;
 }
 
@@ -670,6 +669,7 @@ justify-self: start;
 .category-btn,
 .category-btn *,
 .btn-read,
+.btn-read *,
 .btn-read-part,
 .btn-read-part *,
 .book-cover,
@@ -678,6 +678,13 @@ justify-self: start;
 .search-item *,
 .search-item-title,
 .search-item-author,
+.library-close-btn,
+.library-choice-btn,
+.library-choice-btn *,
+.library-title,
+.library-title *,
+.library-star-title,
+.library-star-title *,
 footer h3 {
             user-select: none;
             -webkit-user-select: none;
@@ -698,6 +705,7 @@ footer h3 {
         .category-btn::selection,
         .category-btn *::selection,
         .btn-read::selection,
+.btn-read *::selection,
 .btn-read-part::selection,
 .btn-read-part *::selection,
         .book-cover::selection,
@@ -706,6 +714,13 @@ footer h3 {
 .search-item *::selection,
 .search-item-title::selection,
 .search-item-author::selection,
+.library-close-btn::selection,
+.library-choice-btn::selection,
+.library-choice-btn *::selection,
+.library-title::selection,
+.library-title *::selection,
+.library-star-title::selection,
+.library-star-title *::selection,
         footer h3::selection {
             background: transparent;
         }
@@ -713,6 +728,53 @@ footer h3 {
         body {
             -webkit-tap-highlight-color: transparent;
         }
+
+/* === 🚀 全局搜索枢纽弹窗 (完美对标 classics) === */
+        .library-modal {
+            position: fixed; inset: 0; z-index: 3500;
+            display: flex; align-items: center; justify-content: center;
+            padding: 24px; background-color: rgba(0, 0, 0, 0.55); backdrop-filter: blur(5px);
+            opacity: 1; visibility: visible; pointer-events: auto;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
+        }
+        .library-modal.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .library-panel {
+            width: min(520px, 100%); padding: 42px 40px 38px; position: relative;
+            background-color: #FFF5F5; border-left: 7px solid #CC0000; border-radius: 20px;
+            text-align: center; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
+        }
+        @keyframes libraryModalIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .library-modal:not(.is-hidden) .library-panel { animation: libraryModalIn 0.32s ease-out forwards; }
+        .library-close-btn {
+            appearance: none; -webkit-appearance: none;
+            position: absolute; right: 18px; top: 14px; width: 34px; height: 34px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: none; border-radius: 50%; background-color: transparent; color: #CC0000;
+            font-size: 24px; font-weight: 900; line-height: 1; cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .library-close-btn:hover { background-color: #CC0000; color: #FFFFFF; }
+        .library-title { color: #CC0000; font-size: 30px; font-weight: 900; letter-spacing: 3px; margin-bottom: 28px; }
+        .library-star-title {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: calc(100% + 140px); margin-left: -70px; margin-right: -70px; margin-bottom: 28px; line-height: 1;
+        }
+        .library-star-title::before, .library-star-title::after {
+            content: ""; display: block; flex: 1; height: 3px; background-color: #CC0000; border-radius: 999px;
+        }
+        .library-star-title img { width: 64px; height: 64px; display: block; }
+        .library-choice-box { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .library-choice-btn {
+            display: flex; align-items: center; justify-content: center; font-family: inherit;
+            min-height: 86px; padding: 18px 16px; cursor: pointer;
+            border: 2px solid #CC0000; border-radius: 16px; background-color: #FFFFFF; color: #CC0000;
+            text-decoration: none; font-size: 22px; font-weight: 900; letter-spacing: 2px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .library-choice-btn:hover { background-color: #CC0000; color: #FFFFFF; }
 
         @media (max-width: 768px) {
             header {
@@ -728,6 +790,14 @@ footer h3 {
                 letter-spacing: 1px;
                 transform-origin: center center;
             }
+
+.library-star-title { width: calc(100% + 88px); margin-left: -44px; margin-right: -44px; margin-bottom: 24px; gap: 10px; }
+        .library-star-title::before, .library-star-title::after { flex: 1; width: auto; height: 3px; }
+        .library-star-title img { width: 54px; height: 54px; }
+        .library-panel { padding: 38px 24px 30px; border-left-width: 6px; border-radius: 18px; }
+        .library-title { font-size: 25px; letter-spacing: 2px; margin-bottom: 24px; }
+        .library-choice-box { grid-template-columns: 1fr; gap: 14px; }
+        .library-choice-btn { min-height: 72px; font-size: 20px; }
 
             .nav-links {
                 display: flex;
@@ -851,7 +921,7 @@ footer h3 {
         <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
 
 <div class="nav-links">
-<a href="javascript:void(0)" onclick="toggleSearchModal(true)">搜索</a>
+    <a href="javascript:void(0)" onclick="toggleSearchChoiceModal(true)">理论工具</a>
 </div>
     </header>
 
@@ -879,18 +949,33 @@ footer h3 {
         <section class="books-grid" id="booksGrid"></section>
     </main>
 
-<div id="searchModal" class="search-modal" onclick="closeSearch(event)">
-    <div class="search-box-wrapper">
-        <input
-            type="text"
-            id="searchInput"
-            class="search-input"
-            placeholder="输入文献名、作者或关键字..."
-            autocomplete="off"
-        >
-        <div id="searchResults" class="search-results"></div>
+<div class="library-modal is-hidden" id="searchChoiceModal" aria-hidden="true">
+        <div class="library-panel" role="dialog" aria-modal="true" aria-labelledby="searchChoiceModalTitle">
+            <button type="button" class="library-close-btn" onclick="toggleSearchChoiceModal(false)" aria-label="关闭选择窗口">×</button>
+
+            <h2 class="library-title library-star-title" id="searchChoiceModalTitle">
+                <img src="liandao.svg" alt="镰刀" aria-hidden="true" draggable="false">
+            </h2>
+
+            <div class="library-choice-box">
+                <button class="library-choice-btn" onclick="openLiteratureSearch()">文献检索</button>
+                <a href="search.html" class="library-choice-btn" target="_blank" onclick="toggleSearchChoiceModal(false)">马列辞典</a>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div id="searchModal" class="search-modal" onclick="closeSearch(event)">
+        <div class="search-box-wrapper">
+            <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="输入文献名、作者或关键字..."
+                autocomplete="off"
+            >
+            <div id="searchResults" class="search-results"></div>
+        </div>
+    </div>
 
     <footer>
         <h3>全世界无产者，联合起来！</h3>
@@ -1129,6 +1214,15 @@ footer h3 {
         link: "books/《马克思主义思想辞典》.pdf",
 
     },
+    {
+        title: "《哲学小辞典》",
+        cover: "哲学小辞典",
+        author: "上海《哲学小辞典》编写组",
+        category: "reference",
+        desc: "文革后期为工农兵编写的哲学工具书，通俗阐释辩证唯物主义与历史唯物主义。",
+        link: "books/《哲学小辞典》.pdf",
+
+    },
 {
     title: "《政治经济学辞典》",
     cover: "政治经济学辞典",
@@ -1336,6 +1430,30 @@ const searchModal = document.getElementById("searchModal");
 const searchInput = document.getElementById("searchInput");
 const searchResults = document.getElementById("searchResults");
 
+// === 🚀 搜索分支枢纽控制系统 ===
+const searchChoiceModal = document.getElementById('searchChoiceModal');
+
+function toggleSearchChoiceModal(show) {
+    if (show) {
+        searchChoiceModal.classList.remove('is-hidden');
+        searchChoiceModal.setAttribute('aria-hidden', 'false');
+    } else {
+        searchChoiceModal.classList.add('is-hidden');
+        searchChoiceModal.setAttribute('aria-hidden', 'true');
+    }
+}
+
+function openLiteratureSearch() {
+    toggleSearchChoiceModal(false);
+    setTimeout(() => { toggleSearchModal(true); }, 250); 
+}
+
+searchChoiceModal.addEventListener('click', event => {
+    if (event.target === searchChoiceModal) {
+        toggleSearchChoiceModal(false);
+    }
+});
+
 const SEARCH_FADE_DURATION = 250;
 let searchCloseTimer = null;
 let searchFocusTimer = null;
@@ -1422,8 +1540,13 @@ const matches = LIBRARY_DATA.filter(book => {
 });
 
 document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && searchModal.classList.contains("is-visible")) {
-        toggleSearchModal(false);
+    if (event.key === "Escape") {
+        if (!searchChoiceModal.classList.contains("is-hidden")) {
+            toggleSearchChoiceModal(false);
+        }
+        if (searchModal.classList.contains("is-visible")) {
+            toggleSearchModal(false);
+        }
     }
 });
     </script>

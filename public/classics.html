@@ -311,7 +311,6 @@ animation: signature-fade 1.2s ease-out 0.8s forwards;
     transform: translate(-50%, -10px);
 }
 
-        /* 🚀 终极武器：Google 式胶囊搜索框 */
         .search-input {
             width: 100%;
             padding: 20px 30px;
@@ -320,17 +319,15 @@ animation: signature-fade 1.2s ease-out 0.8s forwards;
             color: #CC0000;
             background-color: #FFFFFF;
             border: 2px solid #CC0000;
-            border-radius: 40px; /* 🚀 胶囊形核心参数 */
+            border-radius: 40px;
             outline: none;
-       box-shadow: none;
-            transition: all 0.3s ease;
+            box-shadow: none;
             font-family: inherit;
         }
         
-        /* 聚焦时的爆发光晕 */
         .search-input:focus {
-        box-shadow: none;
-            border-color: #FF0000;
+            box-shadow: none;
+            border-color: #CC0000; 
         }
         .search-input::placeholder { color: #FFCCCC; font-weight: normal; }
 
@@ -706,6 +703,13 @@ margin: 0 auto;
 .nianpu-close *,
 .nianpu-line,     
 .nianpu-line *,
+.library-close-btn,
+.library-choice-btn,
+.library-choice-btn *,
+.library-title,
+.library-title *,
+.library-star-title,
+.library-star-title *,
 footer h3 {
     user-select: none;
     -webkit-user-select: none;
@@ -735,6 +739,13 @@ footer h3 {
 .nianpu-close *::selection,
 .nianpu-line::selection,       
 .nianpu-line *::selection,
+.library-close-btn::selection,
+.library-choice-btn::selection,
+.library-choice-btn *::selection,
+.library-title::selection,
+.library-title *::selection,
+.library-star-title::selection,
+.library-star-title *::selection,
 footer h3::selection {
     background: transparent;
 }
@@ -954,15 +965,113 @@ footer h3::selection {
     .nianpu-title { font-size: 24px; }
     .nianpu-category h3 { font-size: 18px; }
 }
+
+.library-modal {
+    position: fixed; inset: 0; z-index: 3500; /* 🚀 保持最高层级 */
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; background-color: rgba(0, 0, 0, 0.55); backdrop-filter: blur(5px);
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.library-modal.is-hidden {
+    opacity: 0; visibility: hidden; pointer-events: none;
+}
+
+.library-panel {
+    width: min(520px, 100%); /* 🚀 恢复原版霸气宽度 520px */
+    padding: 42px 40px 38px; /* 🚀 恢复原版厚重内边距 */
+    position: relative;
+    background-color: #FFF5F5; border-left: 7px solid #CC0000; border-radius: 20px;
+    text-align: center; overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
+}
+
+@keyframes libraryModalIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.library-modal:not(.is-hidden) .library-panel {
+    animation: libraryModalIn 0.32s ease-out forwards;
+}
+
+.library-close-btn {
+    appearance: none; -webkit-appearance: none;
+    position: absolute; right: 18px; top: 14px; width: 34px; height: 34px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; border-radius: 50%; background-color: transparent; color: #CC0000;
+    font-size: 24px; font-weight: 900; line-height: 1; cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.library-close-btn:hover { background-color: #CC0000; color: #FFFFFF; }
+
+.library-title {
+    color: #CC0000; 
+    font-size: 30px; /* 🚀 恢复原版大号标题 */
+    font-weight: 900; letter-spacing: 3px; margin-bottom: 28px;
+}
+
+.library-star-title {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: calc(100% + 140px); margin-left: -70px; margin-right: -70px; margin-bottom: 28px; line-height: 1;
+}
+
+.library-star-title::before, .library-star-title::after {
+    content: ""; display: block; flex: 1; height: 3px; background-color: #CC0000; border-radius: 999px;
+}
+
+/* 🚀 战术卸甲：废除所有旋转动画，让镰刀稳稳扎根 */
+.library-star-title img {
+width: 64px; height: 64px;
+    display: block; 
+}
+
+.library-choice-box {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px; /* 🚀 恢复原版间距 */
+}
+
+.library-choice-btn {
+    display: flex; align-items: center; justify-content: center; font-family: inherit;
+    min-height: 86px; /* 🚀 恢复原版 86px 的巨大胶囊 */
+    padding: 18px 16px; cursor: pointer;
+    border: 2px solid #CC0000; 
+    border-radius: 16px; 
+    background-color: #FFFFFF; color: #CC0000;
+    text-decoration: none; 
+    font-size: 22px; /* 🚀 恢复原版 22px 醒目字号 */
+    font-weight: 900; letter-spacing: 2px;
+    
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.library-choice-btn:hover {
+    /* 🚀 极简爆发：没有任何位移，没有任何多余阴影，纯粹的红底白字反转！ */
+    background-color: #CC0000; color: #FFFFFF;
+}
+
+
+/* 📱 手机端火力自适应：100% 对标 index.html 手机端参数 */
+@media (max-width: 768px) {
+    .library-star-title { width: calc(100% + 88px); margin-left: -44px; margin-right: -44px; margin-bottom: 24px; gap: 10px; }
+    .library-star-title::before, .library-star-title::after { flex: 1; width: auto; height: 3px; }
+.library-star-title img { width: 54px; height: 54px; }
+    .library-panel { padding: 38px 24px 30px; border-left-width: 6px; border-radius: 18px; }
+    .library-title { font-size: 25px; letter-spacing: 2px; margin-bottom: 24px; }
+    .library-choice-box { grid-template-columns: 1fr; gap: 14px; }
+    .library-choice-btn { min-height: 72px; font-size: 20px; }
+}
+
     </style>
 </head>
 <body>
 
     <header>
         <a href="index.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
-   <div class="nav-links">
-            <a onclick="toggleSearchModal(true)" style="cursor: pointer;">搜索</a>
-        </div>
+<div class="nav-links">
+        <a onclick="toggleSearchChoiceModal(true)" style="cursor: pointer;">理论工具</a>
+   </div>
     </header>
 
     <div class="library-header">
@@ -1359,6 +1468,16 @@ footer h3::selection {
 </div>
 
 <div class="book-card" data-mentor="mao">
+    <div class="book-cover">毛泽东文集</div>
+    <div class="book-info">
+        <div class="book-title">《毛泽东文集》</div>
+        <div class="book-author">毛泽东</div>
+        <div class="book-quote">“没有调查，没有发言权。”</div>
+        <button type="button" class="btn-read btn-single" onclick="toggleWenjiModal(true)" style="width: 100%; border: none; cursor: pointer; font-family: inherit;">阅读</button>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
     <div class="book-cover">矛盾论</div>
     <div class="book-info">
         <div class="book-title">《矛盾论》</div>
@@ -1421,6 +1540,21 @@ footer h3::selection {
         </div>
     </main>
 
+<div class="library-modal is-hidden" id="searchChoiceModal" aria-hidden="true">
+        <div class="library-panel" role="dialog" aria-modal="true" aria-labelledby="searchChoiceModalTitle">
+            <button type="button" class="library-close-btn" onclick="toggleSearchChoiceModal(false)" aria-label="关闭选择窗口">×</button>
+
+  <h2 class="library-title library-star-title" id="searchChoiceModalTitle">
+                <img src="liandao.svg" alt="镰刀" aria-hidden="true" draggable="false">
+            </h2>
+
+            <div class="library-choice-box">
+                <button class="library-choice-btn" onclick="openLiteratureSearch()">文献检索</button>
+      <a href="search.html" class="library-choice-btn" target="_blank" onclick="toggleSearchChoiceModal(false)">马列辞典</a>
+            </div>
+        </div>
+    </div>
+
 <div id="searchModal" class="search-modal" onclick="closeSearch(event)">
         <div class="search-box-wrapper">
             <input type="text" id="searchInput" class="search-input" placeholder="输入文献名、作者或关键字..." autocomplete="off">
@@ -1458,6 +1592,40 @@ footer h3::selection {
                 <a href="books/毛泽东年谱 1949-1976第4卷.pdf" target="_blank" class="btn-read">第四卷</a>
                 <a href="books/毛泽东年谱 1949-1976第5卷.pdf" target="_blank" class="btn-read">第五卷</a>
                 <a href="books/毛泽东年谱 1949-1976第6卷.pdf" target="_blank" class="btn-read">第六卷</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="nianpu-modal is-hidden" id="wenjiModal" aria-hidden="true">
+    <div class="nianpu-panel" role="dialog" aria-modal="true" aria-labelledby="wenjiTitle">
+        <button type="button" class="nianpu-close" onclick="toggleWenjiModal(false)" aria-label="关闭文集">×</button>
+
+        <h2 class="nianpu-title" id="wenjiTitle">《毛泽东文集》</h2>
+
+        <div class="nianpu-line" aria-hidden="true">
+            <span></span>
+            <strong>★</strong>
+            <span></span>
+        </div>
+
+        <div class="nianpu-category">
+            <h3>新民主主义革命时期</h3>
+            <div class="nianpu-grid">
+                <a href="books/毛泽东文集1.pdf" target="_blank" class="btn-read">第一卷</a>
+                <a href="books/毛泽东文集2.pdf" target="_blank" class="btn-read">第二卷</a>
+                <a href="books/毛泽东文集3.pdf" target="_blank" class="btn-read">第三卷</a>
+                <a href="books/毛泽东文集4.pdf" target="_blank" class="btn-read">第四卷</a>
+                <a href="books/毛泽东文集5.pdf" target="_blank" class="btn-read">第五卷</a>
+            </div>
+        </div>
+
+        <div class="nianpu-category">
+            <h3>社会主义革命和建设时期</h3>
+            <div class="nianpu-grid">
+                <a href="books/毛泽东文集6.pdf" target="_blank" class="btn-read">第六卷</a>
+                <a href="books/毛泽东文集7.pdf" target="_blank" class="btn-read">第七卷</a>
+                <a href="books/毛泽东文集8.pdf" target="_blank" class="btn-read">第八卷</a>
             </div>
         </div>
     </div>
@@ -1520,6 +1688,14 @@ footer h3::selection {
 { title: "《毛泽东年谱》1949-1976 第四卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第4卷.pdf" },
 { title: "《毛泽东年谱》1949-1976 第五卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第5卷.pdf" },
 { title: "《毛泽东年谱》1949-1976 第六卷", author: "中共中央文献研究室", link: "books/毛泽东年谱 1949-1976第6卷.pdf" },
+{ title: "《毛泽东文集》第一卷", author: "毛泽东", link: "books/毛泽东文集1.pdf" },
+{ title: "《毛泽东文集》第二卷", author: "毛泽东", link: "books/毛泽东文集2.pdf" },
+{ title: "《毛泽东文集》第三卷", author: "毛泽东", link: "books/毛泽东文集3.pdf" },
+{ title: "《毛泽东文集》第四卷", author: "毛泽东", link: "books/毛泽东文集4.pdf" },
+{ title: "《毛泽东文集》第五卷", author: "毛泽东", link: "books/毛泽东文集5.pdf" },
+{ title: "《毛泽东文集》第六卷", author: "毛泽东", link: "books/毛泽东文集6.pdf" },
+{ title: "《毛泽东文集》第七卷", author: "毛泽东", link: "books/毛泽东文集7.pdf" },
+{ title: "《毛泽东文集》第八卷", author: "毛泽东", link: "books/毛泽东文集8.pdf" },
 { title: "《新民主主义论》", author: "毛泽东", link: "books/《新民主主义论》.html" },
 { title: "《毛泽东书信选集》", author: "毛泽东", link: "books/《毛泽东书信选集》.pdf" },
 { title: "《毛泽东箴言》", author: "毛泽东", link: "books/《毛泽东箴言》.pdf" },
@@ -1632,6 +1808,44 @@ window.addEventListener('resize', function () {
     }
 });
 
+// === 🚀 搜索分支枢纽控制系统 ===
+const searchChoiceModal = document.getElementById('searchChoiceModal');
+
+function toggleSearchChoiceModal(show) {
+    if (show) {
+        searchChoiceModal.classList.remove('is-hidden');
+        searchChoiceModal.setAttribute('aria-hidden', 'false');
+    } else {
+        searchChoiceModal.classList.add('is-hidden');
+        searchChoiceModal.setAttribute('aria-hidden', 'true');
+    }
+}
+
+// 🚀 无缝接力引擎：从“枢纽弹窗”切换到“文献搜索框”
+function openLiteratureSearch() {
+    // 1. 先关闭枢纽选择弹窗
+    toggleSearchChoiceModal(false);
+    
+    // 2. 极其丝滑的延迟：等待枢纽弹窗完成 0.25 秒的淡出动画后，再让白色高斯模糊的搜索框浮现！
+    setTimeout(() => {
+        toggleSearchModal(true);
+    }, 250); 
+}
+
+// 战术防御：点击空白遮罩层自动关闭
+searchChoiceModal.addEventListener('click', event => {
+    if (event.target === searchChoiceModal) {
+        toggleSearchChoiceModal(false);
+    }
+});
+
+// 战术防御：按 ESC 键全局秒切关闭
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !searchChoiceModal.classList.contains('is-hidden')) {
+        toggleSearchChoiceModal(false);
+    }
+});
+
 const SEARCH_FADE_DURATION = 250;
 let searchCloseTimer = null;
 let searchFocusTimer = null;
@@ -1741,6 +1955,34 @@ nianpuModal.addEventListener('click', event => {
 document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !nianpuModal.classList.contains('is-hidden')) {
         toggleNianpuModal(false);
+    }
+});
+
+
+// === 🚀 文集弹窗控制系统 ===
+const wenjiModal = document.getElementById('wenjiModal');
+
+function toggleWenjiModal(show) {
+    if (show) {
+        wenjiModal.classList.remove('is-hidden');
+        wenjiModal.setAttribute('aria-hidden', 'false');
+    } else {
+        wenjiModal.classList.add('is-hidden');
+        wenjiModal.setAttribute('aria-hidden', 'true');
+    }
+}
+
+// 战术防御 1：点击弹窗外的黑色遮罩层自动关闭
+wenjiModal.addEventListener('click', event => {
+    if (event.target === wenjiModal) {
+        toggleWenjiModal(false);
+    }
+});
+
+// 战术防御 2：按下键盘 ESC 键全局秒切关闭
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !wenjiModal.classList.contains('is-hidden')) {
+        toggleWenjiModal(false);
     }
 });
     </script>
