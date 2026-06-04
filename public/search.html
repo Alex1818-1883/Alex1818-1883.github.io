@@ -93,12 +93,12 @@
 
 /* === 🚀 导师图腾装甲（替换原 H1 标题） === */
         .dict-hero-portrait {
-            width: 160px; /* 🚀 黄金尺寸：保证气场，又不喧宾夺主 */
+            width: 160px; 
             height: auto;
-            margin-bottom: 40px; /* 🚀 维持与下方搜索框的完美 40px 间距 */
+            margin-bottom: 40px; 
             
             opacity: 0;
-          animation: fadeInUp 1s ease-out 0.1s both;
+         animation: fadeInUp 1s ease-out both;
             will-change: transform, opacity;
             
             -webkit-user-drag: none;
@@ -112,7 +112,7 @@
             width: 100%;
             max-width: 720px;
            opacity: 0;
-          animation: fadeInUp 1s ease-out 0.1s both;
+      animation: fadeInUp 1s ease-out both;
         }
 
 .dict-search-input {
@@ -193,12 +193,12 @@
             flex: 1;
             padding: 60px 20px 100px;
             background-color: #F9F9F9;
+           min-height: 80vh;
         }
 
         .entry-container {
             max-width: 850px;
             margin: 0 auto;
-            display: none; /* 初始不显示，查到后由 JS 唤醒 */
         }
 
 .entry-card {
@@ -268,8 +268,15 @@ animation: entryFadeIn 1s ease;
 animation: entryFadeIn 1s ease;
         }
 
-        /* === 底部 === */
-        footer { background-color: #CC0000; text-align: center; padding: 40px 20px; }
+
+/* === 底部 === */
+        footer { 
+            background-color: #CC0000; 
+            text-align: center; 
+            padding: 40px 20px; 
+            /* 🚀 隐身动画已彻底撤销！让它回归最稳固的物理常态！ */
+        }
+        
         footer h3 { font-size: 26px; color: #FFFFFF; letter-spacing: 4px; }
 
         /* === 铁壁防线：禁止选中交互元素 === */
