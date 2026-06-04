@@ -466,16 +466,16 @@ justify-self: start;
             position: relative;
             contain: layout style paint;
 
-            transform: translateY(0);
-
+             translate: 0 0; 
+            
             transition:
-                transform 0.4s ease,
+                translate 0.4s ease, 
                 box-shadow 0.4s ease,
                 border-color 0.4s ease;
         }
 
         .book-card:hover {
-            transform: translateY(-10px);
+           translate: 0 -10px;
             box-shadow: 0 15px 30px rgba(204,0,0,0.06);
             border-color: #FFCCCC;
         }
@@ -484,15 +484,15 @@ justify-self: start;
             display: none;
         }
 
-        @keyframes bookCardFadeUp {
+@keyframes bookCardFadeUp {
             from {
                 opacity: 0;
-                translate: 0 18px;
+                transform: translateY(18px); 
             }
 
             to {
                 opacity: 1;
-                translate: 0 0;
+                transform: none; 
             }
         }
 
