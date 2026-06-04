@@ -121,6 +121,28 @@ header {
     contain: layout style paint;
 }
 
+/* === 🚀 伟人图腾：全屏史诗级水印背景 === */
+.saga-board::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background-image: url('Mao_Zedong.svg');
+    background-repeat: no-repeat;
+    
+    background-position: center;
+    background-size: min(85vw, 75vh); 
+    
+    opacity: 0.02; 
+    
+    pointer-events: none; 
+    
+    z-index: 0; 
+}
+
 /* 📜 史诗档案舞台：纯净居中，彻底删除左侧红线 */
 .saga-stage {
     max-width: 760px; /* 🚀 文章的黄金阅读宽度 */
