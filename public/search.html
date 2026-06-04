@@ -98,10 +98,9 @@
             margin-bottom: 40px; /* 🚀 维持与下方搜索框的完美 40px 间距 */
             
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.1s forwards;
+          animation: fadeInUp 1s ease-out 0.1s both;
             will-change: transform, opacity;
             
-            /* 铁壁防线：彻底禁止图像被鼠标拖拽破坏排版 */
             -webkit-user-drag: none;
             user-select: none;
         }
@@ -113,7 +112,7 @@
             width: 100%;
             max-width: 720px;
            opacity: 0;
-            animation: fadeInUp 1s ease-out 0.1s forwards;
+          animation: fadeInUp 1s ease-out 0.1s both;
         }
 
 .dict-search-input {
