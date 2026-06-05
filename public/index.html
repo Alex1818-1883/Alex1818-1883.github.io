@@ -209,6 +209,24 @@
         section { padding: 80px 20px; text-align: center; border-top: 1px solid #FFCCCC; }
         .section-title { font-size: 32px; color: #CC0000; margin-bottom: 40px; letter-spacing: 1px; }
 
+.mission-hero-portrait {
+            text-align: center;
+          margin-top: -20px;
+            margin-bottom: 50px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+.mission-hero-portrait img {
+            width: 180px; 
+            height: auto;
+           -webkit-user-drag: none;
+            user-select: none;
+            
+        }
+
+
         /* 使命区样式 */
         .mission { background-color: #FFFFFF; border-top: 4px solid #CC0000; }
         .mission-container {
@@ -1246,8 +1264,11 @@ will-change: transform, opacity;
 
     </section>
 
-    <section id="mission" class="mission">
-        <h2 class="section-title">批判的武器</h2>
+<section id="mission" class="mission">
+        <div class="mission-hero-portrait">
+            <img src="Mao_Zedong_vector_portrait.svg" alt="毛主席画像">
+        </div>
+        
         <div class="mission-container">
             <div class="mission-item clickable" onclick="window.location.href='classics.html'">
                 <h2>马列毛主义经典</h2>
