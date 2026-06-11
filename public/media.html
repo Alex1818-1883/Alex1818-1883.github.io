@@ -49,8 +49,8 @@
 .nav-links a:active {
    transform: scale(0.95) translateZ(0);
 }
-        .logo:hover { transform: scale(1.1) translateZ(0); }
-        .logo:hover .star { transform: scale(1.3) rotate(36deg) translateZ(0); color: #FFD700; }
+        .logo:hover { transform: scale(1.15) translateZ(0); }
+        .logo:hover .star { transform: scale(1.4) rotate(36deg) translateZ(0); color: #FFD700; }
 
         .hero {
     height: 45vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -63,10 +63,7 @@
 
   .content-container { 
             max-width: 1300px; 
-            /* 🚀 核心修复：将 margin 从 "40px auto" 改为四个方位独立控制！
-               上方保持 40px，左右自动居中，下方强行撑开 120px 的战略纵深！
-               这 120px 抵消掉底层的负边距后，刚好能留下极其完美的视觉留白。 */
-            margin: 40px auto 120px auto; 
+            margin: 70px auto 56px auto; 
             padding: 0 20px; 
         }
         
@@ -256,6 +253,63 @@
 }
 .btn-play:hover { background-color: #A80000; transform: scale(1.05) translateZ(0); }
 .btn-play:active { transform: scale(0.95) translateZ(0); }
+
+.gallery-entry {
+    margin-top: 56px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-main {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #CC0000;
+    background-color: #FFFFFF;
+
+    text-decoration: none;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 9px 40px;
+
+    border: 2px solid #CC0000;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.btn-main:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+    border-color: #CC0000;
+}
+
+.btn-main:active {
+    background-color: #CC0000;
+    color: #FFFFFF;
+    border-color: #CC0000;
+}
+
+.btn-main::selection {
+    background: transparent;
+}
+
+
 /* “/* “人民万岁”互动文字彩蛋 - 终极物理引擎版 */
         .wansui-interactive {
     display: inline-block; cursor: pointer; letter-spacing: 2px;
@@ -310,6 +364,8 @@ footer h3 {
 .carousel-arrow *,
 .btn-play,
 .btn-play *,
+.btn-main,
+.btn-main *,
 .close-btn,
 .close-btn *,
 footer h3 {
@@ -332,6 +388,8 @@ footer h3 {
 .carousel-arrow *::selection,
 .btn-play::selection,
 .btn-play *::selection,
+.btn-main::selection,
+.btn-main *::selection,
 .close-btn::selection,
 .close-btn *::selection,
 footer h3::selection {
@@ -363,6 +421,20 @@ footer h3::selection {
     .nav-links a {
         margin-left: 0;
     }
+
+.content-container {
+    margin: 70px auto 50px auto;
+}
+
+.gallery-entry {
+    margin-top: 50px;
+    padding: 0 20px;
+}
+
+.btn-main {
+    width: 100%;
+    max-width: 320px;
+}
 
     .hero h1 {
         font-size: 2rem;
@@ -972,6 +1044,10 @@ footer h3::selection {
     </div>  <!-- /carousel-viewport -->
     <button class="carousel-arrow carousel-next" onclick="carouselSlide(1)">›</button>
 </div>  <!-- /carousel-wrapper -->
+
+<div class="gallery-entry">
+    <a href="Amao_gallery.html" class="btn-main">教员相集</a>
+</div>
 
       
     </div>
