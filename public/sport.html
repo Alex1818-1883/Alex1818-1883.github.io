@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>国际共产主义运动 - 青年共产主义小组</title>
+    <title>国际共产主义运动</title>
 <link rel="icon" href="red.ico" type="image/x-icon">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -427,29 +427,28 @@ box-shadow: none;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 
-    padding: 12px 34px;
+    padding: 10px 34px;
     border: 2px solid #CC0000;
     border-radius: 40px;
 
-    transform: scale(1) translateZ(0);
-    will-change: transform;
-    backface-visibility: hidden;
-
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                background-color 0.3s ease,
-                color 0.3s ease;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
 }
 
 .ending-btn:hover {
     color: #FFFFFF;
     background-color: #CC0000;
-    transform: scale(1.05) translateZ(0);
+    border-color: #CC0000;
 }
 
 .ending-btn:active {
-    transform: scale(0.95) translateZ(0);
+    color: #FFFFFF;
+    background-color: #CC0000;
+    border-color: #CC0000;
 }
 
         footer {
@@ -875,7 +874,7 @@ footer h3::selection {
 
     <h2>“至今一切社会的历史都是阶级斗争的历史。”</h2>
 
-    <a href="movements.html" class="ending-btn">进入档案馆</a>
+    <a href="movements.html" class="ending-btn">共运档案馆</a>
 </div>
     </main>
 
