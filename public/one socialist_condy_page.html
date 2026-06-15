@@ -168,63 +168,52 @@
             text-align: center;
         }
 
-        .btn-main,
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 46px;
-            padding: 12px 28px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            cursor: pointer;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
-            transform: scale(1) translateZ(0);
-            will-change: transform;
-            transition:
-                transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-                background-color 0.3s ease,
-                color 0.3s ease,
-                border-color 0.3s ease;
-        }
+      .btn-main,
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
-        .btn-main {
-            background-color: #CC0000;
-            color: #FFFFFF;
-            border: 2px solid #CC0000;
-        }
+    min-height: 46px;
+    padding: 10px 42px;
 
-        .btn-outline {
-            background-color: transparent;
-            color: #CC0000;
-            border: 2px solid #CC0000;
-        }
+    border-radius: 30px;
+    text-decoration: none;
 
-        .btn-main:hover,
-        .btn-outline:hover {
-            transform: scale(1.05) translateZ(0);
-        }
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: 1px;
 
-        .btn-outline:hover {
-            background-color: #CC0000;
-            color: #FFFFFF;
-        }
+    cursor: pointer;
 
-        .btn-main:hover {
-            background-color: #A80000;
-            border-color: #A80000;
-        }
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
 
-        .btn-main:active,
-        .btn-outline:active {
-            transform: scale(0.95) translateZ(0);
-        }
+    color: #FFFFFF;
+    background-color: #CC0000;
+    border: 2px solid #CC0000;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.btn-main:hover,
+.btn-outline:hover {
+    color: #FFFFFF;
+    background-color: #A80000;
+    border-color: #A80000;
+}
+
+.btn-main:active,
+.btn-outline:active {
+    color: #FFFFFF;
+    background-color: #A80000;
+    border-color: #A80000;
+}
 
         main {
             padding: 70px 24px 80px;
