@@ -566,32 +566,27 @@ margin: 0 auto;
             gap: 40px;
         }
 
-        .book-card {
-            background: #FFFFFF;
-            border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #EEE;
-            
-            /* 🚀 核心修复 1：保留结界，保护内部渲染不受外部干扰 */
-            position: relative;
-            contain: layout style paint;
+  .book-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #EEE;
 
-                  translate: 0 0;
-            
-                transition: translate 0.4s ease,
-                        box-shadow 0.4s ease, 
-                        border-color 0.4s ease;
-        }
-        
-        .book-card:hover {
-         translate: 0 -10px;
-            
-            box-shadow: 0 15px 30px rgba(204,0,0,0.06);
-            border-color: #FFCCCC;
-        }
+    position: relative;
+    contain: layout style paint;
+
+    transition:
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
+
+.book-card:hover {
+    box-shadow: 0 12px 24px rgba(204,0,0,0.07);
+    border-color: #FFCCCC;
+}
 
 @keyframes bookCardFadeUp {
     from {
@@ -655,15 +650,154 @@ pointer-events: none;
 .book-title-france-class {
     font-size: 18.5px;
 }
-        .book-author { font-size: 14px; color: #666; margin-bottom: 20px; border-bottom: 1px solid #EEE; padding-bottom: 10px; }
-  .book-quote { 
-            font-size: 16px; color: #555;font-style: normal;
-            margin-bottom: 25px; line-height: 1.6; flex: 1;
-            
-            /* 🚀 核心排版修复：中文全角标点悬挂技术！与 media.html 完美对标！ */
-            padding-left: 1em;  /* 先把整段文字向右推移一个字的距离 */
-            text-indent: -1em;  /* 再把第一行（带有引号的那行）强行向左拉回一个字的距离！ */
-        }
+
+.book-author {
+    position: relative;
+
+    font-size: 14px;
+    color: #666;
+
+    margin-bottom: 24px;
+    padding-bottom: 15px;
+
+    /* 默认灰色细线：保持原样，悬停时渐隐 */
+    border-bottom: 1px solid #EEE;
+
+    transition:
+        color 0.35s ease,
+        border-bottom-color 0.42s ease;
+}
+
+/* 悬停时出现的红线 + 红星整体 */
+.author-red-divider {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: -8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+        opacity 0.42s ease;
+}
+
+/* 左右两段红线：真正的圆角线段 */
+.author-red-divider span {
+    flex: 1;
+    height: 3px;
+
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+/* 中间红星 */
+.author-red-divider strong {
+    flex: 0 0 auto;
+
+    color: #CC0000;
+    background-color: #FFFFFF;
+
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1;
+
+    padding: 0 8px;
+
+    transform: scale(0.76);
+
+    transition:
+        transform 0.42s ease;
+}
+
+/* 鼠标悬停卡片时：作者文字略变红，灰线渐隐 */
+.book-card:hover .book-author {
+    color: #A80000;
+    border-bottom-color: transparent;
+}
+
+/* 鼠标悬停卡片时：红线和红星一起渐显 */
+.book-card:hover .author-red-divider {
+    opacity: 1;
+}
+
+.book-card:hover .author-red-divider strong {
+    transform: scale(1);
+}
+
+.book-quote { 
+    position: relative;
+
+    font-size: 16px;
+    color: #555;
+    font-style: normal;
+    font-weight: 400;
+
+    margin-bottom: 25px;
+    line-height: 1.6;
+    flex: 1;
+}
+
+/* 灰色原文：默认显示，悬停时渐隐 */
+.quote-gray {
+    display: block;
+
+    color: #555;
+    font-weight: 400;
+
+    padding-left: 1em;
+    text-indent: -1em;
+
+    opacity: 1;
+
+    transition:
+        opacity 0.4s ease;
+}
+
+.quote-red {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+
+    color: #A80000;
+    font-weight: 600;
+
+    padding-left: 1em;
+    text-indent: -1em;
+
+    box-sizing: border-box;
+
+    opacity: 0;
+    pointer-events: none;
+
+    user-select: text;
+    -webkit-user-select: text;
+
+    transition:
+        opacity 0.4s ease;
+}
+
+.book-card:hover .quote-gray {
+    opacity: 0;
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.book-card:hover .quote-red {
+    opacity: 1;
+    pointer-events: auto;
+
+    user-select: text;
+    -webkit-user-select: text;
+}
         
         .download-group {
             display: grid;
@@ -694,6 +828,8 @@ pointer-events: none;
 .btn-read *,
 .book-cover,
 .book-cover *,
+.author-red-divider,
+.author-red-divider *,
 .search-item,
 .search-item *,
 .search-item-title,
@@ -730,6 +866,8 @@ footer h3 {
 .btn-read *::selection,
 .book-cover::selection,
 .book-cover *::selection,
+.author-red-divider::selection,
+.author-red-divider *::selection,
 .search-item::selection,
 .search-item *::selection,
 .search-item-title::selection,
@@ -847,11 +985,15 @@ footer h3::selection {
 }
 
 
-  .book-quote {
-        padding-left: 0;
-        text-indent: 0;
-        text-align: left;
-    }
+.book-quote {
+    text-align: left;
+}
+
+.quote-gray,
+.quote-red {
+    padding-left: 0;
+    text-indent: 0;
+}
 
 /* === 手机端搜索结果：右侧作者不换行 === */
 .search-item {
@@ -1162,6 +1304,16 @@ width: 64px; height: 64px;
         <div class="book-author">卡尔·马克思</div>
    <div class="book-quote">“工人同自己的劳动产品的关系，就是同一个异己的对象的关系。”</div>
         <a href="books/《1844年经济学哲学手稿》.html" target="_blank" class="btn-read btn-single">阅读</a>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="marx">
+    <div class="book-cover">哲学的贫困</div>
+    <div class="book-info">
+        <div class="book-title">《哲学的贫困》</div>
+        <div class="book-author">卡尔·马克思</div>
+        <div class="book-quote">“对蒲鲁东小资产阶级社会主义思想的系统批判，是马克思主义政治经济学形成过程中的重要著作。”</div>
+        <a href="books/《哲学的贫困》.pdf" target="_blank" class="btn-read btn-single">阅读</a>
     </div>
 </div>
 
@@ -1669,6 +1821,7 @@ width: 64px; height: 64px;
      { title: "《资本论》第三卷", author: "卡尔·马克思", link: "books/《资本论第三卷》.pdf" },
             { title: "《哥达纲领批判》", author: "卡尔·马克思", link: "Article ge da pipan.html" },
 { title: "《1844年经济学哲学手稿》", author: "卡尔·马克思", link: "books/《1844年经济学哲学手稿》.html" },
+{ title: "《哲学的贫困》", author: "卡尔·马克思", link: "books/《哲学的贫困》.pdf" },
 { title: "《德意志意识形态》", author: "马克思 / 恩格斯", link: "books/《德意志意识形态》.html" },
 { title: "《法兰西内战》", author: "卡尔·马克思", link: "books/《法兰西内战》.html" },
 { title: "《雇佣劳动与资本》", author: "卡尔·马克思", link: "books/《雇佣劳动与资本》.html" },
@@ -2015,6 +2168,39 @@ document.addEventListener('keydown', event => {
         toggleWenjiModal(false);
     }
 });
+
+
+document.querySelectorAll('.book-author').forEach(function(author) {
+    if (author.querySelector('.author-red-divider')) return;
+
+    const divider = document.createElement('span');
+    divider.className = 'author-red-divider';
+    divider.setAttribute('aria-hidden', 'true');
+
+    divider.innerHTML = '<span></span><strong>★</strong><span></span>';
+
+    author.appendChild(divider);
+});
+
+document.querySelectorAll('.book-quote').forEach(function(quote) {
+    if (quote.querySelector('.quote-gray')) return;
+
+    const text = quote.textContent.trim();
+
+    quote.textContent = '';
+
+    const grayText = document.createElement('span');
+    grayText.className = 'quote-gray';
+    grayText.textContent = text;
+
+    const redText = document.createElement('span');
+    redText.className = 'quote-red';
+    redText.textContent = text;
+
+    quote.appendChild(grayText);
+    quote.appendChild(redText);
+});
+
     </script>
 
 </body>
