@@ -453,32 +453,28 @@ justify-self: start;
             gap: 40px;
         }
 
-        .book-card {
-            background: #FFFFFF;
-            border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+.book-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
 
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 
-            border: 1px solid #EEEEEE;
-            position: relative;
-            contain: layout style paint;
+    border: 1px solid #EEEEEE;
+    position: relative;
+    contain: layout style paint;
 
-             translate: 0 0; 
-            
-            transition:
-                translate 0.4s ease, 
-                box-shadow 0.4s ease,
-                border-color 0.4s ease;
-        }
+    transition:
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+}
 
-        .book-card:hover {
-           translate: 0 -10px;
-            box-shadow: 0 15px 30px rgba(204,0,0,0.06);
-            border-color: #FFCCCC;
-        }
+.book-card:hover {
+    box-shadow: 0 12px 24px rgba(204,0,0,0.07);
+    border-color: #FFCCCC;
+}
 
         .book-card.is-hidden {
             display: none;
@@ -555,26 +551,155 @@ justify-self: start;
     line-height: 1.45;
 }
 
-        .book-author {
-            font-size: 14px;
-            color: #666666;
+.book-author {
+    position: relative;
 
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+    font-size: 14px;
+    color: #666666;
 
-            border-bottom: 1px solid #EEEEEE;
-        }
+    margin-bottom: 24px;
+    padding-bottom: 15px;
 
-        .book-desc {
-            flex: 1;
+    border-bottom: 1px solid #EEEEEE;
 
-            color: #555555;
-            font-size: 16px;
-            line-height: 1.75;
-            margin-bottom: 25px;
+    transition:
+        color 0.35s ease,
+        border-bottom-color 0.42s ease;
+}
 
-            text-align: left;
-        }
+/* 悬停时出现的红线 + 红星整体 */
+.author-red-divider {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: -8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+        opacity 0.42s ease;
+}
+
+/* 左右两段红线 */
+.author-red-divider span {
+    flex: 1;
+    height: 3px;
+
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+/* 中间红星 */
+.author-red-divider strong {
+    flex: 0 0 auto;
+
+    color: #CC0000;
+    background-color: #FFFFFF;
+
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1;
+
+    padding: 0 8px;
+
+    transform: scale(0.76);
+
+    transition:
+        transform 0.42s ease;
+}
+
+/* 鼠标悬停卡片时：作者文字略变红，灰线渐隐 */
+.book-card:hover .book-author {
+    color: #A80000;
+    border-bottom-color: transparent;
+}
+
+/* 鼠标悬停卡片时：红线和红星一起渐显 */
+.book-card:hover .author-red-divider {
+    opacity: 1;
+}
+
+.book-card:hover .author-red-divider strong {
+    transform: scale(1);
+}
+
+  .book-desc {
+    position: relative;
+
+    flex: 1;
+
+    color: #555555;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+
+    text-align: left;
+}
+
+/* 灰色原文：默认显示，悬停时渐隐 */
+.desc-gray {
+    display: block;
+
+    color: #555555;
+    font-weight: 400;
+
+ padding-left: 0;
+text-indent: 0;
+
+    opacity: 1;
+
+    transition:
+        opacity 0.4s ease;
+}
+
+/* 红色加粗原文：默认隐藏，悬停时渐显 */
+.desc-red {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+
+    color: #A80000;
+    font-weight: 600;
+
+padding-left: 0;
+text-indent: 0;
+
+    box-sizing: border-box;
+
+    opacity: 0;
+    pointer-events: none;
+
+    user-select: text;
+    -webkit-user-select: text;
+
+    transition:
+        opacity 0.4s ease;
+}
+
+/* 鼠标悬停卡片时：灰色文字渐隐 */
+.book-card:hover .desc-gray {
+    opacity: 0;
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 鼠标悬停卡片时：红色加粗文字渐显 */
+.book-card:hover .desc-red {
+    opacity: 1;
+    pointer-events: auto;
+
+    user-select: text;
+    -webkit-user-select: text;
+}
 
         .btn-read {
             text-align: center;
@@ -675,6 +800,8 @@ justify-self: start;
 .btn-read-part *,
 .book-cover,
 .book-cover *,
+.author-red-divider,
+.author-red-divider *,
 .search-item,
 .search-item *,
 .search-item-title,
@@ -711,6 +838,8 @@ footer h3 {
 .btn-read-part *::selection,
         .book-cover::selection,
         .book-cover *::selection,
+.author-red-divider::selection,
+.author-red-divider *::selection,
 .search-item::selection,
 .search-item *::selection,
 .search-item-title::selection,
@@ -908,6 +1037,16 @@ footer h3 {
     line-height: 1.45;
 }
 
+.book-desc {
+    text-align: left;
+}
+
+.desc-gray,
+.desc-red {
+    padding-left: 0;
+    text-indent: 0;
+}
+
 
             footer h3 {
                 font-size: 20px;
@@ -1075,7 +1214,7 @@ footer h3 {
     cover: "卢森堡文选",
     author: "罗莎·卢森堡",
     category: "revolutionaries",
-    desc: "本书是罗莎·卢森堡的代表性论著集，系统收录了她批判伯恩施坦修正主义、阐述资本积累与资本主义崩溃论等光辉篇章。",
+    desc: "本书是卢森堡的代表性论著集，系统收录了她批判伯恩施坦修正主义、阐述资本积累与资本主义崩溃论等光辉篇章。",
     parts: [
         {
             label: "上卷",
@@ -1110,7 +1249,7 @@ footer h3 {
         cover: "游击战",
         author: "切·格瓦拉",
         category: "revolutionaries",
-        desc: "切·格瓦拉主张游击中心论，认为少数先锋战士就能点燃农村革命火种，通过武装斗争创造革命条件，进而夺取政权。",
+        desc: "主张游击中心论，认为少数先锋战士就能点燃农村革命火种，通过武装斗争创造革命条件，进而夺取政权。",
         link: "books/《游击战》.pdf",
 
     },
@@ -1165,7 +1304,7 @@ footer h3 {
         cover: "托洛茨基论中国革命",
         author: "列夫·托洛茨基",
         category: "china",
-        desc: "收录托洛茨基对1925—1927年中国大革命的系统分析，围绕统一战线政策失误、国共关系与革命失败根源展开批判性考察。",
+        desc: "收录托洛茨基对中国大革命的系统分析，围绕统一战线政策失误、国共关系与革命失败根源展开批判性考察。",
         link: "books/《托洛茨基论中国革命》.pdf",
     },
     {
@@ -1182,7 +1321,7 @@ footer h3 {
         cover: "漫长的革命",
         author: "埃德加·斯诺",
         category: "china",
-        desc: "斯诺1970年重访中国的观察报告，记录文化大革命时期的社会变革、群众运动与毛泽东晚年的政治路线，是了解这一时期中国的重要外部视角。",
+        desc: "斯诺一九七零年重访中国的观察报告，记录文化大革命时期的社会变革、群众运动与毛泽东晚年的政治路线，是了解这一时期中国的重要外部视角。",
         link: "books/《漫长的革命》.pdf"
     },
 
@@ -1357,7 +1496,7 @@ footer h3 {
         cover: "钢铁是怎样练成的",
         author: "奥斯特洛夫斯基",
         category: "literature",
-        desc: "以保尔·柯察金的成长历程为主线，展现无产阶级革命者在战争、劳动与病痛的磨砺中锤炼革命意志的过程。",
+        desc: "以保尔的成长历程为主线，展现无产阶级革命者在战争、劳动与病痛的磨砺中锤炼革命意志的过程。",
         link: "books/《钢铁是怎样练成的》.pdf",
 
     }
@@ -1436,8 +1575,42 @@ const titleClass = book.extraLongTitle
             });
         }
 
-        renderBooks();
-        initCategories();
+     function initBookCardHoverEffects() {
+    document.querySelectorAll('.book-author').forEach(function(author) {
+        if (author.querySelector('.author-red-divider')) return;
+
+        const divider = document.createElement('span');
+        divider.className = 'author-red-divider';
+        divider.setAttribute('aria-hidden', 'true');
+
+        divider.innerHTML = '<span></span><strong>★</strong><span></span>';
+
+        author.appendChild(divider);
+    });
+
+    document.querySelectorAll('.book-desc').forEach(function(desc) {
+        if (desc.querySelector('.desc-gray')) return;
+
+        const text = desc.textContent.trim();
+
+        desc.textContent = '';
+
+        const grayText = document.createElement('span');
+        grayText.className = 'desc-gray';
+        grayText.textContent = text;
+
+        const redText = document.createElement('span');
+        redText.className = 'desc-red';
+        redText.textContent = text;
+
+        desc.appendChild(grayText);
+        desc.appendChild(redText);
+    });
+}
+
+renderBooks();
+initBookCardHoverEffects();
+initCategories();
 
 // === 搜索数据库：自动从 BOOKS 生成 ===
 function buildLibraryData() {
