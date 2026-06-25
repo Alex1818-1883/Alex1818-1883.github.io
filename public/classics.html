@@ -817,7 +817,43 @@ pointer-events: none;
            .btn-read:active {
             transform: scale(0.95) translateZ(0);
           }
+
         .btn-single { grid-column: span 2; font-size: 16px; padding: 12px 0; }
+.btn-read-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.btn-read-part {
+    text-align: center;
+    background-color: #CC0000;
+    color: #FFFFFF;
+
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+
+    padding: 12px 0;
+    border-radius: 4px;
+
+    transform: scale(1) translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+
+    transition:
+        transform 0.3s ease,
+        background-color 0.3s ease;
+}
+
+.btn-read-part:hover {
+    background-color: #A80000;
+    transform: scale(1.02) translateZ(0);
+}
+
+.btn-read-part:active {
+    transform: scale(0.95) translateZ(0);
+}
 
 /* === 禁止关键按钮和书封文字被选中：电脑端 + 手机端 === */
 .logo,
@@ -826,6 +862,8 @@ pointer-events: none;
 .library-slogan-btn,
 .btn-read,
 .btn-read *,
+.btn-read-part,
+.btn-read-part *,
 .book-cover,
 .book-cover *,
 .author-red-divider,
@@ -864,6 +902,8 @@ footer h3 {
 .library-slogan-btn::selection,
 .btn-read::selection,
 .btn-read *::selection,
+.btn-read-part::selection,
+.btn-read-part *::selection,
 .book-cover::selection,
 .book-cover *::selection,
 .author-red-divider::selection,
@@ -1767,6 +1807,19 @@ width: 64px; height: 64px;
 </div>
 
 <div class="book-card" data-mentor="mao">
+   <div class="book-cover long-title">读社会主义政治经济学<br>批注和谈话</div>
+    <div class="book-info">
+<div class="book-title book-title-long">《读社会主义政治经济学批注和谈话》</div>
+        <div class="book-author">毛泽东</div>
+<div class="book-quote">“不能把商品生产和资本主义生产混为一谈，这是两种不同的东西。”</div>
+        <div class="btn-read-group">
+            <a href="books/《读社会主义政治经济学批注和谈话上》.pdf" target="_blank" class="btn-read-part">上卷</a>
+            <a href="books/《读社会主义政治经济学批注和谈话下》.pdf" target="_blank" class="btn-read-part">下卷</a>
+        </div>
+    </div>
+</div>
+
+<div class="book-card" data-mentor="mao">
 <div class="book-cover">毛泽东书信选集</div>
     <div class="book-info">
         <div class="book-title">《毛泽东书信选集》</div>
@@ -1894,7 +1947,7 @@ width: 64px; height: 64px;
         </div>
 
         <div class="nianpu-category">
-            <h3>新民主主义革命时期 (1893 - 1949)</h3>
+            <h3>新民主主义革命时期</h3>
             <div class="nianpu-grid">
                 <a href="books/毛泽东年谱 1893-1949(上).pdf" target="_blank" class="btn-read">上卷</a>
                 <a href="books/毛泽东年谱 1893-1949(中).pdf" target="_blank" class="btn-read">中卷</a>
@@ -1903,7 +1956,7 @@ width: 64px; height: 64px;
         </div>
 
         <div class="nianpu-category">
-            <h3>社会主义革命和建设时期 (1949 - 1976)</h3>
+            <h3>社会主义革命和建设时期</h3>
             <div class="nianpu-grid">
                 <a href="books/毛泽东年谱 1949-1976第1卷.pdf" target="_blank" class="btn-read">第一卷</a>
                 <a href="books/毛泽东年谱 1949-1976第2卷.pdf" target="_blank" class="btn-read">第二卷</a>
@@ -2032,6 +2085,8 @@ width: 64px; height: 64px;
 { title: "《新民主主义论》", author: "毛泽东", link: "books/《新民主主义论》.html" },
 { title: "《毛泽东书信选集》", author: "毛泽东", link: "books/《毛泽东书信选集》.pdf" },
 { title: "《毛泽东诗词集》", author: "毛泽东", link: "books/《毛泽东诗词集》.pdf" },
+{ title: "《读社会主义政治经济学批注和谈话》· 上卷", author: "毛泽东", link: "books/《读社会主义政治经济学批注和谈话上》.pdf" },
+{ title: "《读社会主义政治经济学批注和谈话》· 下卷", author: "毛泽东", link: "books/《读社会主义政治经济学批注和谈话下》.pdf" },
 { title: "《毛泽东论文艺》", author: "毛泽东", link: "books/《毛泽东论文艺》.pdf" },
 { title: "《毛主席哲学思想》", author: "毛泽东", link: "books/《毛主席哲学思想》.pdf" },
 { title: "《毛泽东文艺论集》", author: "毛泽东", link: "books/《毛泽东文艺论集》.pdf" },
