@@ -1079,7 +1079,7 @@ footer h3 {
     <button class="category-btn active" type="button" data-category="all">全部文献</button>
     <button class="category-btn" type="button" data-category="revolutionaries">革命理论家</button>
     <button class="category-btn" type="button" data-category="international">国际共产主义运动</button>
-    <button class="category-btn" type="button" data-category="china">革命与继续革命</button>
+    <button class="category-btn" type="button" data-category="china">革命与反修防修</button>
     <button class="category-btn" type="button" data-category="reference">辞典与工具书</button>
     <button class="category-btn" type="button" data-category="economy">政治经济学研究</button>
     <button class="category-btn" type="button" data-category="memoir">传记与回忆录</button>
@@ -1131,14 +1131,17 @@ footer h3 {
         desc: "围绕巴黎公社的产生、斗争、失败与历史意义展开，是理解无产阶级政权问题和国家机器问题的重要辅助材料。",
         link: "books/《巴黎公社》.pdf"
     },
-    {
-        title: "《俄国革命史》",
-        cover: "俄国革命史",
-        author: "列夫·托洛茨基",
-        category: "international",
-        desc: "以俄国革命进程为中心，呈现革命形势、阶级力量、政党斗争和群众运动之间的复杂关系。",
-        link: "books/《俄国革命史》.pdf"
+{
+    title: "《俄国革命史》",
+    cover: "俄国革命史",
+    author: "列夫·托洛茨基",
+    category: ["international", "revolutionaries"],
+    order: {
+        revolutionaries: 8.5
     },
+    desc: "以俄国革命进程为中心，呈现革命形势、阶级力量、政党斗争和群众运动之间的复杂关系。",
+    link: "books/《俄国革命史》.pdf"
+},
     {
         title: "《联共（布）党史简明教程》",
         cover: "联共（布）党史",
@@ -1373,22 +1376,30 @@ footer h3 {
         link: "books/《长征》.pdf",
 
     },
-    {
-        title: "《托洛茨基论中国革命》",
-        cover: "托洛茨基论中国革命",
-        author: "列夫·托洛茨基",
-        category: "china",
-        desc: "收录托洛茨基对中国大革命的系统分析，围绕统一战线政策失误、国共关系与革命失败根源展开批判性考察。",
-        link: "books/《托洛茨基论中国革命》.pdf",
+{
+    title: "《托洛茨基论中国革命》",
+    cover: "托洛茨基论中国革命",
+    author: "列夫·托洛茨基",
+    category: ["china", "revolutionaries", "international"],
+    order: {
+        revolutionaries: 11.5,
+        international: 5.5
     },
-    {
-        title: "《斯大林与中国革命》",
-        cover: "斯大林与中国革命",
-        author: "列夫·托洛茨基",
-        category: "china",
-        desc: "系统阐述斯大林在中国大革命、土地革命战争及抗日战争时期的策略及其复杂影响，总结历史经验教训的著作。",
-        link: "books/《斯大林与中国革命》.html",
+    desc: "收录托洛茨基对中国大革命的系统分析，围绕统一战线政策失误、国共关系与革命失败根源展开批判性考察。",
+    link: "books/《托洛茨基论中国革命》.pdf",
+},
+{
+    title: "《斯大林与中国革命》",
+    cover: "斯大林与中国革命",
+    author: "列夫·托洛茨基",
+    category: ["china", "revolutionaries", "international"],
+    order: {
+        revolutionaries: 11.51,
+        international: 5.51
     },
+    desc: "系统阐述斯大林在中国大革命、土地革命战争及抗日战争时期的策略及其复杂影响，总结历史经验教训的著作。",
+    link: "books/《斯大林与中国革命》.html",
+},
     {
         title: "《红星照耀中国》",
         cover: "红星照耀中国",
@@ -1438,7 +1449,10 @@ footer h3 {
         title: "《资本积累论》",
         cover: "资本积累论",
         author: "罗莎·卢森堡",
-        category: "economy",
+    category: ["economy", "revolutionaries"],
+   order: {
+        revolutionaries: 12.5
+    },
         desc: "围绕资本主义生产方式的发展、积累、危机和阶级结构变化展开研究。",
         link: "books/《资本积累论》.pdf",
 
@@ -1501,7 +1515,10 @@ footer h3 {
         title: "《国际共产主义运动史大事记》",
         cover: "国际共运史大事记",
         author: "辽宁第一师范学院政教系",
-        category: "reference",
+  category: ["reference", "international"],
+  order: {
+        international: 5.49
+    },
         desc: "以时间线方式整理国际共产主义运动的重要事件，有助于把理论文本放回具体历史脉络中理解。",
         link: "books/《国际共产主义运动大事记》.pdf",
 
@@ -1584,11 +1601,24 @@ footer h3 {
     }
 ];
 
+function getBookCategories(book) {
+    return Array.isArray(book.category) ? book.category : [book.category];
+}
+
+function getBookOrder(book, category, fallbackIndex) {
+    if (book.order && book.order[category] !== undefined) {
+        return book.order[category];
+    }
+
+    return fallbackIndex;
+}
+
 function renderBooks() {
     const grid = document.getElementById("booksGrid");
 
-    grid.innerHTML = BOOKS.map(book => {
-        const coverClass = book.longCover ? "book-cover long-title" : "book-cover";
+grid.innerHTML = BOOKS.map((book, index) => {
+    const categories = getBookCategories(book).join(" ");
+    const coverClass = book.longCover ? "book-cover long-title" : "book-cover";
 const titleClass = book.extraLongTitle
     ? "book-title book-title-extra-long"
     : book.longTitle
@@ -1606,7 +1636,7 @@ const titleClass = book.extraLongTitle
             : `<a href="${book.link}" target="_blank" class="btn-read">阅读</a>`;
 
         return `
-            <div class="book-card" data-category="${book.category}">
+ <div class="book-card" data-category="${categories}" data-index="${index}">
                 <div class="${coverClass}">${book.cover}</div>
 
                 <div class="book-info">
@@ -1630,19 +1660,36 @@ const titleClass = book.extraLongTitle
             }, { once: true });
         }
 
-        function filterBooks(category) {
-            const cards = document.querySelectorAll(".book-card");
+function filterBooks(category) {
+    const grid = document.getElementById("booksGrid");
+    const cards = Array.from(document.querySelectorAll(".book-card"));
 
-            cards.forEach(card => {
-                const shouldShow = category === "all" || card.dataset.category === category;
+    cards.sort((cardA, cardB) => {
+        const indexA = Number(cardA.dataset.index);
+        const indexB = Number(cardB.dataset.index);
 
-                card.classList.toggle("is-hidden", !shouldShow);
+        const bookA = BOOKS[indexA];
+        const bookB = BOOKS[indexB];
 
-                if (shouldShow) {
-                    animateBookCard(card);
-                }
-            });
+        const orderA = getBookOrder(bookA, category, indexA);
+        const orderB = getBookOrder(bookB, category, indexB);
+
+        return orderA - orderB;
+    });
+
+    cards.forEach(card => {
+        grid.appendChild(card);
+
+        const cardCategories = card.dataset.category.split(" ");
+        const shouldShow = category === "all" || cardCategories.includes(category);
+
+        card.classList.toggle("is-hidden", !shouldShow);
+
+        if (shouldShow) {
+            animateBookCard(card);
         }
+    });
+}
 
         function initCategories() {
             const buttons = document.querySelectorAll(".category-btn");
