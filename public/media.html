@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>革命影音资料库 - 青年共产主义小组</title>
+    <title>革命影音资料库</title>
 <link rel="icon" href="red.ico" type="image/x-icon">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -675,6 +675,263 @@ footer h3::selection {
     }
 }
 
+
+/* === 语录诗词选择弹窗：对标 classic 页面右上角弹窗 === */
+.library-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3500;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.library-modal.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.library-panel {
+    width: min(520px, 100%);
+    padding: 42px 40px 38px;
+
+    position: relative;
+
+    background-color: #FFF5F5;
+
+    border-left: 7px solid #CC0000;
+    border-radius: 20px;
+
+    text-align: center;
+    overflow: hidden;
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes libraryModalIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.library-modal:not(.is-hidden) .library-panel {
+    animation: libraryModalIn 0.32s ease-out forwards;
+}
+
+.library-close-btn {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    right: 18px;
+    top: 14px;
+
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: transparent;
+    color: #CC0000;
+
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.library-close-btn:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+}
+
+.library-title {
+    color: #CC0000;
+
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 3px;
+
+    margin-bottom: 28px;
+}
+
+.library-star-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    width: calc(100% + 140px);
+    margin-left: -70px;
+    margin-right: -70px;
+    margin-bottom: 28px;
+
+    line-height: 1;
+}
+
+.library-star-title::before,
+.library-star-title::after {
+    content: "";
+    display: block;
+
+    flex: 1;
+    height: 3px;
+
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+.library-star-title img {
+    width: 64px;
+    height: 64px;
+
+    display: block;
+}
+
+.library-choice-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.library-choice-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 86px;
+    padding: 18px 16px;
+
+    border: 2px solid #CC0000;
+    border-radius: 16px;
+
+    background-color: #FFFFFF;
+    color: #CC0000;
+
+    text-decoration: none;
+
+    font-family: inherit;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.library-choice-btn:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+}
+
+/* 弹窗元素禁止选中 */
+.library-close-btn,
+.library-close-btn *,
+.library-choice-btn,
+.library-choice-btn *,
+.library-title,
+.library-title *,
+.library-star-title,
+.library-star-title * {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+}
+
+.library-close-btn::selection,
+.library-close-btn *::selection,
+.library-choice-btn::selection,
+.library-choice-btn *::selection,
+.library-title::selection,
+.library-title *::selection,
+.library-star-title::selection,
+.library-star-title *::selection {
+    background: transparent;
+}
+
+/* 手机端保持 classic 页面同款 */
+@media (max-width: 768px) {
+    .library-star-title {
+        width: calc(100% + 88px);
+        margin-left: -44px;
+        margin-right: -44px;
+        margin-bottom: 24px;
+
+        gap: 10px;
+    }
+
+    .library-star-title::before,
+    .library-star-title::after {
+        flex: 1;
+        width: auto;
+        height: 3px;
+    }
+
+    .library-star-title img {
+        width: 54px;
+        height: 54px;
+    }
+
+    .library-panel {
+        padding: 38px 24px 30px;
+
+        border-left-width: 6px;
+        border-radius: 18px;
+    }
+
+    .library-title {
+        font-size: 25px;
+        letter-spacing: 2px;
+        margin-bottom: 24px;
+    }
+
+    .library-choice-box {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .library-choice-btn {
+        min-height: 72px;
+        font-size: 20px;
+    }
+}
+
       
     </style>
 </head>
@@ -682,9 +939,9 @@ footer h3::selection {
 
     <header>
     <a href="memorial.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
-    <div class="nav-links">
-        <a href="quotes.html">毛主席语录</a>
-    </div>
+<div class="nav-links">
+    <a onclick="toggleQuotePoemModal(true)" style="cursor: pointer;">语录·诗词</a>
+</div>
 </header>
 
     <section class="hero">
@@ -1075,6 +1332,26 @@ footer h3::selection {
         </div>
     </div>
 
+<div class="library-modal is-hidden" id="quotePoemModal" aria-hidden="true">
+    <div class="library-panel" role="dialog" aria-modal="true" aria-labelledby="quotePoemModalTitle">
+        <button
+            type="button"
+            class="library-close-btn"
+            onclick="toggleQuotePoemModal(false)"
+            aria-label="关闭选择窗口"
+        >×</button>
+
+        <h2 class="library-title library-star-title" id="quotePoemModalTitle">
+            <img src="liandao.svg" alt="镰刀" aria-hidden="true" draggable="false">
+        </h2>
+
+        <div class="library-choice-box">
+            <a href="quotes.html" class="library-choice-btn" onclick="toggleQuotePoemModal(false)">教员语录</a>
+            <a href="AApoems.html" class="library-choice-btn" onclick="toggleQuotePoemModal(false)">经典诗词</a>
+        </div>
+    </div>
+</div>
+
     <footer>
         <h3>继续革命，永不投降！</h3>
     </footer>
@@ -1255,6 +1532,33 @@ document.querySelectorAll('.carousel-arrow').forEach(button => {
     button.addEventListener('pointerup', releaseArrow);
     button.addEventListener('pointercancel', releaseArrow);
     button.addEventListener('pointerleave', releaseArrow);
+});
+
+// === 语录诗词选择弹窗控制系统 ===
+const quotePoemModal = document.getElementById("quotePoemModal");
+
+function toggleQuotePoemModal(show) {
+    if (!quotePoemModal) return;
+
+    if (show) {
+        quotePoemModal.classList.remove("is-hidden");
+        quotePoemModal.setAttribute("aria-hidden", "false");
+    } else {
+        quotePoemModal.classList.add("is-hidden");
+        quotePoemModal.setAttribute("aria-hidden", "true");
+    }
+}
+
+quotePoemModal.addEventListener("click", event => {
+    if (event.target === quotePoemModal) {
+        toggleQuotePoemModal(false);
+    }
+});
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !quotePoemModal.classList.contains("is-hidden")) {
+        toggleQuotePoemModal(false);
+    }
 });
     </script>
 

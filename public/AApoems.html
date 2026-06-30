@@ -1,0 +1,5013 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毛主席诗词集</title>
+    <link rel="icon" href="red.ico" type="image/x-icon">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+        scrollbar-gutter: stable;
+        overflow-y: scroll;
+    }
+
+    body {
+        font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+        background-color: #F9F9F9;
+        color: #A80000;
+        line-height: 1.6;
+        font-size: 18px;
+
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    header {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        padding: 20px 40px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        z-index: 100;
+    }
+
+    .logo {
+        font-size: 26px;
+        font-weight: 900;
+        color: #CC0000;
+        text-decoration: none;
+        letter-spacing: 1px;
+
+        display: flex;
+        align-items: center;
+
+        transform: scale(1) translateZ(0);
+        will-change: transform;
+        backface-visibility: hidden;
+        transform-origin: left center;
+
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .logo .star {
+        display: inline-block;
+        margin-right: 8px;
+
+        transition:
+            transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+            color 0.3s ease;
+    }
+
+    .logo:hover {
+        transform: scale(1.15) translateZ(0);
+    }
+
+    .logo:hover .star {
+        transform: scale(1.4) rotate(36deg) translateZ(0);
+        color: #FFD700;
+    }
+
+    .logo:active {
+        transform: scale(0.95) translateZ(0);
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 15px;
+    }
+
+    .nav-links a {
+        display: inline-block;
+
+        color: #CC0000;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+
+        padding: 8px 22px;
+
+        border: 2px solid #CC0000;
+        border-radius: 30px;
+
+        transform: scale(1) translateZ(0);
+        will-change: transform;
+        backface-visibility: hidden;
+
+        transition:
+            transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+            background-color 0.3s ease,
+            color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+        color: #FFFFFF;
+        background-color: #CC0000;
+        transform: scale(1.1) translateY(-3px) translateZ(0);
+    }
+
+    .nav-links a:active {
+        transform: scale(0.95) translateZ(0);
+    }
+
+    /* === 首屏 === */
+.hero {
+    min-height: 420px;
+    padding: 96px 20px 58px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #FFFFFF 0,
+            #FFFFFF calc(100% - 42px),
+            #F9F9F9 calc(100% - 42px),
+            #F9F9F9 100%
+        );
+
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+.hero h1 {
+    color: #DD0000;
+    font-size: 3.4rem;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+
+    position: relative;
+    z-index: 1;
+}
+
+.hero-title {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    line-height: 1.1;
+}
+
+.mao-signature {
+    display: inline-block;
+
+    width: 178px;
+    height: auto;
+
+    flex: 0 0 auto;
+
+    transform: translateY(3px);
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
+
+.hero p {
+    color: #A80000;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.8;
+
+    position: relative;
+    z-index: 1;
+}
+
+.hero-divider {
+    position: absolute;
+
+    left: 50%;
+    bottom: 24px;
+
+    width: 100vw;
+    margin-left: -50vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    color: #CC0000;
+    font-size: 36px;
+    line-height: 1;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+
+    z-index: 2;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+    content: "";
+    display: block;
+
+    flex: 1;
+    height: 3px;
+
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+.content-container {
+    flex: 1;
+
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 14px auto 0;
+    padding: 0 20px 64px;
+}
+
+/* === 胶囊分类按钮引擎：和 gallery 页面完全一样 === */
+.poem-category-section {
+    text-align: center;
+
+    width: min(900px, 100%);
+    margin: 0 auto 54px;
+}
+
+.poem-category-section h2 {
+    color: #CC0000;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin-bottom: 36px;
+}
+
+.poem-index-trigger {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: inline-block;
+
+    border: none;
+    border-radius: 999px;
+    background-color: transparent;
+
+    color: #CC0000;
+
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+
+    padding: 8px 50px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.poem-index-trigger:hover,
+.poem-index-trigger:active {
+    color: #FFFFFF;
+    background-color: #CC0000;
+}
+
+.poem-index-trigger:focus,
+.poem-index-trigger:focus-visible {
+    outline: none;
+}
+
+.poem-index-modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 3000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background-color: rgba(0, 0, 0, 0.48);
+    backdrop-filter: blur(5px);
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.poem-index-modal.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.poem-index-panel {
+    position: relative;
+
+    width: min(760px, 100%);
+    max-height: 82vh;
+
+    background-color: #FFFFFF;
+
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
+}
+
+.poem-index-header {
+    flex: 0 0 auto;
+
+    position: relative;
+    z-index: 2;
+
+    padding: 32px 54px 0 42px;
+
+    background-color: #FFFFFF;
+}
+
+.poem-index-title {
+    color: #CC0000;
+
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 3px;
+
+    text-align: center;
+
+    margin: 0 0 12px;
+}
+
+.poem-index-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+    width: 100%;
+
+margin: 0 0 12px;
+}
+
+.poem-index-line span {
+    flex: 1;
+    height: 3px;
+
+    background-color: #CC0000;
+    border-radius: 999px;
+}
+
+.poem-index-line strong {
+    flex: 0 0 auto;
+
+    color: #CC0000;
+    background-color: #FFFFFF;
+
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+
+    padding: 0 8px;
+}
+
+.poem-index-close {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    top: 22px;
+    right: 24px;
+
+    width: 34px;
+    height: 34px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    padding-bottom: 2px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: transparent;
+    color: #CC0000;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+
+    cursor: pointer;
+
+    outline: none;
+    box-shadow: none;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.poem-index-close:hover,
+.poem-index-close:active {
+    background-color: #CC0000;
+    color: #FFFFFF;
+}
+
+.poem-index-close:focus,
+.poem-index-close:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.poem-index-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+
+    overflow-y: auto;
+
+    margin-right: 12px;
+ padding: 12px 32px 34px 42px;
+
+    scrollbar-gutter: stable;
+}
+
+.poem-index-group {
+    margin-bottom: 28px;
+}
+
+.poem-index-group:last-child {
+    margin-bottom: 0;
+}
+
+.poem-index-group-title {
+     color: #CC0000;
+
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+
+    border-bottom: 2px dashed #FFCCCC;
+
+    text-align: left;
+}
+
+.poem-index-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 10px;
+
+    margin-left: -16px;
+}
+
+.poem-index-item {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: inline-block;
+
+    border: none;
+    border-radius: 999px;
+    background-color: transparent;
+
+    color: #A80000;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.5;
+
+    padding: 7px 16px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.22s ease,
+        color 0.22s ease;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.poem-index-item:hover,
+.poem-index-item:active {
+    color: #FFFFFF;
+    background-color: #CC0000;
+}
+
+.poem-index-item.is-current {
+    color: #FFFFFF;
+    background-color: #CC0000;
+}
+
+.poem-index-trigger,
+.poem-index-trigger *,
+.poem-index-close,
+.poem-index-close *,
+.poem-index-title,
+.poem-index-title *,
+.poem-index-line,
+.poem-index-line *,
+.poem-index-group-title,
+.poem-index-group-title *,
+.poem-index-item,
+.poem-index-item * {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+}
+
+.poem-index-trigger::selection,
+.poem-index-trigger *::selection,
+.poem-index-close::selection,
+.poem-index-close *::selection,
+.poem-index-title::selection,
+.poem-index-title *::selection,
+.poem-index-line::selection,
+.poem-index-line *::selection,
+.poem-index-group-title::selection,
+.poem-index-group-title *::selection,
+.poem-index-item::selection,
+.poem-index-item *::selection {
+    background: transparent;
+}
+
+
+
+.category-buttons {
+    --slider-x: -4px;
+    --slider-y: -4px;
+    --slider-width: 0px;
+    --slider-height: 0px;
+
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    width: min(880px, 100%);
+    margin: 0 auto 52px;
+    padding: 5px;
+
+    border: 2px solid #CC0000;
+    border-radius: 999px;
+    background-color: #FFFFFF;
+}
+
+.poem-category-intro {
+    width: min(882px, 100%);
+    margin: 0 auto 24px;
+    padding: 20px 30px 20px 34px;
+
+    background-color: #FFF7F7;
+
+    border: none;
+    border-left: 7px solid #CC0000;
+    border-radius: 18px;
+
+    color: #A80000;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.9;
+    text-align: justify;
+}
+
+.category-buttons::before {
+    content: "";
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: var(--slider-width);
+    height: var(--slider-height);
+
+    background-color: #CC0000;
+    border-radius: 999px;
+
+    opacity: 0;
+
+    transform: translate3d(var(--slider-x), var(--slider-y), 0);
+
+    transition:
+        transform 0.26s ease,
+        opacity 0.18s ease;
+
+    z-index: 0;
+}
+
+.category-buttons.no-slider-transition::before {
+    transition: none !important;
+}
+
+.category-buttons.has-active::before {
+    opacity: 1;
+}
+
+.category-btn {
+    position: relative;
+    z-index: 1;
+
+    height: 46px;
+
+    border: none;
+    border-radius: 999px;
+    background-color: transparent;
+
+    color: #CC0000;
+
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: color 0.22s ease;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    isolation: isolate;
+}
+
+.category-btn::before {
+    content: "";
+    position: absolute;
+
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+
+    border-radius: 999px;
+    background-color: rgba(204, 0, 0, 0.08);
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: -1;
+
+    transition: opacity 0.22s ease;
+}
+
+.category-btn:hover::before {
+    opacity: 1;
+}
+
+.category-btn.active::before,
+.category-btn.active:hover::before {
+    opacity: 0;
+}
+
+.category-btn:hover {
+    color: #FF0000;
+}
+
+.category-btn.active,
+.category-btn.active:hover {
+    color: #FFFFFF;
+}
+
+ 
+.poem-stage {
+    min-height: 0;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding: 0 20px 24px;
+
+    position: relative;
+    overflow: visible;
+}
+
+.poem-view-container {
+    position: relative;
+
+    width: 100%;
+    max-width: 960px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+    .poem-display {
+        max-width: 960px;
+        width: 100%;
+
+        text-align: center;
+
+        opacity: 0;
+        transform: translateY(30px);
+
+        transition:
+            opacity 0.4s ease,
+            transform 0.4s ease;
+    }
+
+    .poem-display.visible {
+        opacity: 1;
+        transform: none;
+    }
+
+
+
+.poem-title {
+       color: #CC0000;
+    font-size: 38px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.25;
+
+    margin-bottom: 26px;
+}
+
+.poem-arrow {
+    position: absolute;
+    top: 24px;
+    transform: translateY(-50%);
+
+    width: 54px;
+    height: 54px;
+
+    background-color: transparent;
+    color: #CC0000;
+    border: 2px solid transparent;
+    border-radius: 50%;
+
+    font-size: 34px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: none;
+
+    padding: 0;
+    line-height: 0;
+    padding-bottom: 4px;
+
+    z-index: 10;
+
+    transition:
+        transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        opacity 0.25s ease;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+.poem-prev {
+    left: calc(50% - 450px);
+    padding-right: 2px;
+    padding-left: 0;
+}
+
+.poem-next {
+    right: calc(50% - 450px);
+    padding-left: 2px;
+    padding-right: 0;
+}
+
+.poem-arrow:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+    border-color: #CC0000;
+
+    transform: translateY(-50%) scale(1.15) translateZ(0);
+}
+
+.poem-arrow:active,
+.poem-arrow.is-tapping {
+    background-color: #A80000;
+    color: #FFFFFF;
+    border-color: #A80000;
+
+    transform: translateY(-50%) scale(0.95) translateZ(0);
+}
+
+.poem-text {
+    display: inline-block;
+
+    max-width: min(856px, 100%);
+
+    text-align: left;
+
+    color: #CC0000;
+
+    font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.9;
+    letter-spacing: 0px;
+
+    margin-bottom: 0;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.poem-text p {
+    max-width: 100%;
+    margin-bottom: 2px;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.poem-text p.poem-stanza-gap {
+    height: 20px;
+    margin-bottom: 0;
+}
+
+.poem-extra {
+    width: min(860px, 100%);
+
+    margin: 52px auto 0;
+
+    color: #333333;
+    text-align: left;
+}
+
+
+.poem-extra-section {
+    margin-bottom: 34px;
+}
+
+.poem-extra-section:last-child {
+    margin-bottom: 0;
+}
+
+.poem-extra-title {
+    color: #CC0000;
+
+    font-size: 21px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    margin-bottom: 16px;
+}
+
+.poem-background-text,
+.poem-translation-text {
+    color: #222222;
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.05;
+    text-align: justify;
+
+    margin: 0;
+}
+
+.poem-background-text + .poem-background-text,
+.poem-translation-text + .poem-translation-text {
+    margin-top: 14px;
+}
+
+.poem-notes {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.poem-note-item {
+    color: #222222;
+
+    font-size: 16px;
+    line-height: 2.05;
+    text-align: justify;
+}
+
+.poem-note-term {
+    color: #CC0000;
+    font-weight: 900;
+}
+
+.poem-text.large {
+    font-size: 30px;
+}
+
+.poem-text.small {
+    font-size: 26px;
+}
+
+.poem-text.mini {
+    font-size: 24px;
+}
+
+.poem-text.extramini {
+    font-size: 22px;
+}
+
+
+    footer {
+        background-color: #CC0000;
+        text-align: center;
+        padding: 40px 20px;
+        color: #FFFFFF;
+    }
+
+    footer h3 {
+        font-size: 26px;
+        color: #FFFFFF;
+        letter-spacing: 4px;
+    }
+
+    /* === 禁止选中：电脑端 + 手机端 === */
+    .logo,
+    .logo *,
+    .nav-links a,
+    .poem-category-section h2,
+.hero-divider,
+.hero-divider *,
+.category-buttons,
+.category-buttons *,
+.category-btn,
+.category-btn *,
+.poem-arrow,
+.poem-arrow *,
+    footer h3 {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+
+        -webkit-touch-callout: none;
+        -webkit-tap-highlight-color: transparent;
+
+        -webkit-user-drag: none;
+    }
+
+    .logo::selection,
+    .logo *::selection,
+    .nav-links a::selection,
+    .poem-category-section h2::selection,
+.hero-divider::selection,
+.hero-divider *::selection,
+.category-buttons::selection,
+.category-buttons *::selection,
+.category-btn::selection,
+.category-btn *::selection,
+.poem-arrow::selection,
+.poem-arrow *::selection,
+    footer h3::selection {
+        background: transparent;
+    }
+
+.poem-category-intro,
+.poem-category-intro * {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+
+    -webkit-touch-callout: default;
+}
+
+    @media (max-width: 980px) {
+.category-buttons {
+    grid-template-columns: repeat(3, 1fr);
+    border-radius: 28px;
+}
+
+.category-btn {
+    height: 42px;
+    font-size: 15px;
+}
+
+.poem-prev {
+    left: -62px;
+}
+
+.poem-next {
+    right: -62px;
+}
+
+.poem-arrow {
+    width: 48px;
+    height: 48px;
+    font-size: 31px;
+}
+.poem-title {
+    font-size: 34px;
+}
+
+.poem-text {
+    font-size: 26px;
+}
+
+.poem-text.large {
+    font-size: 28px;
+}
+
+.poem-text.small {
+    font-size: 24px;
+}
+
+.poem-text.mini {
+    font-size: 22px;
+}
+
+.poem-text.extramini {
+    font-size: 20px;
+}
+    }
+
+    @media (max-width: 768px) {
+        header {
+            padding: 15px 20px;
+
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 22px;
+            transform-origin: center center;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .nav-links a {
+            margin-left: 0;
+            font-size: 16px;
+            padding: 6px 22px;
+        }
+
+.poem-category-intro {
+    padding: 16px 18px 16px 22px;
+    border-left-width: 6px;
+    border-radius: 16px;
+
+    font-size: 15px;
+    line-height: 1.85;
+    letter-spacing: 0;
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.category-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: 24px;
+    padding: 4px;
+    margin-bottom: 40px;
+}
+
+.category-btn {
+    height: 42px;
+    font-size: 15px;
+    letter-spacing: 0;
+}
+
+.poem-index-trigger {
+    padding: 6px 38px;
+}
+
+.poem-index-panel {
+    width: 100%;
+    max-height: 82vh;
+
+    border-left-width: 6px;
+    border-radius: 18px;
+}
+
+.poem-index-header {
+    padding: 30px 28px 0 26px;
+}
+
+.poem-index-title {
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.poem-index-line {
+    gap: 12px;
+    margin: 0 0 12px;
+}
+
+.poem-index-line span {
+    height: 3px;
+}
+
+.poem-index-line strong {
+    font-size: 26px;
+    padding: 0 6px;
+}
+
+.poem-index-close {
+    top: 18px;
+    right: 18px;
+
+    width: 34px;
+    height: 34px;
+
+    font-size: 30px;
+    padding-bottom: 2px;
+}
+
+.poem-index-scroll {
+    margin-right: 8px;
+    padding: 12px 20px 28px 26px;
+}
+
+.poem-index-group {
+    margin-bottom: 24px;
+}
+
+.poem-index-group-title {
+    font-size: 18px;
+    letter-spacing: 1px;
+
+    margin-bottom: 12px;
+    padding-bottom: 9px;
+
+    border-bottom: 2px dashed #FFCCCC;
+
+    text-align: left;
+}
+
+.poem-index-items {
+    gap: 7px 8px;
+
+    margin-left: -13px;
+}
+
+.poem-index-item {
+    font-size: 14px;
+    padding: 6px 13px;
+}
+
+.hero-divider {
+    bottom: 20px;
+    gap: 12px;
+    font-size: 30px;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+    height: 3px;
+}
+
+.hero {
+    min-height: 360px;
+    padding-top: 96px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #FFFFFF 0,
+            #FFFFFF calc(100% - 35px),
+            #F9F9F9 calc(100% - 35px),
+            #F9F9F9 100%
+        );
+}
+
+
+.hero h1 {
+    font-size: 2.4rem;
+    letter-spacing: 2px;
+}
+
+.mao-signature {
+    width: 126px;
+    transform: translateY(2px);
+}
+
+.hero-title {
+    gap: 5px;
+}
+
+.hero p {
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+    .content-container {
+    margin: 20px auto 0;
+    padding: 0 16px 56px;
+}
+
+        .poem-category-section {
+            margin-bottom: 38px;
+        }
+
+        .poem-category-section h2 {
+            font-size: 27px;
+            letter-spacing: 2px;
+        }
+
+
+.poem-stage {
+    min-height: 0;
+    padding: 0 10px 16px;
+}
+
+.poem-view-container {
+    position: relative;
+
+    width: 100%;
+    max-width: 960px;
+
+    margin: 0 auto;
+    padding: 0 50px;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.poem-arrow {
+    width: 44px;
+    height: 44px;
+    font-size: 30px;
+
+    top: 18px;
+
+    background-color: transparent;
+    color: #CC0000;
+    border: 2px solid transparent;
+}
+
+.poem-prev {
+    left: 0;
+}
+
+.poem-next {
+    right: 0;
+}
+
+.poem-arrow:hover {
+    background-color: transparent;
+    color: #CC0000;
+    border-color: transparent;
+
+    transform: translateY(-50%) scale(1) translateZ(0);
+}
+
+.poem-arrow:focus,
+.poem-arrow:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.poem-arrow:focus:not(:active):not(.is-tapping),
+.poem-arrow:focus-visible:not(:active):not(.is-tapping) {
+    background-color: transparent;
+    color: #CC0000;
+    border-color: transparent;
+
+    transform: translateY(-50%) scale(1) translateZ(0);
+}
+
+.poem-arrow:active,
+.poem-arrow.is-tapping {
+    background-color: #CC0000;
+    color: #FFFFFF;
+    border-color: #CC0000;
+
+    transform: translateY(-50%) scale(0.95) translateZ(0);
+}
+
+.poem-title {
+    font-size: 28px;
+    letter-spacing: 1px;
+    margin-bottom: 22px;
+}
+
+.poem-text {
+    font-size: 22px;
+    letter-spacing: 0px;
+    line-height: 1.9;
+}
+
+.poem-text.large {
+    font-size: 23px;
+}
+
+.poem-text.small,
+.poem-text.mini,
+.poem-text.extramini {
+    font-size: 20px;
+}
+
+.poem-extra {
+    width: 100%;
+    margin-top: 42px;
+}
+
+
+.poem-extra-section {
+    margin-bottom: 28px;
+}
+
+.poem-extra-title {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.poem-background-text,
+.poem-translation-text,
+.poem-note-item {
+    font-size: 14px;
+    line-height: 1.95;
+}
+
+.poem-notes {
+    gap: 8px;
+}
+
+
+
+        footer h3 {
+            font-size: 20px;
+            letter-spacing: 4px;
+        }
+    }
+
+</style>
+
+</head>
+
+<body>
+    <header>
+        <a href="media.html" class="logo"><span class="star">★</span> 马列毛主义万岁！</a>
+
+    <div class="nav-links">
+        <a href="saga.html">革命生涯</a>
+    </div>
+</header>
+
+<section class="hero">
+    <h1 class="hero-title">
+        <img class="mao-signature" src="Mao_Zedong_signature.svg" alt="毛泽东签名">
+        <span>诗词集</span>
+    </h1>
+
+    <p>风雷 · 山河 · 人民</p>
+
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<main class="content-container">
+    <section class="poem-category-section">
+     <h2>
+    <button class="poem-index-trigger" id="poemIndexBtn" type="button" onclick="openPoemIndexModal()">
+        诗词索引
+    </button>
+</h2>
+
+
+<div class="category-buttons" id="categoryButtons">
+    <button class="category-btn active" type="button" data-category="early">恰同学少年</button>
+    <button class="category-btn" type="button" data-category="jinggang">星火燎原</button>
+    <button class="category-btn" type="button" data-category="longmarch">雄关漫道</button>
+    <button class="category-btn" type="button" data-category="reply">人间正道</button>
+    <button class="category-btn" type="button" data-category="socialist">换了人间</button>
+</div>
+
+<div class="poem-category-intro" id="poemCategoryIntro">
+    青年时代的诗词，展现毛主席早年的革命抱负、历史意识和改造旧世界的壮阔胸襟。
+</div>
+    </section>
+
+<section class="poem-stage">
+    <div class="poem-view-container">
+        <button class="poem-arrow poem-prev" id="prevBtn" type="button" onclick="prevPoem()">‹</button>
+
+<div class="poem-display" id="poemDisplay">
+    <div class="poem-title" id="poemTitle"></div>
+
+    <div class="poem-text" id="poemText"></div>
+
+    <div class="poem-extra" id="poemExtra"></div>
+</div>
+
+        <button class="poem-arrow poem-next" id="nextBtn" type="button" onclick="nextPoem()">›</button>
+    </div>
+</section>
+</main>
+
+<div class="poem-index-modal is-hidden" id="poemIndexModal" onclick="closePoemIndexModalByOverlay(event)">
+    <div class="poem-index-panel" role="dialog" aria-modal="true" aria-labelledby="poemIndexModalTitle">
+      <div class="poem-index-header">
+    <h2 class="poem-index-title" id="poemIndexModalTitle">诗词索引</h2>
+
+    <div class="poem-index-line" aria-hidden="true">
+        <span></span>
+        <strong>★</strong>
+        <span></span>
+    </div>
+
+    <button class="poem-index-close" type="button" onclick="closePoemIndexModal()">×</button>
+</div>
+
+        <div class="poem-index-scroll">
+            <div class="poem-index-list" id="poemIndexList"></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <h3>继续革命，永不投降！</h3>
+</footer>
+
+<script>
+   const POEMS = [
+{
+    title: "七绝·呈父亲",
+    category: "early",
+    lines: [
+        "孩儿立志出乡关，学不成名誓不还。",
+        "埋骨何须桑梓地，人生无处不青山。"
+    ],
+ background: "1910年秋天，毛泽东离开家乡韶山，走向外面更广阔的世界。这是他人生历程中的第一个转折。怀着激动心情，临行前他写下这首诗，夹在父亲每天必看的帐簿里，以作告别。",
+translation: [
+    "孩儿立下志向走出家乡，学习不取得成就绝不回来。",
+    "死后何必将尸骨埋葬在故乡的土地，祖国到处都是秀丽的山河，可以作为安息的地方。"
+],
+    notes: [
+        {
+            term: "乡关",
+            text: "家乡，故乡。"
+        },
+    {
+            term: "桑梓",
+            text: "家乡，故乡。古代，人们喜欢在住宅周围栽种桑树和梓树，后来人们就用物代处所，用“桑梓”代称家乡。赞扬某人为家乡造福，往往用“功在桑梓”。"
+        },
+        {
+            term: "青山",
+            text: "象征祖国的山河秀丽。"
+          }
+    ]
+},
+
+{
+    title: "五古·挽易昌陶",
+    category: "early",
+    lines: [
+   "去去思君深，思君君不来。",
+   "愁杀芳年友，悲叹有馀哀。",
+   "衡阳雁声彻，湘滨春溜回。",
+   "感物念所欢，踯躅南城隈。",
+   "城隈草萋萋，涔泪侵双题。",
+   "采采馀孤景，日落衡云西。",
+   "方期沆漾游，零落匪所思。",
+   "永诀从今始，午夜惊鸣鸡。",
+   "鸣鸡一声唱，汗漫东皋上。",
+   "冉冉望君来，握手珠眶涨。",
+   "关山蹇骥足，飞飙拂灵帐。",
+   "我怀郁如焚，放歌倚列嶂。",
+   "列嶂青且茜，愿言试长剑。",
+   "东海有岛夷，北山尽仇怨。",
+   "荡涤谁氏子，安得辞浮贱。",
+   "子期竟早亡，牙琴从此绝。",
+   "琴绝最伤情，朱华春不荣。",
+ "后来有千日，谁与共平生？",
+ "望灵荐杯酒，惨淡看铭旌。",
+  "惆怅中何寄，江天水一泓。"
+    ],
+background: [
+    "1915年3月，毛泽东的同学——湖南省立第一师范学校第八班学生易昌陶于假期病逝于家中，由校长张干、学监王季范、教员杨昌济发起，学校于5月23日为他开了追悼会。为纪念同学，毛泽东写了这首《挽易昌陶君》。这首诗最早收录于湖南第一师范学校油印的《易君咏蛙追悼录》，又见之于1991年3月湖南文艺出版社出版萧永义编著的《毛泽东诗词对联辑注》一书，存于韶山纪念馆。",
+    "此诗录自毛泽东给湘生的信，信中说：“读君诗，调高意厚，非我所能。同学易昌陶君病死。君工书善文，与弟甚厚，死殊可惜。校中哀悼，吾挽以诗，乞为辅正。”毛泽东同时还写了一副悼念易昌陶的挽联：“胡虏多反复，千里度龙山，腥秽待前，独令我来何济世；生死安足论，百年会有殁，奇花初茁，特因君去尚非时。”正直袁世凯接受日本帝国主义旨在灭亡中国的“二十一条”，国事危急。毛泽东此诗表达了对良友早逝的悲痛心情，抒发了忧国忧民的情怀和改造旧世界的志向。"
+],
+translation: [
+    "绝别的时间越久想念你就越深，思念你你也不能来了。",
+    "愁坏了你年轻的朋友，悲伤感叹多么痛苦。",
+    "衡阳来的飞燕叫声清澈，湘江的春水回旋流淌。",
+    "看到这些景物想起我所喜欢的人，在南城边来回走动。",
+    "城边茂盛的春草好像我们离别之情，流下的眼泪浸湿了前额。",
+    "只有我一人鲜明的身影，远望红日落在衡山积云的西边。",
+    "正是在汪洋里游泳的年华，你死去了是我所没有想到的。",
+    "从现在开始永别了，惊动了半夜的公鸡。",
+    "公鸡一声叫，叫声响遍东边的高地上。",
+    "看见你慢慢地走来了，咱们互相握手，热泪充满眼眶。",
+    "俊逸的人在征途上很不顺利，急速的暴风吹拂亡友的帐子。",
+    "我心里忧愁又痛苦，依靠群山尽情歌唱。",
+    "群山长满青色的茜草，我愿意在山下与你交谈练习长剑的志愿。",
+    "东海中有日本侵略者，北方山水边界有又恨又怨的沙皇俄国。",
+    "清除侵略者依靠谁家的子弟，怎能推辞自己出身低下贫贱而不杀敌报国呢？",
+    "钟子期竞过早的死去了，俞伯牙从此也不弹琴了。",
+    "琴弦断了是伤感情的，红花春天都不开了。",
+    "以后的日子是很长的，我同谁共度一生呢？",
+    "望着灵柩进献一杯酒，凄凉地看着灵柩前写有死者姓名的旗幡。",
+    "我在失意中用什么寄托呢？就是那深深的接天的江水。"
+],
+notes: [
+    {
+        term: "五古",
+        text: "五言古诗的简称。每句五个字，句数不限，偶句押韵，首句可押可不押，可以换韵，不像五律那样讲究平仄对仗。"
+    },
+    {
+        term: "易昌陶",
+        text: "名咏畦，湖南衡山人。湖南省立第一师范学校学生，与毛泽东同班。1915年3月病死家中。毛泽东在致湘生信中说：”同学易昌陶君病死，君工书善文，与弟甚厚，死殊可惜。校中追悼，吾挽以诗，乞为斧正。”"
+    },
+    {
+        term: "去去",
+        text: "越去越远，表示决绝的意思。汉代《别诗》四首（旧作苏武诗）其三：”参辰皆已没，去去从此辞。”"
+    },
+    {
+        term: "愁杀",
+        text: "愁死了。唐代张说《邺都引》诗：”试上铜台歌舞处，惟有秋风愁杀人。”"
+    },
+    {
+        term: "芳年",
+        text: "美好的年华，指少年青春。唐代卢照邻《长安古意》诗：”借问吹箫向紫烟，曾经学舞度芳年。”"
+    },
+    {
+        term: "余哀",
+        text: "很多的哀痛。"
+    },
+    {
+        term: "衡阳雁声彻",
+        text: "湖南衡阳有回雁峰，相传雁不过此峰。雁声响彻衡阳，比喻思友悲叹的深切。衡阳是易昌陶的家乡。"
+    },
+    {
+        term: "湘滨",
+        text: "湘江水边。"
+    },
+    {
+        term: "春溜",
+        text: "即春水。溜，小股水流。回：旋转。《荀子·制士》：”水深而回”。"
+    },
+    {
+        term: "踯躅南城隈",
+        text: "踯躅，徘徊不前。南城隈（wēi威），南城墙弯曲处。"
+    },
+    {
+        term: "涔泪",
+        text: "不断流下的泪。江淹《杂体诗》：”芳尘未歇席，涔泪犹在袂”。双题：全额。谢惠连《捣衣诗》：”微芳起两袖，轻汗染双题。”"
+    },
+    {
+        term: "采采馀孤景",
+        text: "采采，丰盛貌，众多而鲜明。《诗经·蜉蝣》二章：”蜉蝣之翼，采采衣服。”馀，剩下。孤景（yǐng颖），孤影，这里指作者。”景”通”影”。"
+    },
+    {
+        term: "日落衡云西",
+        text: "衡云，衡山上的云烟。衡山在长沙之南，这里”衡”指长沙之西属衡山七十二峰的岳麓山。"
+    },
+    {
+        term: "沆漾",
+        text: "犹汪洋，水深广的样子。左思《吴都赋》：”澒溶沆漾，莫测其深，莫究其广。”"
+    },
+    {
+        term: "方期",
+        text: "正当……日期，正在……时候。"
+    },
+    {
+        term: "零落匪所思",
+        text: "零落，这里以草木凋零比喻人的死去。匪所思：没有想到的事情。匪，同非。"
+    },
+    {
+        term: "永诀",
+        text: "永别。"
+    },
+    {
+        term: "汗漫东皋上",
+        text: "汗漫，本义是漫无边际，这里指漫步。东皋（gāo高），泛指田野或高地。陶渊明《归去来兮辞》：”登东皋以舒啸，临清流而赋诗。”"
+    },
+    {
+        term: "冉冉",
+        text: "慢慢，徐徐。"
+    },
+    {
+        term: "关山蹇骥足",
+        text: "关山，关隘和山顶，指征人所在的边塞之地。晋徐陵《关山月》：”关山三五月，客子忆秦川。”蹇，困苦，不顺利。屈原《九章·哀郢》：”蹇侘傺而含感。”骥足，千里马的脚，比喻俊逸的人才。关隘山川阻碍良马的奔跑。"
+    },
+    {
+        term: "飞飙",
+        text: "急速的暴风。灵帐：遮灵柩的帐子。"
+    },
+    {
+        term: "忧如焚",
+        text: "忧愁又痛苦。"
+    },
+    {
+        term: "放歌",
+        text: "尽情高声地唱歌。杜甫《闻官军收河南河北》：”白日放歌须纵酒，青春作伴好还乡。”"
+    },
+    {
+        term: "列嶂",
+        text: "群山。"
+    },
+    {
+        term: "茜",
+        text: "深红色。"
+    },
+    {
+        term: "岛夷",
+        text: "古代指分布在我国东部沿海及附近岛屿的民族。这里借指日本。"
+    },
+    {
+        term: "北山尽仇怨",
+        text: "北方群山间有仇视我们的国家，这里指沙皇俄国。"
+    },
+    {
+        term: "荡涤",
+        text: "清除。"
+    },
+    {
+        term: "安得",
+        text: "怎能。"
+    },
+    {
+        term: "浮贱",
+        text: "轻贱。"
+    },
+    {
+        term: "子期竟早亡，牙琴从此绝",
+        text: "《吕氏春秋·本味》称，伯牙弹琴，钟子期听了，完全懂得伯牙琴曲的意境。钟子期死，伯牙碎琴绝弦，终生不再弹琴。"
+    },
+    {
+        term: "朱华",
+        text: "红花。"
+    },
+    {
+        term: "铭旌",
+        text: "灵柩前的旗幡。"
+    },
+    {
+        term: "泓",
+        text: "水深的样子，这里以”水一泓”比喻深情。"
+    }
+]
+
+},
+
+{
+    title: "七古·送纵宇一郎东行",
+    category: "early",
+    lines: [
+        "云开衡岳积阴止，天马凤凰春树里。",
+       "年少峥嵘屈贾才，山川奇气曾钟此。",
+       "君行吾为发浩歌，鲲鹏击浪从兹始。",
+       "洞庭湘水涨连天，艨艟巨舰直东指。",
+       "无端散出一天愁，幸被东风吹万里。",
+       "丈夫何事足萦怀，要将宇宙看稊米。",
+       "沧海横流安足虑，世事纷纭从君理。",
+       "管却自家身与心，胸中日月常新美。",
+       "名世于今五百年，诸公碌碌皆余子。",
+       "平浪宫前友谊多，崇明对马衣带水。",
+        "东瀛濯剑有书还，我返自崖君去矣。"
+    ],
+background: [
+    "纵宇一郎是罗章龙先生早年的化名。当时毛泽东以“二十八画生”（“毛泽东”三字的繁体共有二十八画）发表征友启事，罗章龙第一个响应，在应征信上署名纵宇一郎。从此二人过从甚密。他和毛泽东是同学，又同是新民学学会成员。新民学会大部分学员面临着毕业后的去向问题。他们都是有理想、有抱负的青年，因深感旧中国在科学方面的落后，故要求出国学习的愿望比较强烈。由于日本曾是辛亥革命的发源地，又是东、西方科学文化的桥梁，当时国内赴日本留学之风颇盛，在日本留学的学生不下万人。当时（即1918年春）新民学会大部分会员面临毕业后的去向问题，许多青年都倾向于出国继续学习，毛泽东与新民学会干事会也派罗章龙等人去日本。",
+  "罗章龙离开湖南前，即1918年春，新民学会在长沙北门外的平浪宫聚餐，为他饯行。毛泽东还到码头送行，当面交给他一个信封，说内有一首诗相赠，即这首《七古·送纵宇一郎东行》。又另赋临别赠言：“若今发砺，若陶在钧，进德修业，光辉日新！”为朋友远行慨发浩歌，并以此互为勉励。罗章龙到上海恰逢5月7日（1915年日本政府向袁世凯政府提出“二十一条”最后通牒的日子），当时日本政府殴打中国的爱国留学生，迫使他们回国。罗章龙因此没有回日本。",
+  "罗章龙，生于1896年，湖南浏阳人。1915年在长沙第一联合中学读书时与毛泽东相识。1918年4月毛泽东等创建新民学会，他是最早的成员之一。1920年10月李大钊同志等创建北京共产党小组，他是主要成员之一。在1923年6月中共三大选为中央委员。在中共第三届中央委员会上，当选为五人中央局成员。在1927年4月至5月中共五大上，当选为中央委员。1931年1月，因在中共六届四中全会前后进行右倾分裂主义活动，被开除党籍。后历任河南大学、西北联合大学、湖南大学等校教授。后担任中国人民政治协商会议全国委员会委员。",
+    "此诗最早发表在1979年《党史研究资料》第十期，由罗章龙提供。"
+],
+translation: [
+    "白云亮了，南岳衡山积压的阴雨已消散，群峰间的天马山、凤凰山都沉浸在春天的树木里。",
+    "少年雄心怀屈原贾谊的才华，山河的灵气曾钟情天湘楚大地。",
+    "高歌一曲，我将为我的朋友送别，鲲鹏展翅击水从此就要开始。",
+    "洞庭湖、湘江水，天连着天，水连着水，大型巨舰正要向东直接进发。",
+    "不知怎的满天的愁云散出，却被万里东风吹得无影无踪。",
+    "大丈夫岂能有区区小事萦怀于心，应该把偌大的宇宙看得如同小米。",
+    "天下动荡哪里值得左顾右盼，纷繁人间大事需要我们来料理。",
+   "首先抓好自身的身心修养，才使自己胸有成竹，头脑日日新，事事美。",
+   "五百年必有王者兴，而现今这些掌权者全是平庸之辈，碌碌庸庸。",
+   "在平浪宫前我为我友饯行包含着多少情谊，上海崇明岛与日本对马岛仅一衣带水。",
+    "你去日本求学时要有书信经常来往，我送朋友终须一别而你已远去了。"
+],
+    notes: [
+    {
+        term: "七古",
+        text: "七言古诗。每句七个字，句数不限，偶句押韵，首句可押可不押，不像七律那样讲究平仄对仗。"
+    },
+    {
+        term: "纵宇一郎东行",
+        text: "纵宇一郎，罗章龙在1915年同毛泽东初次通信时，就已用过的化名。1918年四月，罗去日本临行前，新民学会在长沙北门外的平浪宫聚餐，为他饯行。毛泽东用“二十八画生”的笔名写了这首诗送行。时间约在这年初夏。罗章龙到上海（1915年日本政府向袁世凯政府提出最后通牒的日子，限期要袁答复承认日本旨在独占中国的“21条”），日本政府警察侮辱、殴打中国的爱国留学生，迫使他们回国。因此没有去日本。"
+    },
+    {
+        term: "天马凤凰",
+        text: "指岳麓山东南、湘江之西的两座毗邻的小山。"
+    },
+    {
+        term: "屈贾",
+        text: "战国时楚国屈原，汉代贾谊，皆极有才华。屈，指屈原。屈原（约前340—约前278），名平，字原。战国楚人。初辅佐楚怀王，任左徒、三闾大夫。后遭去职，被放逐，长期流浪沅、湘流域。因深感楚国政治腐败，无法实现自己的政治主张，以挽救楚国危亡，遂投汨罗江自尽。其代表著作有《离骚》、《天问》、《九歌》等。贾，指汉朝贾谊。"
+    },
+    {
+        term: "钟",
+        text: "聚集。古人称山川灵秀之气所聚集，便产生人才。"
+    },
+    {
+        term: "艟艨",
+        text: "战舰，此指轮船。2003年，中央文献研究室在重印的《毛泽东诗词集》中，将“艟艨”订正为“艨艟”。"
+    },
+    {
+        term: "宇宙看稊米",
+        text: "把世事看作平常。稊（tí题），草名，结实如小米。稊米，形容小。"
+    },
+    {
+        term: "世事纷纭从君理",
+        text: "1979年罗章龙在《回忆新民学会（由湖南到北京）》一文中第一次提供该诗时，觉得有负故人厚望，改作“世事纷纭何足理”，后来又恢复了原诗句。"
+    },
+    {
+        term: "名世于今五百年",
+        text: "名世，著名于世。《孟子·公孙丑下》原文为：”五百年必有王者兴，其间必有名世者。”"
+    },
+    {
+        term: "诸公碌碌皆余子",
+        text: "诸公，指当时的当权人物。碌碌，平庸。语意见《后汉书·祢衡传》。原文为：”常称曰：‘大儿孔文举，小儿杨德祖。余子碌碌，莫足数也。’”余子，其余的人。"
+    },
+    {
+        term: "崇明对马衣带水",
+        text: "长江口的崇明岛和日本的对马岛，相隔只一衣带宽的水。据《南史·陈后主纪》记载，隋文帝说隋和陈只隔“一衣带水”，把长江比做一条衣带。"
+    },
+    {
+        term: "东瀛",
+        text: "东海，后也指日本。"
+    },
+    {
+        term: "我返自崖君去矣",
+        text: "《庄子·山木》：”送君者皆自崖而反，君自此远矣！”“反”通“返”。"
+    }
+]
+
+},
+
+{
+    title: "虞美人·枕上",
+    category: "early",
+    textSize: "small",
+    lines: [
+        "堆来枕上愁何状，江海翻波浪。夜长天色总难明，寂寞披衣起坐数寒星。",
+        "晓来百念都灰烬，剩有离人影。一钩残月向西流，对此不抛眼泪也无由。"
+
+    ],
+ background: "1920年冬毛泽东与杨开慧结婚，第二年春夏间毛泽东外出考察。旅途中，毛泽东深深思念妻子。此时的毛泽东情意缠绵，不能自已，于是随手写下了这首《虞美人·枕上》。",
+translation: [
+    "我躺在枕上彻夜难眠，成堆的愁苦汹涌袭来，像是什么形状呢？犹如江河大海里翻腾起的巨波大浪一样。黑夜漫长，天色难明，无奈披衣起坐望天空，数算点点寒星。",
+    "尽管天亮时我的万般思念都已化成了灰烬，脑海中只留下离别的情人的身影。抬头望见一钩残月淡出了西边的天空，面对此情此景，我情不自禁地抛洒下一行行泪珠！"
+],
+   notes: [
+    {
+        term: "虞美人",
+        text: "词牌名，此调原为唐教坊曲，初咏项羽宠姬虞美人，因以为名。又名《一江春水》、《玉壶水》、《巫山十二峰》等。双调，五十六字，上下片各四句，皆为两仄韵转两平韵。"
+    },
+    {
+        term: "枕上",
+        text: "取首句中二字为题，写新婚初别枕上的离愁别绪与相思之苦。"
+    },
+    {
+        term: "堆",
+        text: "堆积，层层堆压。"
+    },
+    {
+        term: "晓来百念都灰尽",
+        text: "晓：天亮。来：语助词，无实义。百念都灰尽：即万念俱灰，一切想法都化作了灰烬，极言失望。"
+    },
+    {
+        term: "离人",
+        text: "指作者的妻子杨开慧。1920年冬，同毛泽东在长沙结婚。"
+    },
+    {
+        term: "一钩残月",
+        text: "拂晓时形状如钩的月亮。流：沉落。"
+    },
+    {
+        term: "无由",
+        text: "不由自主，情不自禁。"
+    }
+]
+
+},
+
+{
+    title: "贺新郎·别友",
+    category: "early",
+    textSize: "mini",
+    lines: [
+        "挥手从兹去。更那堪凄然相向，苦情重诉。眼角眉梢都似恨，热泪欲零还住。知误会前番书语。过眼滔滔云共雾，算人间知己吾和汝。人有病，天知否？",
+        "今朝霜重东门路，照横塘半天残月，凄清如许。汽笛一声肠已断，从此天涯孤旅。凭割断愁丝恨缕。要似昆仑崩绝壁，又恰像台风扫寰宇。重比翼，和云翥。"
+
+    ],
+background: [
+    "本词又名《贺新郎·赠杨开慧》。1978年9月9日，为纪念毛泽东逝世两周年《人民日报》发表了毛泽东同志的《诗词三首》，即《贺新郎》《七律·吊罗荣桓同志》《贺新郎·读史》，并附有《贺新郎》手迹，写作时间标明为“一九二三年”。1986年9月，人民文学出版社出版《毛泽东诗词选》，《贺新郎》的标题仍为《贺新郎》；1996年9月，中央文献出版社出版《毛泽东诗词集》，收入“正编”，改题为《贺新郎·别友》。",
+  "1923年4月，毛泽东从长沙调到上海党中央工作。6月到广州出席了中共第三次全国代表大会，大会通过了《关于国民运动及国民党问题的议决案》，决定同国民党合作，建立革命统一战线。在会上批判了“左”倾机会错误的观点，使大会解决了建立革命统一战线的问题。毛泽东在会上当选为党中央委员、中央局委员及中央局秘书。9月，他从广州回长沙展开反对湖南地方军阀赵恒惕的斗争，推动工农群众的运动。1923年11月，毛泽东的妻子杨开慧又生下次子毛岸青。就在毛岸青诞生后，12月，党中央通知他回上海转广州，准备参加将于1924年1月举行的国民党第一次全国代表大会。",
+    "此时杨开慧正在娘家坐月子，而毛泽东奉命要到外地工作，因此他们自然会有一种难舍难分的依恋之情，但为了革命工作的需要，他们还是毅然分别。于是，他写了这首词赠给爱妻杨开慧。据此，本词可能作于这年12月底离开长沙的时候。当时革命形势在上升，作者“割断愁丝恨缕”而为革命事业献出全副身心的豪情，以及作者所预想的未来革命风暴的猛烈壮阔，在词中“昆仑崩绝壁”、“台风扫寰宇”的比喻中得到强烈的表现。",
+   "这首词最早发表于1978年9月9日《人民日报》。"
+],
+translation: [
+    "挥手从此离去。离别前凄然相对，内心的哀伤痛苦让人如何承受。我看你眼角眉梢，强忍热泪满是哀怨。知道你对上次的那封书信还有误会。但是误会再大也只是过眼即逝的云雾，在这人世间，能够称得上知己的，也就是你和我了吧。有病需要救治，上苍可知道？",
+    "早晨东门路上还被霜覆盖着，横塘之上还有一弯残月，显得如此凄清。汽笛声响让人肝肠寸断，从此天涯孤旅。割断愁思恨缕，参加到革命中去吧。要像昆仑山绝壁崩塌，又要像台风扫荡寰宇一样。在将来的斗争中相会，让我们比翼双飞。"
+],
+    notes: [
+        {
+            term: "去",
+            text: "离开。挥手从兹去：李白《送友人》，“挥手自兹去”。"
+        },
+    {
+            term: "热泪欲零",
+            text: "零，与“零落”的零同义，也是落的意思。"
+        },
+    {
+            term: "书语",
+            text: "信中的话语。季世昌先生说他所见手迹：“书语”又作“诗句”，证明毛泽东与杨开慧的误会由赠诗引起。"
+        },
+    {
+            term: "云雾",
+            text: "比喻前句的误会。"
+        },
+    {
+            term: "人有病，天知否",
+            text: "前版本为“重感慨，泪如雨”。（病：也指误会。）"
+        },
+    {
+            term: "东门路",
+            text: "古诗词中指离别之路，也指斗争之路。这里又双关通往长沙东门之小吴门火车站的道路。"
+        },
+   {
+            term: "横塘",
+            text: "长沙东门小吴门外清水塘。一九二一年冬至二三年四月，毛泽东租了清水塘边的一所茅屋，家住兼作中共湘区委员会会址，旧址现为纪念馆。“横塘”也是典故，在古诗中常作女子居住之处。唐崔颢《长干曲》：“君家何处住，妾住在横塘。”"
+        },
+   {
+            term: "如许",
+            text: "这样。"
+        },
+        {
+            term: "凭",
+            text: "意思是借以，包含两方，非单“请求”彼方。"
+          }
+    ]
+},
+
+
+{
+    title: "沁园春·长沙",
+    category: "early",
+    textSize: "small",
+    lines: [
+        "独立寒秋，湘江北去，橘子洲头。",
+        "看万山红遍，层林尽染；漫江碧透，百舸争流。",
+        "鹰击长空，鱼翔浅底，万类霜天竞自由。",
+        "怅寥廓，问苍茫大地，谁主沉浮？",
+  
+        "",
+
+        "携来百侣曾游。忆往昔峥嵘岁月稠。",
+        "恰同学少年，风华正茂；书生意气，挥斥方遒。",
+        "指点江山，激扬文字，粪土当年万户侯。",
+        "曾记否，到中流击水，浪遏飞舟？"
+    ],
+    background: "《沁园春·长沙》是毛泽东1925年晚秋所作。当时毛泽东离开故乡韶山，去广州主持农民运动讲习，途经长沙，重游了橘子洲。作者面对湘江上美丽动人的自然秋景，联想起当时的革命形势，写下了这首词。",
+translation: [
+    "我独自一人伫立在橘子洲头，在这寒冷的秋天里，看那湘江静静地向北流去。远处，千座山万座山，已红透了，层层树林都被染得如此绚丽与烂漫；俯视江水，清澈见底，许许多多的船，争相竞发。雄鹰在苍穹上翱翔，鱼儿惬意地闲游在浅浅的水底，世间的生灵都在这降霜的天气里获得它们的自由！可我却在这无边的宇宙间，感到有些怅惘，我要问这苍苍茫茫的大地，谁来主宰它的命运？",
+    "曾经，相约朋友们到此游赏，回忆那个时候，多姿多彩，多么沉重厚实！那是风华正茂的年龄，各人都满腹经纶，怀着那奔放遒劲的远大理想，要用彼此的才学指点江山，要用练就的本领书写春秋！只把那自古以来的王侯将相，看成一抔粪土！可曾记得：我们一同在水流最急处，奋勇搏击，那连天的大浪，岂能阻挡住前行的方舟。"
+],
+    notes: [
+        {
+            term: "沁园春",
+            text: "词牌名，又名“东仙”“寿星明”“洞庭春色”等。以苏轼词《沁园春·孤馆灯青》为正体，双调一百十四字，前段十三句四平韵，后段十二句五平韵。另有双调一百十六字，前段十三句四平韵，后段十三句六平韵；双调一百十二字，前段十三句四平韵，后段十二句五平韵等变体。"
+        },
+        {
+            term: "寒秋",
+            text: "就是深秋、晚秋。秋深已有寒意，所以说是寒秋。"
+        },
+        {
+            term: "湘江",
+            text: "一名湘水，湖南省最大的河流，源出广西壮族自治区灵川县南的海洋山，长1752里，向东北流贯湖南省东部，经过长沙，北入洞庭湖。所以说是湘江北去。"
+        },
+        {
+            term: "橘子洲",
+            text: "地名，又名水陆洲，是长沙城西湘江中一个狭长小岛，西面靠近岳麓山。南北长约11里，东西最宽处约一里。毛泽东七律《答友人》中所谓长岛，指此。自唐代以来，就是游览胜地。"
+        },
+     {
+            term: "万山",
+            text: "指湘江西岸岳麓山和附近许多山峰。"
+        },
+     {
+            term: "层林尽染",
+            text: "山上一层层的树林经霜打变红，像染过一样。"
+        },
+     {
+            term: "漫江",
+            text: "满江。漫：满，遍。"
+        },
+     {
+            term: "舸",
+            text: "大船。这里泛指船只。"
+        },
+     {
+            term: "争流",
+            text: "争着行驶。"
+        },
+     {
+            term: "鹰击长空，鱼翔浅底",
+            text: "鹰在广阔的天空里飞，鱼在清澈的水里游。击，搏 击。这里形容飞得矫健有力。翔，本指鸟盘旋飞翔，这里形容鱼游得轻快自由。"
+        },
+     {
+            term: "万类",
+            text: "指一切生物。"
+        },
+     {
+            term: "霜天",
+            text: "指深秋。"
+        },
+     {
+            term: "万类霜天竞自由",
+            text: "万物都在秋光中竞相自由地生活。"
+        },
+     {
+            term: "怅寥廓",
+            text: "面对广阔的宇宙惆怅感慨。怅：原意是失意，这里用来表达由深思而引发激昂慷慨的心绪。"
+        },
+     {
+            term: "寥廓",
+            text: "广远空阔，这里用来描写宇宙之大。"
+        },
+     {
+            term: "苍茫",
+            text: "旷远迷茫。"
+        },
+     {
+            term: "主",
+            text: "主宰。"
+        },
+     {
+            term: "百侣",
+            text: "很多的伴侣。侣，这里指同学（也指战友)。"
+        },
+     {
+            term: "恰同学少年",
+            text: "毛泽东于1913年至1918年就读于湖南第一师范学校。1918年毛泽东和萧瑜、蔡和森等组织新民学会，开始了他早期的政治活动。"
+        },
+     {
+            term: "击水",
+            text: "游泳。作者自注：“那时初学，盛夏水涨，几死者数，一群人终于坚持，直到隆冬，犹在江中。当时有一篇诗，都忘记了，只记得两句：自信人生二百年，会当水击三千里。”"
+        },
+     {
+            term: "遏",
+            text: "阻止。"
+        },
+
+        {
+            term: "谁主沉浮",
+            text: "谁来掌握国家和社会的命运，是全词最核心的历史追问。"
+        }
+    ]
+},
+
+{
+    title: "菩萨蛮·黄鹤楼",
+    category: "early",
+    textSize: "small",
+    lines: [
+        "茫茫九派流中国，沉沉一线穿南北。烟雨莽苍苍，龟蛇锁大江。",
+        "黄鹤知何去？剩有游人处。把酒酹滔滔，心潮逐浪高！"
+    ],
+ background: "在1927年4月27日的中共五大上，毛泽东提出的“迅速加强土地斗争”的建议未能得到讨论。毛泽东准备应付突然事变，把妻子和三个孩子送回了湖南。7月15日，汪精卫在武汉宣布“清党”，国共两党彻底分裂。在大革命失败前夕，毛泽东曾途经武汉，怀以苍凉悲壮之情登上黄鹤楼一吐心曲。",
+translation: [
+    "条条大河，浩浩茫茫，在祖国大地奔流不息，黑深沉的铁路，贯穿南北。春雨生烟，莽莽苍苍，龟山和蛇山，像两把铁锁，扣住长江。",
+    "那传说中的黄鹤，不知道现在去了哪里？只剩下它的遗迹，供游人玩赏。在这高楼之上，我端一杯好酒洒在这滔滔的水里，心情起伏，有如波涛，随着大浪愈涨愈高。"
+],
+    notes: [
+        {
+            term: "菩萨蛮",
+            text: "词牌名。又名《子夜歌》、《重叠金》等。"
+        },
+    {
+            term: "黄鹤楼",
+            text: "旧址在湖北省武昌市区之西长江岸边的黄鹤矶（一作黄鹄矶）上，即今武汉长江大桥南端西侧。"
+        },
+    {
+               term: "茫茫",
+            text: "广大貌，远貌。"
+        },
+    {
+            term: "沉沉",
+            text: "也作沈沈。湛湛，深远貌。一线：指当时长江以南的粤汉铁路和以北的京汉铁路。"
+        },
+    {
+            term: "莽苍苍",
+            text: "苍，迷茫。莽苍苍，就是莽苍的长言，多出了一个音节。"
+        },
+   {
+            term: "龟蛇锁大江",
+            text: "龟蛇指龟山和蛇山，蛇山在武昌城西长江边，龟山在它对岸的汉阳，隔江对峙，好像要把长江锁住一样。"
+        },
+   {
+            term: "把酒酹滔滔",
+            text: "酹，古代用酒浇在地上祭奠鬼神或对自然界事物设誓的一种习俗。这里是对滔滔的长江表示同反动势力斗争到底的决心。滔滔，大水貌。此用作江水的代语。"
+        },
+        {
+            term: "心潮",
+            text: "谓心情极不平静，犹如潮水。"
+          }
+    ]
+},
+
+{
+    title: "西江月·秋收起义",
+    category: "early",
+    textSize: "small",
+    lines: [
+        "军叫工农革命，旗号镰刀斧头。匡庐一带不停留，要向潇湘直进。",
+        "地主重重压迫，农民个个同仇。秋收时节暮云愁，霹雳一声暴动。"
+    ],
+ background: "1927年8月毛泽东以中央特派员的身份，赶回湖南部署湘赣边界秋收起义。1927年9月9日举行了武装起义，点燃了秋收起义暴动的革命烈火。1927年9月秋收起义后几天，当时革命正处在异常艰苦的关头。此时毛泽东豪气干云，激情满怀，写下了《西江月·秋收起义》一词。",
+translation: [
+    "这支军队叫工农革命军，它的旗号是镰刀与斧头。江西庐山一带不停留，要直接向湖南进发。",
+    "地主重重压迫农民，农民同心合力打击敌人。秋收时的黑云翻涌，人民生活窘迫，霹雳一声工农起义迅猛神速、惊天地。"
+],
+    notes: [
+    {
+        term: "西江月",
+        text: "词牌名，由李白《苏台怀古诗》的“只今唯有西江月，曾照吴王宫里人”的诗句得名。秋收起义：1927年大革命失败，中国共产党八七会议决定发动农民在秋收季节举行武装起义。毛泽东在湖南省东北部和江西省西北部领导农民、工人和一部分北伐军，成立一支工农革命军。九月九日起在修水、铜鼓、平江、浏阳一带举行武装起义，遭到敌人围击。十月，毛泽东率领起义部队到达井冈山地区，成功地创立了中国第一个农村革命根据地。"
+    },
+    {
+        term: "军叫工农革命",
+        text: "当时国民党的军队称作“国民革命军”，共产党领导的起义队伍就叫“工农革命军”。1928年5月，中共中央在《中央通告第51号军事工作大纲》才正式规定，“在割据区域所建立之军队，可正式定名为红军，取消目前工农革命（军）的名义。”"
+    },
+    {
+        term: "旗号镰刀斧头",
+        text: "这是当时的军旗。1933年改为镰刀锤子，后演变为八一军旗。旗号：旗帜表示的名号。"
+    },
+    {
+        term: "匡庐",
+        text: "首次发表时原作“修铜”，即修水、铜鼓。1986年九月人民文学出版社出版的《毛泽东诗词选》根据作者修改的抄件改为“匡庐”。"
+    },
+    {
+        term: "潇湘",
+        text: "原为平浏，即平江、浏阳。湖南省县名首次发表时原作“平浏”，1986年九月人民文学出版社出版的《毛泽东诗词选》根据作者修改的抄件改为“潇湘”。借潇水和湘江指湖南省。"
+    },
+    {
+        term: "同仇",
+        text: "同心合力打击敌人（国民党反动派）。《诗·秦风·无衣》：”修我戈矛。与子同仇。”"
+    },
+    {
+        term: "暮云愁",
+        text: "象征反动势力压顶，百姓生活窘迫。"
+    }
+]
+
+},
+
+{
+    title: "西江月·井冈山",
+     category: "jinggang",
+    textSize: "small",
+    lines: [
+        "山下旌旗在望，山头鼓角相闻。敌军围困万千重，我自岿然不动。",   
+       "早已森严壁垒，更加众志成城。黄洋界上炮声隆，报道敌军宵遁。" 
+   
+    ],
+background: [
+    "1928年7月，湘赣敌军向井冈山发动第二次“会剿”。为打破敌人“会剿”，在敌前锋逼近永新时，毛泽东率31团在永新附近将敌围困在永新县城30里内达25天之久，而朱德、陈毅则率领红军主力28、29团向敌占区茶陵、酃县进攻，迫使来犯之敌慌忙回援茶陵，因而击破了敌人的首次“会剿”。但正当此时，28、29团向湘南冒进，结果在郴州先胜后败，红29团几乎全军覆没，剩余部队同28团一起向桂东转移。毛泽东得知消息后，亲自率31团前往桂东迎还红军主力，这时留守井冈山的仅剩31团的一营，敌人正是乘此机会纠集4个团向黄洋界哨口进攻。",
+  "黄洋界，距当年红军总部机关的茨坪约25华里，是宁冈、永新、酃县进入井冈山腹地的必经通道。当年红军在井冈山设有五大哨口，分别控制了井冈山的五条道路，其中黄洋界哨口最关键。敌我力量虽如此悬殊，但井冈军民凭险抵抗，最终以少胜多取得了黄洋界保卫战的胜利。",
+    "该词是毛泽东同志为赞扬黄洋界保卫战的胜利而写的。根据可知的参考资料来看，时间大约是9月5日前后在遂川大汾，当朱云卿把黄洋界保卫战的情况向毛泽东汇报后，毛泽东有了感触，才能欣然命笔写出《西江月·井冈山》。"
+],
+translation: [
+    "战旗在山下摇荡，战鼓及军号声响彻山头，任凭敌军团团围困，我依然岿然不可撼动。",
+    "整饬的防御工事已严阵以待，所以更加团结一心如筑成的堡垒。黄洋界上红军炮火轰鸣，快马报之敌军在渐浓的夜色中逃去。"
+],
+    notes: [
+        {
+            term: "西江月",
+            text: "词牌名，原唐教坊曲，用作词调。"
+        },
+    {
+            term: "井冈山",
+            text: "在江西西部及湖南东部，方圆五百里。"
+        },
+    {
+            term: "旌旗在望",
+            text: "指山下的部分红军和井冈山一带的赤卫队、暴动队等地方武装。这里用“旌旗”是为了增加诗的鲜明的形象感。作者说，其实没有飘扬的旗子，都是卷起的。"
+        },
+    {
+            term: "鼓角",
+            text: "本指古代军中所用的战鼓和号角，此处借指军号。"
+        },
+    {
+            term: "岿然",
+            text: "出处 ：西汉·刘安《淮南子·诠言训》：“至德，道者丘山，嵬然不动，行者以为期也。”"
+        },
+   {
+            term: "森严壁垒",
+            text: "森严，严整。壁垒，古代军营中的围墙，也就是防御工事。指阵容严整，不可侵犯。"
+        },
+   {
+            term: "众志成城",
+            text: "《国语·周语下》：“故谚曰：众心成城。”，意思是大家同心协力，就像城墙一样的牢固。比喻大家团结一致，就能克服困难。"
+        },
+   {
+            term: "黄洋界",
+            text: "井冈山五大哨口之一，另四个是八面山、双马石、朱沙冲、桐木岭。"
+        },
+        {
+            term: "宵遁",
+            text: "指敌人乘夜逃跑。"
+          }
+    ]
+},
+
+{
+    title: "清平乐·蒋桂战争",
+     category: "jinggang",
+  textSize: "small",
+    lines: [
+        "风云突变，军阀重开战。洒向人间都是怨，一枕黄粱再现。",
+        "红旗跃过汀江，直下龙岩上杭。收拾金瓯一片，分田分地真忙。"
+    ],
+background: [
+    "1929年5月，邓子恢写信告知毛泽东，因蒋桂战争，闽西的国民党军队进入广东攻打桂系，当地空虚。朱德、毛泽东率领红四军利用这种有利时机，于5月下旬进入闽西。红军在赣南开展武装斗争和发动群众，进行土地革命，先后占领兴国、宁都、瑞金、于都、广昌等县，接着又挺进闽西，占领长汀城。5月至6月，工农红军再度入闽西，曾三下龙岩城。至此，以龙岩、上杭、永定、连城、长汀五县为中心的闽西革命根据地初步形成。眼见红军不断壮大，蒋介石急忙调集闽、粤、赣三省兵力，对闽西苏区和红军发动第一次“会剿”。",
+    "得到蒋军进攻的情报，红四军主力先是向闽中前进，后又折返闽西苏区，连克溪南、漳平，使龙岩守敌望风而逃。与此同时，闽西特委组织游击战争，迫使赣敌、粤敌退守长汀、连城、永定。9月21日，红四军攻占上杭，继而攻占武平，永定守敌弃城而逃。敌人对闽西的“会剿”以失败告终。10月，蒋桂战争再次爆发。在这种形势下，工农红军第三次入闽，攻占上杭。",
+ "至此，闽西革命根据地已拥有长汀、上杭、连城、永定、龙岩、武平、宁洋、漳平等地，数百里区域近百万人民获得解放，根据地各县普遍建立了苏维埃政权，开展了土地革命，革命力量得以发展。毛泽东为这次胜利所振奋，也为革命前景所鼓舞，于是《清平乐·蒋桂战争》这首词在马背上哼成了。"
+],
+translation: [
+    "风云骤然变幻，军阀重新开战。他们洒向民众的尽是怨恨呀，他们的黄粱美梦仅是昙花一现。",
+    "红军的旗帜挺进过了汀江，直逼龙岩与上杭。收取了祖国山河之一角，急切地为农民分配田地。"
+],
+  notes: [
+        {
+            term: "蒋桂战争",
+            text: "蒋介石和桂系军阀李宗仁，白崇禧在1929年2月至4月间为控制两湖而进行的战争。1929年4月，桂系放弃武汉，败入广西。"
+        },
+   {
+            term: "风云",
+            text: "风起云飞，形态多变，比喻变幻莫测的局势。这里指时局。"
+        },
+   {
+            term: "军阀重开战",
+            text: "军阀指国民党新军阀。在北洋政府时代，军阀混战，连年不断；蒋介石国民党建都南京，曾取得暂时的妥协，至此战端又启，所以说重开战。"
+        },
+   {
+            term: "洒向人间都是怨",
+            text: "洒字由风云化出。怨，是说陷在水深火热中的人民对军阀的怨恨。"
+        },
+   {
+            term: "一枕黄粱",
+            text: "典出唐沈既济的《枕中记》，讲一个叫卢生的，在旅店向一个道士叹述穷困不得志。道士就拿出一个枕头，说枕在上面就能使他“荣适如志”。卢生在梦中从婚到死，享尽荣华富贵。转了一圈人生，醒来一看，困顿依旧，旅店主人也仍然在蒸黄粱（小米饭）。"
+        },
+   {
+            term: "红旗",
+            text: "借代词，指打红旗的人，即红军。"
+        },
+   {
+            term: "汀江",
+            text: "也叫汀水，又名鄞江。发源于福建西部长汀县东北境杉岭山脉的大悲山，流经长汀、武平、上杭、永定四县，是福建境内第三大河，至广东大埔县三河坝注入韩江。"
+        },
+   {
+            term: "龙岩",
+            text: "县名，在福建省西南部。"
+        },
+   {
+            term: "上杭",
+            text: "县名，在龙岩西，是第二次国内革命战争时期红军的根据地之一。"
+        },
+   {
+            term: "金瓯",
+            text: "指国土。语出《南史·朱异传》，梁武帝曰，“我国家犹若金瓯，无一伤缺。”"
+        },
+
+        {
+            term: "分田分地",
+            text: "实行土地改革，建设根据地，这一些活动也包括在“收拾”的含义中。"
+          }
+    ]
+},
+
+{
+    title: "采桑子·重阳",
+   category: "jinggang",
+  textSize: "small",
+    lines: [
+        "人生易老天难老，岁岁重阳。今又重阳，战地黄花分外香。",
+        "一年一度秋风劲，不似春光。胜似春光，寥廓江天万里霜。"
+    ],
+background: [
+    "此词作于1929年的重阳节（10月11日）。此时距离毛泽东领导的秋收起义也有两年了。而此一阶段毛泽东过得并不舒心：红四军第七次代表大会落选，丢掉了前委书记的职务，前委书记的职务由陈毅同志代替，他的游击战术被冠以“流寇主义”，被指会像黄巢和李自成一样难成大器，而他在会上强调党对军队的领导必须加强，又被冠以有“形成家长制度的倾向”，遭到部下的反对。",
+    "身染疟疾，缺乏科学的医治，并且在上杭县苏家坡养病期间差一点儿被捕；红四军第八次代表大会召开，他被担架抬到上杭县城继续养病，却没有恢复前委书记的职务。当时，毛泽东在上杭县城的临江楼上养病，重阳佳节来到，院子里的黄花如散金般盛开。重阳，一个秋高气爽、登高壮观天地间的日子，一个把酒临风、月下赏菊、遍插茱萸怀念先人的节日，毛泽东的梦想和现实再一次发生了位移，因而作了此词。"
+],
+translation: [
+    "人的一生容易衰老而苍天却不老，重阳节年年都会来到。今天又逢重阳，战场上的菊花是那样的芬芳。",
+    "一年又一年秋风刚劲地吹送，这景色不如春天的光景那样明媚。却比春天的光景更为壮美，如宇宙般广阔的江面和天空泛着白霜。"
+],
+    notes: [
+        {
+            term: "采桑子",
+            text: "词牌名，唐教坊曲《杨下采桑》截章而成此令，又有《丑奴儿》《罗敷媚》等称，双调，四十四字，此词守谱押用一部平韵。"
+        },
+   {
+            term: "重阳",
+            text: "农历九月九日为重阳节。《易》以阳爻为九，九九相叠，故名重阳，又称重九。杜甫《九日五首》之一：“重阳独酌杯中酒，抱病起坐江上台。另外，作者的原稿中原无词题，后加为《重阳》，并调整了原稿的顺序，因而这首词的版本不一，上下阕位置可以互换。此版本为最先发表于1962年5月号的《人民文学》的版本。"
+        },
+   {
+            term: "人生易老天难老",
+            text: "人生有尽，天道无穷。李贺《金铜仙人辞汉歌》:“天若有情天亦老。”此反用其意。"
+        },
+   {
+            term: "岁岁",
+            text: "年年。"
+        },
+   {
+            term: "今又重阳",
+            text: "此重阳是指诗人在战地重逢的重阳，1929年的重阳。"
+        },
+   {
+            term: "战地黄花分外香",
+            text: "也作“但看黄花不用伤”。战地：这里指闽西农村根据地，当时这里外有敌人包围，内有地主民团的扰乱。黄花：指菊花。依五行之律秋属金，金之色黄，而菊花秋日开放，故曰黄花。《礼记·月令》：“季秋之月，鞠有黄华。”古人重阳有饮酒赏菊之风俗。李白《九日龙山歌》：“九日龙山饮，黄花笑逐臣。”初稿作“但看黄花不用伤”，改后更显从容气度。分外：格外。"
+        },
+   {
+            term: "劲",
+            text: "强劲。"
+        },
+   {
+            term: "不似",
+            text: "不类似，不像。"
+        },
+   {
+            term: "胜似春光",
+            text: "是说秋风比春光更美，是主观感受。"
+        },
+
+        {
+            term: "寥廓江天万里霜",
+            text: "指广阔和泛着白霜的天空。寥廓：指宇宙的广阔，也指广阔高远。江天：指汀江流域的天空。"
+          }
+    ]
+},
+
+{
+    title: "如梦令·元旦",
+   category: "jinggang",
+  textSize: "small",
+    lines: [
+        "宁化、清流、归化，路隘林深苔滑。",
+        "今日向何方，直指武夷山下。",
+        "山下山下，风展红旗如画。"
+    ],
+background: [
+    "1929年红军主力东征，建立了闽西根据地，9月打下福建上杭县，但是当时红四军内部在建军原则及建立根据地等问题上存在意见分歧，毛泽东于6、7月间被迫离开红四军主要领导岗位。三个月后，党中央纠正了红四军前总指挥的错误，11月，毛泽东便回到红四军，重新担任主要领导。12月底，毛泽东在上杭的古田村主持了红四军第九次党代会，他亲自起草的《关于纠正党内的错误思想》的决议在会上通过，即著名的“古田决议”。这次会议很好地巩固和发展了红军及革命根据地。革命力量的壮大引起了国民党的极大恐惧。",
+    "在这次会议期间，蒋介石策动了江西的金汉鼎、福建的刘和鼎和广东的陈维远等所率领的反动军队组织了“三省会剿”，向闽西根据地发动进攻，妄图摧毁闽西革命力量。为了粉碎国民党的阴谋企图，会议决定红四军进行战略转移，由地方武装留下闽西坚持斗争，毛泽东和朱德同志率领红四军分头向江西方向进军。到江西去展开游击战争，扩大革命根据地。1930年元旦春节期间，毛泽东率领红四军一部分从古田出发，向北经连城以东的古田、宁化、清流、归化等地，越过武夷山到江西去。在这次行军途中，毛泽东以“元旦”为题写下了这首小词，以此来描述这次进军的情景。"
+],
+translation: [
+    "在宁化、清流、归化三县城中，路途险窄，密林深暗，青苔光滑。",
+   "今天我们又去哪儿？径直奔向武夷山下。",
+    "就在那里的山下呀，风卷着红旗如幅幅图画。"
+],
+    notes: [
+        {
+            term: "如梦令",
+            text: "五代后唐庄宗李存勖作《忆仙姿》，其中有“如梦，如梦，残月落花烟重”之句。宋苏轼嫌其名不雅，改为《如梦令》。又有《比梅》、《宴桃源》等称。单调，三十三字，仄韵。该篇守谱押用一部仄韵。"
+        },
+   {
+            term: "元旦",
+            text: "宋代吴自牧《梦梁录》：“正月朔一，谓之元旦，俗呼为新年。元旦，这里指阴历正月初一（这年阳历一月三十日）。"
+        },
+   {
+            term: "宁化、清流、归化",
+            text: "皆福建西部县名。其中归化于民国22年（1933年）5月，因与绥远省归化城同名，奉民国政府令改名明溪县。"
+        },
+   {
+            term: "路隘",
+            text: "道路险狭。"
+        },
+    {
+            term: "武夷山",
+            text: "武夷北接仙霞岭，南望九连山，中分赣江、闽江，居江西、福建交界。相传古神人武夷君居此，故有武夷之名。"
+        },
+        {
+            term: "风展红旗如画",
+            text: "是悬想红军抵达武夷山时的情景。"
+          }
+    ]
+},
+{
+    title: "减字木兰花·广昌路上",
+   category: "jinggang",
+  textSize: "small",
+    lines: [
+        "漫天皆白，雪里行军情更迫。头上高山，风卷红旗过大关。",
+        "此行何去？赣江风雪迷漫处。命令昨颁，十万工农下吉安。"
+   
+    ],
+ background: "这首词写于雪中行军。1930年1月，彭德怀率红五军从湘赣来到赣西并与黄公略新成立的新六军对吉安进行包围。同年1月下旬，毛泽东率领的红四军第二纵队抵达江西广昌县的塘坊，顶风冒雪，翻山越岭，向广昌县城疾进。月底，与朱德部队会合，并占领宁都等县，继而向吉水一带活动。2月6日～9日红四军、五军、六军及赣西特委在吉安县陂头召开联席会议，会议作出了攻打吉安城的决定，并作出相应的战略部署。据推断，这首词作于这次联席会议之时或之后。",
+translation: [
+    "天全白了， 大军在雪中前进，心情迫切。 头上是峻岭， 狂风漫卷红旗越过关山。",
+    "此行将去何方？ 赣江畔风雪正迷乱。 命令昨日已下达， 十万工农武装就要直取吉安。"
+],
+notes: [
+    {
+        term: "减字木兰花",
+        text: "词牌名，又名“减兰”“木兰香”“天下乐令”等。双调四十四字，上下片各四句，两仄韵、两平韵。"
+    },
+    {
+        term: "广昌",
+        text: "县名，在江西省东部，抚河上游。中央苏区的重要县份之一。"
+    },
+    {
+        term: "漫天",
+        text: "满天。"
+    },
+    {
+        term: "情更迫",
+        text: "发表时原作“无翠柏”，人民文学出版社一九六三年十二月版《毛主席诗词》改为“情更迫”。"
+    },
+    {
+        term: "大关",
+        text: "指险要关隘。"
+    },
+    {
+        term: "赣江",
+        text: "江名，位于长江以南、南岭以北西源章水出自广东省毗连江西南部的大庾岭。"
+    },
+    {
+        term: "吉安",
+        text: "现为市，在江西中部，赣江西岸。"
+    }
+]
+},
+{
+    title: "蝶恋花·从汀州向长沙",
+   category: "jinggang",
+  textSize: "mini",
+    lines: [
+        "六月天兵征腐恶，万丈长缨要把鲲鹏缚。赣水那边红一角，偏师借重黄公略。",
+        "百万工农齐踊跃，席卷江西直捣湘和鄂。国际悲歌歌一曲，狂飙为我从天落。"
+   
+    ],
+ background: "彭德怀率红三军团于1930年7月28日攻进长沙，后又在湖南军阀何键十五个团的优势兵力面前被迫退出。毛泽东赴长沙与彭德怀会合，于9月10日再次进攻长沙。攻城战中红军损失惨重，9月13日毛泽东下令撤围退军。退军时写下了这首《蝶恋花·从汀州向长沙》。",
+translation: [
+    "六月红军征讨腐朽凶恶的国民党军阀，人民要用长长的绳索把鲲鹏捆缚。赣水那边根据地红旗高展，这都是依靠黄公略的努力。",
+    "所有的工农们要踊跃与敌人争斗，让革命席卷江西大地，捣破敌人占领的湖南湖北。国际歌的歌声中，我们的革命力量如同天兵降临一般的茁壮起来。"
+],
+ notes: [
+    {
+        term: "蝶恋花",
+        text: "词牌名，出自唐教坊曲，双调，分上下两阕，上下片同调，押仄声韵，共六十字，前后片各四仄韵。"
+    },
+    {
+        term: "汀州",
+        text: "古时州名，州治在今闽西长汀县。"
+    },
+    {
+        term: "天兵",
+        text: "指红军。"
+    },
+    {
+        term: "征腐恶",
+        text: "指征讨腐朽凶恶的国民党军阀。"
+    },
+    {
+        term: "长缨",
+        text: "长绳索。汉武帝时终军出使南越（古国名，今广东、广西一带），请授长缨，说要把那里的国王缚住带回来（见《汉书·终军传》）。"
+    },
+    {
+        term: "鲲鹏",
+        text: "《庄子·逍遥游》中所说的一种极大的鱼和由它变成的极大的鸟，所以既可分指两物（通常“鲲”不单用），也可合指一物。通常是褒义词，这里作贬义用，等于说巨大的恶魔。"
+    },
+    {
+        term: "赣水那边红一角",
+        text: "指赣西南的赣江流域黄公略率领的红六军（1930年7月改称红三军）所建立的根据地。"
+    },
+    {
+        term: "偏师",
+        text: "配合主力作战的部队。"
+    },
+    {
+        term: "黄公略",
+        text: "（1898—1931）湖南湘乡人。1927年参加中国共产党。1930年，任红三军军长。1931年9月，在江西省吉安的东固地区行军中遭敌机扫射牺牲。当时他留守闽西根据地。"
+    },
+    {
+        term: "踊跃",
+        text: "奋起刺击。汉代刘熙《释名》卷四《释言语》：”勇，踊也，遇敌踊跃，欲击之也。”"
+    },
+    {
+        term: "湘和鄂",
+        text: "湘指湖南，鄂指湖北。"
+    },
+    {
+        term: "国际悲歌",
+        text: "指《国际歌》。"
+    },
+    {
+        term: "狂飙",
+        text: "疾风。这里形容正在兴起的革命风暴。"
+    }
+]
+},
+{
+    title: "渔家傲·反第一次大“围剿”",
+   category: "jinggang",
+  textSize: "extramini",
+    lines: [
+        "万木霜天红烂漫，天兵怒气冲霄汉。雾满龙冈千嶂暗，齐声唤，前头捉了张辉瓒。",
+        "二十万军重入赣，风烟滚滚来天半。唤起工农千百万，同心干，不周山下红旗乱。"
+   
+    ],
+background: [
+    "一九三零年八月五日，蒋介石任命何应钦为“鄂湘赣三省剿匪总指挥”。何说，“各省从前剿匪，大都不免省界观念，能将匪共驱出省界即为了事。故匪等东击西串，不能根株尽绝，反而愈延愈广。国府因见及此，特命行营负此专职，统筹兼顾，谋根本解决，以矫正前此之流弊。”自此从以前的各省“会剿”改为中央领导下的“围剿”。",
+    "一九三零年十月七日蒋介石占领郑州，胜利结束与冯玉祥、阎锡山的战争。十二月七日，蒋至南昌部署第一次大“围剿”，以十万兵力，进攻赣南、闽西的红军根据地。十二月三十日，红军在龙冈伏击张辉瓒并全歼其十八师。第一次大“围剿”就此结束，闻听前方捷报，毛主席喜形于色，遂在马背上吟成。"
+],
+translation: [
+    "万千枫林被霜打过焕发鲜亮的红色，红军战士一腔怒火直冲云天。大雾笼罩龙冈深暗的连绵群峰，我军齐声高呼，前线杀敌并活捉了张辉瓒。",
+    "二十万敌兵又来侵犯，狼烟四起遮掩了半边天。我将唤醒千百万的工农大众，同心协力齐努力，那时不周山下红旗遍插迎风招展。"
+],
+notes: [
+    {
+        term: "霜天",
+        text: "这里指冬天。秋冬都有霜，故可统称“霜天”。"
+    },
+    {
+        term: "烂漫",
+        text: "光彩分布貌。《文选》卷十五张衡《思玄赋》：”烂漫丽靡”。"
+    },
+    {
+        term: "天兵",
+        text: "指红军。"
+    },
+    {
+        term: "霄汉",
+        text: "高空。霄，云气；汉，天汉，即天河。云气和天河都是在高空，所以用来表示高旷至极的天际。"
+    },
+    {
+        term: "龙冈",
+        text: "龙冈头墟的简称，在江西省宁都、吉水、吉安、泰和、永丰诸县之间，地属永丰县。山峦重叠，形式极险。"
+    },
+    {
+        term: "千嶂",
+        text: "许多高山。宋范仲淹《渔家傲》：”千嶂里，长烟落日孤城闭。”"
+    },
+    {
+        term: "张辉瓒",
+        text: "国民党第十八师师长，兼任江西剿匪总指挥，俘虏后被愤怒的群众斩首，其头装在木笼内扔入赣江。"
+    },
+    {
+        term: "二十万军重入赣",
+        text: "敌人发动第二次“围剿”时，总兵力20万，何应钦任总司令。"
+    },
+    {
+        term: "风烟",
+        text: "犹风尘，杜甫《秋兴》：”万里风烟接素秋。”"
+    },
+    {
+        term: "天半",
+        text: "半空。"
+    },
+    {
+        term: "不周山",
+        text: "古代传说中的山名，见《山海经·大荒西经》：”西北海之外，大荒之隅，有山而不合，名曰不周。”据传共工与颛顼争帝，怒触此山，天柱折，地维绝。作者在自注中引此典故，用以比喻工农革命力量推翻旧世界的磅礴气势。"
+    }
+]
+},
+{
+    title: "渔家傲·反第二次大“围剿”",
+   category: "jinggang",
+  textSize: "extramini",
+    lines: [
+        "白云山头云欲立，白云山下呼声急，枯木朽株齐努力。枪林逼，飞将军自重霄入。",
+        "七百里驱十五日，赣水苍茫闽山碧，横扫千军如卷席。有人泣，为营步步嗟何及！"
+   
+    ],
+background: [
+    "此词创作于1931年夏。1931年4月，蒋介石不甘心于第一次“围剿”的失败，纠集二十万大军，对苏区发动了第二次大“围剿”，从江西吉安到福建建宁，东西八百里，布成一条弧形阵线，改变第一次大“围剿”中破产的“分进合击，长驱直入”战术，采用“稳扎稳打，步步为营，紧缩包围”的战术，向苏区步步紧逼。词人为第二次反“围剿”的战略行动作了精心的设计和部署，亲自指挥中央红军，选择进占富田之敌王金钰、公秉藩为首战对象，“从富田打起，向东横扫”，先将红军主力集结隐蔽于吉安县东固一带，迫敌而居，等待战机，秘密埋伏二十五天。",
+    "5月15日，王金钰部脱离其富田阵地，分三路向东固进犯，16日进入红军伏击圈，红军出其不意地发起攻击，痛歼敌军，并乘胜进击，直指富田，经一天战斗，歼敌一整师。继而迅即转入战略进攻，由富田而东，奋力横扫，“十五天中（1931年5月16日至30日），走七百里，打五个仗，缴枪二万余，痛快淋漓地打破了‘围剿’。”（《中国革命战争的战略问题》）此次反“围剿”胜利之后，词人便创作了这一人民战争思想胜利的颂歌。"
+],
+translation: [
+    "白云山顶的云层滚动，好像要凌空直立起来一样，山下的敌人狂呼乱喊，鼓噪而上，根据地的军民同仇敌忾，就连干枯的树木，老朽的树桩龃也齐心协力为红军助战。英勇善战的红军好像飞将军从天而降，无数的刀枪刺向敌人。",
+    "在十五天里，红军长驱直入，从苍茫的赣江到青翠的闽山，驰骋七百余里，把来犯的敌人收拾得干净利索。国民党反动派泣不成声，“步步为营”的战术破产了，叹气又有什么用！"
+],
+notes: [
+    {
+        term: "渔家傲",
+        text: "词牌名，又名“渔歌子”、“渔父词”等。双调六十二字，上下片各五句，五仄韵。"
+    },
+    {
+        term: "白云山",
+        text: "位于江西省东固和富田之间的一座大山，第二次反围剿时的主战场，山上树木很多，常有白云笼罩。"
+    },
+    {
+        term: "云欲立",
+        text: "云层滚动，好像要凌空直立起来一样。"
+    },
+    {
+        term: "枯木朽株齐努力",
+        text: "干枯的树木，老朽的树桩龃振作起来，好像也在为保卫红色根据地而努力助战。枯木朽株，邹阳《自狱中上梁王自明书》：”有人行游，则枯木朽株，树功而不忘。”司马相如《上书谏猎》：”枯木朽株，尽为害矣。”"
+    },
+    {
+        term: "逼",
+        text: "逼近。"
+    },
+    {
+        term: "飞将军",
+        text: "汉武帝时，将领李广很会带兵打仗，行军神速，常常出敌不意，被匈奴称作“飞将军”。这里指英勇善战的红军。《史记·李将军列传》：”（李）广居右北平，匈奴闻之，号曰汉之飞将军。”"
+    },
+    {
+        term: "重霄",
+        text: "天空，古人谓天有九重。当时红军隐蔽集结在山上，敌人由富田向东固地区进犯，红军突然从山上打到山下，好像飞将军从天而降。"
+    },
+    {
+        term: "驱",
+        text: "驱逐，追击。这里指长驱直入。"
+    },
+    {
+        term: "赣水",
+        text: "赣江的旧称。赣江是中国江西省最大河流，长江下游重要支流之一。位于长江以南、南岭以北。"
+    },
+    {
+        term: "闽山碧",
+        text: "福建和江西交界处武夷山的一段为闽山。碧，青翠湛绿。"
+    },
+    {
+        term: "横扫",
+        text: "南北为“纵”，东西为“横”，从东向西或从西向东进行扫荡叫“横扫”。"
+    },
+    {
+        term: "千军",
+        text: "指大量的敌人。"
+    },
+    {
+        term: "如卷席",
+        text: "像卷席子一样，极言收拾得干净利索。"
+    },
+    {
+        term: "有人",
+        text: "指国民党反动派。"
+    },
+    {
+        term: "泣",
+        text: "有泪无声地哭。"
+    },
+    {
+        term: "为营步步",
+        text: "即“步步为营”，国民党发动第二次大“围剿”时，每前进一段就修筑堡垒。营，军垒。"
+    },
+    {
+        term: "嗟何及",
+        text: "叹息又有什么用。嗟，叹息。何及，来不及，怎么也没办法达到目的。"
+    }
+]
+},
+{
+    title: "菩萨蛮·大柏地",
+   category: "jinggang",
+  textSize: "small",
+    lines: [
+        "赤橙黄绿青蓝紫，谁持彩练当空舞？雨后复斜阳，关山阵阵苍。",
+        "当年鏖战急，弹洞前村壁。装点此关山，今朝更好看。"
+   
+    ],
+background: [
+    "1929年，毛泽东和朱德、陈毅等率红军主力三千六百余人在这一年的早春离开了井冈山，向赣南进击。由于敌军重兵围追，又由于来到外地，人生地不熟，红四军沿途五战皆告失利。后红军在瑞金以北约30公里处的大柏地麻子坳布下口袋阵。自第二日下午3时一直激战到次日正午，终于击溃敌军，取得这次转战以来首次重大胜利。而胜利之地就是大柏地。",
+    "1932年10月，中共苏区中央局宁都会议后，毛泽东受王明左倾冒险主义路线排斥，被免去红一方面军总政治委员的职务，改去地方上主持中华苏维埃共和国临时中央政府的工作。1933年夏天他因从事调研工作，领导中央苏区的查田运动才重返大柏地，面对昔日金戈铁马的战场，他触景生情，回忆往事，欣然命笔，写下了此诗。"
+],
+translation: [
+    "天上挂着七色的彩虹，而又是谁手持着彩虹在空中翩翩起舞？黄昏雨之后又见夕阳，苍翠的群山仿如层层军阵。",
+    "当年这里曾经进行了一次激烈的苦战，子弹穿透了前面村子的墙壁。那前村墙壁上留下的累累弹痕，把这里装扮得更加美丽。"
+],
+ notes: [
+    {
+        term: "菩萨蛮",
+        text: "词牌名，本唐教坊曲，后用为词牌，也用作曲牌。亦作《菩萨鬘》，又名《子夜歌》、《重叠金》、《花溪碧》、《晚云烘日》等。另有《菩萨蛮引》、《菩萨蛮慢》。《菩萨蛮》也是曲牌名，属北曲正宫，字句格律与词牌前半阕同，用在套曲中。"
+    },
+    {
+        term: "大柏地",
+        text: "乡名（大柏地乡），位于江西省瑞金市北部，距市区30公里，素有“瑞金北大门”之称，319国道横贯南北，与宁都县、石城县相邻，是毛泽东等革命家曾经生活和战斗过的地方。"
+    },
+    {
+        term: "赤橙黄绿青蓝紫",
+        text: "彩虹的七色。"
+    },
+    {
+        term: "彩练",
+        text: "彩色绢带，喻虹。"
+    },
+    {
+        term: "当空",
+        text: "在正前方的天空中央。"
+    },
+    {
+        term: "雨后复斜阳",
+        text: "唐·温庭筠《菩萨蛮·南园满地堆轻絮》：”雨后却斜阳。”"
+    },
+    {
+        term: "关山",
+        text: "泛指附近群山。"
+    },
+    {
+        term: "阵阵",
+        text: "每一列战斗队形。宋赵抃《和韵前人初出锁头》诗：”淮木林林脱，霜鸿阵阵飞。”是说大雁列队而飞；本词则谓群山如层层军阵。北周庾信《周柱国大将军长孙俭神道碑》：”风云积惨，山阵连阴。”"
+    },
+    {
+        term: "苍",
+        text: "青黑色。"
+    },
+    {
+        term: "鏖战",
+        text: "苦战。"
+    },
+    {
+        term: "急",
+        text: "激烈。"
+    },
+    {
+        term: "弹洞",
+        text: "枪眼。洞，若视为动词、作“洞穿”解，亦通。"
+    },
+    {
+        term: "前村",
+        text: "前面的村庄，指战场附近的一个小村枣杏坑。"
+    },
+    {
+        term: "装点",
+        text: "装饰点缀。宋·华岳《登楼晚望》诗：”装点江山归画图。”"
+    },
+    {
+        term: "今朝",
+        text: "如今。"
+    },
+    {
+        term: "看",
+        text: "此处读平声。"
+    }
+]
+},
+
+{
+    title: "清平乐·会昌",
+   category: "jinggang",
+  textSize: "small",
+    lines: [
+        "东方欲晓，莫道君行早。踏遍青山人未老，风景这边独好。",
+        "会昌城外高峰，颠连直接东溟。战士指看南粤，更加郁郁葱葱。"
+   
+    ],
+background: [
+    "1928年，内战爆发，以蒋介石为代表的大地主大资产阶级的国民政府，对我军进行“围剿”，从1931年起，王明继李立三之后的“左”倾社会主义路线，给党及革命事业带来了严重的损失，但中央革命根据地的工农红军却在毛泽东的领导下取得了1931年至1933年春的第一、二、三、四次反“围剿”的胜利。",
+    "1933年夏蒋介石亲自策划了第五次“围剿”。当时，以博古为代表的中央临时政府推行“左”倾政治策略和军事策略，并反对排斥毛泽东的正确领导，他们不顾敌强我弱的实际情况，教条地提倡进行所谓“正规”战争，以“阵地战、消耗战”来对抗国民党军队的进攻，采取了“主动出击”、“御敌于国门之外”的进攻路线。而此时毛泽东在距离北部前线很远的南县视察工作，兼养病住在会昌文武坝，未能参与反“围剿”的主要战役指挥。结果反“围剿”节节失利，愈打愈困难，在此情形下，1934年10月离开中央苏区，开始了著名的长征。",
+    "这首词作于1934年7月，毛泽东在会昌登山后所作。这一时期毛泽东在党内军内已无发言权，但他并不气馁，调整心态，坚持自己的观点。在他自己说的没有发言权的1931年到1934年的那些日子里，他埋头于做调查研究、读书、向中央提建议，而不是“赋闲”。“踏遍青山人未老”就是他的这种精神的艺术写照。作者自己曾说：“1934年，形势危急，准备长征，心情又是郁闷的。”《会昌》词的基调是昂扬的，语言是雄奇的，反映了毛泽东积极乐观的精神状态和坚韧不拔的意志，但是字里行间也隐约表露了词人的忧虑和愤懑。"
+],
+translation: [
+    "东方就将初露曙色，但请不要说你来得早。走遍了青山绿水，但是人依然觉得很有精力，不曾疲惫，这儿的风景最好。",
+    "会昌县城外面的高峻山峰，连绵不断直接连去东海。战士们远望南粤，那边更为青葱。"
+],
+notes: [
+    {
+        term: "会昌",
+        text: "县名，在江西省东南部，东连福建省，南经寻乌县通广东省。1929年，毛泽东为开辟赣南根据地，率领红军到过会昌，以后又常途经和居住在这里。这首词是1934年夏天作者在中共粤赣省委所在地会昌进行调查研究和指导工作时所作。"
+    },
+    {
+        term: "莫道君行早",
+        text: "旧谚：”莫道君行早，更有早行人。”"
+    },
+    {
+        term: "踏遍青山人未老",
+        text: "诗人自注：”1934年，形势危急，准备长征，心情又是郁闷的。这一首《清平乐》，如前面那首《菩萨蛮》一样，表露了同一的心境。”本句的”人”和上句的”君”，都指作者自己。"
+    },
+    {
+        term: "这边",
+        text: "指中央革命根据地南线。"
+    },
+    {
+        term: "会昌城外高峰",
+        text: "指会昌城西北的会昌山，又名岚山岭。诗人在60年代曾回忆说：会昌有高山，天不亮我就去爬山。"
+    },
+    {
+        term: "颠连",
+        text: "起伏不断。东溟（míng）：指东海。"
+    },
+    {
+        term: "南粤",
+        text: "古代地名，也叫南越（今广东、广西一带）。这里指广东。"
+    }
+]
+},
+
+{
+    title: "十六字令三首",
+  category: "longmarch",
+  textSize: "small",
+    lines: [
+        "山，快马加鞭未下鞍。惊回首，离天三尺三。",
+       "山，倒海翻江卷巨澜。奔腾急，万马战犹酣。",
+        "山，刺破青天锷未残。天欲堕，赖以拄其间。"
+   
+    ],
+background: [
+    "这三首小令作于1934年到1935年间。1934年10月，中央红军主力各军团分别从闽西的长汀、宁化和赣南的瑞金、雩都地区出发，开始了远离中央根据地井冈山的二万五千里长征。一路上，遭遇到数不尽的艰难困苦，除先后以鲜血和生命突破蒋介石设置的四道严密封锁线外，还越过了千山万水，不仅以举世罕见的牺牲精神，战胜了强敌，而且以同样罕见的吃苦精神，战胜了种种困难和天险。",
+    "蒋介石曾屡次妄图凭借水的天险阻挡和消灭红军，例如湘江、金沙江、大渡河等；而相对来说，红军则对山更有感情，尤其是毛泽东，对山的感情更深。可以说，毛泽东开辟的以农村包围城市的武装割据道路，始终是以山岭为依托的，在战略退却时，则更是以山岭为掩护。山岭是毛泽东和红军的好朋友，毛泽东和红军喜欢山，而蒋介石则在特定历史时期里，相当畏惧红军喜欢的山。",
+    "在实行战略大转移的长征途中，红军不仅大多数时候都在高山峻岭中行军，而且也常在万山丛中冲破蒋介石的围追堵截，既历尽艰辛，又充满胜利的喜悦。毛泽东这三首小令，就是怀着喜悦的心情，在翻山越岭的长征行军途中写下的。"
+],
+translation: [
+    "山，高耸入云端。快马加鞭向前赶路，不做丝毫停留。蓦然回首，惊叹身后的山峰与远处的天边快接上了！",
+   "山，起伏如波涛，浩瀚似江海，倒海翻江卷巨澜。山势奔腾迅猛如奔马，好似万马厮杀正酣战。",
+    "山，傲立苍穹如长剑，刺破青天锋刃未残。山之利剑好似要刺塌青天，但青天不会垮下，因为高山之大柱正支撑中天。"
+],
+    notes: [
+        {
+            term: "快马加鞭",
+            text: "徐姬《杀狗记》： “何不快马加鞭，径赶至苍山，求取伯伯！”"
+        },
+    {
+            term: "离天三尺三",
+            text: "作者原注：“湖南民谣：‘上有骷髅山，下有八宝山，离天三尺三。人过要低头，马过要下鞍。’”又注：“这是湖南常德的民谣：”（按：这一注解可能是作者回答英译者时的误忆。常德地势较平坦，无此民谣。此当为贵州民谣。）骷髅山，未详。八宝山，在贵州雷山县。《贵州通志》：“八宝山与太平山相连如屏，三面绝壁，无路可登。唯南面稍平，乌道羊肠，人迹罕至。”红军长征时并未攀越八宝山，这里仅借民谣形容山之高。李白《蜀道难》：“连峰去天不盈尺。”贺铸《渔家傲．荆溪咏》：“南岳去天才尺五。”"
+        },
+    {
+            term: "倒海翻江",
+            text: "形容声势、力量的巨大。陆游《夜宿阳山矶》：“五更颠风吹急雨，倒海翻江洗残暑。”这是形容水势之浩大。也作“翻江倒海”和“翻江搅海”。马致远《荐福碑》： “他那里撼岭巴江，搅海翻江，树倒摧崖。这孽畜，更做你这般，神通广大，也不合佛顶上大惊小怪。”卷：翻卷。澜：波浪。《孟子·尽心上》：“观水有术，必观其澜。”岑参《与高适薛据同登慈恩寺浮图》：“连山若波涛。”王安石《泊姚江》：“山如碧浪翻江去。”"
+        },
+    {
+            term: "奔",
+            text: "急行，急跑，犹如奔驰，狂奔，飞奔。腾，本指马奔跃，即骏马在奔驰中向上跳跃。"
+        },
+    {
+            term: "万马",
+            text: "千军万马之略。"
+        },
+        {
+            term: "欲",
+            text: "要，将要。堕，落下，掉下来。赖，依赖，依靠。以，用。拄，支撑。其间，指天地间。"
+          }
+    ]
+},
+
+{
+    title: "忆秦娥·娄山关",
+   category: "longmarch",
+  textSize: "small",
+    lines: [
+        "西风烈，长空雁叫霜晨月。霜晨月，马蹄声碎，喇叭声咽。",
+        "雄关漫道真如铁，而今迈步从头越。从头越，苍山如海，残阳如血。"
+   
+    ],
+background: [
+    "此词写于1935年2月，最早发表于1957年1月的《诗刊》上。1935年1月的遵义会议，确立了毛泽东的领导地位，会后由毛泽东、周恩来、王稼祥组成了军事指挥小组。为了继续长征，红军经娄山关北上，准备于泸州与宜宾之间渡过长江；但遇到阻碍，毛泽东果断地决定二渡赤水，折回遵义，于是再次跨越娄山关。",
+    "2月25日凌晨，红军向娄山关挺进，在红花园与黔军遭遇，黔军仓皇应战，败退关口，红军沿盘山道猛烈攻击，傍晚时分终于把这座雄关控制在手中，使大部队顺利通过，迈向胜利的前程。由于这一仗意义重大，所以诗人心情无比激动，在战斗结束不久即挥笔写下此词。"
+],
+translation: [
+    "西风猛烈，长空中一群群大雁南飞，一阵阵鸣叫，霜花满地，残月在天。天将破晓，马蹄声零碎而又纷杂，军号声声沉郁低回。",
+    "不要说娄山关坚硬如铁难以逾越，而今让我们重振旗鼓向前。青山起伏，像海的波涛，夕阳鲜红，像血的颜色。"
+],
+    notes: [
+        {
+            term: "忆秦娥",
+            text: "词牌名，源于李白的词句“秦娥梦断秦楼月”。双调，仄韵格，四十六字。该词牌名的最早出李白《忆秦娥·箫声咽》词。此调别名甚多，计有《秦楼月》、《玉交枝》、《碧云深》、《双荷叶》，而《秦楼月》则与《忆秦娥》同取词中首句为之名。"
+        },
+    {
+            term: "娄山关",
+            text: "又称娄关、太平关，位于贵州遵义北大娄山的最高峰上，是贵州北部进入四川的重要隘口，离遵义城约60公里。娄山关地势极为险要，《贵州通志》说它“万峰插天，中通一线”。是四川与贵州的交通孔道。此处群峰攒聚，中通一线，地势十分险要，历来为兵家必争之地。娄山关是红军长征途中的一处天险，此处战役关系着红军的生死存亡。"
+        },
+    {
+            term: "西风烈",
+            text: "烈，凛烈、猛风；西风劲厉。"
+        },
+    {
+            term: "长空雁叫霜晨月",
+            text: "在霜晨残月映照下，在烟雾茫茫的长空中，有飞雁在叫唤。这两句是记拂晓情景，此时娄山关战斗已经胜利结束。"
+        },
+    {
+            term: "霜晨月",
+            text: "叠句，类似音律上的和声，有连锁作用，详见词牌忆秦娥。"
+        },
+    {
+            term: "马蹄声碎",
+            text: "碎，碎杂，碎乱。"
+        },
+    {
+            term: "喇叭声咽",
+            text: "喇叭，一种管乐器，即军号。咽，呜咽、幽咽，声音因阻塞而低沉。"
+        },
+    {
+            term: "雄关漫道真如铁",
+            text: "雄关，雄壮的关隘，即指娄山关。漫道，徒然说，枉然说。人们徒然传说娄山关坚硬如铁。"
+        },
+    {
+            term: "而今迈步从头越",
+            text: "迈步，跨步、大踏步。从头越，即为头越。张相《诗词曲语词汇释》：“为头，犹云从头，或开始也。”有重头再开始的意思。说的是从头大踏步越过雄关，却隐约透露着当时战略任务受挫，要对长征计划从头再作部署，且有取得胜利的坚定不移的信心。"
+        },
+    {
+            term: "苍山如海",
+            text: "青山起伏，像海的波涛。"
+        },
+        {
+            term: "残阳如血",
+            text: "夕阳鲜红，像血的颜色。"
+          }
+    ]
+},
+{
+    title: "七律·长征",
+   category: "longmarch",
+    lines: [
+        "红军不怕远征难，万水千山只等闲。",
+     "五岭逶迤腾细浪，乌蒙磅礴走泥丸。",
+     "金沙水拍云崖暖，大渡桥横铁索寒。",
+        "更喜岷山千里雪，三军过后尽开颜。"
+   
+    ],
+background: [
+    "1934年10月，中国工农红军为粉碎国民政府的围剿，保存自己的实力，也为了北上抗日，挽救民族危亡，从江西瑞金出发，开始了举世闻名的长征。",
+    "这首七律是作于红军战士越过岷山后，长征即将胜利结束前不久的途中。作为红军的领导人，毛泽东在经受了无数次考验后，如今，曙光在前，胜利在望，他心潮澎湃，满怀豪情地写下了这首壮丽的诗篇。《七律·长征》写于1935年9月下旬，10月定稿。"
+],
+translation: [
+    "红军不怕万里长征路上的一切艰难困苦，把千山万水都看得极为平常。",
+  "五岭山脉绵延不绝，可在红军眼里不过像翻腾着的细小波浪；乌蒙山高大雄伟，在红军眼里也不过像在脚下滚过的泥丸。",
+  "金沙江浊浪滔天，湍急的流水拍击着高耸的山崖，溅起阵阵雾水，像是冒出蒸汽一样。大渡河险桥横架，晃动着凌空高悬的根根铁索，寒意阵阵。",
+    "更加令人欣喜的是千里岷山，皑皑白雪，红军翻越过去以后人人心情开朗，个个笑逐颜开。"
+],
+    notes: [
+        {
+            term: "七律",
+            text: "七律是律诗的一种，每篇一般为八句，每句七个字，分四联：首联、颔联、颈联和尾联；偶句末一字押平声韵，首句末字可押可不押，必须一韵到底；句内和句间要讲平仄，中间四句按常规要用对仗。"
+        },
+    {
+            term: "长征",
+            text: "1934年10月间，中央红军主力从中央革命根据地出发作战略大转移，经过福建、江西、广东、湖南、广西、贵州、四川、云南、西藏、甘肃、陕西等十一省，击溃了敌人多次的围追和堵截，战胜了军事上、政治上和自然界的无数艰险，行军二万五千里，终于在1935年10月到达陕北革命根据地。"
+        },
+    {
+            term: "难",
+            text: "艰难险阻。"
+        },
+    {
+            term: "等闲",
+            text: "平常，寻常。这里是当作平常事的意思。"
+        },
+    {
+            term: "五岭",
+            text: "大庾岭，骑田岭，都庞岭，萌渚岭，越城岭，横亘在江西、湖南、两广之间。"
+        },
+    {
+            term: "逶迤",
+            text: "形容道路、山脉、河流等弯弯曲曲，连绵不断的样子。"
+        },
+    {
+            term: "细浪",
+            text: "作者自释：“把山比作‘细浪’、‘泥丸’，是‘等闲’之意。”"
+        },
+    {
+            term: "乌蒙",
+            text: "山名。乌蒙山，在贵州西部与云南东北部的交界处，北临金沙江，山势陡峭。1935年4月，红军长征经过此地。"
+        },
+    {
+            term: "泥丸",
+            text: "小泥球，整句意思说险峻的乌蒙山在红军战士的脚下，就像是一个小泥球一样。"
+        },
+    {
+            term: "金沙",
+            text: "金沙江，指长江上游自青海省玉树县至四川省宜宾市的一段，云南等地也有支流。1935年5月，红军曾强渡云南省禄劝县皎平渡渡口。"
+        },
+   {
+            term: "云崖暖",
+            text: "是指浪花拍打悬崖峭壁，溅起阵阵雾水，在红军的眼中像是冒出的蒸汽一样。"
+        },
+   {
+            term: "大渡桥",
+            text: "指四川省西部泸定县大渡河上的泸定桥。"
+        },
+   {
+            term: "铁索",
+            text: "大渡河上泸定桥，它是用十三根铁索组成的桥。"
+        },
+   {
+            term: "寒",
+            text: "影射敌人的冷酷与形势的严峻。"
+        },
+   {
+            term: "岷山",
+            text: "中国西部大山。位于甘肃省西南、四川省北部。西北-东南走向。西北接西倾山，南与邛崃山相连。包括甘肃南部的迭山，甘肃、四川边境的摩天岭。"
+        },
+  {
+            term: "三军",
+            text: "这里指红军队伍。"
+        },
+        {
+            term: "尽开颜",
+            text: "红军的长征到达目的地了，他们取得了胜利，所以个个都笑逐颜开。"
+          }
+    ]
+},
+
+{
+    title: "念奴娇·昆仑",
+   category: "longmarch",
+  textSize: "mini",
+    lines: [
+        "横空出世，莽昆仑，阅尽人间春色。飞起玉龙三百万，搅得周天寒彻。夏日消融，江河横溢，人或为鱼鳖。千秋功罪，谁人曾与评说？",
+        "而今我谓昆仑，不要这高，不要这多雪。安得倚天抽宝剑，把汝裁为三截？一截遗欧，一截赠美，一截还东国。太平世界，环球同此凉热。"
+   
+    ],
+background: [
+    "这首词作于1935年，首次发表于1957年1月号《诗刊》上。1935年9月，当中央红军走完了长征最后一段行程，即将到达陕北时，毛泽东曾登上昆仑山支脉岷山峰顶，远望青海一带苍茫的昆仑山脉，生发感慨。到达陕北后，红军取得了直罗镇战役的胜利，巩固了陕甘根据地。毛泽东后来评价此役：“长征一完结，新局面就开始。",
+    "直罗镇一仗，中央红军同西北红军兄弟般的团结，粉碎了卖国贼蒋介石向着陕甘边区的‘围剿’，给党中央把全国革命大本营放在西北的任务，举行了一次奠基礼。”党中央把全国革命大本营安放在西北，由此，引起了全国革命形势的重大变化。《念奴娇·昆仑》经历了一个较长的酝酿过程，其构思应起于“夏日登岷山远望”之时，其写成应在到达陕北之后。"
+],
+translation: [
+    "破空而出了，高大险峻的昆仑山，你已看遍人世衰盛。终年积雪，山脉蜿蜒不绝，好像无数的白龙正在空中飞舞，搅得天地一片冰寒。夏天冰雪消融，江河纵横流淌，人也许为鱼鳖所食。你的千年功过是非，究竟何人曾予以评说？",
+    "今天我要来说一说昆仑：不要你如此高峻，也不要你这么多的积雪。怎样才能背靠青天抽出宝剑，把你斩为三片呢？一片送给欧洲，一片赠予美洲，一片留在亚洲。在这和平世界里，整个地球将像这样感受到热烈与凉爽。"
+],
+    notes: [
+        {
+            term: "横空出世",
+            text: "横空，横在空中；出世，超出人世。形容山的高大和险峻。"
+        },
+    {
+            term: "莽",
+            text: "莽莽，状高大。《小尔雅》：莽，大也。后世引申有鲁莽、莽撞、猛健诸义。"
+        },
+    {
+            term: "昆仑",
+            text: "即昆仑山，又称昆仑虚、昆仑丘或玉山。毛主席在这首词的自注中说：“昆仑：主体思想是反对帝国主义，不是别的。”"
+        },
+    {
+            term: "阅尽人间春色",
+            text: "阅尽，看足、看尽、看遍。人间春色，不止指大地春光，而且指人世衰盛。"
+        },
+    {
+            term: "飞起玉龙三百万",
+            text: "玉龙，白色的龙；三百万是形容其多。"
+        },
+    {
+            term: "搅得",
+            text: "闹得、搞得。今语的“搞”，早期白话作品中都作“搅”。周天寒彻：满天冷透。"
+        },
+    {
+            term: "消融",
+            text: "积雪消融、融化。"
+        },
+    {
+            term: "江河横溢",
+            text: "长江黄河都发源于昆仑山脉，所以昆仑山积雪消融，江河水量大增，都会泛滥起来。横溢：就是横流，即泛滥。"
+        },
+    {
+            term: "人或为鱼鳖",
+            text: "江河横滥，洪水成灾，有些人不及逃避被卷入洪流，像鱼鳖一样。《左传·昭公元年》：“微（没有）禹，吾其鱼乎!”"
+        },
+    {
+            term: "千秋",
+            text: "千年。功罪：昆仑山给长江黄河输送的水源给人民带来了许多好处，孕育了中华民族的文化，这是功；造成洪水泛滥，因而给人民带来灾祸，这是罪。在这里，罪是实写，功是虚写。"
+        },
+   {
+            term: "谁人",
+            text: "何人。"
+        },
+   {
+            term: "曾与",
+            text: "曾给、曾为。《诗词曲语词汇释》：“与，为也，给也。”"
+        },
+   {
+            term: "安得",
+            text: "怎得、哪得。倚天抽宝剑：传楚宋玉作《大言赋》：“方地为车，圆天为盖。长剑耿介，倚天之外。”倚天，形容宝剑极长和带剑的人极高大。"
+        },
+   {
+            term: "遗",
+            text: "赠与。"
+        },
+   {
+            term: "还东国",
+            text: "首次发表时原作“留中国”，一九六三年版《毛主席诗词》改为“还东国”。"
+        },
+        {
+            term: "环球",
+            text: "一作寰球，整个地球。"
+          }
+    ]
+},
+
+{
+    title: "清平乐·六盘山",
+   category: "longmarch",
+  textSize: "small",
+    lines: [
+        "天高云淡，望断南飞雁。不到长城非好汉，屈指行程二万。",
+        "六盘山上高峰，红旗漫卷西风。今日长缨在手，何时缚住苍龙？"
+   
+    ],
+background: [
+    "1935年8月，毛泽东主席粉碎了张国焘分裂红军的路线后，率红一方面军继续向陕北根据地挺进。9月中旬，红军攻克天险腊子口，奇迹般越过岷山草地，进入甘肃南部。10月7日，红军在宁夏六盘山的青石嘴，又击败了前来堵截的敌骑兵团，扫清了阻碍，摆脱了追敌，当天下午，一鼓作气，翻越了六盘山。此词即是作者翻越六盘山时的咏怀之作。",
+    "此词最早发表于《诗刊》1957年1月号。"
+],
+translation: [
+    "长空高阔白云清朗，南飞的大雁已飞到了天际尽头。不登临目的地绝不是英雄，算下来已征战了二万里的路途。",
+    "在高峰险峻的六盘山上，猛烈的西风吹得红旗猎猎地卷起来。今天我长绳之武装紧握手中， 哪一天才会将那蒋家狂龙捆缚？"
+],
+    notes: [
+        {
+            term: "清平乐",
+            text: "词牌名，原为唐教坊曲名，取用汉乐府“清乐”、“平乐”这两个乐调而命名。双调，四十六字。上阕押仄声韵，下阕换平声韵。也有全押仄声韵的。"
+        },
+    {
+            term: "六盘山",
+            text: "位于宁夏回族自治区南部，甘肃省东部，是陇山山脉的主峰，南北走向，长约240公里，主峰海拔2928米。六盘山上下约60里，山势险峻，山路曲折险窄，要盘旋多重才能到达峰顶。六盘山是红军长征到达陕北前的最后一座高山。"
+        },
+    {
+            term: "望断",
+            text: "望着，直到看不见。"
+        },
+    {
+            term: "长城",
+            text: "借指长征的目的地。"
+        },
+    {
+            term: "屈指",
+            text: "弯着手指头计算。"
+        },
+    {
+            term: "红旗",
+            text: "1957年在《诗刊》创刊号上发表时作“旄头”。1961年九月为宁夏干部书写此词时改为“红旗”，手迹发表在1961年10月7日的《光明日报》。"
+        },
+    {
+            term: "漫卷",
+            text: "任意吹卷。"
+        },
+    {
+            term: "长缨",
+            text: "指捕缚敌人的长绳，出自“终军请缨”的典故，这里指革命武装。在手，在共产党领导下。"
+        },
+    {
+            term: "缚住",
+            text: "擒住。"
+        },
+
+        {
+            term: "苍龙",
+            text: "毛泽东注：此处指蒋介石的国民党反动派，因为当前主要对付的是国民党反动派。"
+          }
+    ]
+},
+
+{
+    title: "六言诗·给彭德怀同志",
+   category: "longmarch",
+    lines: [
+        "山高路远坑深，大军纵横驰奔。",
+        "谁敢横刀立马？唯我彭大将军。"
+   
+    ],
+ background: "1935年10月19日，红军长征胜利后，蒋介石派5个骑兵团尾随而至。为了防止敌军进入陕北革命根据地，彭德怀指挥先遣队在吴起镇附近进行了“切尾巴”战斗。歼灭敌军一个骑兵团，取得了中央红军到达陕北后第一场胜仗。为此，毛泽东特作本诗赠予彭德怀。",
+translation: [
+    "吴起镇山高路远地势险峻，红军骑马纵横其间奋勇杀敌。",
+    "有谁敢手持武器，纵马驰骋，在我看来只有彭大将军。"
+],
+   notes: [
+    {
+        term: "六言诗",
+        text: "旧体诗的一种格式，偶句押韵，首句可押可不押。句数和平仄都不像律诗那样严格。"
+    },
+    {
+        term: "坑深",
+        text: "地势险峻。"
+    },
+    {
+        term: "唯我彭大将军",
+        text: "大战胜利毛泽东写诗赠予，首句即用电文句，但改“沟深”为“坑深”。彭德怀收到这首诗后，将诗的末句“唯我彭大将军”改为“唯我英勇红军”，然后将原诗送还了毛泽东。彭德怀（1898—1974），中国无产阶级革命家、军事家、政治家。"
+    }
+]
+
+},
+{
+    title: "沁园春·雪",
+   category: "longmarch",
+  textSize: "small",
+    lines: [
+        "北国风光，千里冰封，万里雪飘。",
+    "望长城内外，惟余莽莽；大河上下，顿失滔滔。",
+    "山舞银蛇，原驰蜡象，欲与天公试比高。",
+    "须晴日，看红装素裹，分外妖娆。",
+    "江山如此多娇，引无数英雄竞折腰。",
+    "惜秦皇汉武，略输文采；唐宗宋祖，稍逊风骚。",
+    "一代天骄，成吉思汗，只识弯弓射大雕。",
+     "俱往矣，数风流人物，还看今朝。"
+   
+    ],
+background: [
+    "该词的创作有2种说法：",
+    "第一种：1936年2月，毛泽东等率领红军东征抗日先锋军东渡黄河、突破阎军防线后，踏雪沿官道山行进，顺利到达山西省石楼县留村，并在此写下了著名诗篇《沁园春·雪》。",
+    "第二种：1936年2月，毛泽东率红军抗日，来到西北高原。在陕西省清涧县高杰村附近的袁家沟，写下壮丽的《沁园春·雪》。"
+],
+translation: [
+    "北方的风光，千里冰封冻，万里雪花飘。",
+ "望长城内外，只剩下无边无际白茫茫一片。整条黄河，立刻失去了波涛滚滚的水势。",
+ "被白雪覆盖的群山好像银蛇在舞动，高原好像白象在奔跑，它们都想试着和老天爷比一下谁更高。",
+ "等到晴天的时候，看红日和白雪交相辉映，格外娇艳美好。",
+ "江山是如此的媚娇，引得无数英雄竞相倾倒。",
+ "可惜秦始皇、汉武帝，略差文治功劳；唐太宗、宋太祖，稍逊文学才华。",
+ "称雄一世的英雄人物，成吉思汗，只知道拉弓射大雕。",
+    "这些人物都已经过去了，称得上能建功立业的英雄人物，还要看今天的人们。"
+],
+    notes: [
+        {
+            term: "北国",
+            text: "该词源于中国古代的分裂时期，如宋称辽、金为北国，东晋称十六国等为北国，南北朝时代南方的各朝代称在北方与之对抗的各朝代为北国等。"
+        },
+    {
+            term: "雪",
+            text: "这首词作于红一方面军一九三六年二月由陕北准备东渡黄河进入山西省西部的时候。作者在一九四五年十月七日给柳亚子信中说，这首词作于“初到陕北看见大雪时”。"
+        },
+    {
+            term: "惟",
+            text: "只。"
+        },
+    {
+            term: "馀",
+            text: "剩下。此字一作“余”，但目前刊出的书法作品中写作“馀”，以此为准。"
+        },
+    {
+            term: "莽莽",
+            text: "无边无际。"
+        },
+    {
+            term: "大河上下",
+            text: "大河，指黄河。大河上下，犹言整条黄河。"
+        },
+    {
+            term: "顿失滔滔",
+            text: "（黄河）立刻失去了波涛滚滚的气势。描写黄河水结冰的景象。"
+        },
+    {
+            term: "山舞银蛇，原驰蜡象",
+            text: "群山好像（一条条）银蛇在舞动。高原（上的丘陵）好像（许多）白象在奔跑。“原”指高原，即秦晋高原。蜡象，白色的象。"
+        },
+    {
+            term: "天公",
+            text: "指天，即命运。"
+        },
+  {
+            term: "须",
+            text: "等到；需要。"
+        },
+  {
+            term: "红装素裹",
+            text: "形容雪后天晴，红日和白雪交相辉映的壮丽景色。红装，原指妇女的艳装，这里指红日为大地披上了红装。素裹，原指妇女的淡装，这里指皑皑白雪覆盖着大地。"
+        },
+  {
+            term: "分外妖娆",
+            text: "格外婀娜多姿。"
+        },
+  {
+            term: "竞折腰",
+            text: "折腰，倾倒，躬着腰侍候。这里是说争着为江山奔走操劳。"
+        },
+  {
+            term: "秦皇",
+            text: "秦始皇嬴政（前259~前210），秦朝的创业皇帝。"
+        },
+  {
+            term: "汉武",
+            text: "汉武帝刘彻（前156~前87），汉朝功业最盛的皇帝。"
+        },
+  {
+            term: "略输文采",
+            text: "文采本指辞藻、才华。“略输文采”，是说秦皇汉武，武功甚盛，对比之下，文治方面的成就略有逊色。"
+        },
+  {
+            term: "唐宗",
+            text: "唐太宗李世民（599~649），唐朝的建立、统一大业的皇帝。"
+        },
+  {
+            term: "宋祖",
+            text: "宋太祖赵匡胤（927~976），宋朝的创业皇帝。"
+        },
+  {
+            term: "稍逊风骚",
+            text: "意近“略输文采”。风骚，本指《诗经》里的《国风》和《楚辞》里的《离骚》，后来泛指文章辞藻。"
+        },
+  {
+            term: "一代天骄",
+            text: "指可以称雄一世的英雄人物，泛指非常著名，有才能的人物。天骄，“天之骄子”的省略语。意思是上天所骄纵宠爱的人，成吉思汗即是。汉时匈奴自称。后来也泛称强盛的少数民族或其首领。"
+        },
+  {
+            term: "成吉思汗",
+            text: "元太祖铁木真（1162~1227）在1206年统一蒙古后的尊称，意为“强者之汗”（汗是可汗的省称，即王）。后蒙古于1271年改国号为元，成吉思汗被尊为建立元朝的始祖。成吉思汗除占领中国黄河以北地区外，还曾向西远征，占领中亚和南俄，建立了庞大的蒙古帝国。"
+        },
+  {
+            term: "只识弯弓射大雕",
+            text: "雕，一种属于鹰类的大型猛禽，善飞难射，古代因用“射雕手”比喻高强的射手。“只识弯弓射大雕”，是说只以武功见长。"
+        },
+  {
+            term: "俱往矣",
+            text: "都已经过去了。 俱，都。"
+        },
+
+        {
+            term: "数风流人物",
+            text: "称得上能建功立业的英雄人物。数，数得着、称得上的意思。"
+          }
+    ]
+},
+
+{
+    title: "临江仙·给丁玲同志",
+   category: "longmarch",
+ textSize: "mini",
+    lines: [
+        "壁上红旗飘落照，西风漫卷孤城。保安人物一时新。洞中开宴会，招待出牢人。",
+        "纤笔一枝谁与似？三千毛瑟精兵。阵图开向陇山东。昨天文小姐，今日武将军。"
+   
+    ],
+ background: "1936年11月22日，在保安，中国共产党在革命根据地成立了第一个文艺协会组织即中国文艺协会。丁玲被推选为中国文协主任。毛泽东决定丁玲跟着工农红军前方总政治部出发上前线。毛泽东为她作了这首词。次年春，丁玲陪同史沫特莱从前线回延安，会见了毛泽东，毛泽东抄录了这首词送给她。",
+translation: [
+    "西风吹过孤城，城头上的红旗，正在夕阳映照下随风飘扬。保安城里来了新人，窑洞里酒宴待客笑语缤纷，招待刚走出牢狱的女作家。",
+    "她手中的笔，吊民伐罪带来文名满天扬，回顾四海谁能比得上？那不是毛笔啊，是三千手握钢枪的精锐武装。跨进革命军队的行列，昂首挺进向陇山。曾经的文人小姐啊，成了今天一身戎装的将军。"
+],
+  notes: [
+    {
+        term: "丁玲",
+        text: "原名蒋冰之，湖南临澧人，1932年参加中国共产党。"
+    },
+    {
+        term: "保安",
+        text: "在陕西省西北部，当时是中共中央所在地，1936年改名志丹县。"
+    },
+    {
+        term: "纤笔",
+        text: "细致描绘的笔，指丁玲的文笔。"
+    },
+    {
+        term: "毛瑟",
+        text: "德国毛瑟工厂所制造的步枪和手枪。孙中山在1922年8月24日《与报界的谈话》中说：”常言谓：一枝笔胜于三千毛瑟枪。”"
+    },
+    {
+        term: "陇山",
+        text: "在陕西省陇县西北，延伸于陕甘边境。"
+    }
+]
+
+},
+
+{
+    title: "五律·挽戴安澜将军",
+    category: "reply",
+    lines: [
+        "外侮需人御，将军赋采薇。",
+         "师称机械化，勇夺虎罴威。",
+       "浴血东瓜守，驱倭棠吉归。",
+        "沙场竟殒命，壮志也无违。"
+   
+    ],
+background: [
+    "1941年12月，太平洋战争爆发。1942年2月，日军为切断盟国援华物资的重要运输线――滇缅公路，向当时为英国殖民地的缅甸大举进攻。应英国政府要求，国民政府派遣远征军约十万人入缅作战。远征军同日军进行了艰苦卓绝的斗争，给敌人以重大打击。这次作战，远征军主力二零零师长戴安澜部奋勇搏杀，表现最为突出。5月，开始撤回国内。在撤退途中，戴安澜的部队遭到敌人伏击，戴安澜被流弹击中，身负重伤，不幸于5月26日殉国。",
+    "噩耗传来，举国悲痛。同年秋。戴安澜将军追悼会在广西全州举行。国民政府特派代表李济深主持国葬仪式。中央领导人毛泽东特送挽诗，对这位抗日有功的将领深表哀悼。这首诗根据1943年戴安澜将军追悼会挽联挽诗登记册刊印。另题为“海鸥将军千古”。"
+],
+translation: [
+    "来自国外的侮弄需要人去抵挡，戴安澜将军受命于危难之中，率部远征，用自己的行动谱写了一曲抗日的《采薇》诗篇。",
+ "戴安澜将军所率领的200师靠英勇善战，勇敢顽强，大灭了日本帝国主义的威风。",
+ "东瓜之战中，将军率领将士浴血奋战，终于坚守住了东瓜重镇，又在棠吉之战中，率领将士从日寇手中夺回了棠吉。",
+    "一代抗日英杰竟然命丧缅北战场，将军虽壮志未酬，却用自己年轻的生命实践了自己的凌云壮志，死得其所，死而无憾。"
+],
+    notes: [
+        {
+            term: "五律",
+            text: "五言律诗的简称。五律是律诗的一种，每篇一般为八句，每句五个字；偶句末一字押平声韵，首句 末字可押可不押，必须一韵到底；句内和句间要讲平仄，中间四句按常规要用对仗。"
+        },
+    {
+            term: "戴安澜",
+            text: "（1904——1942）号海鸥，安徽无为人。"
+        },
+    {
+            term: "外侮",
+            text: "来自国外的侮弄。侮：欺负，侮辱。此指当年日本军国主义对中国的侵略。"
+        },
+    {
+            term: "将军赋采薇",
+            text: "赋，朗诵。采薇，《诗·小雅》中有《采薇》篇，其诗描写戍边抗击外族入侵的兵士久历艰苦，在回乡的路上又饱受饥寒。"
+        },
+    {
+            term: "师",
+            text: "军队。此指戴所率领的国民党第5军第200师。"
+        },
+    {
+            term: "虎罴",
+            text: "这里比喻凶猛的敌人。罴，熊的一种。即棕熊。"
+        },
+    {
+            term: "东瓜",
+            text: "即同古，缅甸南部重镇。"
+        },
+    {
+            term: "棠吉",
+            text: "缅甸中部地名。"
+        },
+    {
+            term: "沙场",
+            text: "即战场。"
+        },
+   {
+            term: "竞",
+            text: "副词，竟然，表示有点出乎意料。"
+        },
+   {
+            term: "殒命",
+            text: "丧命。"
+        },
+
+        {
+            term: "无违",
+            text: "没有违背。"
+          }
+    ]
+},
+
+{
+    title: "五律·张冠道中",
+    category: "reply",
+    lines: [
+        "朝雾弥琼宇，征马嘶北风。",
+         "露湿尘难染，霜笼鸦不惊。",
+       "戎衣犹铁甲，须眉等银冰。",
+        "踟蹰张冠道，恍若塞上行。"
+   
+    ],
+ background: "1947年3月下旬，蒋介石开始调集胡宗南部14万军队向延安进攻，毛泽东被迫从延安转移到陕北的一个小地名——张冠。此诗就是当时转移时所作。",
+translation: [
+    "清晨，漫天雾气弥漫，战马在呼啸的北风中昂首嘶鸣。",
+ "雾浓霜重，潮湿的空气浸透了黄土地，尘土无法沾上衣衫，雾气笼罩的林间，连寒鸦的叫声也无从听闻。",
+ "军服被雾气与露水浸湿，早已结了冰，硬如铁铠般沉重，眉梢沾染的霜花，也凝结成了银色的冰晶。",
+    "行在张冠道上，步履迟缓，恍若置身塞北。"
+],
+    notes: [
+        {
+            term: "张冠道中",
+            text: "1947年3月中旬，胡宗南指挥国民党军十四万余人，向中共中央所在地延安发动进攻。3月18日晚，毛泽东率领中共中央机关撤离延安。随后，他在陕北延川、清涧、子长、子洲、靖边等县转战。张冠道，是他当时转战中经过的一条道路。"
+        },
+    {
+            term: "弥",
+            text: "弥漫，表示充满、遍布。"
+        },
+    {
+            term: "琼宇",
+            text: "即玉宇，指天空。"
+        },
+    {
+            term: "征马",
+            text: "这里指战马。"
+        },
+    {
+            term: "嘶北风",
+            text: "在怒号的北风中长鸣。"
+        },
+    {
+            term: "露湿尘难染",
+            text: "该句写寒露打湿黄土地，尘土难以沾染衣物。"
+        },
+    {
+            term: "戎衣犹铁甲",
+            text: "该句写军服因雾沾露湿而结冰，像铁衣一样又重又硬。"
+        },
+    {
+            term: "踟蹰",
+            text: "徘徊不进，此为慢行。"
+        },
+
+        {
+            term: "塞上",
+            text: "边塞之上，古代多指西北边陲。"
+          }
+    ]
+},
+
+{
+    title: "五律·喜闻捷报",
+    category: "reply",
+    lines: [
+        "秋风度河上，大野入苍穹。",
+         "佳令随人至，明月傍云生。",
+       "故里鸿音绝，妻儿信未通。",
+        "满宇频翘望，凯歌奏边城。"
+   
+    ],
+ background: "1947年初国共内战之时，中国人民解放军处于被动状态，敌强我弱。但在半年多的时间里，全国的战事已经扭转，各大战场的人民解放军相继转入战略反攻阶段。中秋节之夜，毛泽东漫步于神泉堡附近的黄河边，回想起这一年多来战局的重大变化，不禁思绪万千，于是作了这首诗。",
+translation: [
+    "秋风瑟瑟，轻轻从河面上吹过，目之所及的无边原野渐渐与天地融为一体。",
+ "中秋佳节随着前方归来的人一起到来，夜空中明月傍着如霞似锦的晚云，脱颖而出。",
+ "家里的音信已经彻底断绝了，妻子儿女的书信也无法收到。",
+    "广大人民都翘首以盼，渴望听到胜利佳音，边城奏响凯歌之日，正是人民额手相庆之时。"
+],
+    notes: [
+        {
+            term: "五律",
+            text: "即五言律诗，是律诗的一种，属于近体诗范畴，每首八句。"
+        },
+    {
+            term: "蟠龙",
+            text: "在延安城东北七十多里，是一个古镇；“度”通“渡”，过的意思。"
+        },
+    {
+            term: "大野入苍穹",
+            text: "大野，一望无际的原野；入，溶进；苍穹，即苍天。"
+        },
+    {
+            term: "佳令",
+            text: "美好的节令，这里指中秋节。"
+        },
+    {
+            term: "鸿音绝",
+            text: "音信已断绝。鸿即大雁，《汉书·苏武传》载有大雁传书之事。"
+        },
+
+        {
+            term: "凯歌奏边城",
+            text: "1947年8月，西北野战军在陕北取得沙家店战役胜利；九月中旬，又收复青化砭、蟠龙等城镇。"
+          }
+    ]
+},
+{
+    title: "七律·人民解放军占领南京",
+    category: "reply",
+    lines: [
+        "钟山风雨起苍黄，百万雄师过大江。",
+         "虎踞龙盘今胜昔，天翻地覆慨而慷。",
+       "宜将剩勇追穷寇，不可沽名学霸王。",
+        "天若有情天亦老，人间正道是沧桑。"
+   
+    ],
+ background: "1949年4月21日，毛泽东主席和朱德总司令发出《向全国进军的命令》，号令全军坚决、彻底、干净、全部地歼灭中国境内一切敢于抵抗的国民党反动派，解放全中国。中国人民解放军百万大军于4月23日占领国民党反动政府的“首都”南京。毛泽东同志在北平香山双清别墅得到占领南京的捷报，心情振奋，写下了这首诗。",
+translation: [
+    "革命的狂风暴雨震荡着蒋家王朝，百万将士渡过长江天险，直捣黄龙。",
+ "虎踞龙盘的帝王之城南京啊，今天的面貌胜过往昔，这巨大而彻底的变化，是足以令人慷慨高歌和欢欣鼓舞的。",
+ "应该趁现在这敌衰我盛的大好时机，痛追残敌，解放全中国。不可学那贪图虚名，放纵敌人而造成自己失败的楚霸王项羽。",
+    "自然界如果有知，它会体察到兴盛与衰败这条不可改变的法则。事物不断的向前发展更新和变化，这是必然的规律。"
+],
+    notes: [
+        {
+            term: "钟山",
+            text: "《江南通志》：“钟山在江宁府东北，一曰金陵山，一曰蒋山，一名北山，一名元武山，俗名紫金山。周围六十里，高一百五十丈。诸葛亮对吴大帝云：钟山龙蟠，指此。”此处用作南京的代语。"
+        },
+    {
+            term: "苍黄",
+            text: "两解：一、同仓皇，慌张，匆忙，急遽失措貌。二、变化翻覆的意思。《墨子·所染篇》：“墨子见染丝者而叹曰：染于苍则苍，染于黄则黄，所入者变，其色亦变。”后因此比喻变化不定，反复无常。并引申为天翻地覆。这里苍黄就是仓皇，即突然的意思。"
+        },
+    {
+            term: "虎踞龙盘",
+            text: "形容地势优异。《太平御览·吴录》：三国时诸葛亮看到吴国都城建业（今南京市南）的地势曾说：“钟山龙蟠，石城虎踞，此帝王之宅。”"
+        },
+    {
+            term: "慨而慷",
+            text: "感慨而激昂。曹操《短歌行》：“慨当以慷”。"
+        },
+    {
+            term: "宜将剩勇追穷寇",
+            text: "号召将革命进行到底，把敌人坚决、彻底、干净、全部地歼灭掉，不要留下后患。剩勇：形容人民解放军过剩的勇气。穷寇：走投无路的敌人。《后汉书·皇甫嵩传》：“兵法，穷寇勿追。”"
+        },
+
+        {
+            term: "沽名",
+            text: "故意做作或用某种手段猎取名誉。"
+         },
+    {
+            term: "霸王",
+            text: "指楚霸王项羽。"
+         },
+    {
+            term: "天若有情天亦老",
+            text: "借用唐代诗人李贺《金铜仙人辞汉歌》中诗句“衰兰送客咸阳道，天若有情天亦老。”原句的意思是，对于这样的人间恨事，天若有情，也要因悲伤而衰老。这里指自然界的运行都是有规律的，新事物终究会取代旧事物。"
+         },
+    {
+            term: "人间正道",
+            text: "社会发展的正常规律。沧桑：《神仙传》记载：女仙麻姑对另一仙人王方平说，他们相见以来，东海已经三次变为桑田。沧海大海变为桑田，这里比喻革命性的发展变化。"
+         }
+    ]
+},
+
+{
+    title: "七律·和柳亚子先生",
+    category: "reply",
+    lines: [
+        "饮茶粤海未能忘，索句渝州叶正黄。",
+         "三十一年还旧国，落花时节读华章。",
+       "牢骚太盛防肠断，风物长宜放眼量。",
+        "莫道昆明池水浅，观鱼胜过富春江。"
+   
+    ],
+ background: "1949年3月28日夜晚，国民党左派人士柳亚子做了一首《感事呈毛主席一首》，称感于国民党的混乱现状，要回家乡分湖隐居。同年4月，毛泽东同志写《七律·和柳亚子先生》一词回赠，用严子陵隐居垂钓富春江畔这件事，劝柳亚子先生留在北京继续参加建国工作。",
+translation: [
+    "我们在广州品茗畅谈的情景，至今使人不能忘怀，在重庆您向我索诗时正是秋天草木枯黄的时节。",
+ "历经三十一年的风雨战斗，又回到这旧都，在这落花缤纷的暮春时节有幸读到了您华美的诗篇。",
+ "你遇到一些不顺心的事，牢骚太多了，要提防有碍身心健康，对一切风光景物要放宽眼界去衡量。",
+    "不要说北京颐和园昆明湖的水太浅，在这里观赏游鱼要远胜于富春江边钓鱼。"
+],
+    notes: [
+        {
+            term: "饮茶粤海",
+            text: "指柳亚子和毛泽东于1925年至1926年间在广州的交往。粤海：广州。"
+        },
+    {
+            term: "索句渝州",
+            text: "指四五年在重庆柳亚子索讨诗作，毛泽东书《沁园春·雪》以赠。渝州：重庆。"
+        },
+    {
+            term: "叶正黄",
+            text: "秋天。"
+        },
+    {
+            term: "牢骚",
+            text: "1949年3月28日夜柳亚子作《感事呈毛主席》，也就是诗中的“华章”，称要回家乡分湖隐居。"
+        },
+    {
+            term: "长",
+            text: "通“常”。"
+        },
+
+        {
+            term: "放眼",
+            text: "放宽眼界。"
+         },
+    {
+            term: "昆明池",
+            text: "指北京颐和园昆明湖。昆明湖取名于汉武帝在长安凿的昆明池。"
+         },
+    {
+            term: "富春江",
+            text: "东汉初年，严光不愿出来做官，隐居在浙江富春江边钓鱼。"
+         }
+    ]
+},
+
+{
+    title: "浣溪沙·和柳亚子先生",
+    category: "socialist",
+    textSize: "small",
+    lines: [
+        "长夜难明赤县天，百年魔怪舞翩跹，人民五亿不团圆。",
+        "一唱雄鸡天下白，万方乐奏有于阗，诗人兴会更无前。"
+   
+    ],
+ background: "1949年10月1日，中华人民共和国成立，全国各民族人民陶醉在胜利的喜悦之中。在1950年10月1日国庆一周年之际，中国大陆除西藏以外全部解放，各族人民获得了新生。10月3日，中央人民政府举行盛大的庆典，全国158名各族人民代表欢聚一堂，在中南海怀仁堂举行了隆重的献礼大会，各民族文工团表演了歌舞节目，毛泽东与柳亚子先生同席观看了歌舞晚会。柳亚子在毛主席的鼓动下，即兴赋《浣溪沙》一首赠予毛泽东。次日毛泽东又步韵和了这首词赠与柳亚子。",
+translation: [
+    "赤县神州千百年来陷入暗无天日的黑夜中，近百年来外族入侵，在中国横行霸道，好似群魔乱舞，五亿各族人民无法团圆。",
+    "雄鸡一声长鸣，报道中国大地已经天亮了，各民族在祖国的生日大典上奏起欢乐的乐章，这其中包括新疆儿女的甜美歌声，诗人们欣喜唱和兴致无边。"
+],
+   notes: [
+    {
+        term: "浣溪沙",
+        text: "词牌名，唐教坊（音乐学校）里曲子的名称。"
+    },
+    {
+        term: "赤县",
+        text: "指中国。《史记·孟子荀卿列传》介绍战国末驺（zōu邹）衍的说法：中国名曰赤县神州。"
+    },
+    {
+        term: "百年魔怪舞翩跹",
+        text: "1840年中英鸦片战争时起，外国资本主义和帝国主义侵略者开始侵入中国。他们和他们的走狗在中国横行霸道，好似群魔乱舞。"
+    },
+    {
+        term: "人民五亿",
+        text: "五亿各族人民。"
+    },
+    {
+        term: "一唱雄鸡天下白",
+        text: "此句是由“雄鸡一声天下白”演变过来的，出自唐代诗人李贺的《致酒行》。原句为：我有迷魂招不得，雄鸡一声天下白。"
+    },
+    {
+        term: "于阗",
+        text: "于阗就相当于现在和田地区的范围。1950年改称和阗专区，1959年改和阗为和田，1971年改专区为地区，1979年建立和田行政公署。和田是古代丝绸之路南道之重镇，是古代世界四大文明交流的枢纽。当地人民以能歌善舞著名。这里借指新疆文工团所表演的音乐歌舞节目。"
+    },
+    {
+        term: "万方",
+        text: "古人称国族为方，《易经》有“鬼方”。"
+    },
+    {
+        term: "乐奏",
+        text: "1958年9月文物出版社出版的《毛主席诗词十九首》中误植为“奏乐”，1963年人民文学出版社出版《毛主席诗词》时，照作者的意见改为“乐奏”。"
+    },
+    {
+        term: "兴会",
+        text: "兴致、兴趣。"
+    }
+]
+},
+{
+    title: "浪淘沙·北戴河",
+    category: "socialist",
+    textSize: "small",
+    lines: [
+        "大雨落幽燕，白浪滔天，秦皇岛外打鱼船。一片汪洋都不见，知向谁边？",
+        "往事越千年，魏武挥鞭，东临碣石有遗篇。萧瑟秋风今又是，换了人间。"
+   
+    ],
+ background: "新中国成立以后，提前完成第一个五年计划，国家实力增强，农村的合作化运动已有较大的进展，对工商业的改造也开始着手，建设一个工业化的强国的伟大目标也开始提出。1954年夏毛泽东到北戴河住过一些日子，在此填了这首词。",
+translation: [
+    "大雨落在了幽燕，滔滔波浪连天，秦皇岛外的打渔船，在起伏的波涛里都已经看不见，也不知漂去了哪里。",
+    "往事已经有千年，那时魏武帝曹操跃马挥鞭，东巡至碣石山吟咏留下诗篇。现在的北戴河，依旧秋风萧瑟，但是人间已经换了新颜。"
+],
+notes: [
+    {
+        term: "浪淘沙",
+        text: "词牌名。"
+    },
+    {
+        term: "北戴河",
+        text: "在河北省东北部渤海边秦皇岛市西南海滨，是著名夏季休养地。"
+    },
+    {
+        term: "幽燕",
+        text: "古幽州及燕国，在今河北省北部及东北部。"
+    },
+    {
+        term: "滔天",
+        text: "形容水势很大，大到好像与天连接起来一样。"
+    },
+    {
+        term: "秦皇岛",
+        text: "三面环海，是渤海湾一个不冻良港，现已设为市，相传秦始皇求仙曾到此，它因此得名。"
+    },
+    {
+        term: "汪",
+        text: "指水势大，深且阔。"
+    },
+    {
+        term: "谁边",
+        text: "何处，哪里。"
+    },
+    {
+        term: "往事",
+        text: "过去的事，这里指公元207年（建安12年）曹操东征乌桓（古代部族名）经过碣石山时写下《观沧海》一诗之事；越：越过；千年：只是一个大概数，实际已一千七百多年。"
+    },
+    {
+        term: "魏武",
+        text: "即曹操（公元155—220年）。曹操死后，他儿子曹丕当上皇帝追封他为魏武帝。挥鞭：原指挥鞭策马，这里指骑马出征。"
+    },
+    {
+        term: "碣石",
+        text: "古代山名，位于河北昌黎。昌黎碣石山位于河北省昌黎城北1千米，与北戴河毗邻，面积28.8平方千米，形成历史久远，自然风光秀美，历史文化渊源，地理位置优越，是五岳之外的“神岳”，是古今中外有名的历史名山、仙山、观海胜地、佛教胜地和旅游胜地。遗篇：遗留下来的诗篇，指《观沧海》一诗。"
+    },
+    {
+        term: "萧瑟秋风",
+        text: "曹操《观沧海》：”秋风萧瑟，洪波涌起。”"
+    },
+    {
+        term: "人间",
+        text: "社会制度。"
+    }
+]
+},
+{
+    title: "水调歌头·游泳",
+    category: "socialist",
+    textSize: "mini",
+    lines: [
+        "才饮长沙水，又食武昌鱼。万里长江横渡，极目楚天舒。不管风吹浪打，胜似闲庭信步，今日得宽馀。子在川上曰：逝者如斯夫！",
+        "风樯动，龟蛇静，起宏图。一桥飞架南北，天堑变通途。更立西江石壁，截断巫山云雨，高峡出平湖。神女应无恙，当惊世界殊。"
+   
+    ],
+ background: "1954年中央人民政府决定修建武汉长江大桥。1955年毛泽东视察了全部工程。1956年毛泽东巡视南方，又视察了大桥的施工。6月1日、3日、4日毛泽东在武汉三次畅游长江，写下了此词。",
+translation: [
+    "刚喝了长沙的水，又吃着武昌的鱼。横渡这万里长江，举目眺望舒展的长空。哪管得风吹浪涌，这样比在庭院中散步还舒服，今天我终于可以尽情流连。孔子在河岸上说：时间就像这奔流不息的河水一样，昼夜不停的流逝着！",
+    "江面风帆飘荡，龟蛇二山静静伫立，胸中宏图升起。武汉长江大桥建成以后，长江天险成为通畅的大路。我还要在长江西边建起大坝，把巫山多雨造成的洪水拦腰截住，让三峡出现平坦的水库。神女如果当时还健在，她看到高峡出平湖，必定会惊愕世界变了模样。"
+],
+notes: [
+    {
+        term: "水调歌头",
+        text: "词牌名，又名“元会曲”“台城游”“凯歌”“江南好”“花犯念奴”等。双调九十五字，平韵（宋代也有用仄声韵和平仄混用的）。相传隋炀帝开汴河自制《水调歌》，唐人演为大曲，“歌头”就是大曲中的开头部分。"
+    },
+    {
+        term: "长沙水",
+        text: "1958年12月21日作者自注：”民谣：常德德山山有德，长沙沙水水无沙。所谓无沙水，地在长沙城东，有一个有名的‘白沙井’。”"
+    },
+    {
+        term: "武昌鱼",
+        text: "据《三国志·吴书·陆凯传》记载，吴主孙皓要把都城从建业（故城在今南京市南）迁到武昌，老百姓不愿意，有童谣说：”宁饮建业水，不食武昌鱼。”这里化用。武昌鱼，指古武昌（今鄂城）樊口的鳊鱼，称团头鳊或团头鲂。"
+    },
+    {
+        term: "极目楚天舒",
+        text: "放眼远望。武昌一带在春秋战国时属于楚国的范围，所以作者把这一带的天空叫“楚天”。柳永词《雨霖铃》：”暮霭沉沉楚天阔。”舒：舒展，开阔。作者在一九五七年二月十一日给黄炎培的信中说：”游长江二小时飘三十多里才达彼岸，可见水流之急。都是仰游侧游，故用‘极目楚天舒’为宜。”"
+    },
+    {
+        term: "宽余",
+        text: "指神态舒缓，心情畅快。"
+    },
+    {
+        term: "子在川上曰：逝者如斯夫",
+        text: "《论语·子罕》：”子在川上，曰：‘逝者如斯夫！不舍昼夜。’”意思是孔子在河边感叹道：”时光像流水一样消逝，日夜不停。”"
+    },
+    {
+        term: "风樯",
+        text: "指帆船。樯，桅杆。"
+    },
+    {
+        term: "龟蛇",
+        text: "词中实指龟山、蛇山。"
+    },
+    {
+        term: "一桥飞架南北",
+        text: "指当时正在修建的武汉长江大桥。1958年版《毛主席诗词十九首》和1963年版《毛主席诗词》，作者曾将此句改为“一桥飞架，南北天堑变通途”，后经作者同意恢复原句。"
+    },
+    {
+        term: "天堑",
+        text: "古人把长江视为“天堑”。据《南史·孔范传》记载，隋伐陈，孔范向陈后主说：”长江天堑，古来限隔，虏军岂能飞渡？”堑，沟壕。"
+    },
+    {
+        term: "巫山云雨",
+        text: "战国楚人宋玉《高唐赋》中说，楚襄王在游云梦泽的高唐时曾梦与巫山神女相遇，神女自称“旦为朝云，暮为行雨，朝朝暮暮，阳台之上”。这里只是借用这个故事中的字面和人物。"
+    },
+    {
+        term: "高峡出平湖",
+        text: "意谓将来还打算在鄂西、川东长江三峡一带建立巨型水坝蓄水发电，水坝上游原来高峡间狭窄汹涌的江面将变为平静的大湖。"
+    }
+]
+
+},
+{
+    title: "蝶恋花·答李淑一",
+    category: "socialist",
+    textSize: "mini",
+    lines: [
+        "我失骄杨君失柳，杨柳轻飏直上重霄九。问讯吴刚何所有，吴刚捧出桂花酒。",
+        "寂寞嫦娥舒广袖，万里长空且为忠魂舞。忽报人间曾伏虎，泪飞顿作倾盆雨。"
+      ],
+background: [
+    "这首词是作者写给当时的湖南长沙中学语文教员李淑一的。词中的“柳”指李淑一的丈夫柳直荀烈士，湖南长沙人，作者早年的战友。1924年加入中国共产党，曾任湖南省政府委员，湖南省农民协会秘书长，参加过南昌起义。1930年到湘鄂西革命根据地工作，曾任红军第二军团政治部主任、第三军政治部主任等职。1932年9月在湖北洪湖革命根据地的“肃反”中被害。",
+  "毛泽东夫人杨开慧生前一直从事革命活动协助毛泽东整理材料、起草文件，对中国革命做出了杰出贡献，1930年不幸被捕后，她表现了一个共产党人威武不屈的斗争精神和高尚坚贞的松柏气节。敌人为了从她嘴里捞到一点东西，在她被囚禁的两个月中，天天对她毒刑拷打。杨开慧宁死不屈，为了革命事业，她顽强地进行斗争。1930年11月14日，她慷慨激昂地走上了刑场，为革命而牺牲，年仅29岁。",
+    "《蝶恋花·答李淑一》不是毛泽东的即兴之作，而是对李淑一《菩萨蛮·惊梦》的赠答。1957年1月，李淑一把她在1933年写的纪念柳直荀烈士的《菩萨蛮·惊梦》词寄给了毛泽东，并索要毛泽东1921年写的《虞美人·枕上》全词。毛泽东1957年5月11日回信并写了《蝶恋花·游仙》词赠予李淑一。湖南师范学院院刊《湖南师院》首次发表这首词时，题目改为《蝶恋花·游仙赠李淑一》。此词收入人民文学出版社1963年12月版《毛泽东诗词》时，题目又改为《蝶恋花·答李淑一》。"
+],
+translation: [
+    "我失去了深爱的妻子杨开慧你失去了你的丈夫柳直荀， 杨柳二人的英魂轻轻飘扬直上九重霄。",
+   "询问吴刚天上有些什么？吴刚捧出了月宫特有的桂花酒。",
+   "寂寞的嫦娥也喜笑颜开，舒展起宽大的衣袖，在万里青天为烈士的忠魂翩翩起舞。",
+    "忽然传来“人间”打垮了国民党反动派，全国得到解放的消息，两位烈士的忠魂顿然高兴得泪流如雨。"
+],
+notes: [
+    {
+        term: "蝶恋花",
+        text: "词牌名。双调六十字，一般用来填写多愁善感和缠绵悱恻的内容。"
+    },
+    {
+        term: "李淑一",
+        text: "1901年出生于书香门第，上中学时与杨开慧（毛泽东夫人）结为好友，1997年病逝。"
+    },
+    {
+        term: "君",
+        text: "您，这里是对李淑一的尊称。失：丧失，失去。骄：矫健，坚强，并有引为自豪的意思。"
+    },
+    {
+        term: "杨柳",
+        text: "指杨开慧和柳直荀。轻飏（yáng）：轻盈地飞升。飏，同“扬”，飘飞。重霄九：九重霄。古代传说中天有九重，九重霄指天的最高处。"
+    },
+    {
+        term: "问讯",
+        text: "这里是请问或借问的意思。吴刚：神话中月亮里的一个仙人。据唐段成式《酉阳杂俎》，月亮里有一棵高五百丈的桂树，吴刚被罚到那里砍树。桂树随砍随合，所以吴刚永远砍不断。"
+    },
+    {
+        term: "桂花酒",
+        text: "传说是仙人的饮料。"
+    },
+    {
+        term: "嫦娥",
+        text: "神话中月亮上的仙女。据《淮南子·览冥训》，嫦娥是后羿的妻子，因为被迫吃了后羿从西王母那里求到的长生不死药而飞到月上。舒广袖：伸展宽大的袖子，指舞蹈。"
+    },
+    {
+        term: "伏虎",
+        text: "已经降伏了恶虎，指革命胜利。"
+    },
+    {
+        term: "舞、虎、雨",
+        text: "这三个韵脚字跟上文的“柳、九、有、酒、袖”不同韵，作者自注：”上下两韵，不可改，只得仍之。”"
+    }
+]
+
+},
+{
+    title: "七律二首·送瘟神",
+    category: "socialist",
+    lines: [
+   "绿水青山枉自多，华佗无奈小虫何！",
+  "千村薜荔人遗矢，万户萧疏鬼唱歌。",
+  "坐地日行八万里，巡天遥看一千河。",
+  "牛郎欲问瘟神事，一样悲欢逐逝波。",
+
+      "",
+
+  "春风杨柳万千条，六亿神州尽舜尧。",
+  "红雨随心翻作浪，青山着意化为桥。",
+  "天连五岭银锄落，地动三河铁臂摇。",
+  "借问瘟君欲何往，纸船明烛照天烧。"
+      ],
+ background: "1956年2月27日，毛泽东在最高国务会议上强调“全党动员，全民动员，消灭血吸虫病”。最后仅用了两年时间，就根绝了血吸虫病。1958年6月30日《人民日报》用头版头条报道了这个消息。毛泽东读后十分欣慰，第二天早晨便写了这两首诗，并在诗题下用一段优美的文字描述了作诗时的喜悦心情。",
+translation: [
+    "祖国大地上白白有这么多的绿水青山，连神医华佗拿小小的血吸虫也没有根治的办法。",
+   "许多村庄荒草丛生，杳无人迹，瘟疫无情蔓延，千门万户家破人亡，听到的只是鬼在唱歌。",
+   "坐在地球上每天行走八万里的路程，沿着天路遥遥地看过浩渺的银河。",
+    "春风吹拂杨柳新绿，新中国一片春意盎然，六亿人民意气风发，个个都像古代的尧舜一样。",
+   "落花随着自己的心意翻波逐浪，青山有意化崎岖险阻为康庄大道。",
+   "人民群众挥动银光闪闪的铁锄，挥舞着坚实的臂膀，兴修水利，整治山河，使大地都为之颤动。",
+   "试问瘟神啊，你要往哪里去？人们焚化纸钱，点起明烛，火光明亮，照耀天空，以此来送走瘟神。"
+],
+notes: [
+    {
+        term: "瘟神",
+        text: "古人迷信，谓人间瘟疫之散播有鬼神主宰。"
+    },
+    {
+        term: "余江县",
+        text: "在江西省东北部。血吸虫：一种白色线状寄生虫，寄生在钉螺体内，成虫钻进人的皮肤引发血吸虫病。患病者起初时下痢，继而食欲减退，精神萎弱，四体消瘦，逐渐削弱以至完全丧失劳动能力。病剧时，腹部膨大如鼓，俗称鼓胀，进入晚期后肝硬化，死亡率很高。"
+    },
+    {
+        term: "华佗",
+        text: "指东汉年至三国时期精通内、外、妇、儿各科的名医，这里泛指旧社会的医生。"
+    },
+    {
+        term: "薜荔",
+        text: "亦称木莲、鬼馒头。是一种蔓生的、多生长在墙壁上的野生藤本植物。这里比喻村庄被薜荔等杂草覆盖，一片荒芜败落的景象。遗矢：遗屎，指血吸虫病后期人常腹泻的症状。化用《史记·廉颇蔺相如列传》：”廉将军虽老，尚善饭；然与臣坐，倾之，三遗矢矣。”"
+    },
+    {
+        term: "坐地日行八万里，巡天遥看一千河",
+        text: "毛泽东1965年10月25日致周世钊的信中说：”坐地日行八万里，蒋竹如讲得不对，是有数据的。地球直径约一万二千五百公里，以圆周率三点一四一六乘之，得约四万公里，即八万华里。这是地球的自转里程。坐火车、轮船、汽车，要付代价，叫做旅行。坐地球，不付代价，日行八万里，问人这是旅行么，答曰不是，我一动也没有动。真是岂有此理！囿于习俗，迷信未除。完全的日常生活，许多人却以为怪。巡天，即谓我们这个太阳系每日每时都在银河系里穿来穿去。银河一河也，河则无限，‘一千’言其多而已。我们人类只是‘巡’在一条河中，看则可以无数。”"
+    },
+    {
+        term: "牛郎",
+        text: "古代神话传说中的人物。"
+    },
+    {
+        term: "逐逝波",
+        text: "追逐流光逝水，一去而不复返。"
+    },
+    {
+        term: "舜尧",
+        text: "传说中上古时期的圣人贤君。"
+    },
+    {
+        term: "红雨",
+        text: "落花缤纷的景象。语出李贺《将进酒》：”况是青春日将暮，桃花乱落如红雨。”"
+    },
+    {
+        term: "五岭",
+        text: "指五岭山脉，泛指南方的大山。"
+    },
+    {
+        term: "三河",
+        text: "原指黄河、淮河、洛河，此处泛指北方广阔的原野。"
+    },
+    {
+        term: "纸船明烛",
+        text: "民间习俗，送神送鬼时往往点燃蜡烛，烧化纸船等。"
+    }
+]
+
+},
+{
+    title: "七律·到韶山",
+    category: "socialist",
+    lines: [
+   "别梦依稀咒逝川，故园三十二年前。",
+  "红旗卷起农奴戟，黑手高悬霸主鞭。",
+  "为有牺牲多壮志，敢教日月换新天。",
+  "喜看稻菽千重浪，遍地英雄下夕烟。"
+      ],
+ background: "1959年6月25日傍晚，毛泽东回到了阔别32年之久的家乡韶山，逗留到27日午后离开。毛泽东在这次返乡，与故乡父老欢聚畅谈，使人民非常激动欢乐，这两天成了韶山真正的节日。这首七律，是25日深夜写成的。",
+translation: [
+    "离别后多少梦境在诅咒岁月的流逝，已经与故乡阔别了三十二年。",
+   "韶山人民高举着革命的红旗，武装起来斗争；反动派却高举起霸主的铁鞭，对革命人民进行血腥的镇压。",
+   "因为有这么多敢为自己伟大理想而去牺牲的人，敢去改变旧的日月换新的天地。",
+   "再喜看大片庄稼如浪涛滚滚，尽是农民英雄们在暮色中收工归来。"
+],
+notes: [
+    {
+        term: "别梦依稀咒逝川",
+        text: "别梦：指离别的梦境。依稀：仿佛，模糊。咒：诅咒、痛恨，这里只是恨的意思。逝川：一去不回的流水，喻指消逝的年代。"
+    },
+    {
+        term: "故园",
+        text: "故乡，指韶山。"
+    },
+    {
+        term: "红旗",
+        text: "革命的旗帜，象征中国共产党的领导。农奴：本指封建时代隶属于农奴主、没有人身自由的农业劳动者，此处借指旧中国受奴役的贫苦农民。戟：古代的一种刺杀武器，这里指梭镖。"
+    },
+    {
+        term: "黑手",
+        text: "指封建地主阶级、买办资产阶级及其代表国民党右派等黑暗势力的魔掌，喻反动派。高悬：高高举起。霸主鞭：指反革命武装，即蒋介石反动武装。"
+    },
+    {
+        term: "为有牺牲多壮志",
+        text: "意为因为有先烈的流血牺牲，更激发起革命者斗争的壮志。多，增多，引申为激发。"
+    },
+    {
+        term: "敢教日月换新天",
+        text: "意为敢于使日月更新，改造新天地。教，令，使。"
+    },
+    {
+        term: "喜看稻菽千重浪",
+        text: "喜看：高兴地看到。菽（shū）：豆类的总称。千重浪：一层层波浪，喻指随风起伏的大片庄稼。"
+    },
+    {
+        term: "遍地英雄下夕烟",
+        text: "意为到处有劳动英雄在黄昏时的烟雾里下工回家。英雄，此指新中国的农民。下夕烟，从黄昏时的炊烟和暮霭中归来。"
+    }
+]
+
+},
+{
+    title: "七律·登庐山",
+    category: "socialist",
+    lines: [
+   "一山飞峙大江边，跃上葱茏四百旋。",
+  "冷眼向洋看世界，热风吹雨洒江天。",
+  "云横九派浮黄鹤，浪下三吴起白烟。",
+  "陶令不知何处去，桃花源里可耕田？"
+      ],
+ background: "这首诗最早发表在人民文学出版社一九六三年十二月版《毛主席诗词》。1959年6月29日，毛泽东辞别故乡韶山后，和彭德怀等同志来到庐山，参加在那里召开的政治局扩大会议。当汽车贴着陡峭的山壁盘旋而上的时候，毛泽东被庐山壮美的景色所吸引，欣然下车步行了一段路。当晚下榻于庐山的牯岭住所，写下《七律·登庐山》。",
+translation: [
+    "庐山凌空挺拔屹立长江岸边，在一路青翠中我驱车盘旋登临。",
+   "以冷漠的目光朝向大海展望世界，暖风吹来了雨滴洒向那江面。",
+   "白云漂浮在九条大河之上黄鹤当空高翔，波涛直下江东腾起袅袅烟雾。",
+   "昔日的陶潜已不知道去哪里了，桃花源里现在可以耕田劳动了吗？"
+],
+notes: [
+    {
+        term: "庐山",
+        text: "又称匡庐、匡山，在江西省北部，景色秀美。诗前原有小序：”一九五九年六月二十九日登庐山，望鄱阳湖、扬子江，千峦竞秀，万壑争流，红日东升，成诗八句。”后湖南省委第一书记周小舟看过后，建议删去小序，毛泽东采纳了该建议。"
+    },
+    {
+        term: "一山",
+        text: "指庐山。峙（zhì）：耸立。大江：指长江。"
+    },
+    {
+        term: "葱茏",
+        text: "草木青翠茂盛，这里指山顶。四百旋：庐山登山公路建成于1952年至1953年之间，全长三十五公里，有近四百处转弯。旋，盘旋。"
+    },
+    {
+        term: "冷眼向洋看世界",
+        text: "诗人对来自各方的敌对势力持藐视态度。"
+    },
+    {
+        term: "热风吹雨洒江天",
+        text: "“大跃进”时期，中国人民以极大的热情投入到劳动中来，汗水像雨水般挥洒着。江天：江和天，此指国内，与“世界（国际）”相对。"
+    },
+    {
+        term: "九派",
+        text: "泛指中国的所有河流。毛泽东1959年12月29日在一封信上说：”九派，湘、鄂、赣三省的九条大河。究竟哪九条，其说不一，不必深究。”"
+    },
+    {
+        term: "三吴",
+        text: "古代指江苏省南部、浙江省北部的某些地区。这里泛指长江中下游。"
+    },
+    {
+        term: "陶令",
+        text: "指陶潜，一名渊明，字元亮，东晋诗人。他曾经做过彭泽县令，故称陶令。他辞官后归耕之地，离庐山也不远。曾写过《桃花源记》，描绘了没有剥削和压迫的田园生活，类似于乌托邦。"
+    },
+    {
+        term: "桃花源里可耕田",
+        text: "诗人在此不是真的在问陶渊明会不会去桃花源，他实际上在歌颂新社会的美好图景。"
+    }
+]
+
+},
+ {
+    title: "七绝·为女民兵题照",
+    category: "socialist",
+    lines: [
+   "飒爽英姿五尺枪，曙光初照演兵场。",
+  "中华儿女多奇志，不爱红装爱武装。"
+      ],
+ background: "1959年10月1日，民兵方队接受检阅后，李原慧全副武装地照了相，并将照片珍藏在自己的皮包里。1960年冬，毛泽东去浙江、广东等地调查研究，李原慧等作为工作人员随行。此照偶然为毛泽东所见，李原慧便将其送给了毛泽东，毛泽东为照片作了一首七绝。1961年春，毛泽东在北京中南海菊香书屋，在宣纸上再次书写了这首七绝《为女民兵题照》，正式送给李原慧。李原慧将这幅手迹珍藏起来，视同珍宝。",
+translation: [
+    "黎明时的阳光刚刚照到进行军事训练的场地，女民兵英姿飒爽手持五尺枪。",
+   "中华儿女志向不凡，不爱红艳美丽的装扮，而爱革命的武装。"
+],
+notes: [
+    {
+        term: "飒爽",
+        text: "豪迈而矫健，形容精神抖擞。"
+    },
+    {
+        term: "曙",
+        text: "天刚亮。"
+    },
+    {
+        term: "演兵场",
+        text: "练兵场。"
+    },
+    {
+        term: "奇志",
+        text: "极不平凡的志向。"
+    },
+    {
+        term: "红装",
+        text: "妇女红艳美丽的装扮。"
+    }
+]
+
+},
+  {
+    title: "七律·答友人",
+    category: "socialist",
+    lines: [
+   "九嶷山上白云飞，帝子乘风下翠微。",
+   "斑竹一枝千滴泪，红霞万朵百重衣。",
+   "洞庭波涌连天雪，长岛人歌动地诗。",
+  "我欲因之梦寥廓，芙蓉国里尽朝晖。"
+      ],
+background: [
+    "该诗作于1961年。1958年的“大跃进”虽然是源自改变中国经济长期落后面貌的迫切愿望，但数亿（六亿五千万）人怀着良好愿望的实践，却实际上造成了原有薄弱经济基础的严重破坏，从而使整个国民经济陷于暂时严重困难的境地。在正式进入“跃进”轨道的1958年的年底，民生困难即开始显露；至1959年夏，经济形势全面严峻，农业遭到严重破坏，民生困难严重；1960年，经济形势与民生愈加恶化。",
+    "1961年1月，开始对国民经济实行“调整、巩固、充实、提高”的方针，正是在这一年，毛泽东曾反复回故乡湖南做经济形势调查研究，或许他在调查研究中更多地见到了“洞庭”地区和省会长沙地区战胜经济困难的精神气概和恢复生产的状况，并感到经过一段时间调整后经济困难形势开始有了“转变”，再加上屡屡看到“友人”寄赠的书信及诗词从正面描述的好的现实状况，因而他面对严重困难形势时仍是充满自信的，该诗是诗人当年面对由“大跃进”所造成的国民经济严重困难形势时的思想观点与精神世界的诗化表现。"
+],
+translation: [
+    "九嶷山上空白云飘飘，娥皇与女英乘着微风翩翩下山。",
+    "她们的眼泪洒在青青野竹上，片片红霞若天风织成绚丽的衣衫。",
+    "洞庭湖水波浩荡卷起白色的浪花，橘子洲当歌一曲感天动地。",
+   "我将为此而梦回祖国辽阔的河山，在芙蓉盛开的家乡朗照着清晨的光辉。"
+],
+notes: [
+    {
+        term: "友人",
+        text: "指周世钊、李达、乐天宇，他们都是毛泽东的湖南老朋友。"
+    },
+    {
+        term: "九嶷山",
+        text: "又名苍梧山，在湖南省南部宁远县城南六十里。"
+    },
+    {
+        term: "帝子",
+        text: "即指尧帝女娥皇、女英，同嫁舜帝。舜南游死于苍梧，即葬其地。二妃寻舜至湘江，悼念不已，自投湘水，为湘水女神。屈原《楚辞》中称为“湘夫人”。子，古代男女都称为“子”。"
+    },
+    {
+        term: "斑竹",
+        text: "又名湘妃竹，产于九嶷山一带。相传舜死后，娥皇、女英寻至湘水边，南望痛哭，泪水洒在竹子上染成斑纹。诗中借用这一典故，突出“千滴泪”，以象征旧社会的苦难和辛酸。"
+    },
+    {
+        term: "百重衣",
+        text: "指花团锦簇的彩衣。百重，很多层；百，很多的意思，不是确数。"
+    },
+    {
+        term: "洞庭",
+        text: "洞庭湖，在湖南省北部，是中国最大的淡水湖之一。连天雪：形容雪白的浪花与天相接，即白浪滔天的意思。这里喻指波澜壮阔的大跃进浪潮。"
+    },
+    {
+        term: "长岛",
+        text: "长沙橘子洲，代指湖南。动地诗：震天动地的诗歌。"
+    },
+    {
+        term: "我欲因之梦寥廓",
+        text: "化用李白《梦游天姥吟留别》”我欲因之梦吴越，一夜飞度镜湖月”句。因之：凭借它。因，凭借。之，代词，指湖南“大跃进”景象。梦寥廓：含有浮想联翩之意。寥廓，广阔无边的意思。"
+    },
+    {
+        term: "芙蓉国",
+        text: "指湖南。古时，湘江一带秋季盛开木芙蓉花。五代谭用之《秋宿湘江遇雨》”秋风万里芙蓉国，暮雨千家薜荔村”。"
+    },
+    {
+        term: "朝晖",
+        text: "早晨的阳光。"
+    }
+]
+
+},
+  {
+    title: "七绝·为李进同志题所摄庐山仙人洞照",
+    category: "socialist",
+    lines: [
+   "暮色苍茫看劲松，乱云飞渡仍从容。",
+  "天生一个仙人洞，无限风光在险峰。"
+      ],
+background: [
+    "此诗写于1961年9月9日，首次发表于1963年12月版《毛泽东诗词》。1959年7月1日，毛泽东游览庐山，生机勃勃的大自然引发了他心中的诗情和豪气，于是他写下诗篇《七律·登庐山》，以极高的兴会唱起雄伟豪迈的赞歌，颂扬祖国建设一片蓬蓬勃勃的景象。7月5日，毛泽东和康生等人又游览了庐山仙人洞。那时正是庐山政治局扩大会议期间，还没有开始“反右倾”，毛泽东称这次会议为“神仙会”，心境无疑是好的。当他看到传说吕洞宾居于此的仙人洞时；当他路过草木葱茏、山势峻峭的险峰，一览庐山无限美好的风光时，应该是有难以抑制的诗的冲动和激情的。",
+    "1961年9月，毛泽东再登庐山，主持中央工作会议，讨论工业、财贸、教育、科技等问题，以便深入贯彻“调整、巩固、充实、提高”的八字方针，使连续遭受三年自然灾害的国民经济走出困境。由于时处“三年困难”时期，一方面有国际反华势力对中国的封锁及施加压力，另一方面由于作者本人在前一时期的失误，作者此时的心态较为复杂，处境也相当困难。这首七绝，就是在这种背景下写于庐山的。作诗之日，是作者引以为豪的“秋收起义”三十四周年纪念日。因此，作者此时心中虽有忧愤苍凉成份，但更多的却是作者性格中的坚韧自信及不畏压力的奋争精神。"
+],
+translation: [
+    "暮色苍茫中看那傲然挺立在山崖上的松树，任凭翻腾的云雾从身边穿过，它仍然泰然自若。",
+   "天设地造好一个仙人洞，正是在这险峻的山峰上才能领略到无限美好的风光。"
+],
+notes: [
+    {
+        term: "仙人洞",
+        text: "在庐山佛手岩下，牯岭之西，历来为游庐山必到之处。海拔一千零四十九米，飞崖绝壁，古木参天。洞是自然形成的，高约两丈，深广各三四丈，相传为唐朝仙人吕洞宾所居，后来明代仙人周颠也曾在此修行。洞中有石建的吕祖龛，龛后有一滴泉，泉水自岩上滴下，终年不断，环以石栏，名为“一滴泉”。洞外有白鹿升仙台，台上还有“御碑亭”，亭中树立着“周颠仙碑”，系明太祖朱元璋亲笔书写。李进即江青。"
+    },
+    {
+        term: "劲松",
+        text: "挺立在山崖上的松树。"
+    },
+    {
+        term: "仍从容",
+        text: "指飞渡的乱云从容不迫。"
+    },
+    {
+        term: "天生",
+        text: "天设地造，未加人工修饰。"
+    },
+    {
+        term: "险峰",
+        text: "在山崖上才能领略到这样无限的风光。"
+    }
+]
+
+},
+
+  {
+    title: "七律·和郭沫若同志",
+    category: "socialist",
+    lines: [
+   "一从大地起风雷，便有精生白骨堆。",
+   "僧是愚氓犹可训，妖为鬼蜮必成灾。",
+   "金猴奋起千钧棒，玉宇澄清万里埃。",
+  "今日欢呼孙大圣，只缘妖雾又重来。"
+      ],
+ background: "郭沫若1961年10月18日在北京民族文化宫看了浙江省绍兴剧团演出的《孙悟空三打白骨精》后，写了一首题为《看（孙悟空三打白骨精）》的七律。毛泽东看了这首诗，认为诗中把唐僧看作敌人：要“千刀万剐”，这样是不恰当的。于是他便给郭沫若写了这首“和诗”，告诫人们既要敢于斗争，又要善于斗争，正确区分两类不同性质的矛盾，团结大多数群众，最大限度地孤立敌人。",
+translation: [
+    "自从风雷震动了大地，白骨精便从白骨堆中衍生了出来。",
+   "唐僧虽是个受迷惑的糊涂人但是还能教育争取，妖精是鬼怪将必然带来灾难。",
+   "孙悟空奋勇挥起金箍棒，从此天地澄清，万里无尘。",
+   "今天我们要欢迎孙悟空这位齐天大圣，只因为妖魔重新又到来。"
+],
+notes: [
+    {
+        term: "一从",
+        text: "自从。"
+    },
+    {
+        term: "精生白骨堆",
+        text: "妖精从白骨堆里孳生出来。《西游记》第27回说：孙悟空第三棒打死了妖精，使之现出原形。原来是“一堆粉骷髅”，脊梁上还有一行字：”白骨夫人”。"
+    },
+    {
+        term: "僧是愚氓犹可训",
+        text: "僧指的是唐三藏，或者称作唐僧。此句的意思是：唐僧是个愚蠢的人但是还能教育争取。愚氓（yú méng），是蠢人的意思，这里指受迷惑的糊涂人。训，教育，争取。"
+    },
+    {
+        term: "鬼蜮",
+        text: "指阴险害人的家伙。蜮，传说是一种害人的妖虫，能含沙射人，射着人的影子都能使人生病，“含沙射影”成语便出于此，鬼即“为鬼为蜮”，出自《诗经》，指鬼怪的阴险善变，作恶多端。有时不作正面攻击而侧面伤人。"
+    },
+    {
+        term: "金猴",
+        text: "孙悟空的美称。因其是目射两道金光的神猴，又炼就火眼金睛，能降魔伏怪，头戴金箍，手持金箍棒，故称金猴。"
+    },
+    {
+        term: "千钧棒",
+        text: "《西游记》说孙悟空的金箍棒重13500斤。古代30斤为一钧。千钧，极言其重。"
+    },
+    {
+        term: "玉宇",
+        text: "光洁如玉的天宇。"
+    },
+    {
+        term: "埃",
+        text: "尘埃。"
+    },
+    {
+        term: "孙大圣",
+        text: "孙悟空的尊称。《西游记》说孙悟空大闹天宫时曾自称“齐天大圣”。"
+    },
+    {
+        term: "只缘",
+        text: "只因为。"
+    }
+]
+
+},
+
+  {
+    title: "卜算子·咏梅",
+    category: "socialist",
+    textSize: "small",
+    lines: [
+   "风雨送春归，飞雪迎春到。已是悬崖百丈冰，犹有花枝俏。",
+  "俏也不争春，只把春来报。待到山花烂漫时，她在丛中笑。"
+      ],
+background: [
+    "1960年6月，在罗马尼亚首都布加勒斯特召开共产党和工人党代表会议，苏共代表团和中共代表团发生激烈争论。会后，苏联撤走在华的全部专家，撕毁几百个协定和合同，停止供应重要设备。当时，以美国为首的西方国家一直对华经济封锁。苏联的严重措施，实际上断绝了中国从国外获取先进技术装备的正常渠道。与此同时，中国正处在三年困难时期，正经历着前所未有的严峻考验。",
+    "在严重困难面前，毛主席顶住了大国沙文主义的压力。中国人民独立自主、自力更生的精神、赢得了普遍的赞誉。1961年12月，毛泽东在广州，为即将召开的中共中央扩大的工作会议做准备。他读了陆游的《卜算子·咏梅》，感到文辞好；但意志消沉，只可借其形，不可用其义，于是他再续一首与陆游的词风格不同的咏梅词，目的主要是鼓励大家蔑视困难，敢于战胜困难。此词最早发表于1963年12月人民文学出版社出版的《毛主席诗词》。"
+],
+translation: [
+    "风雨将春天送走了，飞雪又把春光迎来。正是悬崖结下百丈冰柱的时节，但仍然有花枝俏丽竞放。",
+   "俏丽但不掠春光之美，只是把春天的消息来报告。等到满山遍野开满鲜花之时，梅花却在花丛中欢笑。"
+],
+notes: [
+    {
+        term: "卜算子",
+        text: "词牌名，又名“卜算子令”“百尺楼”“眉峰碧”“楚天遥”等，双调四十四字，上下片各两仄韵。"
+    },
+    {
+        term: "陆游咏梅词",
+        text: "指陆游的《卜算子·咏梅》。陆游创作有一百多首咏梅词，《卜算子·咏梅》是其中最有名的一首。"
+    },
+    {
+        term: "百丈冰",
+        text: "形容极度寒冷。"
+    },
+    {
+        term: "犹",
+        text: "还，依然，仍然。俏：俊俏，美好的样子。"
+    },
+    {
+        term: "烂漫",
+        text: "颜色鲜明而美丽。"
+    },
+    {
+        term: "丛中笑",
+        text: "百花盛开时，感到欣慰和高兴。"
+    }
+]
+
+},
+
+  {
+    title: "七律·冬云",
+    category: "socialist",
+    lines: [
+   "雪压冬云白絮飞，万花纷谢一时稀。",
+   "高天滚滚寒流急，大地微微暖气吹。",
+   "独有英雄驱虎豹，更无豪杰怕熊罴。",
+  "梅花欢喜漫天雪，冻死苍蝇未足奇。"
+      ],
+background: [
+    "　《七律·冬云》创作于1962年12月，当时国际、国内形势异常严峻，斗争尖锐复杂。在中国国内由于“大跃进”和反右倾的错误加上遭受连续三年罕见的自然灾害的侵袭，新中国正处于成立以来最严重的经济困难时期，国家和人民遭受了重大损失。国际上，以赫鲁晓夫为首的苏联领导人挑起中苏论战，连篇累牍发表文章大肆攻击中国共产党，并将两党之间的原则争论变为国家争端，对中国在政治上、经济上和军事上施加巨大压力。",
+    "他们不但背信弃义，撕毁合同，撤走专家，极大地加重了中国的经济困难，而且还联合一些国家的共产党、工人党，围攻中国共产党，并配合国际上的反动势力，掀起一股反华浪潮，接二连三地演出“反华大合唱”。一时间，黑云翻腾，寒潮滚滚，中国共产党和中国人民面临着严峻的考验。面对这一严峻的局面，诗人心潮澎湃，感慨万千，于是在他生日这天挥动如椽之笔，写下了这首诗。"
+],
+translation: [
+    "大雪低压着冬云而雪花纷飞，万紫千红一瞬间全都凋谢。",
+    "在那高天乌云滚滚寒流湍急的时刻，一丝暖气也会吹走着严冬。",
+    "英雄豪杰面对虎豹熊罴，志不可改，气不可夺。",
+   "面对漫天大雪，梅花欢喜得很，根本就不怕严寒，只会冻死那些软弱的苍蝇。"
+],
+notes: [
+    {
+        term: "冬云",
+        text: "作诗日期1962年12月26日（毛泽东生日），在冬至后的第四天。旧说“冬至一阳生”，所以诗中说“大地微微暖气吹”，这里是比喻虽在冬至，大地并没有完全受到寒流控制。"
+    },
+    {
+        term: "雪压冬云",
+        text: "即冬云压雪，指雪稠云低的样子。"
+    },
+    {
+        term: "暖气",
+        text: "指地热。"
+    },
+    {
+        term: "罴",
+        text: "棕熊。"
+    },
+    {
+        term: "冻死",
+        text: "是对经受不住考验者的蔑视。"
+    }
+]
+
+},
+
+  {
+    title: "满江红·和郭沫若同志",
+    category: "socialist",
+   textSize: "mini",
+    lines: [
+   "小小寰球，有几个苍蝇碰壁。嗡嗡叫，几声凄厉，几声抽泣。蚂蚁缘槐夸大国，蚍蜉撼树谈何易。正西风落叶下长安，飞鸣镝。",
+  "多少事，从来急；天地转，光阴迫。一万年太久，只争朝夕。四海翻腾云水怒，五洲震荡风雷激。要扫除一切害人虫，全无敌。"
+      ],
+ background: "本诗写于1963年1月9日，首次公开发表于人民文学出版社1963年12月版的《毛主席诗词》。1962年冬，中苏关系又开始紧张，苏联再在其报刊上连续刊登文章，攻击中国共产党。同年年底，郭沫若填《满江红》一词，借此表达中国人民面对反华势力，坚持斗争的必胜信念，同时也歌颂了毛泽东、毛泽东思想、坚强的中国人民。毛泽东读后当即作此和词。",
+translation: [
+    "小小的地球上，有那么几个国家，像几只碰壁的苍蝇一样嗡嗡叫唤，貌似声色俱厉，又像哭泣声一样。这些国家好比那大槐树下的蚂蚁一样吹嘘自己的国家有多强大，却不知道他们的所做所为，就像蚍蜉撼大树一样可笑！我们吹响冲锋的号角，要像秋风扫落叶一样席卷他们。",
+   "多少人世间的事都是急忙忙地匆匆而过，天地不断旋转，光阴紧迫。要等一万年后才等来胜利，实在是太久，我们要抓紧时间，力求主动，只争朝夕。当今的世界上，四海翻腾，风云变幻，五洲震荡，形势诡谲。我们要消灭所有危害人类的败类，还世界一个太平。"
+],
+notes: [
+    {
+        term: "满江红",
+        text: "词牌名，又名《上江虹》《念良游》《伤春曲》。唐人小说《冥音录》载曲名《上江虹》，后更名《满江红》。宋以来始填此词调。"
+    },
+    {
+        term: "郭沫若",
+        text: "1892年11月16日生于四川省乐山县铜河沙湾，毕业于日本九州帝国大学，现代文学家、历史学家、新诗奠基人之一。"
+    },
+    {
+        term: "寰球",
+        text: "这里指地球。"
+    },
+    {
+        term: "蚂蚁缘槐",
+        text: "唐李公佐《南柯太守传》，有个叫淳于棼的人，一天喝醉，梦见自己在“大槐安国”当了驸马，做了南柯郡太守，醒来才知是梦。后来他在屋后发现一个白蚂蚁穴，还建有王城，原来这就是“大槐安国”。"
+    },
+    {
+        term: "蚍蜉撼树",
+        text: "唐韩愈《调张籍》，”蚍蜉撼大树，可笑不自量”。蚍蜉指蚂蚁，在这里指霸权主义国家。"
+    },
+    {
+        term: "鸣镝",
+        text: "响箭，汉时匈奴冒顿单于用来发号施令。"
+    },
+    {
+        term: "朝夕",
+        text: "一早一晚，这里指一天。"
+    },
+    {
+        term: "四海",
+        text: "指全国范围内。"
+    }
+]
+
+},
+
+  {
+    title: "七律·吊罗荣桓同志",
+    category: "socialist",
+    lines: [
+   "记得当年草上飞，红军队里每相违。",
+   "长征不是难堪日，战锦方为大问题。",
+   "斥鷃每闻欺大鸟，昆鸡长笑老鹰非。",
+  "君今不幸离人世，国有疑难可问谁？"
+      ],
+ background: "罗荣桓同志是中国杰出的无产阶级革命家、军事家。由于在战争年代曾身负重伤，又在长期的工作中积劳成疾，罗荣桓于1963年12月16日不幸逝世。闻此噩耗，正在主持中央政治局常委会议的毛泽东十分悲痛，此后数日，毛泽东写成了这首诗。",
+translation: [
+    "记得当年红军在战争中总是行动迅速，你我虽同在军中却常常互相见不着面。",
+  "艰难卓绝的长征现在看来已不算什么，真正考验我们的大问题是如何对待取得的胜利。",
+  "那鷃雀欺戏我大鹏屡为世闻，它非难中国完全是昆鸡嘲笑老鹰。",
+   "此时此刻你却不幸辞世，今后国家大事的商讨可问计于谁？"
+],
+notes: [
+    {
+        term: "吊罗荣桓同志",
+        text: "吊，吊唁，祭奠死者并慰问家属。罗荣桓（1902—1963），久经考验的忠诚的共产主义战士，坚定的马克思主义者，伟大的无产阶级革命家、政治家、军事家，中国人民解放军和中华人民共和国缔造者之一，中国人民解放军政治工作奠基人，中华人民共和国元帅，党、国家和军队卓越领导人。1902年11月26日生于湖南省衡山县寒水乡南湾村（今属衡东县荣桓镇）。在衡东县荣桓镇南湾村有罗荣桓故居和罗荣桓元帅纪念馆。中华人民共和国的开国元勋，中国十大元帅之一。"
+    },
+    {
+        term: "记得当年草上飞",
+        text: "草上飞，指的是红军在战争中行动迅速。这句借用唐·黄巢《自题像》诗句：”记得当年草上飞”。"
+    },
+    {
+        term: "红军队里每相违",
+        text: "每相违，常常互相见不着面，违，背离，离别。王维《送綦毋潜落第还乡》：”置酒长安道，同心与我违。”前人注曰：”同心，犹如己。违，分离。意谓心虽同行踪却相违”。"
+    },
+    {
+        term: "长征不是难堪日，战锦方为大问题",
+        text: "难堪，难以忍受。”战锦”是指1948年九、十月间攻打锦州，即辽沈战役的第一个和关键性的大仗。陈毅《赣南游击词》：”他年战场获锦归。”方为，才是。此句意味长征并不是什么了不起的困难日，战争胜利后如何保卫祖国的锦绣河山才是大问题，即夺取政权只是万里长征走完了第一步，巩固政权，使中国不出修正主义才是大问题。"
+    },
+    {
+        term: "斥鷃每闻欺大鸟",
+        text: "斥鷃（yàn宴）：蓬间雀，在蓬蒿中飞起来不过几尺高。《庄子·逍遥游》说，斥鷃笑鹏鸟飞得太高，认为自己在蓬蒿中飞翔，也是飞得最好了。大鸟，大鹏鸟，《庄子·逍遥游》说它：”抟扶摇而上者九万里”。"
+    },
+    {
+        term: "昆鸡长笑老鹰非",
+        text: "昆鸡，古说即鹍鸡或鶤（kūn）鸡，一种大鸡。《尔雅·释畜》：”鸡三尺为鶤。”俄国克雷洛夫寓言《鹰和鸡》中说，鹰因为低飞而受到鸡的耻笑，认为鹰飞得跟鸡一样低；鹰答道：鹰有时比鸡还飞得低，但鸡永远不能飞得像鹰那样高。长笑，总是讥笑。非，不对。"
+    }
+]
+
+},
+
+  {
+    title: "贺新郎·读史",
+    category: "socialist",
+    textSize: "mini",
+    lines: [
+   "人猿相揖别。只几个石头磨过，小儿时节。铜铁炉中翻火焰，为问何时猜得？不过几千寒热。人世难逢开口笑，上疆场彼此弯弓月。流遍了，郊原血。",
+  "一篇读罢头飞雪，但记得斑斑点点，几行陈迹。五帝三皇神圣事，骗了无涯过客。有多少风流人物？盗跖庄蹻流誉后，更陈王奋起挥黄钺。歌未竟，东方白。"
+      ],
+background: [
+    "这首词作于1964年春天。该词原来未署写作时间，1978年第9期《红旗》杂志最早发表时所注的这个写作时间，是根据原在毛泽东身边做医护工作并替他保存诗稿的同志吴旭君的回忆。吴说：“在那一段时间里，毛主席办公之余，全是看《史记》和范文澜著的《中国通史简编》。”",
+    "毛泽东读过大量的历史著作，他对中国的史籍尤为熟悉。《二十四史》《资治通鉴》《纲鉴易知录》等历史专著，他都通读过。1952年，他添置了一部大字本的《二十四史》，反复阅读。20多年过去后，书上留下大量圈点和批注。毛泽东在1954年与历史学家吴晗的交谈中认为通过批判地读《二十四史》等典籍，可以熟悉历史事件，从中吸取经验教训。"
+],
+translation: [
+    "类人猿进化到人，告别了类人猿的漫长时代。之后，就进步到最早的石器时代。从石器时代进化到青铜、铁时代，这样的冶炼技术究竟是在什么时候掌握的呢？只不过是几千年的事情。纵观历史，也如人这一生多半忧愁少开怀。尽是征战杀伐弓箭疆场。这大好河山哪一处没有战争没有流血。",
+   "通读完了二十四史，我已满头白发，我自己的人生也走到了暮年。回顾起来不过是那些同样的事情一再发生，什么王侯将相功名利禄，有多少人为其白首执迷。那些所谓的英雄人物难道是真风流？我看不尽然。盗跖、庄蹻、陈胜、吴广这些敢于揭竿而起挑战统治者的权威的人，那才是真豪杰。歌声意犹未竟，东方已经曙色初露了。"
+],
+notes: [
+    {
+        term: "石头磨过",
+        text: "把石头磨成石器。石器时代是人类的“小儿时节”。"
+    },
+    {
+        term: "铜铁炉中翻火焰",
+        text: "指青铜器时代和铁器时代。青铜器和铁器都要用炉火来冶炼和翻铸。"
+    },
+    {
+        term: "不过几千寒热",
+        text: "这里作六字句，是此调的一体。赵朴初提出，照词律，这里一般是七字句，当作“不过是几千寒热”，可能写漏一个字。青铜器时代和铁器时代只经过几千年，和石器时代经过几十万年不同，说明人类的进化越来越快。"
+    },
+    {
+        term: "人世难逢开口笑，上疆场彼此弯弓月",
+        text: "前句用唐杜牧《九日齐山登高》句：”尘世难逢开口笑”。全句指人类过去的历史充满了各种苦难和战争。北宋苏轼《江城子·密州出猎》：”会挽雕弓如满月”。"
+    },
+    {
+        term: "五帝三皇神圣事",
+        text: "传说中国上古有三皇五帝，具体说法不一，总之都被认为是最高尚最有才能的神圣人物。"
+    },
+    {
+        term: "盗跖庄蹻流誉后，更陈王奋起挥黄钺",
+        text: "盗跖（zhí职），跖被古代统治阶级污蔑为“盗”，后来袭称盗跖，春秋时人。庄蹻，战国时人。当时被压迫阶级的起义领袖。《荀子·不苟》称盗跖“名声若日月”。同书《议兵》称楚国在垂沙一战（前301年）被齐、韩、魏三国打败，将领唐蔑被杀，“庄蹻起，楚分而为三四”。流誉，流传名誉。陈王，秦末农民起义领袖陈胜，他进占陈县（今河南淮阳县），称王。挥黄钺（yuè越），挥动饰以黄金的大斧。《史记·周本纪》曾说周武王用黄钺斩商纣。这两句是用来概括中国几千年历史上被压迫人民的武装斗争。"
+    }
+]
+
+},
+
+  {
+    title: "水调歌头·重上井冈山",
+    category: "socialist",
+    textSize: "mini",
+    lines: [
+   "久有凌云志，重上井冈山。千里来寻故地，旧貌变新颜。到处莺歌燕舞，更有潺潺流水，高路入云端。过了黄洋界，险处不须看。",
+  "风雷动，旌旗奋，是人寰。三十八年过去，弹指一挥间。可上九天揽月，可下五洋捉鳖，谈笑凯歌还。世上无难事，只要肯登攀。"
+      ],
+ background: "1927年10月，毛泽东率秋收起义部队上井冈山，开辟了工农武装割据道路，并沿着这条农村包围城市的道路取得了中国革命的胜利。1965年5月，毛泽东又重上井冈山。他感慨良多，诗兴大发，写下这首词。这首词在1976年元旦公开发表。",
+translation: [
+    "长久以来都抱有宏大的志向，今天我再次登上井冈山。从千里之外来寻访这片旧地，哪里还有半分它昔日的容颜。到处都是莺啼燕飞的晚春新景，流水潺潺，宽大的盘山公路直入云端。过了黄洋界隘口，就没有任何的险处可看了。",
+   "当年革命时期风雷激荡，红旗漫卷，这就是人世间。三十八年都过去了，犹如弹指的一刹那。可以飞向长空摘月亮，也可以潜下深海捉鱼或鳖，谈笑间高奏凯歌还师。世上没有什么困难的事，只要肯下定决心去登攀。"
+],
+notes: [
+    {
+        term: "水调歌头",
+        text: "词牌名，又名“元会曲”“凯歌”“台城游”“水调歌”“花犯念奴”“花犯”，正体双调九十五字，前段九句四平韵，后段十句四平韵。"
+    },
+    {
+        term: "久有凌云志",
+        text: "很久以前就怀有爬山登高的志愿。南朝宋范晔《后汉书·冯衍传》说，冯衍自谓“常有陵云之志”。陵：通“凌”。凌云志，本指高远的志向。这里兼指重上井冈山的心愿，同时含有实现共产主义崇高理想和一往无前的革命精神的意思。凌云，升高至云霄，这里是登高之意。志，心愿，想法。"
+    },
+    {
+        term: "重上井冈山",
+        text: "指毛泽东离开井冈山38年后的1965年5月，回到井冈山视察社会主义建设。这句点题。"
+    },
+    {
+        term: "千里",
+        text: "指从北京到井冈山，千里迢迢。寻，寻访。故地，曾经生活、战斗过的地方，这里指井冈山革命根据地。"
+    },
+    {
+        term: "旧貌变新颜",
+        text: "井冈山建设事业迅速发展，面貌发生了巨大的变化。"
+    },
+    {
+        term: "到处莺歌燕舞",
+        text: "建国后，井冈山的自然生态受到特别保护，各种鸟儿在绿树丛中欢唱，在空中飞旋嬉戏。"
+    },
+    {
+        term: "更有",
+        text: "另外有，还有。潺潺，形容流水的声响或水缓缓流动的样子。"
+    },
+    {
+        term: "高路入云端",
+        text: "环山公路盘旋而上，伸入云际。高路，这里指1960年冬修筑的从江西宁冈砻市至井冈山茨坪的盘山公路。云端，云里，云中。"
+    },
+    {
+        term: "黄洋界",
+        text: "也作望洋界或汪洋界。位于井冈山区西北部，海拔1342米，两侧是深谷、峭壁。黄洋界距井冈山的中心茨坪25里，上下15里，形势雄峻险要，有“一夫当关，万夫莫开”之势，是通往井冈山五大哨口（朱砂冲、桐木岭、黄洋界、双马石、八面山）中最险要的一个。"
+    },
+    {
+        term: "险处不须看",
+        text: "含有我们经历了黄洋界战斗这样严峻的考验，就不会为任何艰难险阻所吓倒，一定能够取得革命斗争胜利的意思。险处，险要之处。不须，不用，不必。看，此处读平声。以上两句是说，黄洋界在井冈山五大哨口中形势最为险要，过了黄洋界，其余的就不必看了。"
+    },
+    {
+        term: "风雷动",
+        text: "无产阶级革命斗争的风暴气势磅礴，万里激荡。风雷，风暴雷声。比喻气势浩大而猛烈的革命斗争的冲击力量。"
+    },
+    {
+        term: "旌旗奋",
+        text: "指火红的战旗迎风飘扬。旌旗，旗帜的通称。《周礼·春官·司常》：”凡军事，建旌旗。”这里指革命斗争的红旗。奋，奋力高举。"
+    },
+    {
+        term: "是人寰",
+        text: "这正是人间的景象。人寰，即人世间。寰，指广大的地域。"
+    },
+    {
+        term: "三十八年过去",
+        text: "从1927年10月毛泽东率领秋收起义的工农革命军第一次上井冈山算起，到1965年重上井冈山，其间相隔38年。"
+    },
+    {
+        term: "弹指",
+        text: "本为佛教用语。指勾指弹一下的工夫，极言时间短暂。一挥，挥一挥手，比喻时间过得飞快。宋代释法云《翻译名义集》引《阿毗达摩俱舍论》：”壮士一弹指顷六十五刹那。”"
+    },
+    {
+        term: "可上九天揽月",
+        text: "典出《孙子·形篇》：”善攻者，动于九天之上。””览”，“揽”的古字。九天，天的极高处。古代以为天有九重。战国楚屈原《离骚》：”指九天以为正（证）兮，夫唯灵修之故也。”揽月，摘取月亮。"
+    },
+    {
+        term: "五洋",
+        text: "指世界五大洋，即太平洋、大西洋、印度洋、北冰洋和南冰洋。这里泛指世界。南冰洋即南极洲，过去人们以为它是海洋，现已探明，实为冰川覆盖的大高原。捉鳖，成语有“瓮中捉鳖”，形容手到擒来，极其容易。元代康进之《梁山泊李逵负荆》第四折：”管教他瓮中捉鳖，手到拿来。”鳖，甲鱼，这里喻指擒拿的敌人。这句是说，无产阶级革命者一定能够打倒国内外一切敌人，取得革命胜利。"
+    },
+    {
+        term: "谈笑凯歌还",
+        text: "典出西晋左思《咏史》：”吾慕鲁仲连，谈笑却秦军。”意谓在谈笑声中高奏凯歌，胜利归来。这里表现了无产阶级革命者的乐观主义精神。谈笑，笑语言谈，形容十分轻松，不费气力。凯歌，胜利的歌。还，归来，回还。"
+    },
+    {
+        term: "世上无难事",
+        text: "俗语有“世上无难事，只怕有心人”。"
+    },
+    {
+        term: "登攀",
+        text: "即攀登。这句是说，社会主义建设事业就如同爬山一样，只要不畏艰险，努力攀登，就一定能到达光辉的顶点，取得胜利。"
+    }
+]
+
+},
+   {
+    title: "念奴娇·鸟儿问答",
+    category: "socialist",
+    textSize: "mini",
+    lines: [
+   "鲲鹏展翅，九万里，翻动扶摇羊角。背负青天朝下看，都是人间城郭。炮火连天，弹痕遍地，吓倒蓬间雀。怎么得了，哎呀我要飞跃。",
+  "借问君去何方，雀儿答道：有仙山琼阁。不见前年秋月朗，订了三家条约。还有吃的，土豆烧熟了，再加牛肉。不须放屁！试看天地翻覆。"
+      ],
+background: [
+    "这首词作于1965年秋天。20世纪60年代初，中国共产党与苏共就国际共产主义运动的若干问题，开展过一场大辩论。1963年3月，苏共中央向我党中央发出一封公开信，一方面攻击我党坚持的马列主义原则，一方面妄图把他们的“三和”、“两全”路线，强加给国际共产主义运动。以毛泽东为首的中国共产党人，对苏共中央公开信的错误观点进行了针锋相对的斗争。从1963年6月到1964年7月，中国共产党连续发表了九篇评论苏共中央公开信的文章，并提出了中国共产党《关于国际共产主义运动总路线的建议》。",
+    "中国共产党的“九评”刚刚发表完，赫鲁晓夫就被迫退出了历史舞台。赫鲁晓夫的继承人，继续执行前任者的路线。他们的理论主张和实际行动给国际共产主义运动造成了极大的危害。苏共领导人一方面修正、歪曲马列主义的基本观点，反对人民的革命运动，一方面与美帝国主义互相勾结，妄图称霸世界。1963年8月5日，苏、美、英三国在莫斯科签订了《禁止在大气层、外层空间和水下进行核武器试验条约》。他们不全面禁止核试验，也不彻底销毁核武器，“三家条约”只会束缚无核国家，便于它们实行核垄断。",
+    "1965年，中国已摆脱了国内的经济困难，工农业生产蒸蒸日上。1964年10月，中国还成功地爆炸了第一颗原子弹。与此同时，国际形势也朝着有利于革命的方向发展。许多国家的共产党、工人党，通过国际共产主义运动的大辩论，提高了识别真假马克思主义的能力。世界各国人民的革命斗争蓬勃兴起，特别是亚非拉地区掀起了反对新老帝国主义侵略、争取民族解放斗争的高潮。国家要独立、民族要解放、人民要革命，已经形成了一种历史潮流。为了继续批判现代修正主义，鼓舞各国人民的革命斗志，毛泽东于1965年秋天写下了这首词。"
+],
+translation: [
+    "鲲鹏展翅翱翔，凭着旋风的力量，翻动翅膀，飞上九万里高空。大鹏身背长空朝下俯瞰，都是人世间大大小小的城郭。炮火连天轰鸣，弹痕遍地，吓坏了草丛里的麻雀：怎么了得呀，哎呀我要往那高处飞。",
+   "请问你想飞去哪儿？麻雀答道：飞去有仙山琼台的地方。而且前年秋月朗，难道你不知我们订了三家条约？另外还有好吃的，烧熟的土豆，再加进牛肉。不必放屁，且看一看这天翻地覆。"
+],
+notes: [
+    {
+        term: "念奴娇",
+        text: "词牌名。双调一百字，仄韵，亦有用平韵者。念奴是唐天宝年间著名歌伎，元稹《连昌宫词》说”力士传呼觅念奴，念奴潜伴诸郎宿春娇满眼睡红绡，掠削云鬓旋装束”，调名由此而得。"
+    },
+    {
+        term: "鲲鹏",
+        text: "本是古代寓言中一种由大鱼变成的大鸟。据《庄子·逍遥游》载：”穷发之北有冥海者，天池也。有鱼焉，其广数千里，未有知其修者，其名为鲲。有鸟焉，其名为鹏，背若泰山，翼若垂天之云，抟扶摇羊角而上者九万里，绝云气，负青天，然后图南，且适南冥也。”在这首词里鲲鹏象征着高瞻远瞩、英勇无畏的中国共产党和中国人民。"
+    },
+    {
+        term: "扶摇",
+        text: "盘旋而上的暴风。"
+    },
+    {
+        term: "羊角",
+        text: "义同“扶摇”，因其旋转而上，形如羊角，故名。"
+    },
+    {
+        term: "蓬间雀",
+        text: "即《庄子·逍遥游》中的“斥鴳”（同“斥鷃”）。该书云，蓬间雀不但不理解鲲鹏展翅南飞的志向，反而自得其乐地嘲笑鲲鹏：”斥鷃（即雀儿）笑之曰：‘彼且奚适也？我腾跃而上，不过数仞而下，翱翔蓬蒿之间，此亦飞之至也！而彼且奚适也？’”在词中象征着渺小卑怯、虚弱丑恶的赫鲁晓夫等人。"
+    },
+    {
+        term: "仙山琼阁",
+        text: "传说中仙人所居住的地方。琼阁，用美玉做成的楼阁。"
+    },
+    {
+        term: "三家条约",
+        text: "指苏、美、英三国1963年8月5日在莫斯科签订的《禁止在大气层、外层空间和水下进行核武器试验条约》。"
+    },
+    {
+        term: "土豆烧熟了，再加牛肉",
+        text: "1964年4月访问匈牙利时，苏联领导人赫鲁晓夫曾在一次演说中说，“福利共产主义”是“一盘土豆烧牛肉的好菜”。"
+    }
+]
+}
+];
+
+let activeCategory = "early";
+    let currentList = [];
+    let currentPosition = 0;
+    let transitionLock = null;
+
+const categoryButtons = document.getElementById("categoryButtons");
+const poemDisplay = document.getElementById("poemDisplay");
+const poemTitle = document.getElementById("poemTitle");
+const poemText = document.getElementById("poemText");
+const poemExtra = document.getElementById("poemExtra");
+const poemCategoryIntro = document.getElementById("poemCategoryIntro");
+const poemIndexModal = document.getElementById("poemIndexModal");
+const poemIndexList = document.getElementById("poemIndexList");
+
+const CATEGORY_INTROS = {
+    early: "青年时代与大革命前后的诗词。从“问苍茫大地，谁主沉浮”的浩叹到“霹雳一声暴动”，展现早年的革命抱负、深沉的历史意识和改造旧世界的壮阔胸襟。",
+    jinggang: "土地革命战争时期的诗词。贯穿井冈山斗争、赣南闽西根据地建设与反“围剿”的烽火，“唤起工农千百万”生动体现了红色政权在开辟道路时的革命气势。",
+    longmarch: "长征前后创作的诗词。踏雄关、越雪山、渡长河，“雄关漫道真如铁，而今迈步从头越”，在苍茫天地间表现出革命队伍压倒一切艰难险阻的英雄气概。",
+    reply: "抗日战争与解放战争时期的诗词。浴血敌后，决胜千里，“钟山风雨起苍黄，百万雄师过大江”，展现中国革命走向全国胜利的历史洪流与必胜气势。",
+    socialist: "新中国成立后的诗词。“萧瑟秋风今又是，换了人间”，展现社会主义建设、人民改造山河的壮志豪情与新时代历史气象中自强不息、改天换地的豪迈精神。"
+};
+
+
+function getPrimaryCategory(poem) {
+    return Array.isArray(poem.category) ? poem.category[0] : poem.category;
+}
+
+function poemBelongsToCategory(poem, category) {
+    return Array.isArray(poem.category)
+        ? poem.category.includes(category)
+        : poem.category === category;
+}
+
+function renderPoemIndexModal() {
+    if (!poemIndexList) return;
+
+    const categoryOrder = ["early", "jinggang", "longmarch", "reply", "socialist"];
+
+    poemIndexList.innerHTML = categoryOrder.map(category => {
+        const poemsInCategory = POEMS
+            .map((poem, index) => ({ poem, index }))
+            .filter(item => poemBelongsToCategory(item.poem, category));
+
+        if (poemsInCategory.length === 0) return "";
+
+        return `
+            <section class="poem-index-group">
+                <h3 class="poem-index-group-title">${getCategoryName(category)}</h3>
+
+                <div class="poem-index-items">
+                    ${poemsInCategory.map(item => {
+                        const isCurrent = currentList[currentPosition] === item.index;
+
+                        return `
+                            <button
+                                class="poem-index-item${isCurrent ? " is-current" : ""}"
+                                type="button"
+                                onclick="jumpToPoem(${item.index})"
+                            >
+                                ${item.poem.title}
+                            </button>
+                        `;
+                    }).join("")}
+                </div>
+            </section>
+        `;
+    }).join("");
+}
+
+function openPoemIndexModal() {
+    if (!poemIndexModal) return;
+
+    renderPoemIndexModal();
+
+    poemIndexModal.classList.remove("is-hidden");
+}
+
+function closePoemIndexModal() {
+    if (!poemIndexModal) return;
+
+    poemIndexModal.classList.add("is-hidden");
+}
+
+function closePoemIndexModalByOverlay(event) {
+    if (event.target === poemIndexModal) {
+        closePoemIndexModal();
+    }
+}
+
+function jumpToPoem(index) {
+    const poem = POEMS[index];
+
+    if (!poem) return;
+
+    const category = getPrimaryCategory(poem);
+
+    closePoemIndexModal();
+
+    setTimeout(() => {
+        activeCategory = category;
+
+        document.querySelectorAll(".category-btn").forEach(button => {
+            button.classList.toggle("active", button.dataset.category === category);
+        });
+
+        updateSlider();
+        updateCategoryIntro();
+
+        switchPoemWithFade(() => {
+            buildCurrentList();
+
+            const position = currentList.indexOf(index);
+            currentPosition = position >= 0 ? position : 0;
+
+            showCurrentPoem();
+        });
+    }, 250);
+}
+
+function getCategoryName(category) {
+    const names = {
+        early: "恰同学少年",
+        jinggang: "星火燎原",
+        longmarch: "雄关漫道",
+        reply: "人间正道",
+        socialist: "换了人间"
+    };
+
+    return names[category] || "恰同学少年";
+}
+
+function updateCategoryIntro() {
+    if (!poemCategoryIntro) return;
+
+    poemCategoryIntro.innerText = CATEGORY_INTROS[activeCategory] || CATEGORY_INTROS.early;
+}
+
+function buildCurrentList() {
+    currentList = POEMS
+        .map((poem, index) => ({ poem, index }))
+        .filter(item => {
+            const category = item.poem.category;
+
+            return Array.isArray(category)
+                ? category.includes(activeCategory)
+                : category === activeCategory;
+        })
+        .map(item => item.index);
+
+    currentPosition = 0;
+}
+
+function setPoemTextSize(poem) {
+    poemText.classList.remove("large", "small", "mini", "extramini");
+
+    if (poem.textSize) {
+        poemText.classList.add(poem.textSize);
+    }
+}
+
+function renderPoemByIndex(index) {
+    const poem = POEMS[index];
+
+    poemTitle.innerText = poem.title;
+
+    poemText.innerHTML = poem.lines.map(line => {
+        if (line === "") {
+            return `<p class="poem-stanza-gap" aria-hidden="true"></p>`;
+        }
+
+        return `<p>${line}</p>`;
+    }).join("");
+
+    renderPoemExtra(poem);
+
+    setPoemTextSize(poem);
+}
+
+function renderPoemExtra(poem) {
+    if (!poemExtra) return;
+
+    const buildParagraphs = content => {
+        return Array.isArray(content)
+            ? content.filter(paragraph => paragraph && paragraph.trim() !== "")
+            : content && content.trim() !== ""
+                ? [content]
+                : [];
+    };
+
+    const backgroundParagraphs = buildParagraphs(poem.background);
+    const translationParagraphs = buildParagraphs(poem.translation);
+
+    const hasBackground = backgroundParagraphs.length > 0;
+    const hasTranslation = translationParagraphs.length > 0;
+    const hasNotes = Array.isArray(poem.notes) && poem.notes.length > 0;
+
+    if (!hasBackground && !hasTranslation && !hasNotes) {
+        poemExtra.innerHTML = "";
+        poemExtra.style.display = "none";
+        return;
+    }
+
+    poemExtra.style.display = "block";
+
+    let html = "";
+
+    if (hasBackground) {
+        html += `
+            <section class="poem-extra-section">
+                <h3 class="poem-extra-title">创作背景</h3>
+                ${backgroundParagraphs.map(paragraph => {
+                    return `<p class="poem-background-text">${paragraph}</p>`;
+                }).join("")}
+            </section>
+        `;
+    }
+
+    if (hasTranslation) {
+        html += `
+            <section class="poem-extra-section">
+                <h3 class="poem-extra-title">白话译文</h3>
+                ${translationParagraphs.map(paragraph => {
+                    return `<p class="poem-translation-text">${paragraph}</p>`;
+                }).join("")}
+            </section>
+        `;
+    }
+
+    if (hasNotes) {
+        html += `
+            <section class="poem-extra-section">
+                <h3 class="poem-extra-title">内容注释</h3>
+                <div class="poem-notes">
+                    ${poem.notes.map(note => {
+                        return `
+                            <p class="poem-note-item">
+                                <span class="poem-note-term">${note.term}：</span>${note.text}
+                            </p>
+                        `;
+                    }).join("")}
+                </div>
+            </section>
+        `;
+    }
+
+    poemExtra.innerHTML = html;
+}
+
+    function showCurrentPoem() {
+        if (currentList.length === 0) return;
+
+        const index = currentList[currentPosition];
+        renderPoemByIndex(index);
+    }
+
+    function switchPoemWithFade(callback) {
+        if (transitionLock) return;
+
+        poemDisplay.classList.remove("visible");
+
+        transitionLock = setTimeout(() => {
+            callback();
+
+            void poemDisplay.offsetHeight;
+
+            requestAnimationFrame(() => {
+                poemDisplay.classList.add("visible");
+                transitionLock = null;
+            });
+        }, 400);
+    }
+
+function slidePoem(direction) {
+    if (currentList.length === 0) return;
+
+    switchPoemWithFade(() => {
+        currentPosition = (currentPosition + direction + currentList.length) % currentList.length;
+        showCurrentPoem();
+    });
+}
+
+function prevPoem() {
+    slidePoem(-1);
+}
+
+function nextPoem() {
+    slidePoem(1);
+}
+
+function switchCategory(category) {
+    if (activeCategory === category) return;
+
+    activeCategory = category;
+
+    document.querySelectorAll(".category-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.category === category);
+    });
+
+    updateSlider();
+    updateCategoryIntro();
+
+    switchPoemWithFade(() => {
+        buildCurrentList();
+        showCurrentPoem();
+    });
+}
+
+function updateSlider() {
+    const activeButton = document.querySelector(".category-btn.active");
+
+    if (!activeButton || !categoryButtons) return;
+
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const extraWidth = isMobile ? 12 : 18;
+    const extraHeight = isMobile ? 12 : 18;
+
+    const x = activeButton.offsetLeft - extraWidth / 2;
+    const y = activeButton.offsetTop - extraHeight / 2;
+    const width = activeButton.offsetWidth + extraWidth;
+    const height = activeButton.offsetHeight + extraHeight;
+
+    categoryButtons.style.setProperty("--slider-x", `${x}px`);
+    categoryButtons.style.setProperty("--slider-y", `${y}px`);
+    categoryButtons.style.setProperty("--slider-width", `${width}px`);
+    categoryButtons.style.setProperty("--slider-height", `${height}px`);
+
+    categoryButtons.classList.add("has-active");
+}
+
+function initCategoryButtons() {
+    document.querySelectorAll(".category-btn").forEach(button => {
+        button.addEventListener("click", function () {
+            switchCategory(this.dataset.category);
+        });
+    });
+}
+
+function initFirstPoem() {
+    buildCurrentList();
+    updateCategoryIntro();
+    showCurrentPoem();
+
+    requestAnimationFrame(() => {
+        poemDisplay.classList.add("visible");
+    });
+}
+
+function initSliderPosition() {
+    categoryButtons.classList.add("no-slider-transition", "has-active");
+    updateSlider();
+
+    categoryButtons.offsetHeight;
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            categoryButtons.classList.remove("no-slider-transition");
+        });
+    });
+}
+
+function fixMobileArrowTap() {
+    const buttons = document.querySelectorAll(".poem-arrow");
+
+    if (!buttons.length) return;
+
+    function isMobile() {
+        return window.matchMedia("(max-width: 768px)").matches;
+    }
+
+    buttons.forEach(button => {
+        function pressButton() {
+            if (!isMobile()) return;
+
+            button.classList.add("is-tapping");
+        }
+
+        function releaseButton() {
+            if (!isMobile()) return;
+
+            setTimeout(() => {
+                button.classList.remove("is-tapping");
+                button.blur();
+            }, 160);
+        }
+
+        button.addEventListener("pointerdown", pressButton);
+        button.addEventListener("pointerup", releaseButton);
+        button.addEventListener("pointercancel", releaseButton);
+        button.addEventListener("pointerleave", releaseButton);
+    });
+}
+
+    window.addEventListener("resize", () => {
+        updateSlider();
+    });
+
+    window.addEventListener("load", () => {
+        initSliderPosition();
+    });
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        closePoemIndexModal();
+    }
+});
+
+    initCategoryButtons();
+    initFirstPoem();
+    initSliderPosition();
+    fixMobileArrowTap();
+</script>
+
+</body>
+</html>
