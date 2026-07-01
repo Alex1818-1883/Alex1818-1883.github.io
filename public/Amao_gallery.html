@@ -963,7 +963,7 @@ footer h3 {
     <div class="modal-content">
         <button type="button" class="close-btn" onclick="toggleGalleryVideoModal(false)" aria-label="关闭视频弹窗">&times;</button>
 
-        <p class="gallery-video-heading">“继承毛主席的遗志，把无产阶级革命事业进行到底！”</p>
+        <p class="gallery-video-heading">继承毛主席的遗志，把无产阶级革命事业进行到底！</p>
 
    <video id="galleryVideoPlayer" class="gallery-modal-video" controls playsinline preload="auto">
     您的浏览器不支持视频播放。
@@ -1451,7 +1451,7 @@ footer h3 {
     desc: "伟大的领袖和导师毛泽东主席追悼大会", 
     quote: "“继承毛主席的遗志，把无产阶级革命事业进行到底！”",
     videoSrc: "dao.mp4",
-    videoTitle: "“继承毛主席的遗志，把无产阶级革命事业进行到底！”"
+    videoTitle: "继承毛主席的遗志，把无产阶级革命事业进行到底！"
 },
 
    { 
@@ -1691,7 +1691,7 @@ function openGalleryVideo(event) {
         return;
     }
 
-    galleryVideoHeading.innerText = data.videoTitle || "“继承毛主席的遗志，把无产阶级革命事业进行到底！”";
+    galleryVideoHeading.innerText = data.videoTitle || "继承毛主席的遗志，把无产阶级革命事业进行到底！";
 
     clearTimeout(galleryVideoCloseTimer);
 
