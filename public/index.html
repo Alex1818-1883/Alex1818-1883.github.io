@@ -529,6 +529,50 @@ will-change: transform;
 
         .lyrics-display p { margin-bottom: 30px; } 
 
+.liaoyuan-fullscreen-section {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 120px 20px 100px;
+
+    border-top: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #FFF5F5 0,
+            #FFF5F5 8px,
+            #F9F9F9 150px,
+            #F9F9F9 100%
+        );
+
+    overflow: hidden;
+}
+
+.liaoyuan-fullscreen-image {
+    display: block;
+
+    width: min(100vw, 1100px);
+    height: auto;
+    max-height: none;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+}
+
+.liaoyuan-fullscreen-section::selection,
+.liaoyuan-fullscreen-image::selection {
+    background: transparent;
+}
+
         /* 弹窗样式 */
 .modal {
     display: none;
@@ -1057,6 +1101,16 @@ footer h3::selection {
         font-size: 1.2rem;
     }
 
+.liaoyuan-fullscreen-section {
+    min-height: 88vh;
+    padding: 60px 12px 70px;
+}
+
+.liaoyuan-fullscreen-image {
+    width: 150vw;
+    max-height: none;
+}
+
 .library-star-title {
     width: calc(100% + 88px);
     margin-left: -44px;
@@ -1451,6 +1505,10 @@ will-change: transform, opacity;
             </div>
         </div>
     </section>
+
+<section class="liaoyuan-fullscreen-section" aria-label="毛主席书法">
+    <img src="liaoyuan.svg" alt="燎原书法" class="liaoyuan-fullscreen-image">
+</section>
 
 <div class="library-modal is-hidden" id="libraryModal" aria-hidden="true">
     <div class="library-panel" role="dialog" aria-modal="true" aria-labelledby="libraryModalTitle">
