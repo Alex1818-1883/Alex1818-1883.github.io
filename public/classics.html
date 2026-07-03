@@ -91,19 +91,26 @@
     transform: scale(0.95) translateZ(0);
 }
 
-/* === 🚀 经典文库首屏：全息史诗 100vh 引擎 === */
+
 .library-header {
     position: relative;
-    /* 🚀 核心指令：高度拉满，占据一整个屏幕！ */
-    height: 100vh; 
+
+    min-height: 100vh;
+    height: auto;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     text-align: center;
+
+padding: 0 20px clamp(286px, 38vh, 360px);
+
     background-color: #FFFFFF;
-    border-bottom: 3px solid #CC0000; /* 保留底部的警戒线 */
-    overflow: hidden;
+    border-bottom: 3px solid #CC0000;
+
+    overflow: visible;
     z-index: 1;
 }
 
@@ -141,18 +148,19 @@ animation: signature-fade 1.2s ease-out 0.8s forwards;
 
 .header-inner {
     position: relative;
-    z-index: 2; 
-    
-    /* 🚀 战术拔高：语法修复完毕，重新激活向上牵引引擎！
-       这里暂设为 -12vh，如果觉得不够高，可以继续加大到 -15vh 或 -18vh */
-    margin-top: -14vh; 
+    z-index: 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 0;
 }
 
-/* 🌟 动画引擎：署名浮现（彻底消除滑冰效应） */
+
 @keyframes signature-fade {
     0% { 
         opacity: 0; 
-        /* 🚀 战术收缩：将距离从 30px 缩短到 15px，消除“滑行感”，改为“定点浮现感” */
         transform: translateX(15px) translateZ(0); 
     }
     
@@ -170,26 +178,25 @@ animation: signature-fade 1.2s ease-out 0.8s forwards;
     }
 }
 
-/* 🌟 伟人凝视：置于标题上方的图腾（绝对悬浮脱钩版） */
 .marx-portrait {
-    position: absolute;
-    
-    bottom: calc(100% + 28px); 
-    left: 0;
-    right: 0;
-    
-    /* 🚀 水平绝对居中，并且向下与大标题保持 30px 的神圣距离 */
-    margin: 0 auto 0px auto; 
-    
-    /* 尺寸与入场引擎保持不变 */
-    width: 140px; 
+    position: static;
+
+    display: block;
+
+    width: 140px;
     height: auto;
+
+    margin: 0 auto 28px;
+
     opacity: 0;
     animation: fadeInUp 1s ease-out 0.1s forwards;
     will-change: transform, opacity;
-   -webkit-user-drag: none;
+
+    pointer-events: none;
+    -webkit-user-drag: none;
     user-select: none;
 }
+
 
 
 .library-header h1 {
@@ -360,20 +367,35 @@ animation: signature-fade 1.2s ease-out 0.8s forwards;
         
 
 
-/* 📱 移动端适配 */
 @media (max-width: 768px) {
-            .library-header { height: 100vh; min-height: auto; padding: 0 20px; } /* 🚀 手机端也锁定全屏 */
-.marx-portrait {
-    width: 100px;
-    bottom: calc(100% + 24px);
-    margin: 0 auto;
+.library-header {
+    min-height: 100svh;
+    height: auto;
+    padding: 75px 20px 341px;
 }
-.library-slogan-btn { font-size: 1.2rem; letter-spacing: 2px; padding: 7px 22px; }
-            .marx-signature { 
-                width: 240px; 
-                bottom: 8%; 
-                right: 8%; 
-            }
+
+    .header-inner {
+        margin-top: 0;
+    }
+
+    .marx-portrait {
+        position: static;
+
+        width: 100px;
+        margin: 0 auto 24px;
+    }
+
+    .library-slogan-btn {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        padding: 7px 22px;
+    }
+
+    .marx-signature { 
+        width: 240px; 
+        bottom: 8%; 
+        right: 8%; 
+    }
 }
 
 /* === 革命导师筛选区 === */
