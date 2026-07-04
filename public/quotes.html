@@ -65,14 +65,27 @@
    transform: scale(0.95) translateZ(0);
 }
 
-        /* Hero */
-        .hero {
-            height: 45vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-            background-color: #FFFFFF;
-            border-bottom: 3px solid #CC0000;
-        }
+.hero {
+    height: 45vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #FFFFFF 0,
+            #FFFFFF calc(100% - 42px),
+            #F9F9F9 calc(100% - 42px),
+            #F9F9F9 100%
+        );
+
+    position: relative;
+    overflow: hidden;
+}
         .hero h1 {
             font-size: 3rem;
             font-weight: 900;
@@ -86,6 +99,43 @@
             margin-top: 10px;
             letter-spacing: 2px;
         }
+
+.hero-divider {
+    position: absolute;
+
+    left: 50%;
+    bottom: 24px;
+
+    width: 100vw;
+    margin-left: -50vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    color: #CC0000;
+    font-size: 36px;
+    line-height: 1;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+
+    z-index: 2;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+    content: "";
+    display: block;
+
+    flex: 1;
+    height: 3px;
+
+    background-color: #CC0000;
+    border-radius: 999px;
+}
 /* 📖 语录标题专属链接样式 */
         .book-link {
     color: #DD0000;
@@ -140,6 +190,39 @@
             from { transform: rotate(0deg) translateZ(0); }
             to { transform: rotate(360deg) translateZ(0); }
         }
+
+/* === 红线下方语录版块背景 === */
+.quote-section {
+    position: relative;
+    overflow: hidden;
+
+    background-color: #F9F9F9;
+}
+
+.quote-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image: url("maohuishou.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: min(80vw, 850px) auto;
+
+    opacity: 0.1;
+
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+
+    z-index: 0;
+}
+
+.quote-section .content-container {
+    position: relative;
+    z-index: 1;
+}
 
         /* 主体容器 */
         .content-container {
@@ -349,6 +432,8 @@ padding-bottom: 15px;
 .source-link *,
 .btn-arrow,
 .btn-arrow *,
+.hero-divider,
+.hero-divider *,
 footer h3 {
     user-select: none;
     -webkit-user-select: none;
@@ -373,6 +458,8 @@ footer h3 {
 .source-link *::selection,
 .btn-arrow::selection,
 .btn-arrow *::selection,
+.hero-divider::selection,
+.hero-divider *::selection,
 footer h3::selection {
     background: transparent;
 }
@@ -409,6 +496,28 @@ footer h3::selection {
     .hero h1 {
         font-size: 2rem;
     }
+
+.hero {
+    background:
+        linear-gradient(
+            to bottom,
+            #FFFFFF 0,
+            #FFFFFF calc(100% - 35px),
+            #F9F9F9 calc(100% - 35px),
+            #F9F9F9 100%
+        );
+}
+
+.hero-divider {
+    bottom: 20px;
+    gap: 12px;
+    font-size: 30px;
+}
+
+.hero-divider::before,
+.hero-divider::after {
+    height: 3px;
+}
 
     footer h3 {
         font-size: 20px;
@@ -455,36 +564,40 @@ footer h3::selection {
         </div>
     </header>
 
-    <section class="hero">
-        <h1>
-            <a href="maoyulu.pdf" target="_blank" class="book-link">
-                <div class="book-star">
-                    <svg viewBox="-50 -50 100 100">
-                        <polygon points="0,-47 11,-14.5 45,-14.5 17.8,6 28.5,38.5 0,18.5 -28.5,38.5 -17.8,6 -45,-14.5 -11,-14.5" fill="#CC0000" stroke="#CC0000" stroke-width="3" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                毛主席语录
-            </a>
-        </h1>
-        <p>革命 · 人民 · 反修</p>
-    </section>
+<section class="hero">
+    <h1>
+        <a href="maoyulu.pdf" target="_blank" class="book-link">
+            <div class="book-star">
+                <svg viewBox="-50 -50 100 100">
+                    <polygon points="0,-47 11,-14.5 45,-14.5 17.8,6 28.5,38.5 0,18.5 -28.5,38.5 -17.8,6 -45,-14.5 -11,-14.5" fill="#CC0000" stroke="#CC0000" stroke-width="3" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            毛主席语录
+        </a>
+    </h1>
+    <p>革命 · 人民 · 反修</p>
 
+    <div class="hero-divider" aria-hidden="true">★</div>
+</section>
+
+<section class="quote-section">
     <div class="content-container">
-    <!-- 语录舞台 -->
-    <div class="quote-stage">
-        <div class="quote-display" id="quoteDisplay">
-            <div class="quote-text" id="quoteText"></div>
-            <div class="quote-meta">
-    <span class="quote-dash"></span><span class="quote-source" id="quoteSource"></span>
+        <!-- 语录舞台 -->
+        <div class="quote-stage">
+            <div class="quote-display" id="quoteDisplay">
+                <div class="quote-text" id="quoteText"></div>
+                <div class="quote-meta">
+                    <span class="quote-dash"></span><span class="quote-source" id="quoteSource"></span>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
 
-    <!-- 底部按钮 -->
+        <!-- 底部按钮 -->
         <div class="quote-controls">
-        <button class="btn-arrow" id="moreBtn" onclick="nextQuote()">›</button>
+            <button class="btn-arrow" id="moreBtn" onclick="nextQuote()">›</button>
+        </div>
     </div>
-</div>
+</section>
 
     <footer>
         <h3>继续革命，永不投降！</h3>
