@@ -1,0 +1,35 @@
+	<!--
+	A:link {text-decoration: none; color: 122222}
+	A:visited {text-decoration: none; color: 122222}
+	A:active {text-decoration: none}
+	A:hover {text-decoration: underline; color: 3C3CFF}
+	td {font-size: 12pt; font-family:宋体;}
+
+	BODY{
+	background-color: #DDE2E3;
+	background-image: url('line_01.gif');
+	background-repeat: repeat-y
+	}
+	/* css中: word-break:break-all 和 word-wrap:break-word 为自动换行。 keep-all 同 normal 不换行 */
+
+	hr{color:#92A5B1;height:1px;border:0px;border-top:1px solid #92A5B1;margin:4px;padding:2px;overflow:hidden;}
+
+	#table0{border: 0px solid; width: 80%; border-collapse: collapse; border-padding:0px; border-spacing:0px;}
+	#table01{border: 0px solid; width: 700; border-collapse: collapse; border-padding:2px; border-spacing:1px;}/* 首页目录表格 */
+	#td01_1{border: 0px solid; width: 100;}
+	#td01_2{border: 0px solid; width: 600;}
+	#table02{border: 0px solid; width: 586; border-collapse: collapse; border-padding:2px; border-spacing:1px;}
+	#td02_1{border: 0px solid; width: 146.5;}
+	#td02_2{border: 0px solid; width: 293;}
+	#td02_3{border: 0px solid; width: 195;}
+	#td02_4{border: 0px solid; width: 439.5;}
+
+	#table1{border: 0px solid; width: 90%; border-collapse: collapse; border-padding:0px; border-spacing:0px;}
+	#table2{border: 1px solid #A5ACBA; width: 100%; background-color: #F0F1F4; border-collapse: collapse; border-padding:0px; border-spacing:0px;}
+	#table3{border: 0px solid; width: 100%; background-color: #F4F7F9; border-collapse: collapse; border-padding:0px; border-spacing:0px;}
+	#table4{border: 0px solid; width: 86%; border-collapse: collapse; border-padding:0px; border-spacing:1px;}
+	#table5{border: 1px solid #FFFFF; width: 100%; background-color: #ECEFF4; border-collapse: collapse; border-padding:0px; border-spacing:0px;}
+
+	/* 本段 css 针对鲁迅文集页。代码调取标签：<link href="luxun.css" rel="stylesheet" type="text/css"> 单元格横线<td height="10"><hr></td> 表格标签<table id="table1"> */
+
+	-->
