@@ -1080,7 +1080,7 @@ footer h3 {
     <button class="category-btn" type="button" data-category="reference">辞典与工具书</button>
     <button class="category-btn" type="button" data-category="economy">政治经济学研究</button>
     <button class="category-btn" type="button" data-category="memoir">传记与回忆录</button>
-    <button class="category-btn" type="button" data-category="literature">左翼经典文学</button>
+    <button class="category-btn" type="button" data-category="literature">左翼思想与文学</button>
 </section>
 
         <section class="books-grid" id="booksGrid"></section>
@@ -1389,7 +1389,10 @@ footer h3 {
         title: "《长征》",
         cover: "长征",
         author: "王树增",
-        category: "china",
+        category: ["china", "literature"],
+        order: {
+        literature: 57.5
+    },
         desc: "王树增的长征纪实文学，以大量史料重现二万五千里长征的全过程，呈现这一历史事件的战略意义与人民军队的革命意志。",
         link: "books/《长征》.pdf",
 
@@ -1649,6 +1652,24 @@ footer h3 {
         category: "memoir",
         desc: "通过生活细节展现马克思作为学者与革命家的双重形象，记录了他“为人类工作”的精神底色。",
         link: "books/《忆马克思》.html"
+    },
+
+    {
+        title: "《艾思奇讲稿选》",
+        cover: "艾思奇讲稿选",
+        author: "艾思奇",
+        category: "literature",
+        desc: "马克思主义哲学大众化先驱的讲稿精选，通俗生动阐述辩证唯物论，是毛泽东赞誉的思想启蒙佳作。",
+        link: "books/《艾思奇讲稿选》.pdf"
+    },
+
+    {
+        title: "《大众哲学》",
+        cover: "大众哲学",
+        author: "艾思奇",
+        category: "literature",
+        desc: "以通俗生动的语言将辩证唯物论普及大众，是上世纪三四十年代指引无数青年走向革命的启蒙读物。",
+        link: "books/《大众哲学》.pdf"
     },
 
     {
