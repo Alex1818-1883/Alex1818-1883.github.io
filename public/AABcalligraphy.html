@@ -1,0 +1,4209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<script>
+    (() => {
+        const scrollKey =
+            `calligraphy-scroll:${location.pathname}`;
+
+        const navigation =
+            performance.getEntriesByType("navigation")[0];
+
+        const isReload =
+            navigation &&
+            navigation.type === "reload";
+
+        if (!isReload) return;
+
+        let savedY = 0;
+
+        try {
+            savedY = Number(
+                sessionStorage.getItem(scrollKey) || 0
+            );
+        } catch (error) {
+            return;
+        }
+
+
+const heroHeight =
+    window.innerHeight;
+
+
+        if (savedY >= heroHeight - 4) {
+            const root =
+                document.documentElement;
+
+            root.classList.add(
+                "hide-hero-during-restore"
+            );
+
+
+            root.dataset.heroRestorePoint =
+                String(heroHeight - 4);
+        }
+    })();
+</script>
+
+<title>毛泽东书法集</title>
+    <link rel="icon" href="red.ico" type="image/x-icon">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scrollbar-gutter: stable;
+            overflow-y: scroll;
+        }
+
+
+html.hide-hero-during-restore .hero {
+    visibility: hidden;
+}
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            background-color: #F9F9F9;
+            color: #A80000;
+            font-size: 18px;
+            line-height: 1.6;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        /* === 顶部导航：沿用全站样式 === */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+
+            width: 100%;
+            padding: 20px 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+header::after {
+    content: "书法集";
+
+    display: inline-block;
+    visibility: hidden;
+    pointer-events: none;
+
+    padding: 8px 22px;
+
+    border: 2px solid #CC0000;
+    border-radius: 30px;
+
+    color: #CC0000;
+    font-size: 18px;
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    transform: scale(1) translateZ(0);
+}
+
+        .logo {
+            display: flex;
+            align-items: center;
+
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 1px;
+
+            transform: scale(1) translateZ(0);
+            transform-origin: left center;
+            will-change: transform;
+            backface-visibility: hidden;
+
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+
+            transition:
+                transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            color: #FFD700;
+            transform: scale(1.4) rotate(36deg) translateZ(0);
+        }
+
+
+
+
+
+@keyframes heroBackgroundFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0.1;
+    }
+}
+
+/*
+ * 两个签名只做透明度渐显，
+ * 不缩放、不移动、不旋转。
+ */
+@keyframes heroCalligraphyFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+.hero {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    height: 100vh;
+
+    min-height: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 88px 24px 34px;
+
+    background-color: #FFFFFF;
+    border-bottom: 3px solid #CC0000;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: -45%;
+    height: 175%;
+
+    z-index: 0;
+
+    background-image:
+        url("zhuxione.svg");
+
+    background-repeat:
+        no-repeat;
+
+    /*
+     * 图片始终填满背景图层的高度。
+     */
+    background-size:
+        auto
+        100%;
+
+    /*
+     * 和index首页一样，图片直接锁定在底部。
+     */
+    background-position:
+     center
+        bottom;
+
+    opacity: 0;
+
+animation:
+    heroBackgroundFade
+    3.6s
+    ease-out
+    0.1s
+    forwards;
+
+    pointer-events: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.hero-calligraphy-composition {
+    position: relative;
+    z-index: 1;
+
+    width: min(94vw, 1100px);
+    height: min(82vh, 780px);
+
+    margin-top: 0;
+    transform: translateY(-16vh);
+}
+
+.hero-mao-signature,
+.hero-shufa-signature {
+    position: absolute;
+    display: block;
+
+    width: auto;
+    object-fit: contain;
+
+opacity: 1;
+    pointer-events: none;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+
+.hero-mao-signature {
+    left: 56%;
+    top: -5%;
+
+    height: 105%;
+    max-width: 84%;
+
+    transform:
+        translateX(-50%);
+
+    animation:
+        heroCalligraphyFade
+        2.2s
+        ease-out
+        0.35s
+        backwards;
+}
+
+.hero-shufa-signature {
+    left: 44%;
+    top: 38%;
+
+    height: 80%;
+    max-width: 80%;
+
+    transform:
+        translateX(-50%);
+
+    animation:
+        heroCalligraphyFade
+        1.65s
+        ease-out
+        0.9s
+        backwards;
+}
+
+
+.hero-mao-signature.is-crisp,
+.hero-shufa-signature.is-crisp {
+    animation: none !important;
+    opacity: 1;
+
+    transform:
+        translateX(-50%);
+}
+
+
+
+
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 76px 24px 92px;
+        }
+
+        .calligraphy-heading {
+            width: min(900px, 100%);
+            margin: 0 auto 54px;
+            text-align: center;
+        }
+
+/* === 书法索引红星：革命之声同款悬停旋转 === */
+@keyframes index-star-spin {
+    from {
+        transform:
+            rotate(0deg)
+            translateZ(0);
+    }
+
+    to {
+        transform:
+            rotate(360deg)
+            translateZ(0);
+    }
+}
+
+/* 红星按钮外层：负责悬停放大和缓慢归位 */
+.index-star-trigger {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 60px;
+    height: 60px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    background-color: transparent;
+
+    line-height: 0;
+    cursor: pointer;
+
+    transform:
+        scale(1)
+        translateZ(0);
+
+    transition:
+        transform 0.3s;
+}
+
+/* 与 index 革命之声红星相同：悬停放大到 1.25 */
+.index-star-trigger:hover {
+    transform:
+        scale(1.25)
+        translateZ(0);
+
+    transition:
+        transform 0.3s
+        cubic-bezier(
+            0.175,
+            0.885,
+            0.32,
+            1.275
+        ) !important;
+}
+
+.index-star-trigger:focus,
+.index-star-trigger:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+/* 红星内层：专门负责旋转 */
+.index-star-icon {
+    width: 60px;
+    height: 60px;
+
+    display: block;
+
+    transform-origin: center center;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.index-star-icon svg {
+    width: 60px;
+    height: 60px;
+
+    display: block;
+}
+
+/* 与 index 一样：每 6 秒旋转一整圈 */
+.index-star-icon.spinning {
+    animation:
+        index-star-spin
+        6s
+        linear
+        infinite;
+}
+
+
+
+/* === 三分类长条胶囊：与 poem 页面相同 === */
+.category-buttons {
+    --slider-x: -4px;
+    --slider-y: -4px;
+    --slider-width: 0px;
+    --slider-height: 0px;
+
+    position: relative;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    width: min(660px, 100%);
+    margin: 34px auto 0;
+    padding: 5px;
+
+    border: 2px solid #CC0000;
+    border-radius: 999px;
+    background-color: #FFFFFF;
+}
+
+/* 红色滑块 */
+.category-buttons::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: var(--slider-width);
+    height: var(--slider-height);
+
+    background-color: #CC0000;
+    border-radius: 999px;
+
+    opacity: 0;
+
+    transform: translate3d(
+        var(--slider-x),
+        var(--slider-y),
+        0
+    );
+
+    transition:
+        transform 0.26s ease,
+        opacity 0.18s ease;
+
+    z-index: 0;
+}
+
+.category-buttons.no-slider-transition::before {
+    transition: none !important;
+}
+
+.category-buttons.has-active::before {
+    opacity: 1;
+}
+
+/* 三个分类按钮 */
+.category-btn {
+    position: relative;
+    z-index: 1;
+
+    height: 46px;
+
+    border: none;
+    border-radius: 999px;
+    background-color: transparent;
+
+    color: #CC0000;
+
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: color 0.22s ease;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    isolation: isolate;
+}
+
+/* 鼠标悬停时的浅红背景 */
+.category-btn::before {
+    content: "";
+
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    left: -5px;
+    right: -5px;
+
+    border-radius: 999px;
+    background-color: rgba(204, 0, 0, 0.08);
+
+    opacity: 0;
+    pointer-events: none;
+
+    z-index: -1;
+
+    transition: opacity 0.22s ease;
+}
+
+.category-btn:hover::before {
+    opacity: 1;
+}
+
+.category-btn.active::before,
+.category-btn.active:hover::before {
+    opacity: 0;
+}
+
+.category-btn:hover {
+    color: #FF0000;
+}
+
+.category-btn.active,
+.category-btn.active:hover {
+    color: #FFFFFF;
+}
+
+
+        .calligraphy-stage {
+            position: relative;
+            width: 100%;
+            padding: 0 20px 24px;
+        }
+
+        .work-view-container {
+            position: relative;
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .work-display {
+            width: 100%;
+            max-width: 920px;
+            text-align: center;
+
+            opacity: 0;
+            transform: translateY(30px);
+
+            transition:
+                opacity 0.4s ease,
+                transform 0.4s ease;
+        }
+
+        .work-display.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        .work-title {
+            margin-bottom: 5px;
+
+            color: #CC0000;
+            font-size: 28px;
+            font-weight: 900;
+            line-height: 1.3;
+            letter-spacing: 2px;
+        }
+
+
+.work-sheet {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+
+    overflow: visible;
+
+    touch-action: pan-x pan-y pinch-zoom;
+}
+
+
+
+.work-image {
+    display: block;
+
+    width: auto;
+    height: auto;
+
+    max-width: 100%;
+    max-height: none;
+
+    object-fit: contain;
+    object-position: center;
+
+    background: transparent;
+
+    pointer-events: auto;
+    touch-action: pan-x pan-y pinch-zoom;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+
+    /*
+     * 圆点切换图片时，
+     * 只让书法图片渐隐渐显。
+     * 标题、圆点和说明文字都不参与动画。
+     */
+    opacity: 1;
+    transform: none;
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
+}
+
+/* 圆点切换过程中的图片退场状态 */
+.work-image.is-page-changing {
+    opacity: 0;
+
+    transform:
+        translateY(30px);
+}
+
+/*
+ * 多页书法作品使用固定比例展示框。
+ * 无论两张SVG自身比例是否相同，
+ * 外部展示区域的高度始终不变。
+ */
+.work-sheet.has-fixed-page-frame {
+    aspect-ratio:
+        var(
+            --work-page-ratio,
+            1356 / 1655
+        );
+
+    align-items: stretch;
+    overflow: hidden;
+}
+
+.work-sheet.has-fixed-page-frame
+.work-image {
+    width: 100%;
+    height: 100%;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    object-fit: contain;
+
+    object-position:
+        center
+        top;
+
+    margin-top: 0 !important;
+}
+
+/* === 多页书法作品的小圆点分页 === */
+.work-page-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+    margin: 18px auto 0;
+
+    min-height: 12px;
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* 只有一张图片时不显示 */
+.work-page-dots.is-hidden {
+    display: none;
+}
+
+/* 默认：Saga页面同款粉红色圆点 */
+.work-page-dot {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 12px;
+    height: 12px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: #FFCCCC;
+
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transform:
+        scale(1)
+        translateZ(0);
+
+transition:
+    transform 0.3s
+    cubic-bezier(
+        0.175,
+        0.885,
+        0.32,
+        1.275
+    ),
+    background-color 0.3s
+    cubic-bezier(
+        0.175,
+        0.885,
+        0.32,
+        1.275
+    );
+}
+
+/* 当前页：革命红 */
+.work-page-dot.is-active {
+    background-color: #CC0000;
+
+    transform:
+        scale(1.2)
+        translateZ(0);
+}
+
+.work-page-dot:not(.is-active):hover {
+    background-color: #CC0000;
+
+    transform:
+        scale(1.5)
+        translateZ(0);
+}
+
+/* 粉色和红色圆点都保留点击缩小动画 */
+.work-page-dot:not(.is-active):active,
+.work-page-dot.is-active:active {
+    transform:
+        scale(0.9)
+        translateZ(0);
+}
+
+.work-page-dot:focus {
+    outline: none;
+}
+
+.work-page-dot:focus-visible {
+    outline: none;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(204, 0, 0, 0.16);
+}
+
+/*
+ * 有圆点时，说明文字与圆点之间不要隔得太远。
+ */
+.work-page-dots:not(.is-hidden)
++ .work-description {
+    margin-top: 24px;
+}
+
+
+.work-placeholder {
+    width: 100%;
+    padding: 60px 20px;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background: transparent;
+
+    color: #CC0000;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+        .work-description {
+            width: min(860px, 100%);
+            margin: 34px auto 0;
+
+            color: #333333;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 2;
+            text-align: justify;
+        }
+
+/* === 手迹释文折叠区 === */
+.work-transcription {
+    width: min(860px, 100%);
+    margin: 28px auto 0;
+
+    text-align: left;
+}
+
+/* 没有释文的作品完全隐藏 */
+.work-transcription.is-hidden {
+    display: none;
+}
+
+
+/* === 手迹释文：media页面“教员相集”同款胶囊按钮 === */
+.transcription-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: 0;
+    padding: 6px 40px;
+
+    border: 2px solid #CC0000;
+    border-radius: 999px;
+
+    background-color: #CC0000;
+    color: #FFFFFF;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 1.6;
+
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+/* 鼠标悬停：与“教员相集”一样变为深红色 */
+.transcription-toggle:hover {
+    background-color: #A80000;
+    border-color: #A80000;
+    color: #FFFFFF;
+}
+
+/* 鼠标按下：保持深红色 */
+.transcription-toggle:active {
+    background-color: #A80000;
+    border-color: #A80000;
+    color: #FFFFFF;
+}
+
+.transcription-toggle:focus,
+.transcription-toggle:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.transcription-toggle::selection {
+    background: transparent;
+}
+
+/*
+ * “展开 / 收起”文字叠放在同一个位置，
+ * 避免切换文字时按钮宽度发生变化。
+ */
+.transcription-toggle-label {
+    display: grid;
+    place-items: center;
+}
+
+/*
+ * 两层文字占据完全相同的位置。
+ */
+.transcription-toggle-text {
+    grid-area: 1 / 1;
+
+    display: block;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.24s ease;
+
+    pointer-events: none;
+}
+
+/*
+ * 默认未展开时显示“展开”。
+ */
+.transcription-toggle-expand {
+    opacity: 1;
+}
+
+/*
+ * 默认未展开时隐藏“收起”。
+ */
+.transcription-toggle-collapse {
+    opacity: 0;
+}
+
+/*
+ * 展开正文后：
+ * “展开”淡出。
+ */
+.transcription-toggle[
+    aria-expanded="true"
+]
+.transcription-toggle-expand {
+    opacity: 0;
+}
+
+/*
+ * 展开正文后：
+ * “收起”淡入。
+ */
+.transcription-toggle[
+    aria-expanded="true"
+]
+.transcription-toggle-collapse {
+    opacity: 1;
+}
+
+
+
+/*
+ * 释文展开动画。
+ * 关闭时高度为0，不会留下空白。
+ */
+.transcription-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+
+    opacity: 0;
+
+    transition:
+        grid-template-rows 0.42s ease,
+        opacity 0.28s ease;
+}
+
+.work-transcription.is-open
+.transcription-panel {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+
+/* 折叠动画需要的裁切层 */
+.transcription-panel-inner {
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* 释文正文公共样式 */
+.transcription-content {
+    padding: 40px 2px 2px;
+
+    color: #222222;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2;
+    text-align: left;
+
+    user-select: text;
+    -webkit-user-select: text;
+    -webkit-touch-callout: default;
+}
+
+/* === 诗词释文 === */
+.transcription-content.is-poem {
+    width: min(660px, 100%);
+    margin: 0 auto;
+}
+
+.transcription-poem-title {
+    margin: 0 0 22px;
+
+    color: #CC0000;
+    font-size: 22px;
+    font-weight: 900;
+    line-height: 1.5;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/*
+ * 整个诗词正文块居中，
+ * 但正文内部保持左对齐。
+ */
+.transcription-poem-body {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+
+    text-align: left;
+}
+
+.transcription-poem-line {
+    margin: 0 0 4px;
+}
+
+/* 数据库中空字符串表示诗词分节 */
+.transcription-poem-line.is-gap {
+    height: 16px;
+    margin: 0;
+}
+
+/* === 书信释文 === */
+.transcription-content.is-letter {
+    width: min(760px, 100%);
+    margin: 0 auto;
+}
+
+.transcription-letter-salutation {
+    margin: 0 0 18px;
+
+    text-align: left;
+}
+
+.transcription-letter-paragraph {
+    margin: 0 0 16px;
+
+    text-indent: 2em;
+    text-align: justify;
+}
+
+.transcription-letter-closing {
+    margin: 20px 0 0;
+    padding-left: 2em;
+
+    text-align: left;
+}
+
+/*
+ * “敬礼”位于“此致”下一行，
+ * 但保持完全顶格。
+ */
+.transcription-letter-respect {
+    margin: 0;
+    padding-left: 0;
+
+    text-align: left;
+}
+
+.transcription-letter-signature {
+    margin: 22px 2em 0 0;
+
+    text-align: right;
+}
+
+.transcription-letter-date {
+    margin: 4px 2em 0 0;
+
+    text-align: right;
+}
+
+/*
+ * 地点位于日期下一行，
+ * 与署名和日期保持相同的右侧对齐线。
+ */
+.transcription-letter-location {
+    margin: 4px 2em 0 0;
+
+    text-align: right;
+}
+
+        /* === 诗词页同款左右箭头 === */
+        .work-arrow {
+            position: absolute;
+            top: 21px;
+            z-index: 10;
+
+            width: 54px;
+            height: 54px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+            padding-bottom: 4px;
+
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background-color: transparent;
+            color: #CC0000;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 34px;
+            font-weight: bold;
+            line-height: 0;
+
+            cursor: pointer;
+            box-shadow: none;
+            transform: translateY(-50%);
+
+            transition:
+                transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease,
+                opacity 0.25s ease;
+        }
+
+ .work-prev {
+    left: calc(50% - 330px);
+
+    padding-right: 2px;
+    padding-left: 0;
+}
+
+.work-next {
+    right: calc(50% - 330px);
+
+    padding-left: 2px;
+    padding-right: 0;
+}
+
+        .work-arrow:hover {
+            color: #FFFFFF;
+            background-color: #CC0000;
+            border-color: #CC0000;
+            transform: translateY(-50%) scale(1.15) translateZ(0);
+        }
+
+        .work-arrow:active,
+        .work-arrow.is-tapping {
+            color: #FFFFFF;
+            background-color: #A80000;
+            border-color: #A80000;
+            transform: translateY(-50%) scale(0.95) translateZ(0);
+        }
+
+        .work-arrow.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-50%) scale(0.6);
+        }
+
+        /* === 书法索引弹窗：沿用诗词页 === */
+        .index-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+
+            background-color: rgba(0, 0, 0, 0.48);
+            backdrop-filter: blur(5px);
+
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0.25s ease;
+        }
+
+        .index-modal.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .index-panel {
+            position: relative;
+            width: min(760px, 100%);
+            max-height: 82vh;
+
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+            background-color: #FFFFFF;
+            border-left: 7px solid #CC0000;
+            border-radius: 22px;
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
+        }
+
+        .index-header {
+            position: relative;
+            flex: 0 0 auto;
+            z-index: 2;
+            padding: 32px 54px 0 42px;
+            background-color: #FFFFFF;
+        }
+
+        .index-title {
+            margin: 0 0 12px;
+            color: #CC0000;
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .index-line {
+            width: 100%;
+            margin: 0 0 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .index-line span {
+            flex: 1;
+            height: 3px;
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        .index-line strong {
+            flex: 0 0 auto;
+            padding: 0 8px;
+
+            color: #CC0000;
+            background-color: #FFFFFF;
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .index-close {
+            appearance: none;
+            -webkit-appearance: none;
+
+            position: absolute;
+            top: 22px;
+            right: 24px;
+
+            width: 34px;
+            height: 34px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0 0 2px;
+            border: none;
+            border-radius: 50%;
+            background-color: transparent;
+            color: #CC0000;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+            font-weight: 900;
+            line-height: 1;
+
+            cursor: pointer;
+            outline: none;
+            box-shadow: none;
+
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .index-close:hover,
+        .index-close:active {
+            color: #FFFFFF;
+            background-color: #CC0000;
+        }
+
+        .index-scroll {
+            flex: 1 1 auto;
+            min-height: 0;
+            margin-right: 12px;
+            padding: 12px 32px 34px 42px;
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+        }
+
+/* === 书法索引分类分组：与 poem 页面相同 === */
+.index-list {
+    display: block;
+    margin-left: 0;
+}
+
+/* 每一个分类区块 */
+.index-group {
+    margin-bottom: 28px;
+}
+
+.index-group:last-child {
+    margin-bottom: 0;
+}
+
+/* 诗词、题词、书信分类标题 */
+.index-group-title {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+
+    border-bottom: 2px dashed #FFCCCC;
+
+    color: #CC0000;
+    font-size: 20px;
+    font-weight: 900;
+    line-height: 1.5;
+    letter-spacing: 2px;
+    text-align: left;
+}
+
+/* 每个分类下面的作品按钮 */
+.index-items {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 8px 10px;
+    margin-left: -16px;
+}
+
+        .index-item {
+            appearance: none;
+            -webkit-appearance: none;
+
+            display: inline-block;
+            padding: 7px 16px;
+
+            border: none;
+            border-radius: 999px;
+            background-color: transparent;
+            color: #A80000;
+
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 1.5;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.22s ease,
+                color 0.22s ease;
+        }
+
+        .index-item:hover,
+        .index-item:active,
+        .index-item.is-current {
+            color: #FFFFFF;
+            background-color: #CC0000;
+        }
+
+      
+        footer {
+            padding: 40px 20px;
+            background-color: #CC0000;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        footer h3 {
+            color: #FFFFFF;
+            font-size: 26px;
+            letter-spacing: 4px;
+        }
+
+        /* === 禁止选中交互区 === */
+        .logo,
+        .logo *,
+  .index-star-trigger,
+  .index-star-trigger *,
+       .work-title,
+       .work-title *,
+        .work-arrow,
+        .work-arrow *,
+        .index-modal,
+        .index-modal *,
+        footer h3 {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-drag: none;
+        }
+
+        .logo::selection,
+        .logo *::selection,
+       .index-star-trigger::selection,
+       .index-star-trigger *::selection,
+         .work-title::selection,
+         .work-title *::selection,
+        .work-arrow::selection,
+        .work-arrow *::selection,
+        .index-modal::selection,
+        .index-modal *::selection,
+        footer h3::selection {
+            background: transparent;
+        }
+
+  .work-description,
+.work-description * {
+    user-select: text;
+    -webkit-user-select: text;
+    -webkit-touch-callout: default;
+}
+
+
+        @media (max-width: 980px) {
+            .work-view-container {
+                padding: 0 56px;
+            }
+
+            .work-prev { left: 0; }
+            .work-next { right: 0; }
+
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+                transform-origin: center center;
+            }
+
+header::after {
+    padding: 6px 22px;
+    font-size: 16px;
+}
+
+
+.hero {
+    height: 100svh;
+    min-height: 0;
+
+    padding: 88px 12px 24px;
+}
+
+.hero-calligraphy-composition {
+    width: 96vw;
+    height: 76svh;
+
+    margin-top: 0;
+    transform: translateY(-7svh);
+}
+
+.hero-mao-signature {
+    left: 58%;
+    top: -2%;
+
+    height: 78%;
+    max-width: 68%;
+}
+
+.hero-shufa-signature {
+    left: 42%;
+    top: 40%;
+
+    height: 56%;
+    max-width: 64%;
+}
+
+
+ 
+
+            main {
+                padding: 48px 16px 68px;
+            }
+
+            .calligraphy-heading {
+                margin-bottom: 40px;
+            }
+
+
+.category-buttons {
+    grid-template-columns: repeat(3, 1fr);
+
+    padding: 4px;
+    margin-top: 28px;
+
+    border-radius: 999px;
+}
+
+.category-btn {
+    height: 42px;
+
+    font-size: 15px;
+    letter-spacing: 0;
+}
+
+
+            .calligraphy-stage {
+                padding: 0 0 16px;
+            }
+
+            .work-view-container {
+                padding: 0 48px;
+            }
+
+
+
+            .work-title {
+                margin-bottom: 4px;
+                font-size: 24px;
+                letter-spacing: 1px;
+            }
+
+
+            .work-description {
+                margin-top: 26px;
+                font-size: 14px;
+                line-height: 1.95;
+            }
+
+.work-transcription {
+    margin-top: 24px;
+}
+
+.transcription-toggle {
+    padding: 9px 34px;
+}
+
+
+.transcription-content {
+    padding-top: 20px;
+
+    font-size: 15px;
+    line-height: 1.95;
+}
+
+.transcription-poem-title {
+    margin-bottom: 18px;
+
+    font-size: 19px;
+    letter-spacing: 1px;
+}
+
+.transcription-poem-line.is-gap {
+    height: 13px;
+}
+
+.transcription-letter-paragraph {
+    margin-bottom: 14px;
+    text-align: left;
+}
+
+.transcription-letter-signature,
+.transcription-letter-date,
+.transcription-letter-location {
+    margin-right: 1em;
+}
+
+.work-arrow {
+    top: 16px;
+
+    width: 44px;
+    height: 44px;
+    font-size: 30px;
+
+    background-color: transparent;
+    color: #CC0000;
+    border-color: transparent;
+}
+
+            .work-prev { left: 0; }
+            .work-next { right: 0; }
+
+            .work-arrow:hover {
+                background-color: transparent;
+                color: #CC0000;
+                border-color: transparent;
+                transform: translateY(-50%) scale(1) translateZ(0);
+            }
+
+            .work-arrow:focus,
+            .work-arrow:focus-visible {
+                outline: none;
+                box-shadow: none;
+            }
+
+            .work-arrow:focus:not(:active):not(.is-tapping),
+            .work-arrow:focus-visible:not(:active):not(.is-tapping) {
+                background-color: transparent;
+                color: #CC0000;
+                border-color: transparent;
+                transform: translateY(-50%) scale(1) translateZ(0);
+            }
+
+            .work-arrow:active,
+            .work-arrow.is-tapping {
+                background-color: #CC0000;
+                color: #FFFFFF;
+                border-color: #CC0000;
+                transform: translateY(-50%) scale(0.95) translateZ(0);
+            }
+
+            .index-panel {
+                width: 100%;
+                max-height: 82vh;
+                border-left-width: 6px;
+                border-radius: 18px;
+            }
+
+            .index-header {
+                padding: 30px 28px 0 26px;
+            }
+
+            .index-title {
+                margin-bottom: 10px;
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+
+            .index-line {
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .index-line strong {
+                padding: 0 6px;
+                font-size: 26px;
+            }
+
+            .index-close {
+                top: 18px;
+                right: 18px;
+            }
+
+            .index-scroll {
+                margin-right: 8px;
+                padding: 12px 20px 28px 26px;
+            }
+
+.index-group {
+    margin-bottom: 24px;
+}
+
+.index-group:last-child {
+    margin-bottom: 0;
+}
+
+.index-group-title {
+    margin-bottom: 12px;
+    padding-bottom: 9px;
+
+    border-bottom: 2px dashed #FFCCCC;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+.index-items {
+    gap: 7px 8px;
+    margin-left: -13px;
+}
+
+.index-item {
+    padding: 6px 13px;
+    font-size: 14px;
+}
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
+        }
+
+
+@media (any-hover: hover) and (any-pointer: fine) {
+    .work-view-container {
+        width: 980px;
+        max-width: none;
+
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .work-display {
+        flex: 0 0 920px;
+
+        width: 920px;
+        max-width: none;
+    }
+
+    .work-sheet {
+        width: 920px;
+        max-width: none;
+    }
+
+}
+
+
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="media.html" class="logo">
+        <span class="star">★</span>
+        马列毛主义万岁！
+    </a>
+</header>
+
+<section class="hero">
+    <div class="hero-calligraphy-composition">
+        <img
+            src="Maoqianming.svg"
+            class="hero-mao-signature"
+            alt="毛泽东"
+            draggable="false"
+        >
+
+        <img
+            src="shufa.svg"
+            class="hero-shufa-signature"
+            alt="书法集"
+            draggable="false"
+        >
+    </div>
+</section>
+
+<main>
+ <section class="calligraphy-heading">
+<button
+    class="index-star-trigger"
+    id="indexTrigger"
+    type="button"
+    onclick="openIndexModal()"
+    aria-label="打开书法索引"
+>
+    <span
+        class="index-star-icon"
+        aria-hidden="true"
+    >
+        <svg
+            viewBox="-50 -50 100 100"
+            width="60"
+            height="60"
+        >
+            <polygon
+                points="
+                    0,-47
+                    11,-14.5
+                    45,-14.5
+                    17.8,6
+                    28.5,38.5
+                    0,18.5
+                    -28.5,38.5
+                    -17.8,6
+                    -45,-14.5
+                    -11,-14.5
+                "
+                fill="#CC0000"
+                stroke="#CC0000"
+                stroke-width="3"
+                stroke-linejoin="round"
+            />
+        </svg>
+    </span>
+</button>
+
+    <div class="category-buttons" id="categoryButtons">
+        <button
+            class="category-btn active"
+            type="button"
+            data-category="诗词手迹"
+        >
+            诗词
+        </button>
+
+        <button
+            class="category-btn"
+            type="button"
+            data-category="题词"
+        >
+            题词
+        </button>
+
+        <button
+            class="category-btn"
+            type="button"
+            data-category="书信"
+        >
+            书信
+        </button>
+    </div>
+</section>
+
+        <section class="calligraphy-stage">
+       <div class="work-view-container">
+                <button class="work-arrow work-prev" id="prevBtn" type="button" onclick="previousWork()" aria-label="上一幅">‹</button>
+
+<div class="work-display visible" id="workDisplay">
+    <h2 class="work-title" id="workTitle">
+        沁园春·长沙
+    </h2>
+
+<div class="work-sheet">
+<img
+    class="work-image"
+    id="workImage"
+    src="calligraphy/1poem.svg"
+    width="1356"
+    height="1655"
+    alt="毛泽东书法作品：沁园春·长沙"
+    draggable="false"
+>
+
+        <div
+            class="work-placeholder"
+            id="workPlaceholder"
+        ></div>
+    </div>
+
+<div
+    class="work-page-dots is-hidden"
+    id="workPageDots"
+    role="group"
+    aria-label="作品分页"
+></div>
+
+    <div
+        class="work-description"
+        id="workDescription"
+    >
+        毛主席手书《沁园春·长沙》（1925年）
+    </div>
+<div
+    class="work-transcription is-hidden"
+    id="workTranscription"
+>
+<button
+    class="transcription-toggle"
+    id="transcriptionToggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="transcriptionPanel"
+    aria-label="展开手迹释文"
+>
+    <span
+        class="transcription-toggle-label"
+        aria-hidden="true"
+    >
+        <span
+            class="
+                transcription-toggle-text
+                transcription-toggle-expand
+            "
+        >
+            展开
+        </span>
+
+        <span
+            class="
+                transcription-toggle-text
+                transcription-toggle-collapse
+            "
+        >
+            收起
+        </span>
+    </span>
+</button>
+
+    <div
+        class="transcription-panel"
+        id="transcriptionPanel"
+        aria-hidden="true"
+    >
+        <div class="transcription-panel-inner">
+            <div
+                class="transcription-content"
+                id="transcriptionContent"
+            ></div>
+        </div>
+    </div>
+</div>
+</div>
+
+                <button class="work-arrow work-next" id="nextBtn" type="button" onclick="nextWork()" aria-label="下一幅">›</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="index-modal is-hidden" id="indexModal" onclick="closeIndexModalByOverlay(event)">
+        <div class="index-panel" role="dialog" aria-modal="true" aria-labelledby="indexModalTitle">
+            <div class="index-header">
+                <h2 class="index-title" id="indexModalTitle">书法索引</h2>
+
+                <div class="index-line" aria-hidden="true">
+                    <span></span>
+                    <strong>★</strong>
+                    <span></span>
+                </div>
+
+                <button class="index-close" type="button" onclick="closeIndexModal()" aria-label="关闭索引">×</button>
+            </div>
+
+            <div class="index-scroll">
+                <div class="index-list" id="indexList"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <h3>继续革命，永不投降！</h3>
+    </footer>
+
+    <script>
+        const CALLIGRAPHY_WORKS = [
+{
+    title: "沁园春·长沙",
+    type: "诗词手迹",
+
+    images: [
+        "calligraphy/1poem.svg",
+        "calligraphy/2poem.svg"
+    ],
+
+    pageFrame: {
+        width: 1356,
+        height: 1655
+    },
+
+    description:
+        "毛主席手书《沁园春·长沙》（1925年）",
+
+    transcription: {
+        layout: "poem",
+
+        title:
+            "沁园春·长沙",
+
+        lines: [
+            "独立寒秋，湘江北去，橘子洲头。",
+            "看万山红遍，层林尽染；漫江碧透，百舸争流。",
+            "鹰击长空，鱼翔浅底，万类霜天竞自由。",
+            "怅寥廓，问苍茫大地，谁主沉浮？",
+
+            "",
+
+      "携来百侣曾游。忆往昔峥嵘岁月稠。",
+      "恰同学少年，风华正茂；书生意气，挥斥方遒。",
+      "指点江山，激扬文字，粪土当年万户侯。",
+      "曾记否，到中流击水，浪遏飞舟？"
+
+
+        ]
+    }
+},
+            {
+                title: "菩萨蛮·黄鹤楼",
+                type: "诗词手迹",
+                image: "calligraphy/3poem.svg",
+    description:
+        "毛主席手书：《菩萨蛮·黄鹤楼》，见《文物》杂志1965年第5期。",
+
+    transcription: {
+        layout: "poem",
+
+        title:
+            "菩萨蛮·黄鹤楼",
+
+        lines: [
+            "茫茫九派流中国，沉沉一线穿南北。烟雨莽苍苍，龟蛇锁大江。",
+           "黄鹤知何去？剩有游人处。把酒酹滔滔，心潮逐浪高！"
+
+
+        ]
+    }
+},
+       
+            {
+                title: "清平乐·会昌",
+                type: "诗词手迹",
+                    image: "calligraphy/4poem.svg",
+          description:
+        "毛主席手书：《清平乐·会昌》，见文物出版社1965年单页。",
+
+    transcription: {
+        layout: "poem",
+
+        title:
+            "清平乐·会昌",
+
+        lines: [
+            "东方欲晓，莫道君行早。踏遍青山人未老，风景这边独好。",
+           "会昌城外高峰，颠连直接东溟。战士指看南粤，更加郁郁葱葱。"
+
+
+        ]
+    }
+},
+            {
+                title: "沁园春·雪",
+                type: "诗词手迹",
+                image: "calligraphy/5poem.svg",
+             description:
+        "毛主席手书：《沁园春·雪》（1936年2月）",
+
+    transcription: {
+        layout: "poem",
+
+        title:
+            "沁园春·雪",
+
+        lines: [
+            "北国风光，千里冰封，万里雪飘。",
+            "望长城内外，惟余莽莽；大河上下，顿失滔滔。",
+            "山舞银蛇，原驰蜡象，欲与天公试比高。",
+            "须晴日，看红装素裹，分外妖娆。",
+            "江山如此多娇，引无数英雄竞折腰。",
+            "惜秦皇汉武，略输文采；唐宗宋祖，稍逊风骚。",
+            "一代天骄，成吉思汗，只识弯弓射大雕。",
+           "俱往矣，数风流人物，还看今朝。"
+
+
+        ]
+    }
+},
+            {
+                title: "浪淘沙·北戴河",
+                type: "诗词手迹",
+                  image: "calligraphy/6poem.svg",
+                 description:
+        "毛主席手书：《浪淘沙·北戴河》（1954年夏）",
+
+    transcription: {
+        layout: "poem",
+
+        title:
+            "浪淘沙·北戴河",
+
+        lines: [
+            "大雨落幽燕，白浪滔天，秦皇岛外打鱼船。一片汪洋都不见，知向谁边？",
+           "往事越千年，魏武挥鞭，东临碣石有遗篇。萧瑟秋风今又是，换了人间。"
+
+
+        ]
+    }
+},
+          {
+              title: "力求进步",
+              type: "题词",
+              image: "calligraphy/1msf.svg",
+              offsetY: -100,
+              description: "“力求进步”，1944年毛主席为中共中央直属机关个人生产展览会题词。"
+           },
+            {
+                title: "为人民服务",
+                type: "题词",
+               image: "calligraphy/2msf.svg",
+                description: "“为人民服务”，1944年毛泽东为中央警卫团战士张思德作了《为人民服务》的著名演讲，并题词。"
+            },
+            {
+                title: "艰苦朴素",
+                type: "题词",
+                image: "calligraphy/3msf.svg",
+                description: "“艰苦朴素”，1960年毛主席为中共中央办公厅工作人员题词。"
+            },
+            {
+                title: "联系群众",
+                type: "题词",
+                image: "calligraphy/4msf.svg",
+                offsetY: -200,
+                description: "“联系群众”，1950年3月毛主席视察沈阳橡胶一厂时的题词。"
+            },
+            {
+                title: "生的伟大，死的光荣",
+                type: "题词",
+                  image: "calligraphy/5msf.svg",
+                offsetY: -200,
+                description: "“生的伟大，死的光荣。”1957年毛主席为刘胡兰烈士陵园重写的题词。"
+            },
+            {
+                title: "百花齐放，推陈出新",
+                type: "题词",
+                 image: "calligraphy/6msf.svg",
+                 offsetY: -150,
+                description: "“百花齐放，推陈出新。”1951年毛主席为中国戏曲研究院成立题词。"
+            },
+           {
+                title: "星星之火，可以燎原",
+                type: "题词",
+                 image: "calligraphy/8msf.svg",
+                 offsetY: -50,
+                description: "“星星之火，可以燎原。”1950年毛主席为全国文代会题词。"
+            },
+           {
+                 title: "军队向前进，生产长一寸",
+                type: "题词",
+                 image: "calligraphy/9msf.svg",
+                 offsetY: -140,
+                description: "“军队向前进，生产长一寸，加强纪律性，革命无不胜。”解放战争时期，毛主席向全党全军全国人民发出的重要号召。"
+            },
+           {
+                title: "发展体育运动，增强人民体质",
+                type: "题词",
+                 image: "calligraphy/10msf.svg",
+                 offsetY: -120,
+                description: "“发展体育运动，增强人民体质。”1952年毛主席为中华全国体育总会成立大会题词。"
+            },
+           {
+                title: "横眉冷对千夫指，俯首甘为孺子牛",
+                type: "题词",
+                 image: "calligraphy/11msf.svg",
+                 offsetY: -120,
+                description: "“横眉冷对千夫指，俯首甘为孺子牛。”1942年毛主席在延安文艺座谈会期间题写的鲁迅诗句。"
+            },
+           {
+                title: "人民英雄永垂不朽",
+                type: "题词",
+                 image: "calligraphy/12msf.svg",
+                 offsetY: -100,
+                description: "“人民英雄永垂不朽。”1955年6月9日毛主席给人民英雄纪念碑的题词。"
+            },
+           {
+                title: "向雷锋同志学习",
+                type: "题词",
+                 image: "calligraphy/13msf.svg",
+                 offsetY: -150,
+                description: "1963年3月毛主席为雷锋同志题词：“向雷锋同志学习”。最早刊于《中国青年》1963年第5-6期合刊，后《人民日报》等转载，3月5日由此成为学雷锋纪念日。"
+            },
+          {
+                title: "自己动手",
+                type: "题词",
+                 image: "calligraphy/14msf.svg",
+                description: "“自己动手”，毛主席在抗日战争时期为部队大生产运动的题词。"
+            },
+          {
+                title: "丰衣足食",
+                type: "题词",
+                 image: "calligraphy/15msf.svg",
+                description: "“丰衣足食”，毛主席在抗日战争时期为部队大生产运动的题词。"
+            },
+          {
+                title: "中华人民共和国各民族团结起来",
+                type: "题词",
+                 image: "calligraphy/16msf.svg",
+                 offsetY: -150,
+                description: "“中华人民共和国各民族团结起来。”1950年毛主席为中央民族访问团的题词。"
+            },
+          {
+                title: "一定要把淮河修好",
+                type: "题词",
+                 image: "calligraphy/17msf.svg",
+                 offsetY: -100,
+                description: "“一定要把淮河修好。”毛主席给中央治淮视察团授予河南省治准总指挥部锦旗上的题词。"
+            },
+          {
+                title: "我们一定要建设一支海军",
+                type: "题词",
+                 image: "calligraphy/18msf.svg",
+                 offsetY: -150,
+                description: "毛主席为《人民海军报》创刊号的题词：“我们一定要建设一支海军，这支海军要能保卫我们的海防，有效地防御帝国主义的可能的侵略。”"
+            },
+          {
+                title: "革命第一、工作第一、他人第一",
+                type: "题词",
+                 image: "calligraphy/19msf.svg",
+                 offsetY: -150,
+                description: "“革命第一、工作第一、他人第一。”1937年1月30日毛主席给徐特立同志六十寿辰祝寿信中的话。"
+            },
+          {
+                title: "五月七日，民国奇耻",
+                type: "题词",
+                 image: "calligraphy/20msf.svg",
+                 offsetY: -100,
+                description: "毛主席1915年夏为湖南一师刊印的《明耻篇》封面题词，全文为：“五月七日，民国奇耻；何以报仇？在我学子！”痛斥日本迫签“二十一条”之耻，号召青年担当救国雪耻之责。"
+            },
+          {
+                title: "勇敢、坚定、沉着",
+                type: "题词",
+                 image: "calligraphy/21msf.svg",
+                 offsetY: -100,
+                description: "“勇敢、坚定、沉着。向斗争中学习。为民族解放事业随时准备牺牲自己的一切！”毛主席为抗大毕业证书上的题词。"
+            },
+          {
+                title: "肯学肯干",
+                type: "题词",
+                 image: "calligraphy/22msf.svg",
+                 offsetY: -150,
+                description: "“肯学肯干，又是革命的，必定是有益的，必定是有前途的。”毛主席1941年新春为延安泽东青年干部学校师生的题词。"
+            },
+          {
+                title: "实事求是",
+                type: "题词",
+                 image: "calligraphy/23msf.svg",
+                description: "“实事求是”，毛主席1942年给延安中央党校的题词。"
+            },
+          {
+                title: "儿童们团结起来",
+                type: "题词",
+                 image: "calligraphy/24msf.svg",
+                 offsetY: -50,
+                description: "“儿童们团结起来学习做新中国的新主人。”毛主席这个题词最初发表在1942年4月延安的报纸上。"
+            },
+          {
+                title: "庆祝抗日胜利",
+                type: "题词",
+                 image: "calligraphy/25msf.svg",
+                 offsetY: -50,
+                description: "“庆祝抗日胜利中华民族解放万岁！”1945抗战胜利，毛主席题词。"
+            },
+          {
+                title: "为人民而死，虽死犹荣",
+                type: "题词",
+                 image: "calligraphy/26msf.svg",
+                 offsetY: -150,
+                description: "“为人民而死，虽死犹荣。”毛主席为“四·八”被难烈士的题词。"
+            },
+     {
+                title: "人民的光荣",
+                type: "题词",
+                 image: "calligraphy/27msf.svg",
+                 offsetY: -70,
+                description: "“人民的光荣”，毛主席1946年12月1日为朱德同志六十大寿题词。"
+            },
+     {
+                title: "坚强的老战士",
+                type: "题词",
+                 image: "calligraphy/28msf.svg",
+                 offsetY: -150,
+                description: "“坚强的老战士，祝特立同志七十寿辰。”毛主席给徐特立同志七十寿辰的题词。"
+            },
+     {
+                title: "现在努力学习，将来努力工作",
+                type: "题词",
+                 image: "calligraphy/29msf.svg",
+                 offsetY: -100,
+                description: "“现在努力学习，将来努力工作。”1948年毛主席为张天义题词。"
+            },
+     {
+                title: "好好学习",
+                type: "题词",
+                 image: "calligraphy/30msf.svg",
+                 offsetY: -120,
+                description: "“好好学习”，毛主席这一题词原刊1949年9月北京出版的《中国儿童》杂志创刊号。"
+            },
+     {
+                title: "天天向上",
+                type: "题词",
+                 image: "calligraphy/44msf.svg",
+                 offsetY: -120,
+                description: "“天天向上”，毛主席这一题词原载1940年4月12日延安出版的《新中华报》。"
+            },
+     {
+                title: "希望有更多好作品问世",
+                type: "题词",
+                 image: "calligraphy/31msf.svg",
+                 offsetY: -100,
+                description: "“希望有更多好作品问世。”1949年9月毛主席为《人民文学》创刊号题词。"
+            },
+     {
+                title: "要做人民的先生，先做人民的学生",
+                type: "题词",
+                 image: "calligraphy/32msf.svg",
+                 offsetY: -150,
+                description: "“要做人民的先生，先做人民的学生。”1950年毛主席为湖南省立第一师范学校题词。"
+            },
+     {
+                title: "首都民兵师",
+                type: "题词",
+                 image: "calligraphy/33msf.svg",
+                description: "“首都民兵师”，1964年毛主席为首都民兵师题字。"
+            },
+     {
+                title: "江山如此多娇",
+                type: "题词",
+                 image: "calligraphy/34msf.svg",
+                description: "“江山如此多娇”，1959年毛主席为人民大会堂傅抱石、关山月所作绘画题词。"
+            },
+     {
+                title: "为建设社会主义而奋斗",
+                type: "题词",
+                 image: "calligraphy/35msf.svg",
+                 offsetY: -150,
+                description: "“为建设社会主义而奋斗”，1958年7月毛主席给曹云芳的题词。"
+            },
+     {
+                title: "红旗",
+                type: "题词",
+                 image: "calligraphy/36msf.svg",
+                 offsetY: -150,
+                description: "“红旗”，1958年5月毛主席为党中央理论刊物《红旗》杂志题写刊名。"
+            },
+     {
+                title: "兵民是胜利之本",
+                type: "题词",
+                 image: "calligraphy/37msf.svg",
+                 offsetY: -120,
+                description: "“兵民是胜利之本”，见《浙江日报》 1965年9月4日。"
+            },
+     {
+                title: "发扬革命传统，争取更大光荣",
+                type: "题词",
+                 image: "calligraphy/38msf.svg",
+                 offsetY: -100,
+                description: "“发扬革命传统，争取更大光荣。”1951年毛主席为老区人民题词。"
+            },
+          {
+                title: "加强防卫，巩固海南",
+                type: "题词",
+                 image: "calligraphy/39msf.svg",
+                 offsetY: -150,
+                description: "“加强防卫，巩固海南。”毛主席为海南岛中线公路纪念碑的题词。"
+            },
+    {
+                title: "以身作则",
+                type: "题词",
+                 image: "calligraphy/43msf.svg",
+                description: "“以身作则”，1943年表彰南泥湾大生产运动中的生产英雄，毛主席为干部罗章题写。"
+            },
+          {
+                title: "站在最大多数劳动人民的一面",
+                type: "题词",
+                 image: "calligraphy/40msf.svg",
+                 offsetY: -50,
+                description: "“站在最大多数劳动人民的一面。”1947年9月毛主席给中共葭县县委的题词。"
+            },
+          {
+                title: "学习马列主义",
+                type: "题词",
+                 image: "calligraphy/41msf.svg",
+                offsetY: -100,
+                description: "“学习马列主义”，1950年毛主席为哈尔滨市团代会题词。"
+            },
+          {
+                title: "东风压倒西风",
+                type: "题词",
+                 image: "calligraphy/42msf.svg",
+                description: "“东风压倒西风”，见《学理论》杂志1963年第4期。"
+            },
+            {
+                title: "提高警惕，保卫祖国",
+                type: "题词",
+                image: "calligraphy/7msf.svg",
+                offsetY: -150,
+                description: "“提高警惕，保卫祖国。”1953年毛主席为公安部队首届功臣模范代表大会题词。"
+         },
+           {
+                title: "人民的胜利",
+                type: "题词",
+                image: "calligraphy/45msf.svg",
+                description: "“人民的胜利”，藏中国人民革命军事博物馆。"
+         },
+       {
+                title: "寄给前线战士们",
+                 type: "书信",
+                image: "calligraphy/5letter.svg",
+                offsetY: -20,
+           description:
+        "“寄给前线战士们。”毛主席在1938年9月18日写给前线将士的慰劳信。",
+
+    transcription: {
+        layout: "letter",
+
+        salutation:
+            "前线英勇抗战的将士们：",
+
+        paragraphs: [
+            "望你们继续发挥你们的英勇精神，奋战到底，达到驱逐日本帝国主义争取最后胜利之目的。一切后方的同胞都是援助你们的。"
+
+        ],
+
+
+signature:
+    "毛泽东",
+
+date:
+    "一九三八年九月十八日"
+
+ }
+},
+
+{
+    title: "给徐特立同志的祝贺信",
+    type: "书信",
+
+    images: [
+        "calligraphy/1letter.svg",
+        "calligraphy/2letter.svg",
+        "calligraphy/3letter.svg",
+        "calligraphy/4letter.svg"
+    ],
+
+    pageFrame: {
+        width: 1469,
+        height: 1851
+    },
+
+    description:
+        "毛主席给徐特立同志六十寿辰的一封祝贺信。",
+
+    transcription: {
+        layout: "letter",
+
+        salutation:
+            "徐老同志：",
+
+        paragraphs: [
+            "你是我二十年前的先生，你现在仍然是我的先生，你将来必定还是我的先生。当革命失败的时候，许多共产党员离开了共产党，有些甚至跑到敌人那边去了，你却在一九二七年秋天加入共产党，而且取的态度是十分积极的。从那时至今长期的艰苦斗争中，你比许多青年壮年党员还要积极，还要不怕困难，还要虚心学习新的东西。什么老，什么身体精神不行，什么困难障碍，在你面前都降服了。而在有些人面前呢，却做了畏葸不前的借口。你是懂得很多而时刻以为不足，而在有些人本来只有半桶水，却偏要淌得很。你是心里想的，就是口里说的与手里做的，而在有些人他们心之某一角落，却不免藏着一些腌臜的东西。你是任何时候都同群众在一块的，而在有些人却似乎以脱离群众为快乐。你是处处表现自己就是服从党的与革命的纪律之模范，而在有些人却似乎以为纪律只是束缚人家的，自己不包括在内。你是革命第一，工作第一，他人第一，而在有人却是出风头第一，休息第一，与自己第一。你总是拣难事做，从来也不躲避责任，而在有些人则只愿意拣轻松事做，遇到担当责任的关头就躲避了。所有这些方面我都是佩服你的，愿意继续地学习你的，也愿意全党同志学习你。当你六十岁生日的时候写这封信祝贺你，愿你健康，愿你长寿，愿你成为一切革命党人与全体人民的模范。"
+
+        ],
+
+closing:
+    "此致",
+
+respect:
+    "革命的敬礼！",
+
+signature:
+    "毛泽东",
+
+date:
+    "一九三七年一月三十日",
+
+location:
+    "于延安"
+    }
+}
+        ];
+
+
+let activeCategory = "诗词手迹";
+let currentList = [];
+
+let currentIndex = 0;
+let transitionLock = null;
+
+const workDisplay =
+    document.getElementById(
+        "workDisplay"
+    );
+
+const workTitle =
+    document.getElementById(
+        "workTitle"
+    );
+
+const workImage =
+    document.getElementById(
+        "workImage"
+    );
+
+const workSheet =
+    document.querySelector(
+        ".work-sheet"
+    );
+
+const workPlaceholder =
+    document.getElementById(
+        "workPlaceholder"
+    );
+
+const workPageDots =
+    document.getElementById(
+        "workPageDots"
+    );
+
+const workDescription =
+    document.getElementById(
+        "workDescription"
+    );
+
+const workTranscription =
+    document.getElementById(
+        "workTranscription"
+    );
+
+const transcriptionToggle =
+    document.getElementById(
+        "transcriptionToggle"
+    );
+
+
+
+const transcriptionPanel =
+    document.getElementById(
+        "transcriptionPanel"
+    );
+
+const transcriptionContent =
+    document.getElementById(
+        "transcriptionContent"
+    );
+
+const prevBtn =
+    document.getElementById(
+        "prevBtn"
+    );
+
+const nextBtn =
+    document.getElementById(
+        "nextBtn"
+    );
+
+const indexModal =
+    document.getElementById(
+        "indexModal"
+    );
+
+const indexList =
+    document.getElementById(
+        "indexList"
+    );
+
+const categoryButtons =
+    document.getElementById(
+        "categoryButtons"
+    );
+
+let currentImagePage = 0;
+
+/*
+ * 把字符串或字符串数组统一转换为数组。
+ * 诗词中的空字符串会被保留，
+ * 用来表示上下阕或段落之间的空行。
+ */
+function getTranscriptionTextList(value) {
+    if (Array.isArray(value)) {
+        return value.map(item =>
+            item == null
+                ? ""
+                : String(item)
+        );
+    }
+
+    if (
+        typeof value === "string"
+    ) {
+        return [value];
+    }
+
+    return [];
+}
+
+
+/*
+ * 创建一个纯文本元素。
+ * 使用 textContent，避免把数据库文字当成HTML解析。
+ */
+function appendTranscriptionElement(
+    parent,
+    tagName,
+    className,
+    text
+) {
+    const element =
+        document.createElement(
+            tagName
+        );
+
+    element.className =
+        className;
+
+    element.textContent =
+        text;
+
+    parent.appendChild(
+        element
+    );
+
+    return element;
+}
+
+
+/*
+ * 每次切换作品时，
+ * 先关闭并清空上一幅作品的释文。
+ */
+function resetWorkTranscription() {
+    workTranscription.classList.add(
+        "is-hidden"
+    );
+
+    workTranscription.classList.remove(
+        "is-open"
+    );
+
+    transcriptionToggle.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+transcriptionToggle.setAttribute(
+    "aria-label",
+    "展开手迹释文"
+);
+
+    transcriptionPanel.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+
+    transcriptionContent.className =
+        "transcription-content";
+
+    transcriptionContent.replaceChildren();
+}
+
+
+/* 渲染诗词释文 */
+function renderPoemTranscription(
+    work,
+    transcription
+) {
+    const lines =
+        getTranscriptionTextList(
+            transcription.lines
+        );
+
+    const hasText =
+        lines.some(line =>
+            line.trim() !== ""
+        );
+
+    if (!hasText) {
+        return false;
+    }
+
+    transcriptionContent.classList.add(
+        "is-poem"
+    );
+
+    appendTranscriptionElement(
+        transcriptionContent,
+        "h3",
+        "transcription-poem-title",
+        transcription.title ||
+            work.title
+    );
+
+    const poemBody =
+        document.createElement(
+            "div"
+        );
+
+    poemBody.className =
+        "transcription-poem-body";
+
+    lines.forEach(line => {
+        const lineElement =
+            document.createElement(
+                "p"
+            );
+
+        lineElement.className =
+            "transcription-poem-line";
+
+        /*
+         * 空字符串表示诗词分节。
+         */
+        if (line.trim() === "") {
+            lineElement.classList.add(
+                "is-gap"
+            );
+
+            lineElement.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+        } else {
+            lineElement.textContent =
+                line;
+        }
+
+        poemBody.appendChild(
+            lineElement
+        );
+    });
+
+    transcriptionContent.appendChild(
+        poemBody
+    );
+
+    return true;
+}
+
+
+/* 渲染书信释文 */
+function renderLetterTranscription(
+    transcription
+) {
+    const salutations =
+        getTranscriptionTextList(
+            transcription.salutation
+        ).filter(text =>
+            text.trim() !== ""
+        );
+
+    const paragraphs =
+        getTranscriptionTextList(
+            transcription.paragraphs
+        ).filter(text =>
+            text.trim() !== ""
+        );
+
+    /*
+     * “此致”：
+     * 空两格显示。
+     */
+    const closing =
+        getTranscriptionTextList(
+            transcription.closing
+        ).filter(text =>
+            text.trim() !== ""
+        );
+
+    /*
+     * “敬礼”：
+     * 顶格显示在“此致”下一行。
+     */
+    const respects =
+        getTranscriptionTextList(
+            transcription.respect
+        ).filter(text =>
+            text.trim() !== ""
+        );
+
+    const signature =
+        typeof transcription.signature ===
+        "string"
+            ? transcription.signature.trim()
+            : "";
+
+    const date =
+        typeof transcription.date ===
+        "string"
+            ? transcription.date.trim()
+            : "";
+
+    const location =
+        typeof transcription.location ===
+        "string"
+            ? transcription.location.trim()
+            : "";
+
+    const hasText =
+        salutations.length > 0 ||
+        paragraphs.length > 0 ||
+        closing.length > 0 ||
+        respects.length > 0 ||
+        signature !== "" ||
+        date !== "" ||
+        location !== "";
+
+    if (!hasText) {
+        return false;
+    }
+
+    transcriptionContent.classList.add(
+        "is-letter"
+    );
+
+    /* 称呼 */
+    salutations.forEach(text => {
+        appendTranscriptionElement(
+            transcriptionContent,
+            "p",
+            "transcription-letter-salutation",
+            text
+        );
+    });
+
+    /* 正文段落 */
+    paragraphs.forEach(text => {
+        appendTranscriptionElement(
+            transcriptionContent,
+            "p",
+            "transcription-letter-paragraph",
+            text
+        );
+    });
+
+    /* 此致：空两格 */
+    closing.forEach(text => {
+        appendTranscriptionElement(
+            transcriptionContent,
+            "p",
+            "transcription-letter-closing",
+            text
+        );
+    });
+
+    /* 敬礼：顶格 */
+    respects.forEach(text => {
+        appendTranscriptionElement(
+            transcriptionContent,
+            "p",
+            "transcription-letter-respect",
+            text
+        );
+    });
+
+    /* 署名 */
+    if (signature !== "") {
+        appendTranscriptionElement(
+            transcriptionContent,
+            "p",
+            "transcription-letter-signature",
+            signature
+        );
+    }
+
+    /* 日期 */
+    if (date !== "") {
+        appendTranscriptionElement(
+            transcriptionContent,
+            "p",
+            "transcription-letter-date",
+            date
+        );
+    }
+
+    /* 地点：放在日期下面 */
+    if (location !== "") {
+        appendTranscriptionElement(
+            transcriptionContent,
+            "p",
+            "transcription-letter-location",
+            location
+        );
+    }
+
+    return true;
+}
+
+/*
+ * 根据当前作品的 transcription 数据，
+ * 自动选择诗词或书信排版。
+ */
+function renderWorkTranscription(work) {
+    resetWorkTranscription();
+
+    const transcription =
+        work?.transcription;
+
+    if (!transcription) {
+        return;
+    }
+
+    let rendered = false;
+
+    if (
+        transcription.layout ===
+        "poem"
+    ) {
+        rendered =
+            renderPoemTranscription(
+                work,
+                transcription
+            );
+    }
+
+    if (
+        transcription.layout ===
+        "letter"
+    ) {
+        rendered =
+            renderLetterTranscription(
+                transcription
+            );
+    }
+
+    /*
+     * 没有有效正文时继续隐藏，
+     * 不留下空标题或空白。
+     */
+    if (!rendered) {
+        resetWorkTranscription();
+        return;
+    }
+
+    workTranscription.classList.remove(
+        "is-hidden"
+    );
+}
+
+
+/* 点击“手迹释文”时展开或收起 */
+function toggleWorkTranscription() {
+    if (
+        workTranscription.classList.contains(
+            "is-hidden"
+        )
+    ) {
+        return;
+    }
+
+    const willOpen =
+        !workTranscription.classList.contains(
+            "is-open"
+        );
+
+    workTranscription.classList.toggle(
+        "is-open",
+        willOpen
+    );
+
+transcriptionToggle.setAttribute(
+    "aria-expanded",
+    String(willOpen)
+);
+
+transcriptionToggle.setAttribute(
+    "aria-label",
+    willOpen
+        ? "收起手迹释文"
+        : "展开手迹释文"
+);
+
+transcriptionPanel.setAttribute(
+    "aria-hidden",
+    String(!willOpen)
+);
+
+
+}
+
+
+transcriptionToggle.addEventListener(
+    "click",
+    toggleWorkTranscription
+);
+
+
+let isWorkDisplayHeightLocked = false;
+let workDisplayHeightLockId = 0;
+
+function lockWorkDisplayHeight() {
+    const currentHeight =
+        Math.ceil(
+            workDisplay.getBoundingClientRect().height
+        );
+
+    if (currentHeight <= 0) {
+        return;
+    }
+
+    /*
+     * 每次重新锁定都生成新的编号，
+     * 让上一轮尚未执行的解锁任务失效。
+     */
+    workDisplayHeightLockId += 1;
+
+    workDisplay.style.minHeight =
+        `${currentHeight}px`;
+
+    isWorkDisplayHeightLocked = true;
+}
+
+function releaseWorkDisplayHeight() {
+    if (!isWorkDisplayHeightLocked) {
+        return;
+    }
+
+    const releaseId =
+        workDisplayHeightLockId;
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            /*
+             * 已经开始了新一轮切换时，
+             * 旧解锁任务不能清除新高度。
+             */
+            if (
+                releaseId !==
+                workDisplayHeightLockId
+            ) {
+                return;
+            }
+
+            workDisplay.style.minHeight =
+                "";
+
+            isWorkDisplayHeightLocked =
+                false;
+        });
+    });
+}
+
+
+const IMAGE_PAGE_FADE_DURATION =
+    400;
+
+
+
+let imagePageTransitionId =
+    0;
+
+
+function buildCurrentList() {
+    currentList = CALLIGRAPHY_WORKS
+        .map((work, index) => ({ work, index }))
+        .filter(item => item.work.type === activeCategory)
+        .map(item => item.index);
+
+    if (!currentList.includes(currentIndex)) {
+        currentIndex = currentList.length > 0
+            ? currentList[0]
+            : -1;
+    }
+}
+
+
+function getWorkImages(work) {
+    if (!work) return [];
+
+    if (
+        Array.isArray(work.images) &&
+        work.images.length > 0
+    ) {
+        return work.images.filter(Boolean);
+    }
+
+    if (work.image) {
+        return [work.image];
+    }
+
+    return [];
+}
+
+
+function applyWorkPageFrame(work) {
+    const images = getWorkImages(work);
+    const frame = work?.pageFrame;
+
+    const enabled =
+        images.length > 1 &&
+        Number(frame?.width) > 0 &&
+        Number(frame?.height) > 0;
+
+    workSheet.classList.toggle(
+        "has-fixed-page-frame",
+        enabled
+    );
+
+    if (enabled) {
+        workSheet.style.setProperty(
+            "--work-page-ratio",
+            `${frame.width} / ${frame.height}`
+        );
+    } else {
+        workSheet.style.removeProperty(
+            "--work-page-ratio"
+        );
+    }
+}
+
+function preloadWorkPageImage(src) {
+    return new Promise((resolve, reject) => {
+        const image = new Image();
+
+        image.onload = resolve;
+        image.onerror = reject;
+        image.src = src;
+    });
+}
+
+function cancelWorkPageTransition() {
+    imagePageTransitionId += 1;
+
+    workImage.classList.remove(
+        "is-page-changing"
+    );
+}
+
+
+/* 隐藏并清空分页圆点 */
+function hideWorkPageDots() {
+    workPageDots.innerHTML = "";
+
+    workPageDots.classList.add(
+        "is-hidden"
+    );
+}
+
+
+/* 更新哪个圆点是红色激活状态 */
+function updateWorkPageDotState() {
+    const dots =
+        workPageDots.querySelectorAll(
+            ".work-page-dot"
+        );
+
+    dots.forEach((dot, index) => {
+        const isActive =
+            index === currentImagePage;
+
+        dot.classList.toggle(
+            "is-active",
+            isActive
+        );
+
+        dot.setAttribute(
+            "aria-pressed",
+            String(isActive)
+        );
+    });
+}
+
+
+/* 根据作品的图片数量生成圆点 */
+function renderWorkPageDots(work) {
+    const images =
+        getWorkImages(work);
+
+    workPageDots.innerHTML = "";
+
+    /*
+     * 一张或没有图片时，
+     * 不显示圆点。
+     */
+    if (images.length <= 1) {
+        workPageDots.classList.add(
+            "is-hidden"
+        );
+
+        return;
+    }
+
+    workPageDots.classList.remove(
+        "is-hidden"
+    );
+
+    images.forEach((image, index) => {
+        const dot =
+            document.createElement(
+                "button"
+            );
+
+        dot.type = "button";
+        dot.className =
+            "work-page-dot";
+
+        dot.setAttribute(
+            "aria-label",
+            `显示第${index + 1}页`
+        );
+
+        dot.addEventListener(
+            "click",
+            () => {
+                changeWorkImagePage(
+                    index
+                );
+            }
+        );
+
+        workPageDots.appendChild(
+            dot
+        );
+    });
+
+    updateWorkPageDotState();
+}
+
+
+async function changeWorkImagePage(pageIndex) {
+    const workIndex = currentIndex;
+    const work = CALLIGRAPHY_WORKS[workIndex];
+
+if (!work) {
+    return;
+}
+
+    const images = getWorkImages(work);
+
+    if (
+        pageIndex < 0 ||
+        pageIndex >= images.length ||
+        pageIndex === currentImagePage
+    ) {
+        return;
+    }
+
+    const previousPage = currentImagePage;
+    const targetSrc = images[pageIndex];
+const transitionId =
+    ++imagePageTransitionId;
+
+workImage.classList.remove(
+    "is-page-changing"
+);
+
+currentImagePage = pageIndex;
+    updateWorkPageDotState();
+
+    try {
+        await preloadWorkPageImage(
+            targetSrc
+        );
+    } catch (error) {
+        if (
+            transitionId === imagePageTransitionId &&
+            currentIndex === workIndex
+        ) {
+            currentImagePage = previousPage;
+            updateWorkPageDotState();
+        }
+
+        return;
+    }
+
+    if (
+        transitionId !== imagePageTransitionId ||
+        currentIndex !== workIndex
+    ) {
+        return;
+    }
+
+void workImage.offsetHeight;
+
+workImage.classList.add(
+    "is-page-changing"
+);
+
+    setTimeout(() => {
+        if (
+            transitionId !== imagePageTransitionId ||
+            currentIndex !== workIndex
+        ) {
+            return;
+        }
+
+        workImage.src = targetSrc;
+
+        workImage.alt =
+            `毛泽东书法作品：${work.title}（第${pageIndex + 1}页）`;
+
+requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+        if (
+            transitionId !== imagePageTransitionId ||
+            currentIndex !== workIndex
+        ) {
+            return;
+        }
+
+        workImage.classList.remove(
+            "is-page-changing"
+        );
+    });
+});
+    }, IMAGE_PAGE_FADE_DURATION);
+}
+
+
+function showCurrentWork() {
+    const work =
+        currentIndex >= 0
+            ? CALLIGRAPHY_WORKS[
+                currentIndex
+            ]
+            : null;
+
+cancelWorkPageTransition();
+currentImagePage = 0;
+
+/*
+ * 每次切换作品时，
+ * 更新释文并默认恢复收起状态。
+ */
+renderWorkTranscription(work);
+
+/* 当前分类没有作品 */
+if (!work) {
+        const categoryName =
+            activeCategory ===
+            "诗词手迹"
+                ? "诗词"
+                : activeCategory;
+
+        workTitle.textContent =
+            categoryName;
+
+        workDescription.textContent =
+            "";
+
+        workImage.onload = null;
+        workImage.onerror = null;
+
+        workImage.removeAttribute(
+            "src"
+        );
+
+        workImage.style.display =
+            "none";
+
+        workImage.style.marginTop =
+            "0";
+
+        workPlaceholder.textContent =
+            `${categoryName}作品待收录`;
+
+        workPlaceholder.style.display =
+            "flex";
+
+    applyWorkPageFrame(null);
+hideWorkPageDots();
+
+  updateArrowState();
+updateCurrentIndexItem();
+
+releaseWorkDisplayHeight();
+
+return;
+    }
+
+    workTitle.textContent =
+        work.title;
+
+    workDescription.textContent =
+        work.description || "";
+
+    const images =
+        getWorkImages(work);
+applyWorkPageFrame(work);
+
+    /*
+     * 作品存在，但是没有设置图片。
+     */
+    if (images.length === 0) {
+        workImage.onload = null;
+        workImage.onerror = null;
+
+        workImage.removeAttribute(
+            "src"
+        );
+
+        workImage.style.display =
+            "none";
+
+        workPlaceholder.textContent =
+            work.title;
+
+        workPlaceholder.style.display =
+            "flex";
+
+applyWorkPageFrame(null);
+
+        hideWorkPageDots();
+
+ updateArrowState();
+updateCurrentIndexItem();
+
+releaseWorkDisplayHeight();
+
+return;
+    }
+
+    workPlaceholder.textContent =
+        work.title;
+
+    workPlaceholder.style.display =
+        "none";
+
+    workImage.style.display =
+        "block";
+
+    workImage.alt =
+        images.length > 1
+            ? `毛泽东书法作品：${work.title}（第1页）`
+            : `毛泽东书法作品：${work.title}`;
+
+workImage.onerror = () => {
+    workImage.style.display =
+        "none";
+
+    workPlaceholder.style.display =
+        "flex";
+
+    /*
+     * 图片失败时也要解除，
+     * 避免临时高度一直保留。
+     */
+    releaseWorkDisplayHeight();
+};
+
+workImage.onload = () => {
+    workImage.style.display =
+        "block";
+
+    workPlaceholder.style.display =
+        "none";
+
+    /*
+     * 新SVG已经有真实尺寸，
+     * 此时再解除临时高度。
+     */
+    releaseWorkDisplayHeight();
+};
+
+    workImage.style.marginTop =
+        `${work.offsetY ?? 0}px`;
+
+    workImage.removeAttribute(
+        "width"
+    );
+
+    workImage.removeAttribute(
+        "height"
+    );
+
+    /*
+     * 默认显示第一张图片。
+     */
+    workImage.src =
+        images[0];
+
+    /*
+     * 两张及以上才显示圆点。
+     */
+    renderWorkPageDots(work);
+
+    updateArrowState();
+    updateCurrentIndexItem();
+}
+
+function switchWorkWithFade(callback) {
+    if (transitionLock) return;
+
+    /*
+     * 渐隐以前记录当前完整高度。
+     * 即使新SVG加载时暂时没有高度，
+     * 展示区域也不会突然收缩。
+     */
+    lockWorkDisplayHeight();
+
+    workDisplay.classList.remove(
+        "visible"
+    );
+
+    transitionLock = setTimeout(() => {
+        callback();
+
+        /*
+         * 强制浏览器确认隐藏状态。
+         */
+        void workDisplay.offsetHeight;
+
+        requestAnimationFrame(() => {
+            workDisplay.classList.add(
+                "visible"
+            );
+
+            transitionLock = null;
+        });
+    }, 400);
+}
+
+function updateArrowState() {
+    const hasMultipleWorks = currentList.length > 1;
+
+    prevBtn.classList.toggle("hidden", !hasMultipleWorks);
+    nextBtn.classList.toggle("hidden", !hasMultipleWorks);
+}
+
+function changeWork(step) {
+    if (currentList.length < 2) return;
+
+    switchWorkWithFade(() => {
+        let currentPosition =
+            currentList.indexOf(currentIndex);
+
+        if (currentPosition < 0) {
+            currentPosition = 0;
+        }
+
+        currentPosition = (
+            currentPosition +
+            step +
+            currentList.length
+        ) % currentList.length;
+
+        currentIndex =
+            currentList[currentPosition];
+
+        showCurrentWork();
+    });
+}
+
+        function previousWork() {
+            changeWork(-1);
+        }
+
+        function nextWork() {
+            changeWork(1);
+        }
+
+function updateCategorySlider() {
+    const activeButton =
+        document.querySelector(".category-btn.active");
+
+    if (!activeButton || !categoryButtons) return;
+
+    const isMobile =
+        window.matchMedia("(max-width: 768px)").matches;
+
+    const extraWidth = isMobile ? 12 : 18;
+    const extraHeight = isMobile ? 12 : 18;
+
+    const x =
+        activeButton.offsetLeft -
+        extraWidth / 2;
+
+    const y =
+        activeButton.offsetTop -
+        extraHeight / 2;
+
+    const width =
+        activeButton.offsetWidth +
+        extraWidth;
+
+    const height =
+        activeButton.offsetHeight +
+        extraHeight;
+
+    categoryButtons.style.setProperty(
+        "--slider-x",
+        `${x}px`
+    );
+
+    categoryButtons.style.setProperty(
+        "--slider-y",
+        `${y}px`
+    );
+
+    categoryButtons.style.setProperty(
+        "--slider-width",
+        `${width}px`
+    );
+
+    categoryButtons.style.setProperty(
+        "--slider-height",
+        `${height}px`
+    );
+
+    categoryButtons.classList.add("has-active");
+}
+
+function switchCategory(category) {
+    if (activeCategory === category) return;
+
+    activeCategory = category;
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.category === category
+            );
+        });
+
+    updateCategorySlider();
+
+    switchWorkWithFade(() => {
+        buildCurrentList();
+        showCurrentWork();
+    });
+}
+
+function initCategoryButtons() {
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(button => {
+            button.addEventListener("click", function () {
+                switchCategory(this.dataset.category);
+            });
+        });
+}
+
+function initCategorySlider() {
+    if (!categoryButtons) return;
+
+    categoryButtons.classList.add(
+        "no-slider-transition",
+        "has-active"
+    );
+
+    updateCategorySlider();
+
+    /* 强制浏览器先完成第一次布局 */
+    categoryButtons.offsetHeight;
+
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            categoryButtons.classList.remove(
+                "no-slider-transition"
+            );
+        });
+    });
+
+    window.addEventListener("resize", () => {
+        updateCategorySlider();
+    });
+}
+
+    function buildIndex() {
+    indexList.innerHTML = "";
+
+    /*
+     * 索引弹窗里的三个分类。
+     * type 必须与数据库中的 work.type 完全一致。
+     */
+    const indexGroups = [
+        {
+            type: "诗词手迹",
+            title: "诗词"
+        },
+        {
+            type: "题词",
+            title: "题词"
+        },
+        {
+            type: "书信",
+            title: "书信"
+        }
+    ];
+
+    indexGroups.forEach(groupConfig => {
+        /*
+         * 找出当前分类下面的所有作品，
+         * 同时保留它们在总数据库里的真实下标。
+         */
+        const worksInGroup =
+            CALLIGRAPHY_WORKS
+                .map((work, index) => ({
+                    work,
+                    index
+                }))
+                .filter(item =>
+                    item.work.type ===
+                    groupConfig.type
+                );
+
+        /*
+         * 当前分类没有作品时，
+         * 不生成空的分类区块。
+         */
+        if (worksInGroup.length === 0) {
+            return;
+        }
+
+        const group =
+            document.createElement(
+                "section"
+            );
+
+        group.className =
+            "index-group";
+
+        const groupTitle =
+            document.createElement(
+                "h3"
+            );
+
+        groupTitle.className =
+            "index-group-title";
+
+        groupTitle.textContent =
+            groupConfig.title;
+
+        const itemsContainer =
+            document.createElement(
+                "div"
+            );
+
+        itemsContainer.className =
+            "index-items";
+
+        worksInGroup.forEach(
+            ({ work, index }) => {
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+                button.type = "button";
+
+                button.className =
+                    "index-item";
+
+                button.textContent =
+                    work.title;
+
+                /*
+                 * 保存作品在总数据库中的真实位置。
+                 * 分组以后不能再单纯使用按钮顺序判断。
+                 */
+                button.dataset.workIndex =
+                    String(index);
+
+                button.addEventListener(
+                    "click",
+                    () => {
+                        closeIndexModal();
+
+                        setTimeout(() => {
+                            activeCategory =
+                                work.type;
+
+                            document
+                                .querySelectorAll(
+                                    ".category-btn"
+                                )
+                                .forEach(
+                                    categoryButton => {
+                                        categoryButton
+                                            .classList
+                                            .toggle(
+                                                "active",
+                                                categoryButton
+                                                    .dataset
+                                                    .category ===
+                                                    activeCategory
+                                            );
+                                    }
+                                );
+
+                            updateCategorySlider();
+
+                            switchWorkWithFade(
+                                () => {
+                                    buildCurrentList();
+
+                                    currentIndex =
+                                        index;
+
+                                    showCurrentWork();
+                                }
+                            );
+                        }, 250);
+                    }
+                );
+
+                itemsContainer.appendChild(
+                    button
+                );
+            }
+        );
+
+        group.appendChild(
+            groupTitle
+        );
+
+        group.appendChild(
+            itemsContainer
+        );
+
+        indexList.appendChild(
+            group
+        );
+    });
+
+    updateCurrentIndexItem();
+}
+
+function updateCurrentIndexItem() {
+    const items =
+        indexList.querySelectorAll(
+            ".index-item"
+        );
+
+    items.forEach(item => {
+        const workIndex =
+            Number(
+                item.dataset.workIndex
+            );
+
+        item.classList.toggle(
+            "is-current",
+            workIndex === currentIndex
+        );
+    });
+}
+
+        function openIndexModal() {
+            updateCurrentIndexItem();
+            indexModal.classList.remove("is-hidden");
+            document.body.classList.add("modal-open");
+        }
+
+        function closeIndexModal() {
+            indexModal.classList.add("is-hidden");
+            document.body.classList.remove("modal-open");
+        }
+
+        function closeIndexModalByOverlay(event) {
+            if (event.target === indexModal) {
+                closeIndexModal();
+            }
+        }
+
+
+        function fixMobileArrowTap() {
+            const buttons = document.querySelectorAll(".work-arrow");
+
+            function isMobile() {
+                return window.matchMedia("(max-width: 768px)").matches;
+            }
+
+            buttons.forEach(button => {
+                const release = () => {
+                    if (!isMobile()) return;
+
+                    setTimeout(() => {
+                        button.classList.remove("is-tapping");
+                        button.blur();
+                    }, 160);
+                };
+
+                button.addEventListener("pointerdown", () => {
+                    if (isMobile()) button.classList.add("is-tapping");
+                });
+
+                button.addEventListener("pointerup", release);
+                button.addEventListener("pointercancel", release);
+                button.addEventListener("pointerleave", release);
+            });
+        }
+
+
+        document.addEventListener("keydown", event => {
+if (event.key === "Escape") {
+    if (!indexModal.classList.contains("is-hidden")) {
+        closeIndexModal();
+    }
+
+    return;
+}
+
+ if (!indexModal.classList.contains("is-hidden")) {
+    return;
+}
+
+            if (event.key === "ArrowLeft") {
+                previousWork();
+            }
+
+            if (event.key === "ArrowRight") {
+                nextWork();
+            }
+        });
+
+buildCurrentList();
+buildIndex();
+
+/*
+ * 初始化当前第一幅作品，
+ * 同时生成《沁园春·长沙》的两个分页圆点。
+ */
+showCurrentWork();
+
+initCategoryButtons();
+initCategorySlider();
+
+updateArrowState();
+
+fixMobileArrowTap();
+
+/* === 书法索引红星：革命之声同款悬停旋转 === */
+const indexStarTrigger =
+    document.getElementById(
+        "indexTrigger"
+    );
+
+const indexStarIcon =
+    indexStarTrigger.querySelector(
+        ".index-star-icon"
+    );
+
+/*
+ * 与 index 革命之声红星相同：
+ * 每一整圈持续 6000 毫秒。
+ */
+const INDEX_STAR_SPIN_DURATION = 6000;
+
+let indexStarPendingStop = false;
+let indexStarAnimationStartTime = 0;
+
+
+/* 鼠标进入：开始旋转 */
+function startIndexStarSpin() {
+    indexStarPendingStop = false;
+
+    /*
+     * 清除上一次鼠标移出时设置的
+     * 缓慢归位时间。
+     */
+    indexStarTrigger.style.transition = "";
+
+    if (
+        !indexStarIcon.classList.contains(
+            "spinning"
+        )
+    ) {
+        indexStarIcon.classList.add(
+            "spinning"
+        );
+
+        indexStarAnimationStartTime =
+            performance.now();
+    }
+}
+
+
+/*
+ * 鼠标移出：
+ * 不立刻把红星硬停在半圈位置，
+ * 而是等待当前这一圈转完。
+ */
+function stopIndexStarSpin() {
+    if (
+        indexStarTrigger.matches(
+            ":hover"
+        )
+    ) {
+        return;
+    }
+
+    indexStarPendingStop = true;
+
+    const elapsed = (
+        performance.now() -
+        indexStarAnimationStartTime
+    ) % INDEX_STAR_SPIN_DURATION;
+
+    const remaining =
+        INDEX_STAR_SPIN_DURATION -
+        elapsed;
+
+    /*
+     * 与 index 页面一样，
+     * 外层红星按照剩余旋转时间
+     * 慢慢从 1.25 倍回到原尺寸。
+     */
+    indexStarTrigger.style.transition =
+        `transform ${remaining}ms linear`;
+}
+
+
+indexStarTrigger.addEventListener(
+    "mouseenter",
+    startIndexStarSpin
+);
+
+indexStarTrigger.addEventListener(
+    "mouseleave",
+    stopIndexStarSpin
+);
+
+
+indexStarIcon.addEventListener(
+    "animationiteration",
+    () => {
+        if (!indexStarPendingStop) {
+            return;
+        }
+
+        indexStarIcon.classList.remove(
+            "spinning"
+        );
+
+        indexStarPendingStop = false;
+
+        indexStarTrigger.style.transition =
+            "";
+    }
+);
+
+/* === 首屏签名渐显结束后，彻底卸载动画层 === */
+document
+    .querySelectorAll(
+        ".hero-mao-signature, .hero-shufa-signature"
+    )
+    .forEach(signature => {
+        signature.addEventListener(
+            "animationend",
+            event => {
+                /*
+                 * 只处理签名的渐显动画，
+                 * 避免其他动画事件误触发。
+                 */
+                if (
+                    event.animationName !==
+                    "heroCalligraphyFade"
+                ) {
+                    return;
+                }
+
+                signature.classList.add(
+                    "is-crisp"
+                );
+            },
+            {
+                once: true
+            }
+        );
+    });
+/* === 记录当前页面滚动位置 === */
+const HERO_SCROLL_STORAGE_KEY =
+    `calligraphy-scroll:${location.pathname}`;
+
+let scrollSaveFrame = null;
+
+window.addEventListener(
+    "scroll",
+    () => {
+        /*
+         * 每一帧最多记录一次，
+         * 避免滚动时频繁写入存储。
+         */
+        if (scrollSaveFrame !== null) {
+            return;
+        }
+
+        scrollSaveFrame =
+            requestAnimationFrame(() => {
+                try {
+                    sessionStorage.setItem(
+                        HERO_SCROLL_STORAGE_KEY,
+                        String(window.scrollY)
+                    );
+                } catch (error) {
+                    /* 存储不可用时不影响页面功能 */
+                }
+
+                scrollSaveFrame = null;
+            });
+    },
+    {
+        passive: true
+    }
+);
+
+window.addEventListener(
+    "pagehide",
+    () => {
+        try {
+            sessionStorage.setItem(
+                HERO_SCROLL_STORAGE_KEY,
+                String(window.scrollY)
+            );
+        } catch (error) {
+            /* 存储不可用时不影响页面功能 */
+        }
+    }
+);
+
+/* === 浏览器恢复滚动位置后显示首屏 === */
+function revealHeroAfterScrollRestore() {
+    const root =
+        document.documentElement;
+
+    if (
+        !root.classList.contains(
+            "hide-hero-during-restore"
+        )
+    ) {
+        return;
+    }
+
+    const restorePoint = Number(
+        root.dataset.heroRestorePoint || 0
+    );
+
+function checkScrollPosition() {
+    /*
+     * 隐藏类已经被正常恢复逻辑或两秒保险删除，
+     * 立即停止检测循环。
+     */
+    if (
+        !root.classList.contains(
+            "hide-hero-during-restore"
+        )
+    ) {
+        return;
+    }
+
+    const hasRestored =
+        window.scrollY >= restorePoint;
+
+    /*
+     * 浏览器已经恢复到首屏下面，
+     * 解除隐藏并停止检测。
+     */
+    if (hasRestored) {
+        root.classList.remove(
+            "hide-hero-during-restore"
+        );
+
+
+        delete root.dataset.heroRestorePoint;
+
+        return;
+    }
+
+    requestAnimationFrame(
+        checkScrollPosition
+    );
+}
+
+    requestAnimationFrame(
+        checkScrollPosition
+    );
+}
+
+
+
+window.addEventListener(
+    "pageshow",
+    revealHeroAfterScrollRestore,
+    {
+        once: true
+    }
+);
+
+window.setTimeout(() => {
+    const root =
+        document.documentElement;
+
+    root.classList.remove(
+        "hide-hero-during-restore"
+    );
+
+    delete root.dataset.heroRestorePoint;
+}, 2000);
+    </script>
+</body>
+</html>
