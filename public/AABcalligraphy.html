@@ -2587,6 +2587,78 @@ const categoryButtons =
 let currentImagePage = 0;
 
 /*
+ * 手机端书法位置修正：
+ *
+ * 1. 电脑端继续使用原来的 offsetY；
+ * 2. 手机端只修正“题词”分类；
+ * 3. 只有竖版题词才使用手机端偏移；
+ * 4. 横版题词、诗词和书信保持原来的位置；
+ * 5. 某一幅可以用 mobileOffsetY 单独微调。
+ */
+const mobileWorkMedia =
+    window.matchMedia(
+        "(max-width: 768px)"
+    );
+
+function applyWorkImageOffset(work) {
+    if (!work) {
+        workImage.style.marginTop =
+            "0px";
+
+        return;
+    }
+
+    /*
+     * 电脑端原始偏移。
+     */
+    const desktopOffset =
+        Number(work.offsetY) || 0;
+
+    let finalOffset =
+        desktopOffset;
+
+    /*
+     * 必须等图片加载完成后，
+     * naturalWidth / naturalHeight 才能判断横竖版。
+     */
+    const hasRealSize =
+        workImage.naturalWidth > 0 &&
+        workImage.naturalHeight > 0;
+
+    const isPortraitImage =
+        hasRealSize &&
+        workImage.naturalHeight >
+            workImage.naturalWidth;
+
+    /*
+     * 只在手机端修正竖版题词。
+     */
+    if (
+        mobileWorkMedia.matches &&
+        work.type === "题词" &&
+        isPortraitImage
+    ) {
+        const customMobileOffset =
+            Number(work.mobileOffsetY);
+
+        /*
+         * 如果数据库中写了 mobileOffsetY，
+         * 就使用单独设置的数值；
+         * 否则默认向下留 24px。
+         */
+        finalOffset =
+            Number.isFinite(
+                customMobileOffset
+            )
+                ? customMobileOffset
+                : 24;
+    }
+
+    workImage.style.marginTop =
+        `${finalOffset}px`;
+}
+
+/*
  * 把字符串或字符串数组统一转换为数组。
  * 诗词中的空字符串会被保留，
  * 用来表示上下阕或段落之间的空行。
@@ -3462,14 +3534,21 @@ workImage.onload = () => {
         "none";
 
     /*
+     * 图片加载完成后，
+     * 根据真实宽高判断它是横版还是竖版，
+     * 再应用电脑端或手机端偏移。
+     */
+    applyWorkImageOffset(work);
+
+    /*
      * 新SVG已经有真实尺寸，
      * 此时再解除临时高度。
      */
     releaseWorkDisplayHeight();
 };
 
-    workImage.style.marginTop =
-        `${work.offsetY ?? 0}px`;
+workImage.style.marginTop =
+    "0px";
 
     workImage.removeAttribute(
         "width"
@@ -3936,6 +4015,34 @@ initCategorySlider();
 updateArrowState();
 
 fixMobileArrowTap();
+
+
+mobileWorkMedia.addEventListener(
+    "change",
+    () => {
+        const work =
+            currentIndex >= 0
+                ? CALLIGRAPHY_WORKS[
+                    currentIndex
+                ]
+                : null;
+
+        /*
+         * 当前没有作品，或者图片还没有完成加载，
+         * 就不进行处理。
+         */
+        if (
+            !work ||
+            !workImage.complete ||
+            workImage.naturalWidth <= 0 ||
+            workImage.naturalHeight <= 0
+        ) {
+            return;
+        }
+
+        applyWorkImageOffset(work);
+    }
+);
 
 /* === 书法索引红星：革命之声同款悬停旋转 === */
 const indexStarTrigger =
