@@ -1605,7 +1605,7 @@ header::after {
 
 
 .transcription-content {
-    padding-top: 20px;
+    padding-top: 32px;
 
     font-size: 15px;
     line-height: 1.95;
@@ -2168,6 +2168,7 @@ header::after {
                 type: "题词",
                  image: "calligraphy/8msf.svg",
                  offsetY: -50,
+                 mobileOffsetY: -30,
                 description: "“星星之火，可以燎原。”1950年毛主席为全国文代会题词。"
             },
            {
@@ -2739,29 +2740,24 @@ function applyWorkImageOffset(work) {
         workImage.naturalHeight >
             workImage.naturalWidth;
 
-    /*
-     * 只在手机端修正竖版题词。
-     */
+if (mobileWorkMedia.matches) {
+    const customMobileOffset =
+        Number(work.mobileOffsetY);
+
     if (
-        mobileWorkMedia.matches &&
+        Number.isFinite(
+            customMobileOffset
+        )
+    ) {
+        finalOffset =
+            customMobileOffset;
+    } else if (
         work.type === "题词" &&
         isPortraitImage
     ) {
-        const customMobileOffset =
-            Number(work.mobileOffsetY);
-
-        /*
-         * 如果数据库中写了 mobileOffsetY，
-         * 就使用单独设置的数值；
-         * 否则默认向下留 24px。
-         */
-        finalOffset =
-            Number.isFinite(
-                customMobileOffset
-            )
-                ? customMobileOffset
-                : 24;
+        finalOffset = 24;
     }
+}
 
     workImage.style.marginTop =
         `${finalOffset}px`;
