@@ -25,8 +25,7 @@
             navigation.type === "reload";
 
         /*
-         * 只有刷新页面才启动恢复保护。
-         * 首次进入和普通跳转不受影响。
+         * 只有刷新页面才启动防闪保护。
          */
         if (!isReload) {
             return;
@@ -50,16 +49,13 @@
             return;
         }
 
-        const heroHeight =
-            window.innerHeight;
-
         /*
-         * 刷新前仍然位于首屏内，
-         * 不需要启动隐藏保护。
+         * 刷新前位于首屏内部，
+         * 不需要隐藏首屏。
          */
         if (
             savedY <
-            heroHeight - 4
+            window.innerHeight - 4
         ) {
             return;
         }
@@ -68,17 +64,13 @@
             document.documentElement;
 
         /*
-         * 在浏览器第一次绘制前，
-         * 立即隐藏首屏和顶部导航。
+         * 在第一次绘制前隐藏首屏和Logo。
+         * 只影响可见性，不改变布局。
          */
         root.classList.add(
             "hide-hero-during-restore"
         );
 
-        /*
-         * 保存精确滚动目标，
-         * 不再只判断“有没有离开首屏”。
-         */
         root.dataset.savedScrollY =
             String(savedY);
 
@@ -88,19 +80,9 @@
                 : "0";
 
         /*
-         * 这一次刷新由我们的代码负责恢复位置，
-         * 避免和浏览器原生恢复机制互相争抢。
+         * 不修改history.scrollRestoration。
+         * 完全交给浏览器原生恢复滚动位置。
          */
-        if (
-            "scrollRestoration"
-            in history
-        ) {
-            history.scrollRestoration =
-                "manual";
-
-            root.dataset.manualScrollRestore =
-                "1";
-        }
     })();
 </script>
 
@@ -4464,7 +4446,7 @@ document
             }
         );
     });
-/* === 精确记录并恢复页面滚动位置 === */
+/* === 记录滚动位置，并等待浏览器原生恢复稳定 === */
 const HERO_SCROLL_STORAGE_KEY =
     `calligraphy-scroll:${location.pathname}`;
 
@@ -4473,13 +4455,24 @@ const HERO_BOTTOM_STORAGE_KEY =
 
 let scrollSaveFrame = null;
 
+
 /*
- * 保存当前滚动位置，
- * 同时记录用户是否已经到达页面最底部。
+ * 保存用户正常滚动的位置。
+ *
+ * 浏览器正在恢复位置时不保存，
+ * 避免把加载过程中的临时位置写进存储。
  */
 function saveScrollRestoreState() {
     const root =
         document.documentElement;
+
+    if (
+        root.classList.contains(
+            "hide-hero-during-restore"
+        )
+    ) {
+        return;
+    }
 
     const maxScrollY =
         Math.max(
@@ -4488,10 +4481,6 @@ function saveScrollRestoreState() {
                 window.innerHeight
         );
 
-    /*
-     * 留12px容差，解决小数像素、
-     * 浏览器缩放和移动端地址栏造成的误差。
-     */
     const isAtBottom =
         maxScrollY -
             window.scrollY <=
@@ -4519,8 +4508,7 @@ function saveScrollRestoreState() {
 
 
 /*
- * 滚动过程中每一帧最多保存一次，
- * 避免频繁写入 sessionStorage。
+ * 正常滚动时，每一帧最多保存一次。
  */
 window.addEventListener(
     "scroll",
@@ -4548,8 +4536,7 @@ window.addEventListener(
 
 
 /*
- * 刷新或离开页面前，
- * 再精确保存最后一次位置。
+ * 离开或刷新前进行最后一次保存。
  */
 window.addEventListener(
     "pagehide",
@@ -4559,8 +4546,11 @@ window.addEventListener(
 );
 
 
-/* === 结束恢复并重新显示首屏和导航 === */
-function finishScrollRestore() {
+/*
+ * 浏览器原生恢复完成后，
+ * 解除首屏和Logo的隐藏。
+ */
+function finishNativeScrollRestore() {
     const root =
         document.documentElement;
 
@@ -4568,29 +4558,26 @@ function finishScrollRestore() {
         "hide-hero-during-restore"
     );
 
-    /*
-     * 恢复完成后，
-     * 将浏览器滚动恢复方式还原。
-     */
-    if (
-        root.dataset
-            .manualScrollRestore ===
-            "1" &&
-        "scrollRestoration"
-            in history
-    ) {
-        history.scrollRestoration =
-            "auto";
-    }
-
     delete root.dataset.savedScrollY;
     delete root.dataset.restoreAtBottom;
-    delete root.dataset.manualScrollRestore;
+
+    /*
+     * 解除隐藏以后，
+     * 再保存一次浏览器最终恢复的位置。
+     */
+    requestAnimationFrame(
+        saveScrollRestoreState
+    );
 }
 
 
-/* === 精确恢复刷新前的位置 === */
-function restoreScrollPosition() {
+/*
+ * 只观察滚动位置和页面高度。
+ *
+ * 这里绝对不调用scrollTo，
+ * 因此不会再推动页脚或造成页面跳动。
+ */
+function revealAfterNativeScrollRestore() {
     const root =
         document.documentElement;
 
@@ -4602,31 +4589,51 @@ function restoreScrollPosition() {
         return;
     }
 
-    const savedY = Number(
-        root.dataset.savedScrollY ||
-            0
-    );
+    const savedY =
+        Number(
+            root.dataset.savedScrollY ||
+                0
+        );
 
     const restoreAtBottom =
         root.dataset.restoreAtBottom ===
         "1";
 
-    /*
-     * 要连续多帧同时满足：
-     *
-     * 1. 已经到达目标位置；
-     * 2. 页面最大滚动高度没有继续变化。
-     *
-     * 才认为恢复真正完成。
-     */
+    let previousScrollY = null;
+    let previousMaxScrollY = null;
+
     let stableFrameCount = 0;
     let checkedFrameCount = 0;
-    let previousMaxScrollY = -1;
 
-    const REQUIRED_STABLE_FRAMES = 4;
-    const MAX_CHECK_FRAMES = 300;
+    /*
+     * 连续8帧稳定后再显示。
+     * 大约只需一百多毫秒。
+     */
+    const REQUIRED_STABLE_FRAMES = 8;
 
-    function restoreFrame() {
+    /*
+     * 最长等待约6秒，
+     * 防止极端环境下一直隐藏。
+     */
+    const MAX_CHECK_FRAMES = 360;
+
+    let pageFullyLoaded =
+        document.readyState ===
+        "complete";
+
+    if (!pageFullyLoaded) {
+        window.addEventListener(
+            "load",
+            () => {
+                pageFullyLoaded = true;
+            },
+            {
+                once: true
+            }
+        );
+    }
+
+    function checkNativeRestore() {
         if (
             !root.classList.contains(
                 "hide-hero-during-restore"
@@ -4635,48 +4642,9 @@ function restoreScrollPosition() {
             return;
         }
 
-        const maxScrollY =
-            Math.max(
-                0,
-                root.scrollHeight -
-                    window.innerHeight
-            );
+        const currentScrollY =
+            window.scrollY;
 
-        /*
-         * 如果刷新前位于底部，
-         * 目标位置永远采用当前最新底部。
-         *
-         * 页面高度继续增长时，
-         * 目标位置也会同步向下移动。
-         */
-        const targetY =
-            restoreAtBottom
-                ? maxScrollY
-                : Math.min(
-                    savedY,
-                    maxScrollY
-                );
-
-        /*
-         * 只有位置存在明显差异时才滚动，
-         * 避免无意义地重复调用。
-         */
-        if (
-            Math.abs(
-                window.scrollY -
-                    targetY
-            ) > 1
-        ) {
-            window.scrollTo(
-                0,
-                targetY
-            );
-        }
-
-        /*
-         * scrollTo执行后重新读取，
-         * 判断浏览器实际到达的位置。
-         */
         const currentMaxScrollY =
             Math.max(
                 0,
@@ -4684,35 +4652,71 @@ function restoreScrollPosition() {
                     window.innerHeight
             );
 
-        const currentTargetY =
+        /*
+         * 普通位置：
+         * 检查是否接近原来的scrollY。
+         *
+         * 最底部：
+         * 检查是否接近当前页面底部。
+         */
+        const hasReachedTarget =
             restoreAtBottom
-                ? currentMaxScrollY
-                : Math.min(
-                    savedY,
-                    currentMaxScrollY
+                ? (
+                    currentMaxScrollY -
+                        currentScrollY <=
+                    12
+                )
+                : (
+                    Math.abs(
+                        currentScrollY -
+                            Math.min(
+                                savedY,
+                                currentMaxScrollY
+                            )
+                    ) <= 12
                 );
 
-        const isAtTarget =
-            Math.abs(
-                window.scrollY -
-                    currentTargetY
-            ) <= 2;
+        /*
+         * 当前视口已经位于首屏下面。
+         */
+        const isBelowHero =
+            currentScrollY >=
+            window.innerHeight - 4;
 
-        const isLayoutStable =
-            previousMaxScrollY >= 0 &&
+        /*
+         * 滚动位置是否连续稳定。
+         */
+        const scrollIsStable =
+            previousScrollY !== null &&
+            Math.abs(
+                currentScrollY -
+                    previousScrollY
+            ) <= 1;
+
+        /*
+         * 页面总高度是否连续稳定。
+         */
+        const layoutIsStable =
+            previousMaxScrollY !== null &&
             Math.abs(
                 currentMaxScrollY -
                     previousMaxScrollY
             ) <= 1;
 
         if (
-            isAtTarget &&
-            isLayoutStable
+            pageFullyLoaded &&
+            isBelowHero &&
+            hasReachedTarget &&
+            scrollIsStable &&
+            layoutIsStable
         ) {
             stableFrameCount += 1;
         } else {
             stableFrameCount = 0;
         }
+
+        previousScrollY =
+            currentScrollY;
 
         previousMaxScrollY =
             currentMaxScrollY;
@@ -4720,72 +4724,42 @@ function restoreScrollPosition() {
         checkedFrameCount += 1;
 
         /*
-         * 连续4帧稳定：
-         * 恢复完成，显示首屏和Logo。
+         * 浏览器位置与页面布局都已经稳定。
          */
         if (
             stableFrameCount >=
             REQUIRED_STABLE_FRAMES
         ) {
-            finishScrollRestore();
+            finishNativeScrollRestore();
             return;
         }
 
         /*
-         * 最多检测约5秒，
-         * 防止极端环境下无限隐藏。
+         * 极端情况下直接解除隐藏，
+         * 但仍然不主动滚动页面。
          */
         if (
             checkedFrameCount >=
             MAX_CHECK_FRAMES
         ) {
-            /*
-             * 退出前再执行一次最终定位。
-             */
-            const finalMaxScrollY =
-                Math.max(
-                    0,
-                    root.scrollHeight -
-                        window.innerHeight
-                );
-
-            const finalTargetY =
-                restoreAtBottom
-                    ? finalMaxScrollY
-                    : Math.min(
-                        savedY,
-                        finalMaxScrollY
-                    );
-
-            window.scrollTo(
-                0,
-                finalTargetY
-            );
-
-            requestAnimationFrame(
-                finishScrollRestore
-            );
-
+            finishNativeScrollRestore();
             return;
         }
 
         requestAnimationFrame(
-            restoreFrame
+            checkNativeRestore
         );
     }
 
     requestAnimationFrame(
-        restoreFrame
+        checkNativeRestore
     );
 }
 
 
-/*
- * pageshow时开始精确恢复。
- */
 window.addEventListener(
     "pageshow",
-    restoreScrollPosition,
+    revealAfterNativeScrollRestore,
     {
         once: true
     }
