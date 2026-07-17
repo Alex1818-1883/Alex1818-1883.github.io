@@ -2596,15 +2596,114 @@ const categoryButtons =
 
 let currentImagePage = 0;
 
-/*
- * 手机端书法位置修正：
- *
- * 1. 电脑端继续使用原来的 offsetY；
- * 2. 手机端只修正“题词”分类；
- * 3. 只有竖版题词才使用手机端偏移；
- * 4. 横版题词、诗词和书信保持原来的位置；
- * 5. 某一幅可以用 mobileOffsetY 单独微调。
- */
+
+const WORK_IMAGE_RETRY_LIMIT = 2;
+const WORK_IMAGE_RETRY_DELAYS = [
+    500,
+    1200
+];
+
+let activeWorkImageRequestId = 0;
+
+function buildRetryImageSrc(
+    src,
+    attempt
+) {
+    if (attempt === 0) {
+        return src;
+    }
+
+    const separator =
+        src.includes("?")
+            ? "&"
+            : "?";
+
+    return `${src}${separator}retry=${attempt}&t=${Date.now()}`;
+}
+
+function loadWorkImageWithRetry(
+    src,
+    options = {}
+) {
+    const {
+        onSuccess,
+        onFinalError
+    } = options;
+
+
+    const requestId =
+        activeWorkImageRequestId;
+
+    function tryLoad(attempt) {
+        const loader =
+            new Image();
+
+        const requestSrc =
+            buildRetryImageSrc(
+                src,
+                attempt
+            );
+
+        loader.onload = () => {
+            if (
+                requestId !==
+                activeWorkImageRequestId
+            ) {
+                return;
+            }
+
+            onSuccess?.(
+                requestSrc,
+                loader
+            );
+        };
+
+        loader.onerror = () => {
+            if (
+                requestId !==
+                activeWorkImageRequestId
+            ) {
+                return;
+            }
+
+            if (
+                attempt <
+                WORK_IMAGE_RETRY_LIMIT
+            ) {
+                const delay =
+                    WORK_IMAGE_RETRY_DELAYS[
+                        attempt
+                    ] ?? 1000;
+
+                setTimeout(() => {
+                    if (
+                        requestId !==
+                        activeWorkImageRequestId
+                    ) {
+                        return;
+                    }
+
+                    tryLoad(
+                        attempt + 1
+                    );
+                }, delay);
+
+                return;
+            }
+
+            onFinalError?.();
+        };
+
+        loader.src =
+            requestSrc;
+    }
+
+    tryLoad(0);
+
+    return requestId;
+}
+
+
 const mobileWorkMedia =
     window.matchMedia(
         "(max-width: 768px)"
@@ -3414,6 +3513,9 @@ function showCurrentWork() {
             : null;
 
 cancelWorkPageTransition();
+
+activeWorkImageRequestId += 1;
+
 currentImagePage = 0;
 
 /*
@@ -3508,75 +3610,101 @@ releaseWorkDisplayHeight();
 return;
     }
 
-    workPlaceholder.textContent =
-        work.title;
+workImage.style.display =
+    "block";
 
-    workPlaceholder.style.display =
-        "none";
+workImage.alt =
+    images.length > 1
+        ? `毛泽东书法作品：${work.title}（第1页）`
+        : `毛泽东书法作品：${work.title}`;
 
-    workImage.style.display =
-        "block";
+/*
+ * 清除上一幅图片遗留的事件。
+ * 新图片成功预加载后再重新绑定。
+ */
+workImage.onload = null;
+workImage.onerror = null;
 
-    workImage.alt =
-        images.length > 1
-            ? `毛泽东书法作品：${work.title}（第1页）`
-            : `毛泽东书法作品：${work.title}`;
-
-workImage.onerror = () => {
-    workImage.style.display =
-        "none";
-
-    workPlaceholder.style.display =
-        "flex";
-
-    /*
-     * 图片失败时也要解除，
-     * 避免临时高度一直保留。
-     */
-    releaseWorkDisplayHeight();
-};
-
-workImage.onload = () => {
-    workImage.style.display =
-        "block";
-
-    workPlaceholder.style.display =
-        "none";
-
-    /*
-     * 图片加载完成后，
-     * 根据真实宽高判断它是横版还是竖版，
-     * 再应用电脑端或手机端偏移。
-     */
-    applyWorkImageOffset(work);
-
-    /*
-     * 新SVG已经有真实尺寸，
-     * 此时再解除临时高度。
-     */
-    releaseWorkDisplayHeight();
-};
-
+/*
+ * 切换前先清掉上一幅作品遗留的偏移。
+ */
 workImage.style.marginTop =
     "0px";
 
-    workImage.removeAttribute(
-        "width"
-    );
+workImage.removeAttribute(
+    "width"
+);
 
-    workImage.removeAttribute(
-        "height"
-    );
+workImage.removeAttribute(
+    "height"
+);
 
-    /*
-     * 默认显示第一张图片。
-     */
-    workImage.src =
-        images[0];
+/*
+ * 如果最终失败，就显示标题文字。
+ */
+workPlaceholder.textContent =
+    work.title;
 
-    /*
-     * 两张及以上才显示圆点。
-     */
+/*
+ * 这里不要马上把旧图隐藏掉，
+ * 让旧图继续留着，直到新图成功加载，
+ * 或者重试全部失败。
+ */
+workPlaceholder.style.display =
+    "none";
+
+loadWorkImageWithRetry(
+    images[0],
+    {
+        onSuccess:
+            loadedSrc => {
+                workImage.onload = () => {
+                    workImage.style.display =
+                        "block";
+
+                    workPlaceholder.style.display =
+                        "none";
+
+                    applyWorkImageOffset(
+                        work
+                    );
+
+                    releaseWorkDisplayHeight();
+                };
+
+                workImage.onerror = () => {
+                    /*
+                     * 理论上这里很少触发，
+                     * 因为前面预加载已经成功。
+                     * 但仍然保留兜底。
+                     */
+                    workImage.style.display =
+                        "none";
+
+                    workPlaceholder.style.display =
+                        "flex";
+
+                    releaseWorkDisplayHeight();
+                };
+
+                workImage.src =
+                    loadedSrc;
+            },
+
+        onFinalError:
+            () => {
+                workImage.style.display =
+                    "none";
+
+                workPlaceholder.style.display =
+                    "flex";
+
+                releaseWorkDisplayHeight();
+            }
+    }
+);
+
+
     renderWorkPageDots(work);
 
     updateArrowState();
