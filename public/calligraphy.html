@@ -1916,7 +1916,10 @@ header::after {
         沁园春·长沙
     </h2>
 
-<div class="work-sheet">
+<div
+    class="work-sheet has-fixed-page-frame"
+    style="--work-page-ratio: 1356 / 1655;"
+>
 <img
     class="work-image"
     id="workImage"
@@ -1934,11 +1937,25 @@ header::after {
     </div>
 
 <div
-    class="work-page-dots is-hidden"
+    class="work-page-dots"
     id="workPageDots"
     role="group"
     aria-label="作品分页"
-></div>
+>
+    <button
+        class="work-page-dot is-active"
+        type="button"
+        aria-label="显示第1页"
+        aria-pressed="true"
+    ></button>
+
+    <button
+        class="work-page-dot"
+        type="button"
+        aria-label="显示第2页"
+        aria-pressed="false"
+    ></button>
+</div>
 
     <div
         class="work-description"
@@ -1947,7 +1964,7 @@ header::after {
         毛主席手书《沁园春·长沙》（1925年）
     </div>
 <div
-    class="work-transcription is-hidden"
+    class="work-transcription"
     id="workTranscription"
 >
 <button
@@ -3756,13 +3773,6 @@ workImage.onerror = null;
 workImage.style.marginTop =
     "0px";
 
-workImage.removeAttribute(
-    "width"
-);
-
-workImage.removeAttribute(
-    "height"
-);
 
 /*
  * 如果最终失败，就显示标题文字。
@@ -3781,40 +3791,68 @@ workPlaceholder.style.display =
 loadWorkImageWithRetry(
     images[0],
     {
-        onSuccess:
-            loadedSrc => {
-                workImage.onload = () => {
-                    workImage.style.display =
-                        "block";
+ onSuccess:
+    (
+        loadedSrc,
+        loadedImage
+    ) => {
+        /*
+         * 预加载成功以后，浏览器已经知道
+         * 新图片的真实宽高。
+         *
+         * 在正式替换src以前先写入宽高，
+         * 图片展示区域就不会出现比例空档。
+         */
+        if (
+            loadedImage.naturalWidth > 0 &&
+            loadedImage.naturalHeight > 0
+        ) {
+            workImage.setAttribute(
+                "width",
+                String(
+                    loadedImage.naturalWidth
+                )
+            );
 
-                    workPlaceholder.style.display =
-                        "none";
+            workImage.setAttribute(
+                "height",
+                String(
+                    loadedImage.naturalHeight
+                )
+            );
+        }
 
-                    applyWorkImageOffset(
-                        work
-                    );
+        workImage.onload = () => {
+            workImage.style.display =
+                "block";
 
-                    releaseWorkDisplayHeight();
-                };
+            workPlaceholder.style.display =
+                "none";
 
-                workImage.onerror = () => {
-                    /*
-                     * 理论上这里很少触发，
-                     * 因为前面预加载已经成功。
-                     * 但仍然保留兜底。
-                     */
-                    workImage.style.display =
-                        "none";
+            applyWorkImageOffset(
+                work
+            );
 
-                    workPlaceholder.style.display =
-                        "flex";
+            releaseWorkDisplayHeight();
+        };
 
-                    releaseWorkDisplayHeight();
-                };
+        workImage.onerror = () => {
+            /*
+             * 理论上这里很少触发，
+             * 因为前面的预加载已经成功。
+             */
+            workImage.style.display =
+                "none";
 
-                workImage.src =
-                    loadedSrc;
-            },
+            workPlaceholder.style.display =
+                "flex";
+
+            releaseWorkDisplayHeight();
+        };
+
+        workImage.src =
+            loadedSrc;
+    },
 
         onFinalError:
             () => {
