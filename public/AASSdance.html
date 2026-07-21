@@ -709,6 +709,40 @@ header {
     background-color: #000000;
 }
 
+/* 默认隐藏网站自己的全屏按钮 */
+.site-fullscreen-btn {
+    display: none;
+}
+
+/* 视频框进入全屏后铺满整个屏幕 */
+.video-frame:fullscreen,
+.video-frame:-webkit-full-screen {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+
+    aspect-ratio: auto;
+    border-radius: 0;
+
+    background-color: #000000;
+}
+
+/* 全屏后让B站iframe铺满视频框 */
+.video-frame:fullscreen .modal-video,
+.video-frame:-webkit-full-screen .modal-video {
+    width: 100%;
+    height: 100%;
+}
+
+/* 全屏后保留退出按钮 */
+.video-frame:fullscreen .site-fullscreen-btn,
+.video-frame:-webkit-full-screen .site-fullscreen-btn {
+    top: max(10px, env(safe-area-inset-top));
+    left: max(10px, env(safe-area-inset-left));
+
+    display: inline-flex;
+}
+
 /* === B站播放器载入前的网站加载画面 === */
 @keyframes videoLoadingSpin {
     from {
@@ -951,6 +985,7 @@ a:focus-visible {
 
         /* === 手机端：单列卡片，不另设最小手机断点 === */
         @media (max-width: 768px) {
+
 header {
     padding: 15px 20px;
 
@@ -1012,6 +1047,34 @@ header {
             .hero-divider::after {
                 height: 3px;
             }
+
+/* 手机端网站自己的全屏按钮 */
+.site-fullscreen-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 8;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 34px;
+    padding: 0 13px;
+
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 999px;
+
+    background-color: rgba(0, 0, 0, 0.62);
+    color: #FFFFFF;
+
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 900;
+
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
 
 .video-loading-mark {
     width: 54px;
@@ -1237,7 +1300,7 @@ header {
 
     <!-- 只有这一部分可以滚动 -->
     <div class="video-scroll" id="videoScroll">
-        <div class="video-frame">
+   <div class="video-frame" id="videoFrame">
 <iframe
     class="modal-video"
     id="videoPlayer"
@@ -1252,6 +1315,15 @@ header {
     webkitallowfullscreen="true"
     mozallowfullscreen="true"
 ></iframe>
+
+<button
+    class="site-fullscreen-btn"
+    id="siteFullscreenBtn"
+    type="button"
+    aria-label="全屏播放"
+>
+    全屏播放
+</button>
 
             <!-- 网站自己的加载画面 -->
             <div
@@ -1693,6 +1765,8 @@ const videoCloseBtn = document.getElementById("videoCloseBtn");
 const videoScroll = document.getElementById("videoScroll");
 const videoExtra = document.getElementById("videoExtra");
 const videoLoading = document.getElementById("videoLoading");
+const videoFrame = document.getElementById("videoFrame");
+const siteFullscreenBtn = document.getElementById("siteFullscreenBtn");
 
 let activeCategory = "revolution";
         let categoryTimer = null;
@@ -2045,6 +2119,94 @@ function closeVideoModal() {
     videoPlayer.style.visibility = "hidden";
     videoPlayer.src = "about:blank";
 }
+
+
+/*
+ * 网站自己的视频全屏功能
+ */
+async function toggleSiteVideoFullscreen() {
+    if (!videoFrame || !siteFullscreenBtn) return;
+
+    const fullscreenElement =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement;
+
+    try {
+        /*
+         * 当前没有全屏：进入全屏
+         */
+        if (!fullscreenElement) {
+            if (videoFrame.requestFullscreen) {
+                await videoFrame.requestFullscreen();
+            } else if (videoFrame.webkitRequestFullscreen) {
+                videoFrame.webkitRequestFullscreen();
+            } else {
+                throw new Error("当前浏览器不支持网页全屏");
+            }
+
+            return;
+        }
+
+        /*
+         * 当前已经全屏：退出全屏
+         */
+        if (document.exitFullscreen) {
+            await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    } catch (error) {
+        console.error("视频全屏失败：", error);
+
+        alert(
+            "浏览器拒绝了全屏请求。\n\n" +
+            "fullscreenEnabled：" +
+            String(document.fullscreenEnabled) +
+            "\n页面协议：" +
+            location.protocol +
+            "\n是否为顶层页面：" +
+            String(window.top === window.self)
+        );
+    }
+}
+
+/*
+ * 根据当前状态修改按钮文字
+ */
+function updateSiteFullscreenButton() {
+    if (!siteFullscreenBtn) return;
+
+    const isFullscreen = Boolean(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement
+    );
+
+    siteFullscreenBtn.textContent =
+        isFullscreen ? "退出全屏" : "全屏播放";
+
+    siteFullscreenBtn.setAttribute(
+        "aria-label",
+        isFullscreen ? "退出全屏" : "全屏播放"
+    );
+}
+
+/* 点击自己的按钮进入或退出全屏 */
+siteFullscreenBtn.addEventListener(
+    "click",
+    toggleSiteVideoFullscreen
+);
+
+/* 监听标准全屏状态变化 */
+document.addEventListener(
+    "fullscreenchange",
+    updateSiteFullscreenButton
+);
+
+/* 兼容部分WebKit浏览器 */
+document.addEventListener(
+    "webkitfullscreenchange",
+    updateSiteFullscreenButton
+);
 
 
         videoCloseBtn.addEventListener("click", closeVideoModal);
