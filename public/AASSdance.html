@@ -709,9 +709,43 @@ header {
     background-color: #000000;
 }
 
-/* 默认隐藏网站自己的全屏按钮 */
+/*
+ * 网站自己的全屏按钮。
+ * 电脑端默认隐藏；手机端覆盖B站右下角全屏图标。
+ */
 .site-fullscreen-btn {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+
     display: none;
+
+    /*
+     * 只覆盖B站最右侧全屏按钮区域，
+     * 不影响暂停、进度条和弹幕按钮。
+     */
+    width: 48px;
+    height: 44px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* 视频框进入全屏后铺满整个屏幕 */
@@ -734,13 +768,14 @@ header {
     height: 100%;
 }
 
-/* 全屏后保留退出按钮 */
 .video-frame:fullscreen .site-fullscreen-btn,
 .video-frame:-webkit-full-screen .site-fullscreen-btn {
-    top: max(10px, env(safe-area-inset-top));
-    left: max(10px, env(safe-area-inset-left));
+    top: auto;
+    left: auto;
+    right: 0;
+    bottom: 0;
 
-    display: inline-flex;
+    display: block;
 }
 
 /* === B站播放器载入前的网站加载画面 === */
@@ -1048,32 +1083,9 @@ header {
                 height: 3px;
             }
 
-/* 手机端网站自己的全屏按钮 */
+
 .site-fullscreen-btn {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 8;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 34px;
-    padding: 0 13px;
-
-    border: 2px solid rgba(255, 255, 255, 0.9);
-    border-radius: 999px;
-
-    background-color: rgba(0, 0, 0, 0.62);
-    color: #FFFFFF;
-
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 900;
-
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
+    display: block;
 }
 
 .video-loading-mark {
@@ -1321,9 +1333,7 @@ header {
     id="siteFullscreenBtn"
     type="button"
     aria-label="全屏播放"
->
-    全屏播放
-</button>
+></button>
 
             <!-- 网站自己的加载画面 -->
             <div
@@ -2170,9 +2180,7 @@ async function toggleSiteVideoFullscreen() {
     }
 }
 
-/*
- * 根据当前状态修改按钮文字
- */
+
 function updateSiteFullscreenButton() {
     if (!siteFullscreenBtn) return;
 
@@ -2181,11 +2189,13 @@ function updateSiteFullscreenButton() {
         document.webkitFullscreenElement
     );
 
-    siteFullscreenBtn.textContent =
-        isFullscreen ? "退出全屏" : "全屏播放";
-
     siteFullscreenBtn.setAttribute(
         "aria-label",
+        isFullscreen ? "退出全屏" : "全屏播放"
+    );
+
+    siteFullscreenBtn.setAttribute(
+        "title",
         isFullscreen ? "退出全屏" : "全屏播放"
     );
 }
