@@ -1238,16 +1238,20 @@ header {
     <!-- 只有这一部分可以滚动 -->
     <div class="video-scroll" id="videoScroll">
         <div class="video-frame">
-            <iframe
-                class="modal-video"
-                id="videoPlayer"
-                src="about:blank"
-                title="哔哩哔哩视频播放器"
-                scrolling="no"
-                frameborder="0"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowfullscreen
-            ></iframe>
+<iframe
+    class="modal-video"
+    id="videoPlayer"
+    src="about:blank"
+    title="哔哩哔哩视频播放器"
+    scrolling="no"
+    frameborder="0"
+
+    allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+
+    allowfullscreen
+    webkitallowfullscreen="true"
+    mozallowfullscreen="true"
+></iframe>
 
             <!-- 网站自己的加载画面 -->
             <div
