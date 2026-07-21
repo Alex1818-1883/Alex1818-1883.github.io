@@ -1037,20 +1037,28 @@ header {
                 margin-bottom: 48px;
             }
 
-            .category-buttons {
-                grid-template-columns: repeat(2, 1fr);
+      /* 手机端分类胶囊 */
+.category-buttons {
+    grid-template-columns: repeat(2, 1fr);
 
-                padding: 4px;
+    /* 增加外层空间 */
+    padding: 7px;
 
-                border-radius: 24px;
-            }
+    /* 增加上下两排之间的距离 */
+    row-gap: 8px;
 
-            .category-btn {
-                height: 42px;
+    /* 外层胶囊圆角相应增大 */
+    border-radius: 30px;
+}
 
-                font-size: 15px;
-                letter-spacing: 0;
-            }
+.category-btn {
+    /* 原来是42px，现在加高 */
+    height: 52px;
+
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 1.2;
+}
 
             .dance-grid {
                 grid-template-columns: 1fr;
