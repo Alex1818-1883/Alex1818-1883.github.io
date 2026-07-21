@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 提前解析并连接B站播放器域名，稍微缩短初次加载时间 -->
+<link rel="dns-prefetch" href="//player.bilibili.com">
+<link rel="preconnect" href="https://player.bilibili.com" crossorigin>
+
+<title>革命舞蹈</title>
+    <link rel="icon" href="red.ico" type="image/x-icon">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+        scroll-behavior: auto;
+            scrollbar-gutter: stable;
+            overflow-y: scroll;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+
+            background-color: #F9F9F9;
+            color: #A80000;
+
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+
+        @keyframes cardRiseIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+     /* === 顶部导航：与毛主席相集完全一致 === */
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    padding: 20px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 100;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 900;
+    color: #CC0000;
+    text-decoration: none;
+    letter-spacing: 1px;
+
+    display: flex;
+    align-items: center;
+
+    transform: scale(1) translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+
+    transition:
+        transform 0.4s
+        cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    transform-origin: left center;
+}
+
+.logo .star {
+    display: inline-block;
+    margin-right: 8px;
+
+    transition:
+        transform 0.5s
+        cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        color 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.15) translateZ(0);
+}
+
+.logo:hover .star {
+    transform:
+        scale(1.4)
+        rotate(36deg)
+        translateZ(0);
+
+    color: #FFD700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+/*
+ * 右侧不可见占位。
+ * 它不显示、不响应点击，但保留原按钮所占宽度，
+ * 从而保持顶部布局和相集页面一致。
+ */
+.nav-placeholder::after {
+    content: "革命文艺";
+
+    display: inline-block;
+    visibility: hidden;
+    pointer-events: none;
+
+    color: #CC0000;
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 8px 22px;
+
+    border: 2px solid #CC0000;
+    border-radius: 30px;
+}
+
+.hero {
+
+    height: 58vh;
+    min-height: 0;
+
+    padding: 10vh 20px 6vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #FFFFFF 0,
+            #FFFFFF 90%,
+            #F9F9F9 90%,
+            #F9F9F9 100%
+        );
+}
+
+/* === 首屏上半部分背景图 === */
+.hero::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 10%;
+
+    z-index: 0;
+
+    background-image: url("calligraphy/gooddance.svg");
+    background-repeat: no-repeat;
+
+    background-size: 80% auto;
+
+    background-position:
+        center
+        calc(50% + 25px);
+
+    opacity: 0.1;
+
+    pointer-events: none;
+}
+
+        .hero h1 {
+            position: relative;
+            z-index: 1;
+
+            margin-bottom: 18px;
+
+            color: #DD0000;
+            font-size: 3.4rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            line-height: 1.15;
+
+        }
+
+        .hero p {
+            position: relative;
+            z-index: 1;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+
+        }
+
+.hero h1,
+.hero p {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+
+    -webkit-touch-callout: default;
+}
+
+.hero-divider {
+    position: absolute;
+    left: 50%;
+
+    /*
+     * 固定在首屏高度约90%的位置。
+     */
+    top: 90%;
+    bottom: auto;
+
+    z-index: 2;
+
+    width: 100vw;
+    margin-left: -50vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    color: #CC0000;
+    font-size: 36px;
+    line-height: 1;
+
+    transform: translateY(-50%);
+
+    pointer-events: none;
+}
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            flex: 1;
+            height: 3px;
+
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        /* === 主体 === */
+        main {
+            flex: 1;
+
+            width: 100%;
+            max-width: 1220px;
+
+            margin: 14px auto 0;
+            padding: 0 28px 82px;
+        }
+
+.dance-category-section {
+    width: min(900px, 100%);
+    margin: 10px auto 64px;
+}
+
+
+        .category-buttons {
+            --slider-x: -4px;
+            --slider-y: -4px;
+            --slider-width: 0px;
+            --slider-height: 0px;
+
+            position: relative;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            width: min(820px, 100%);
+            margin: 0 auto;
+            padding: 5px;
+
+            border: 2px solid #CC0000;
+            border-radius: 999px;
+            background-color: #FFFFFF;
+        }
+
+        .category-buttons::before {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 0;
+
+            width: var(--slider-width);
+            height: var(--slider-height);
+
+            border-radius: 999px;
+            background-color: #CC0000;
+
+            opacity: 0;
+            transform: translate3d(var(--slider-x), var(--slider-y), 0);
+
+            transition:
+                transform 0.26s ease,
+                opacity 0.18s ease;
+        }
+
+        .category-buttons.no-slider-transition::before {
+            transition: none !important;
+        }
+
+        .category-buttons.has-active::before {
+            opacity: 1;
+        }
+
+        .category-btn {
+            position: relative;
+            z-index: 1;
+
+            height: 46px;
+
+            border: none;
+            border-radius: 999px;
+            background-color: transparent;
+
+            color: #CC0000;
+
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+            isolation: isolate;
+
+            transition: color 0.22s ease;
+        }
+
+        .category-btn::before {
+            content: "";
+
+            position: absolute;
+            top: -5px;
+            bottom: -5px;
+            left: -5px;
+            right: -5px;
+            z-index: -1;
+
+            border-radius: 999px;
+            background-color: rgba(204, 0, 0, 0.08);
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: opacity 0.22s ease;
+        }
+
+        .category-btn:hover::before {
+            opacity: 1;
+        }
+
+        .category-btn.active::before,
+        .category-btn.active:hover::before {
+            opacity: 0;
+        }
+
+        .category-btn:hover {
+            color: #FF0000;
+        }
+
+        .category-btn.active,
+        .category-btn.active:hover {
+            color: #FFFFFF;
+        }
+
+        /* === 双列舞蹈卡片 === */
+        .dance-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 34px 32px;
+
+            width: 100%;
+            min-height: 520px;
+
+            transition:
+                opacity 0.3s ease,
+                transform 0.3s ease;
+        }
+
+        .dance-grid.is-changing {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+.dance-card {
+    min-width: 0;
+    overflow: hidden;
+
+    border: 2px solid #FFE1E1;
+    border-radius: 18px;
+    background-color: #FFFFFF;
+
+    opacity: 1;
+    cursor: pointer;
+
+    transition:
+        border-color 0.28s ease,
+        box-shadow 0.28s ease;
+}
+
+/* 只有切换分类后生成的卡片才执行渐显动画 */
+.dance-card.is-entering {
+    opacity: 0;
+    animation: cardRiseIn 0.72s ease-out forwards;
+}
+
+        .dance-card:hover {
+            border-color: rgba(204, 0, 0, 0.72);
+            box-shadow: 0 12px 25px rgba(204, 0, 0, 0.065);
+        }
+
+.dance-thumb {
+    display: block;
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+    line-height: 0;
+
+    background-color: #F3E8E8;
+}
+
+
+
+.dance-poster {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: var(--poster-position, center center);
+
+
+    transform-origin: 50% 50%;
+
+
+    transform: translate3d(0, 0, 0) scale(1);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    transition: transform 0.45s ease;
+}
+
+.dance-card:hover .dance-poster {
+    transform: translate3d(0, 0, 0) scale(1.025);
+}
+
+      
+        .dance-info {
+            padding: 24px 28px 27px;
+        }
+
+.dance-title {
+    margin-bottom: 16px;
+
+    color: #CC0000;
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.35;
+}
+
+
+.dance-desc {
+    color: #A80000;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.7;
+
+    font-style: normal;
+    text-align: left;
+
+    border-left: none;
+    padding-left: 0;
+    margin: 0;
+
+    text-indent: -1em;
+}
+
+
+
+        .empty-state {
+            grid-column: 1 / -1;
+
+            padding: 70px 20px;
+
+            color: #A80000;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        /* === 视频弹窗：单部播放，不设左右切换 === */
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 28px;
+
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0s linear 0.25s;
+        }
+
+        .video-modal.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0s linear 0s;
+        }
+
+.video-panel {
+    position: relative;
+
+    width: min(1040px, 100%);
+    max-height: calc(100vh - 56px);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+    padding: 0;
+
+    border-left: 7px solid #CC0000;
+    border-radius: 22px;
+    background-color: #FFFFFF;
+
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+    transform: none;
+
+    transition: opacity 0.25s ease;
+}
+
+.video-header {
+    position: relative;
+    z-index: 5;
+
+    flex: 0 0 auto;
+
+
+    padding: 32px 58px 32px 42px;
+
+    background-color: #FFFFFF;
+}
+
+.video-scroll {
+    position: relative;
+
+    flex: 1 1 auto;
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    margin-right: 12px;
+
+    /*
+     * 顶部不再放可滚动留白。
+     * 标题到视频的32px距离全部固定在header中。
+     */
+    padding: 0 34px 36px 42px;
+
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+}
+
+
+.video-modal.is-visible .video-panel {
+    opacity: 1;
+    transform: none;
+}
+
+.video-close {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    z-index: 6;
+
+    width: 38px;
+    height: 38px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 0 2px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: transparent;
+    color: #CC0000;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.video-close:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+}
+
+.video-close:active {
+    background-color: #A80000;
+    color: #FFFFFF;
+}
+
+.video-title {
+    padding: 0 16px;
+    margin: 0;
+
+    color: #CC0000;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+        .video-frame {
+            position: relative;
+
+            width: 100%;
+            aspect-ratio: 16 / 9;
+
+            overflow: hidden;
+
+            border-radius: 14px;
+            background-color: #000000;
+        }
+
+.modal-video {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    background-color: #000000;
+}
+
+/* === B站播放器载入前的网站加载画面 === */
+@keyframes videoLoadingSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.video-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #350000 0,
+            #170000 42%,
+            #050505 100%
+        );
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.18s ease,
+        visibility 0s linear 0.18s;
+}
+
+.video-loading.is-visible {
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity 0.18s ease,
+        visibility 0s linear 0s;
+}
+
+.video-loading-mark {
+    position: relative;
+
+    width: 66px;
+    height: 66px;
+}
+
+.video-loading-ring {
+    position: absolute;
+    inset: 0;
+
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #CC0000;
+    border-right-color: #CC0000;
+    border-radius: 50%;
+
+    animation: videoLoadingSpin 0.9s linear infinite;
+}
+
+.video-loading-star {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    color: #FF0000;
+
+    font-size: 27px;
+    font-weight: 900;
+    line-height: 1;
+
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+
+        .video-status {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+
+            background-color: #111111;
+            color: #FFFFFF;
+
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .video-status.is-visible {
+            display: flex;
+        }
+
+/* === 视频下方的作品资料 === */
+.video-extra {
+    width: min(880px, 100%);
+
+    margin: 42px auto 0;
+
+    color: #222222;
+    text-align: left;
+}
+
+.video-extra-section {
+    margin-bottom: 34px;
+}
+
+.video-extra-section:last-child {
+    margin-bottom: 0;
+}
+
+.video-extra-title {
+    margin: 0 0 16px;
+
+    color: #CC0000;
+
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.4;
+    letter-spacing: 1px;
+}
+
+.video-extra-text {
+    margin: 0;
+
+    color: #222222;
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.05;
+
+    text-align: justify;
+}
+
+.video-extra-text + .video-extra-text {
+    margin-top: 14px;
+}
+
+
+
+        /* === 页脚 === */
+        footer {
+            padding: 40px 20px;
+
+            background-color: #CC0000;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        footer h3 {
+            color: #FFFFFF;
+            font-size: 26px;
+            letter-spacing: 4px;
+        }
+
+
+.logo,
+.logo *,
+.nav-links,
+.nav-links *,
+.hero-divider,
+.hero-divider *,
+.category-buttons,
+.category-buttons *,
+.dance-card,
+.dance-card *,
+.video-close,
+.video-title,
+footer h3 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+}
+
+
+.logo::selection,
+.logo *::selection,
+.nav-links::selection,
+.nav-links *::selection,
+.hero-divider::selection,
+.hero-divider *::selection,
+.category-buttons::selection,
+.category-buttons *::selection,
+.dance-card::selection,
+.dance-card *::selection,
+.video-close::selection,
+.video-title::selection,
+footer h3::selection {
+    background: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid rgba(204, 0, 0, 0.3);
+    outline-offset: 3px;
+}
+
+        /* === 平板 === */
+        @media (max-width: 980px) {
+            main {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .category-buttons {
+                width: min(760px, 100%);
+            }
+
+            .dance-grid {
+                gap: 28px 24px;
+            }
+
+            .dance-title {
+                font-size: 23px;
+            }
+
+            .dance-info {
+                padding: 22px 24px 25px;
+            }
+        }
+
+        /* === 手机端：单列卡片，不另设最小手机断点 === */
+        @media (max-width: 768px) {
+header {
+    padding: 15px 20px;
+
+    flex-direction: column;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 22px;
+    transform-origin: center center;
+}
+
+            .hero {
+                min-height: 360px;
+                padding-top: 96px;
+
+                background:
+                    linear-gradient(
+                        to bottom,
+                        #FFFFFF 0,
+                        #FFFFFF calc(100% - 35px),
+                        #F9F9F9 calc(100% - 35px),
+                        #F9F9F9 100%
+                    );
+            }
+
+.hero::before {
+    bottom: 35px;
+
+    background-size: 92% auto;
+    background-position:
+        center
+        calc(50% + 20px);
+}
+
+            .hero h1 {
+                margin-bottom: 14px;
+
+                font-size: 2.45rem;
+                letter-spacing: 3px;
+            }
+
+            .hero p {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+.hero-divider {
+    top: auto;
+    bottom: 20px;
+
+    transform: none;
+
+    gap: 12px;
+    font-size: 30px;
+}
+
+            .hero-divider::before,
+            .hero-divider::after {
+                height: 3px;
+            }
+
+.video-loading-mark {
+    width: 54px;
+    height: 54px;
+}
+
+.video-loading-ring {
+    border-width: 3px;
+}
+
+.video-loading-star {
+    font-size: 23px;
+}
+
+
+
+            main {
+                margin-top: 20px;
+                padding: 0 16px 58px;
+            }
+
+            .dance-category-section {
+                margin-bottom: 48px;
+            }
+
+            .category-buttons {
+                grid-template-columns: repeat(2, 1fr);
+
+                padding: 4px;
+
+                border-radius: 24px;
+            }
+
+            .category-btn {
+                height: 42px;
+
+                font-size: 15px;
+                letter-spacing: 0;
+            }
+
+            .dance-grid {
+                grid-template-columns: 1fr;
+                gap: 26px;
+                min-height: 0;
+            }
+
+.dance-card {
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+
+
+            .dance-info {
+                padding: 20px 21px 23px;
+            }
+
+.dance-title {
+    margin-bottom: 13px;
+    font-size: 22px;
+}
+
+.dance-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: left;
+}
+
+
+            .video-modal {
+                padding: 18px;
+            }
+
+.video-panel {
+    max-height: calc(100vh - 36px);
+
+    padding: 0;
+
+    border-left-width: 6px;
+    border-radius: 18px;
+}
+
+.video-header {
+    padding: 26px 46px 40px 22px;
+}
+
+.video-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+
+    margin-right: 8px;
+
+    padding: 0 18px 22px 22px;
+}
+
+.video-extra {
+    width: 100%;
+    margin-top: 32px;
+}
+
+.video-extra-section {
+    margin-bottom: 28px;
+}
+
+.video-extra-title {
+    margin-bottom: 12px;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.video-extra-text {
+    font-size: 14px;
+    line-height: 1.95;
+    text-align: left;
+}
+
+     .video-close {
+    top: 14px;
+    right: 14px;
+
+    width: 35px;
+    height: 35px;
+
+    font-size: 30px;
+}
+
+.video-title {
+    padding: 0 38px;
+    margin: 0;
+
+    font-size: 21px;
+    letter-spacing: 1px;
+}
+
+            .video-frame {
+                border-radius: 10px;
+            }
+
+            .video-status {
+                padding: 18px;
+                font-size: 14px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="media.html" class="logo">
+        <span class="star">★</span>
+        马列毛主义万岁！
+    </a>
+
+    <div
+        class="nav-links nav-placeholder"
+        aria-hidden="true"
+    ></div>
+</header>
+
+    <section class="hero">
+        <h1>革命舞蹈艺术</h1>
+        <p>斗争 · 军民 · 建设</p>
+
+        <div class="hero-divider" aria-hidden="true">★</div>
+    </section>
+
+    <main>
+        <section class="dance-category-section" aria-label="舞蹈分类">
+     <div class="category-buttons" id="categoryButtons">
+    <button class="category-btn active" type="button" data-category="revolution">革命斗争</button>
+    <button class="category-btn" type="button" data-category="unity">军民团结</button>
+    <button class="category-btn" type="button" data-category="production">生产建设</button>
+    <button class="category-btn" type="button" data-category="mass">群众生活</button>
+</div>
+        </section>
+
+        <section class="dance-grid" id="danceGrid" aria-live="polite"></section>
+    </main>
+
+    <div class="video-modal" id="videoModal" aria-hidden="true">
+<div
+    class="video-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="videoModalTitle"
+>
+    <!-- 固定顶部“刘海”区域 -->
+    <div class="video-header">
+        <h2 class="video-title" id="videoModalTitle">
+            革命舞蹈
+        </h2>
+
+        <button
+            class="video-close"
+            id="videoCloseBtn"
+            type="button"
+            aria-label="关闭视频弹窗"
+        >
+            ×
+        </button>
+    </div>
+
+    <!-- 只有这一部分可以滚动 -->
+    <div class="video-scroll" id="videoScroll">
+        <div class="video-frame">
+            <iframe
+                class="modal-video"
+                id="videoPlayer"
+                src="about:blank"
+                title="哔哩哔哩视频播放器"
+                scrolling="no"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen
+            ></iframe>
+
+            <!-- 网站自己的加载画面 -->
+            <div
+                class="video-loading"
+                id="videoLoading"
+                role="status"
+                aria-label="视频载入中"
+            >
+                <div class="video-loading-mark" aria-hidden="true">
+                    <span class="video-loading-ring"></span>
+                    <span class="video-loading-star">★</span>
+                </div>
+            </div>
+
+            <!-- 没有视频地址时显示 -->
+            <div class="video-status" id="videoStatus">
+                该作品暂未设置视频嵌入地址。
+            </div>
+        </div>
+
+        <div class="video-extra" id="videoExtra"></div>
+    </div>
+</div>
+</div>
+
+    <footer>
+        <h3>文艺为工农兵服务！</h3>
+    </footer>
+
+    <script>
+
+  const DANCES = [
+    /* ==================== 革命斗争 ==================== */
+
+    {
+        title: "草原女民兵",
+        category: "revolution",
+
+        desc: "“毛泽东思想把我们武装，草原女民兵心红胆壮志如刚。”",
+
+        intro: [
+            "《草原女民兵》以草原女民兵的生产、训练和集体生活为主要表现内容，通过挺拔有力的舞蹈形象，展现新社会劳动妇女自信、勇敢、朝气蓬勃的精神面貌。",
+            "作品将草原民族舞蹈的开阔风格与民兵训练动作结合起来，使人物既具有鲜明的生活气息，又具有革命战士的坚定姿态。"
+        ],
+
+        background: [
+            "作品表现草原女民兵一面参加生产劳动，一面承担保卫集体的责任。",
+            "人物形象体现劳动者、建设者和保卫者的统一。"
+        ],
+
+        features: [
+            "动作挺拔有力，重视队列变化、步伐节奏和持械姿态。",
+            "舞蹈在草原民族风格中融入军事动作，形成明快而刚健的舞台气质。"
+        ],
+
+        poster: "image/01dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=115717710093269&bvid=BV1DXmiBzERr&cid=34735655168&p=1"
+    },
+
+    {
+        title: "东方红",
+        category: "revolution",
+
+        desc: "“他为人民谋幸福，他是人民大救星。”",
+
+        background: [
+            "作品以苏维埃红军的军旅生活和革命斗争为主要表现内容。",
+            "舞蹈通过革命军人的集体形象，突出保卫人民和革命成果的主题。"
+        ],
+
+        features: [
+            "动作刚健快速，常见踢腿、跳跃、转身和整齐步伐。",
+            "群舞重视高度统一的节奏与队形，形成强烈的军队气势。"
+        ],
+
+        poster: "image/15dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=473094826&bvid=BV1fT411M7j8&cid=833568925&p=1"
+    },
+
+    {
+        title: "红色娘子军",
+        category: "revolution",
+
+        desc: "“砸碎铁锁链，翻身闹革命。我们娘子军，扛枪为人民。”",
+
+        background: [
+            "作品以红色娘子军的革命斗争为题材，表现受压迫妇女在革命队伍中的觉醒、成长与解放。",
+            "舞剧把革命历史叙事与芭蕾舞台形式结合，使工农兵群众成为舞台艺术的主体。"
+        ],
+
+        features: [
+            "动作强调刚健、挺拔和战斗性，并将军事训练、群众生活等动作融入芭蕾语言。",
+            "群舞队形整齐有力，通过集体画面表现革命队伍的纪律、团结与斗争精神。"
+        ],
+
+        poster: "image/02dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114425260415839&bvid=BV1VLGQz7EhG&cid=25793141168&p=1"
+    },
+
+    {
+        title: "白毛女",
+        category: "revolution",
+
+        desc: "“地主逼债似虎狼，仇恨怒火燃烧我胸怀。”",
+
+        background: [
+            "作品以旧社会劳动人民遭受压迫的生活为基础，通过喜儿的命运揭示旧制度的残酷。",
+            "革命力量的到来改变了人物命运，使个人苦难同阶级斗争和人民解放联系起来。"
+        ],
+
+        features: [
+            "人物舞蹈具有鲜明的性格差异，动作随人物处境与思想变化而发展。",
+            "作品将抒情舞段、戏剧冲突与群众场面结合，形成完整的革命叙事。"
+        ],
+
+        poster: "image/03dance.png",
+        posterPosition: "center 90%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114425193304918&bvid=BV13HGQzVELA&cid=25793140585&p=1"
+    },
+
+
+    {
+        title: "哥萨克骑兵舞",
+        category: "revolution",
+
+        desc: "“马队奔驰在柏林，我们哥萨克！”",
+
+        background: [
+            "作品以革命骑兵的训练、行军和战斗形象为表现对象。",
+            "舞蹈突出革命军人的纪律、勇敢和乐观主义精神。"
+        ],
+
+        features: [
+            "动作模拟策马、挥鞭、冲锋等骑兵形态，节奏快速而富有冲击力。",
+            "队形变化明确，强调集体推进和整齐统一的舞台气势。"
+        ],
+
+       poster: "image/10dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=77090483&bvid=BV1PJ411X78h&cid=131861291&p=1"
+    },
+
+    {
+        title: "巴黎的火焰",
+        category: "revolution",
+
+        desc: "“前进，祖国的儿女，快奋起， 光荣的一天等着你！”",
+
+        background: [
+            "作品以人民群众的革命斗争、劳动生活和集体建设为主要内容。",
+            "传统民族舞蹈形式被用于表现新的革命人物和社会主题。"
+        ],
+
+        features: [
+            "动作既有柔韧、轻盈的一面，也强调坚定、整齐和富有力量的群舞结构。",
+            "民族服饰、手臂动作和步伐节奏共同形成鲜明的舞台风格。"
+        ],
+
+        poster: "image/16dance.png",
+        posterPosition: "center 20%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=59175821&bvid=BV19t411V7tS&cid=103134568&p=1"
+    },
+
+    /* ==================== 军民团结 ==================== */
+    {
+        title: "沂蒙颂",
+        category: "unity",
+
+        desc: "“蒙山高，沂水长，军民心向共产党，心向共产党。”",
+
+        background: [
+            "作品取材于革命战争时期人民群众支援革命队伍的故事。",
+            "它通过普通群众与革命战士之间的关系，表现军民共同斗争的深厚感情。"
+        ],
+
+        features: [
+            "舞蹈风格朴素、抒情，重视细腻的人物情感和生活化动作。",
+            "柔和的舞段与坚定的革命主题结合，使作品既有温情，也有力量。"
+        ],
+
+        poster: "image/04dance.png",
+        posterPosition: "center 12%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=116792206822717&bvid=BV1wo7P6aEuG&cid=39306987070&p=1"
+    },
+
+    {
+        title: "洗衣歌",
+        category: "unity",
+
+        desc: "“军民本是一家人，帮咱亲人洗呀洗衣裳呃。”",
+
+        background: [
+            "作品以群众帮助战士洗衣的生活场景为基础，表现人民群众对革命军队的热爱。",
+            "普通劳动被转化为军民团结和共同生活的艺术形象。"
+        ],
+
+        features: [
+            "舞蹈动作来源于洗衣、拧衣、晾晒等生活劳动。",
+            "节奏轻快活泼，人物互动自然亲切，具有鲜明的生活气息。"
+        ],
+
+        poster: "image/06dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=47577208&bvid=BV1sb411x7nJ&cid=83300980&p=1"
+    },
+
+    {
+        title: "斗笠舞",
+        category: "unity",
+
+        desc: "“万泉河水清又清，我编斗笠送红军。”",
+
+        background: [
+            "作品围绕军队与群众共同劳动、互相帮助的生活展开。",
+            "军民关系不只是情感联系，也建立在共同劳动和共同目标之上。"
+        ],
+
+        features: [
+            "群舞结构突出人物之间的交流、配合与呼应。",
+            "动作朴素明快，重视集体画面和热烈、亲切的舞台气氛。"
+        ],
+
+      poster: "image/08dance.png",
+      embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=849258379&bvid=BV1VL4y1i7xg&cid=447241568&p=1"
+
+    },
+
+    {
+        title: "双双草鞋送红军",
+        category: "unity",
+
+        desc: "“人人都把红军爱，姐妹们送鞋来，姐妹们送鞋来。”",
+
+        background: [
+            "作品围绕军队与群众共同劳动、互相帮助的生活展开。",
+            "军民关系不只是情感联系，也建立在共同劳动和共同目标之上。"
+        ],
+
+        features: [
+            "群舞结构突出人物之间的交流、配合与呼应。",
+            "动作朴素明快，重视集体画面和热烈、亲切的舞台气氛。"
+        ],
+
+      poster: "image/09dance.png",
+      embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=757553767&bvid=BV1B64y1S7qj&cid=324739986&p=1"
+
+    },
+
+    /* ==================== 生产建设 ==================== */
+    {
+        title: "丰收歌",
+        category: "production",
+
+        desc: "“太阳一出红满天，红光铺满丰收田。”",
+
+        background: [
+            "作品以农业丰收和集体劳动为主要内容。",
+            "它把劳动成果与群众的喜悦联系起来，表现劳动人民作为生产主体的地位。"
+        ],
+
+        features: [
+            "舞蹈吸收收割、搬运、打谷等农业劳动动作。",
+            "群舞节奏热烈欢快，通过集体队形表现团结协作和丰收景象。"
+        ],
+
+        poster: "image/07dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=456457713&bvid=BV1d5411h7Sv&cid=214097656&p=1"
+    },
+
+    {
+        title: "南泥湾",
+        category: "production",
+
+        desc: "“花篮的花儿香，听我来唱一唱，唱一呀唱。”",
+
+        background: [
+            "作品表现群众通过集体生产克服困难、改善生活的劳动实践。",
+            "它强调依靠群众自身力量进行生产建设的精神。"
+        ],
+
+        features: [
+            "动作直接来源于开荒、纺线、运输等劳动过程。",
+            "舞蹈节奏坚定有力，队形变化突出集体协作和共同奋斗。"
+        ],
+
+        poster: "image/14dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=685476645&bvid=BV1NU4y1X7hd&cid=500001660535315&p=1"
+    },
+
+    {
+        title: "丰收之夜",
+        category: "production",
+
+        desc: "“让我们尽情欢歌，笑迎丰收的夜晚。”",
+
+        background: [
+            "作品以纺织女工的生产劳动为表现内容。",
+            "它通过工业劳动场景展现新社会青年劳动者的精神状态。"
+        ],
+
+        features: [
+            "动作吸收引线、纺纱、织布和操作机器等劳动形态。",
+            "重复性的生产节奏被转化为整齐、流畅而富有韵律的舞蹈语言。"
+        ],
+
+        poster: "image/12dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=353150398&bvid=BV1XX4y1U7cW&cid=1046436209&p=1"
+    },
+
+    {
+        title: "军民大生产",
+        category: "production",
+
+        desc: "“解放区呀么嗬咳，大生产呀么嗬咳。”",
+
+        background: [
+            "作品以道路建设和集体施工为主要场景。",
+            "筑路劳动象征群众依靠自身力量改变环境、建设新生活。"
+        ],
+
+        features: [
+            "动作来源于挖掘、搬运、夯实和铺设等建设劳动。",
+            "群舞强调力量感、节奏感和相互配合，形成不断向前推进的舞台形象。"
+        ],
+
+        poster: "image/19dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=673218925&bvid=BV1uU4y1L7xY&cid=341733972&p=1"
+    },
+
+    /* ==================== 群众生活 ==================== */
+    {
+        title: "草原儿女",
+        category: "mass",
+
+        desc: "“我们的家乡多么富饶，辽阔的草原一望无边。”",
+
+        background: [
+            "作品以草原少年儿童保护集体财产的故事为基础，突出集体主义和责任意识。",
+            "人物行动同辽阔的草原生活相结合，表现新社会青少年的精神面貌。"
+        ],
+
+        features: [
+            "舞蹈吸收草原民族舞蹈中开阔、舒展的动作特点。",
+            "快速步伐、跳跃和群舞队形共同表现人物的勇敢、乐观与集体精神。"
+        ],
+
+        poster: "image/05dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=894182800&bvid=BV1iP4y1F7xH&cid=514337876&p=1"
+    },
+
+    {
+        title: "顶水舞",
+        category: "mass",
+
+        desc: "“顶水姑娘，顶起如梦的重量，穿过春潮和秋霜，岁月源远流长。”",
+
+        background: [
+            "作品以群众节庆、集体劳动或公共生活中的圆舞形式为基础。",
+            "圆形队列象征群众之间平等、团结和共同参与的关系。"
+        ],
+
+        features: [
+            "舞蹈以圆形、半圆形和连环队形为主要结构。",
+            "动作流畅连贯，重视人物之间的牵引、呼应和整体节奏。"
+        ],
+
+        poster: "image/11dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=53457991&bvid=BV1X4411L7sM&cid=93524345&p=1"
+    },
+
+    {
+        title: "草笠舞",
+        category: "mass",
+
+        desc: "“黎族人民才是真正的‘黎族舞蹈之母’。",
+
+        background: [
+            "作品以群众节庆、集体劳动或公共生活中的圆舞形式为基础。",
+            "圆形队列象征群众之间平等、团结和共同参与的关系。"
+        ],
+
+        features: [
+            "舞蹈以圆形、半圆形和连环队形为主要结构。",
+            "动作流畅连贯，重视人物之间的牵引、呼应和整体节奏。"
+        ],
+
+        poster: "image/17dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=524113943&bvid=BV1xM411Y7xh&cid=1000132849&p=1"
+    },
+
+    {
+        title: "摘葡萄",
+        category: "mass",
+
+        desc: "“葡萄根儿扎根在沃土，长长蔓儿在心头缠绕。”",
+
+        background: [
+            "作品以群众节庆、集体劳动或公共生活中的圆舞形式为基础。",
+            "圆形队列象征群众之间平等、团结和共同参与的关系。"
+        ],
+
+        features: [
+            "舞蹈以圆形、半圆形和连环队形为主要结构。",
+            "动作流畅连贯，重视人物之间的牵引、呼应和整体节奏。"
+        ],
+
+        poster: "image/18dance.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=896654820&bvid=BV1zA4y1f7cR&cid=722049263&p=1"
+    },
+
+    {
+        title: "挤奶员舞",
+        category: "mass",
+
+        desc: "“挤奶姑娘，欢笑象云雀，清脆的歌儿飞四方。”",
+
+        background: [
+            "作品以群众生活、集体节庆和劳动者的共同活动为主要表现对象。",
+            "舞蹈突出人民群众之间的团结以及共同参与的集体精神。"
+        ],
+
+        features: [
+            "队形多采用横排、圆圈或相互连接的集体结构。",
+            "步伐坚定、节奏鲜明，个人动作始终服务于完整的群众画面。"
+        ],
+
+        poster: "image/13dance.png",
+      posterPosition: "center 8%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=98086864&bvid=BV1XE411c78N&cid=167435234&p=1"
+    }
+];
+
+        const categoryButtons = document.getElementById("categoryButtons");
+        const danceGrid = document.getElementById("danceGrid");
+        const videoModal = document.getElementById("videoModal");
+        const videoPlayer = document.getElementById("videoPlayer");
+const videoStatus = document.getElementById("videoStatus");
+const videoModalTitle = document.getElementById("videoModalTitle");
+const videoCloseBtn = document.getElementById("videoCloseBtn");
+
+const videoScroll = document.getElementById("videoScroll");
+const videoExtra = document.getElementById("videoExtra");
+const videoLoading = document.getElementById("videoLoading");
+
+let activeCategory = "revolution";
+        let categoryTimer = null;
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+     function createFallbackPoster() {
+    const svg = `
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 960 540"
+        >
+            <!-- 淡红白色背景 -->
+            <rect
+                width="960"
+                height="540"
+                fill="#FFF9F9"
+            />
+
+            <!-- 顶部深红色飘带 -->
+            <path
+                d="M0 95 C170 20 315 150 485 75 C645 4 790 112 960 36 L960 0 L0 0 Z"
+                fill="#CC0000"
+                opacity="0.96"
+            />
+
+            <!-- 顶部浅红色波浪线 -->
+            <path
+                d="M0 120 C185 45 320 180 500 100 C680 20 815 136 960 70"
+                fill="none"
+                stroke="#F3A6A6"
+                stroke-width="8"
+                opacity="0.7"
+            />
+        </svg>
+    `;
+
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+     function renderCards(category, useAnimation = false) {
+            const list = DANCES.filter(item => item.category === category);
+
+            if (list.length === 0) {
+                danceGrid.innerHTML = `<div class="empty-state">该分类暂未收录舞蹈资料。</div>`;
+                return;
+            }
+
+danceGrid.innerHTML = list.map((dance, index) => {
+const fallback = createFallbackPoster();
+
+    const animationClass = useAnimation ? " is-entering" : "";
+    const animationDelay = useAnimation
+        ? `style="animation-delay: ${index * 0.08}s;"`
+        : "";
+
+return `
+    <article
+        class="dance-card${animationClass}"
+        data-index="${DANCES.indexOf(dance)}"
+        ${animationDelay}
+    >
+        <div class="dance-thumb">
+<img
+    class="dance-poster"
+    src="${escapeHtml(dance.poster)}"
+    data-fallback="${fallback}"
+    alt="${escapeHtml(dance.title)}视频封面"
+    style="--poster-position: ${escapeHtml(dance.posterPosition || "center center")};"
+    draggable="false"
+>
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">
+                ${escapeHtml(dance.title)}
+            </h2>
+
+            <p class="dance-desc">
+                ${escapeHtml(dance.desc)}
+            </p>
+
+
+        </div>
+    </article>
+`;
+            }).join("");
+
+            danceGrid.querySelectorAll(".dance-poster").forEach(image => {
+                image.addEventListener("error", function handleImageError() {
+                    this.removeEventListener("error", handleImageError);
+                    this.src = this.dataset.fallback;
+                });
+            });
+
+/* 电脑端和手机端：点击整张卡片播放 */
+danceGrid.querySelectorAll(".dance-card").forEach(card => {
+    card.addEventListener("click", function () {
+        const dance = DANCES[Number(this.dataset.index)];
+        openVideoModal(dance);
+    });
+});
+        }
+
+        function switchCategory(category) {
+            if (category === activeCategory) return;
+
+            activeCategory = category;
+
+            document.querySelectorAll(".category-btn").forEach(button => {
+                button.classList.toggle("active", button.dataset.category === category);
+            });
+
+            updateCategorySlider();
+
+            clearTimeout(categoryTimer);
+            danceGrid.classList.add("is-changing");
+
+categoryTimer = setTimeout(() => {
+    renderCards(category, true);
+    danceGrid.classList.remove("is-changing");
+}, 300);
+
+}
+
+        function updateCategorySlider() {
+            const activeButton = document.querySelector(".category-btn.active");
+
+            if (!activeButton || !categoryButtons) return;
+
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            const extraWidth = isMobile ? 12 : 18;
+            const extraHeight = isMobile ? 12 : 18;
+
+            const x = activeButton.offsetLeft - extraWidth / 2;
+            const y = activeButton.offsetTop - extraHeight / 2;
+            const width = activeButton.offsetWidth + extraWidth;
+            const height = activeButton.offsetHeight + extraHeight;
+
+            categoryButtons.style.setProperty("--slider-x", `${x}px`);
+            categoryButtons.style.setProperty("--slider-y", `${y}px`);
+            categoryButtons.style.setProperty("--slider-width", `${width}px`);
+            categoryButtons.style.setProperty("--slider-height", `${height}px`);
+            categoryButtons.classList.add("has-active");
+        }
+
+        function initCategoryButtons() {
+            document.querySelectorAll(".category-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    switchCategory(this.dataset.category);
+                });
+            });
+
+            categoryButtons.classList.add("no-slider-transition", "has-active");
+            updateCategorySlider();
+            categoryButtons.offsetHeight;
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    categoryButtons.classList.remove("no-slider-transition");
+                });
+            });
+        }
+
+function showVideoLoading() {
+    /*
+     * 开始加载B站播放器时：
+     * 隐藏iframe，显示网站自己的加载画面。
+     */
+    videoStatus.classList.remove("is-visible");
+    videoLoading.classList.add("is-visible");
+    videoPlayer.style.visibility = "hidden";
+}
+
+function hideVideoLoading() {
+    /*
+     * B站播放器页面已经载入：
+     * 隐藏网站加载画面，显示B站播放器。
+     */
+    videoLoading.classList.remove("is-visible");
+    videoPlayer.style.visibility = "visible";
+}
+
+function showVideoError() {
+    /*
+     * 没有嵌入地址时：
+     * 关闭加载动画，显示无视频提示。
+     */
+    videoLoading.classList.remove("is-visible");
+    videoStatus.classList.add("is-visible");
+    videoPlayer.style.visibility = "hidden";
+}
+
+function clearVideoError() {
+    videoStatus.classList.remove("is-visible");
+}
+
+function normalizeVideoParagraphs(content) {
+    if (Array.isArray(content)) {
+        return content.filter(item => {
+            return typeof item === "string" && item.trim() !== "";
+        });
+    }
+
+    if (typeof content === "string" && content.trim() !== "") {
+        return [content];
+    }
+
+    return [];
+}
+
+function renderVideoExtra(dance) {
+    if (!videoExtra || !dance) return;
+
+const sections = [
+    {
+        title: "作品介绍",
+        content: dance.intro
+    },
+    {
+        title: "创作背景",
+        content: dance.background
+    },
+    {
+        title: "艺术特点",
+        content: dance.features
+    }
+];
+
+    const html = sections.map(section => {
+        const paragraphs = normalizeVideoParagraphs(section.content);
+
+        if (paragraphs.length === 0) {
+            return "";
+        }
+
+        return `
+            <section class="video-extra-section">
+                <h3 class="video-extra-title">
+                    ${escapeHtml(section.title)}
+                </h3>
+
+                ${paragraphs.map(paragraph => {
+                    return `
+                        <p class="video-extra-text">
+                            ${escapeHtml(paragraph)}
+                        </p>
+                    `;
+                }).join("")}
+            </section>
+        `;
+    }).join("");
+
+    videoExtra.innerHTML = html;
+    videoExtra.style.display = html ? "block" : "none";
+}
+
+function openVideoModal(dance) {
+    if (!dance) return;
+
+    videoModalTitle.textContent = dance.title;
+    videoPlayer.title = `${dance.title}视频播放器`;
+
+    renderVideoExtra(dance);
+    clearVideoError();
+
+    if (videoScroll) {
+        videoScroll.scrollTop = 0;
+    }
+
+    /*
+     * 先打开弹窗，使加载画面立刻出现。
+     */
+    videoModal.classList.add("is-visible");
+    videoModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+
+    const embedSrc =
+        typeof dance.embedSrc === "string"
+            ? dance.embedSrc.trim()
+            : "";
+
+    if (embedSrc) {
+        /*
+         * 在B站播放器出现之前，
+         * 先显示网站自己的加载动画。
+         */
+        showVideoLoading();
+
+        /*
+         * 下一帧再设置iframe地址，
+         * 让浏览器有机会先绘制弹窗和加载动画。
+         */
+        requestAnimationFrame(() => {
+            if (!videoModal.classList.contains("is-visible")) {
+                return;
+            }
+
+            videoPlayer.src = embedSrc;
+        });
+    } else {
+        videoPlayer.src = "about:blank";
+        showVideoError();
+    }
+}
+
+videoPlayer.addEventListener("load", () => {
+    const currentSrc = videoPlayer.getAttribute("src");
+
+    /*
+     * about:blank载入时不处理。
+     */
+    if (!currentSrc || currentSrc === "about:blank") {
+        return;
+    }
+
+    /*
+     * 弹窗已经关闭时不处理旧的载入事件。
+     */
+    if (!videoModal.classList.contains("is-visible")) {
+        return;
+    }
+
+    hideVideoLoading();
+});
+
+function closeVideoModal() {
+    if (!videoModal.classList.contains("is-visible")) return;
+
+    /*
+     * 先关闭弹窗状态。
+     */
+    videoModal.classList.remove("is-visible");
+    videoModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+
+    /*
+     * 清理所有播放器状态。
+     */
+    videoLoading.classList.remove("is-visible");
+    videoStatus.classList.remove("is-visible");
+
+    videoPlayer.style.visibility = "hidden";
+    videoPlayer.src = "about:blank";
+}
+
+
+        videoCloseBtn.addEventListener("click", closeVideoModal);
+
+        videoModal.addEventListener("click", event => {
+            if (event.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+
+        window.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                closeVideoModal();
+            }
+        });
+
+        window.addEventListener("resize", updateCategorySlider);
+
+renderCards(activeCategory, false);
+initCategoryButtons();
+    </script>
+</body>
+</html>
