@@ -1284,7 +1284,136 @@ header {
 </div>
         </section>
 
-        <section class="dance-grid" id="danceGrid" aria-live="polite"></section>
+  <section class="dance-grid" id="danceGrid" aria-live="polite">
+
+    <!-- 革命斗争：初始HTML直接存在，避免刷新时页面高度闪动 -->
+
+    <article class="dance-card" data-index="0">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/01dance.png"
+                alt="草原女民兵视频封面"
+                style="--poster-position: center center;"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">草原女民兵</h2>
+
+            <p class="dance-desc">
+                “毛泽东思想把我们武装，草原女民兵心红胆壮志如刚。”
+            </p>
+        </div>
+    </article>
+
+
+    <article class="dance-card" data-index="1">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/15dance.png"
+                alt="东方红视频封面"
+                style="--poster-position: center center;"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">东方红</h2>
+
+            <p class="dance-desc">
+                “他为人民谋幸福，他是人民大救星。”
+            </p>
+        </div>
+    </article>
+
+
+    <article class="dance-card" data-index="2">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/02dance.png"
+                alt="红色娘子军视频封面"
+                style="--poster-position: center center;"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">红色娘子军</h2>
+
+            <p class="dance-desc">
+                “砸碎铁锁链，翻身闹革命。我们娘子军，扛枪为人民。”
+            </p>
+        </div>
+    </article>
+
+
+    <article class="dance-card" data-index="3">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/03dance.png"
+                alt="白毛女视频封面"
+                style="--poster-position: center 90%;"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">白毛女</h2>
+
+            <p class="dance-desc">
+                “地主逼债似虎狼，仇恨怒火燃烧我胸怀。”
+            </p>
+        </div>
+    </article>
+
+
+    <article class="dance-card" data-index="4">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/10dance.png"
+                alt="哥萨克骑兵舞视频封面"
+                style="--poster-position: center center;"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">哥萨克骑兵舞</h2>
+
+            <p class="dance-desc">
+                “马队奔驰在柏林，我们哥萨克！”
+            </p>
+        </div>
+    </article>
+
+
+    <article class="dance-card" data-index="5">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/16dance.png"
+                alt="巴黎的火焰视频封面"
+                style="--poster-position: center 20%;"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">巴黎的火焰</h2>
+
+            <p class="dance-desc">
+                “前进，祖国的儿女，快奋起， 光荣的一天等着你！”
+            </p>
+        </div>
+    </article>
+
+</section>
     </main>
 
     <div class="video-modal" id="videoModal" aria-hidden="true">
@@ -1824,6 +1953,77 @@ let activeCategory = "revolution";
     return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
+
+/*
+ * 给当前页面中的卡片绑定图片错误处理和点击播放。
+ *
+ * 初始革命斗争卡片来自HTML；
+ * 切换分类后的卡片来自renderCards函数。
+ * 两种卡片统一使用这里的事件。
+ */
+function bindDanceCards() {
+    /*
+     * 图片载入失败时显示备用图。
+     */
+    danceGrid.querySelectorAll(".dance-poster").forEach(image => {
+        /*
+         * 防止同一张图片重复绑定错误事件。
+         */
+        if (image.dataset.errorBound === "true") return;
+
+        image.dataset.errorBound = "true";
+
+        function applyFallbackPoster() {
+            /*
+             * 使用一次后移除，防止备用图也失败时无限循环。
+             */
+            image.removeEventListener(
+                "error",
+                applyFallbackPoster
+            );
+
+            image.src =
+                image.dataset.fallback ||
+                createFallbackPoster();
+        }
+
+        image.addEventListener(
+            "error",
+            applyFallbackPoster
+        );
+
+        /*
+         * 如果图片在JavaScript执行前就已经失败，
+         * 这里也能补上备用图。
+         */
+        if (
+            image.complete &&
+            image.naturalWidth === 0
+        ) {
+            applyFallbackPoster();
+        }
+    });
+
+
+    danceGrid.querySelectorAll(".dance-card").forEach(card => {
+        /*
+         * 防止同一张卡片重复绑定点击事件。
+         */
+        if (card.dataset.clickBound === "true") return;
+
+        card.dataset.clickBound = "true";
+
+        card.addEventListener("click", function () {
+            const danceIndex = Number(this.dataset.index);
+            const dance = DANCES[danceIndex];
+
+            if (!dance) return;
+
+            openVideoModal(dance);
+        });
+    });
+}
+
      function renderCards(category, useAnimation = false) {
             const list = DANCES.filter(item => item.category === category);
 
@@ -1872,20 +2072,8 @@ return `
 `;
             }).join("");
 
-            danceGrid.querySelectorAll(".dance-poster").forEach(image => {
-                image.addEventListener("error", function handleImageError() {
-                    this.removeEventListener("error", handleImageError);
-                    this.src = this.dataset.fallback;
-                });
-            });
 
-/* 电脑端和手机端：点击整张卡片播放 */
-danceGrid.querySelectorAll(".dance-card").forEach(card => {
-    card.addEventListener("click", function () {
-        const dance = DANCES[Number(this.dataset.index)];
-        openVideoModal(dance);
-    });
-});
+bindDanceCards();
         }
 
         function switchCategory(category) {
@@ -2235,7 +2423,9 @@ document.addEventListener(
 
         window.addEventListener("resize", updateCategorySlider);
 
-renderCards(activeCategory, false);
+
+bindDanceCards();
+
 initCategoryButtons();
     </script>
 </body>
