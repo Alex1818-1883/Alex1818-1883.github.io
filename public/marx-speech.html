@@ -23,8 +23,18 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-    overflow-x: hidden;
+            overflow-x: hidden;
         }
+
+::selection {
+            background-color: #CC0000;
+            color: #FFFFFF;           
+        }
+        ::-moz-selection { 
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
 
         /* === 顶部导航栏 (完全沿用) === */
         header {
