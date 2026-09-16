@@ -587,6 +587,13 @@ footer h3 {
 .btn-main *,
 .gallery-choice,
 .gallery-choice *,
+.library-close-btn,
+.library-choice-btn,
+.library-choice-btn *,
+.library-title,
+.library-title *,
+.library-star-title,
+.library-star-title *,
 .close-btn,
 .close-btn *,
 footer h3 {
@@ -613,6 +620,13 @@ footer h3 {
 .btn-main *::selection,
 .gallery-choice::selection,
 .gallery-choice *::selection,
+.library-close-btn::selection,
+.library-choice-btn::selection,
+.library-choice-btn *::selection,
+.library-title::selection,
+.library-title *::selection,
+.library-star-title::selection,
+.library-star-title *::selection,
 .close-btn::selection,
 .close-btn *::selection,
 footer h3::selection {
@@ -1107,31 +1121,6 @@ footer h3::selection {
     color: #FFFFFF;
 }
 
-/* 弹窗元素禁止选中 */
-.library-close-btn,
-.library-close-btn *,
-.library-choice-btn,
-.library-choice-btn *,
-.library-title,
-.library-title *,
-.library-star-title,
-.library-star-title * {
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-user-drag: none;
-}
-
-.library-close-btn::selection,
-.library-close-btn *::selection,
-.library-choice-btn::selection,
-.library-choice-btn *::selection,
-.library-title::selection,
-.library-title *::selection,
-.library-star-title::selection,
-.library-star-title *::selection {
-    background: transparent;
-}
 
 /* 手机端保持 classic 页面同款 */
 @media (max-width: 768px) {
