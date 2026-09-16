@@ -65,7 +65,7 @@
         }
 
         /* 导航栏胶囊按钮 */
-      .nav-links a,
+.nav-links > a,
 .nav-library-btn {
  appearance: none;
     -webkit-appearance: none;
@@ -90,17 +90,273 @@
              color 0.3s ease;
 }
 
-.nav-links a:hover,
+.nav-links > a:hover,
 .nav-library-btn:hover {
             color: #FFFFFF; 
             background-color: #CC0000; 
           transform: scale(1.1) translateY(-3px) translateZ(0);
         
         }
-.nav-links a:active,
+.nav-links > a:active,
 .nav-library-btn:active {
     transform: scale(0.95) translateZ(0);
 }
+
+/* === 顶部右侧导航：保持理论文库原位置不变 === */
+.nav-links {
+    position: relative;
+}
+
+.nav-links > .nav-more {
+    position: absolute;
+
+    right: 100%;
+    top: calc(50% - 23px);
+}
+
+/* === 右上角九宫格栏目菜单 === */
+.nav-more {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 九宫格圆形按钮 */
+.nav-menu-btn {
+    appearance: none;
+    -webkit-appearance: none;
+
+width: 46px;
+height: 46px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: transparent;
+
+    cursor: pointer;
+
+    position: relative;
+
+    outline: none;
+    box-shadow: none;
+
+    transition:
+        background-color 0.2s ease;
+}
+
+
+/* === 九个红色小圆点 === */
+.nav-dot-grid {
+    width: 21px;
+    height: 21px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 5px);
+    grid-template-rows: repeat(3, 5px);
+
+    gap: 3px;
+
+    align-content: center;
+    justify-content: center;
+
+}
+
+.nav-dot-grid span {
+    width: 5px;
+    height: 5px;
+
+    display: block;
+
+    border-radius: 50%;
+
+    background-color: #CC0000;
+}
+
+
+
+
+
+/* === 电脑端九宫格悬停：只显示浅粉色背景 === */
+@media (hover: hover) and (pointer: fine) {
+
+    .nav-menu-btn:hover {
+        background-color: #FFF5F5;
+    }
+}
+
+
+/* ==================================================
+   九宫格栏目索引
+   逻辑完全采用国际共产主义运动页面“档案索引”
+   ================================================== */
+
+
+/* === 点击菜单之外的透明遮罩 === */
+.site-index-mask {
+    position: fixed;
+    inset: 0;
+
+    z-index: 230;
+
+    background-color: transparent;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.site-index-open .site-index-mask {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* === 目录索引菜单：只做透明度渐显渐隐 === */
+.site-index-drawer {
+    position: absolute;
+
+    right: 0;
+    top: calc(100% + 12px);
+
+    z-index: 240;
+
+    width: 310px;
+    height: auto;
+
+    padding: 0;
+
+    background-color: transparent;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition:
+        opacity 0.22s ease;
+}
+
+body.site-index-open .site-index-drawer {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* === 索引牌：完全照搬共运页面 === */
+.site-index-panel {
+    background-color: #FFFFFF;
+
+    border: 1px solid #FFCCCC;
+    border-left: 6px solid #CC0000;
+
+    border-radius: 12px;
+
+    padding: 28px 22px 24px 24px;
+
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+
+/* === 标题：中文 + 英文小字 === */
+.site-index-panel h2 {
+    color: #CC0000;
+
+    font-weight: 900;
+
+    margin-bottom: 22px;
+
+    line-height: 1.2;
+}
+
+.site-index-panel h2 span {
+    display: block;
+
+    font-size: 24px;
+
+    letter-spacing: 3px;
+}
+
+.site-index-panel h2 em {
+    display: block;
+
+    margin-top: 6px;
+
+    font-style: normal;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    color: #A80000;
+}
+
+
+/* === 每一个目录入口 === */
+.site-index-panel a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    color: #A80000;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    padding: 11px 14px;
+
+    margin-bottom: 14px;
+
+    border-radius: 999px;
+
+    transform: none;
+
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease;
+}
+
+.site-index-panel a:last-child {
+    margin-bottom: 0;
+}
+
+
+/* === 悬停效果：完全照搬共运目录 === */
+.site-index-panel a:hover {
+    color: #FF0000;
+
+    background-color: #FFF5F5;
+}
+
+
+/* === 每一个目录项之间的淡红虚线 === */
+.site-index-panel a:not(:last-child)::after {
+    content: "";
+
+    position: absolute;
+
+    left: 14px;
+    right: 14px;
+
+    bottom: -7px;
+
+    border-bottom: 1px dashed #F1CACA;
+
+    pointer-events: none;
+}
+
 
        /* === 1. 全屏首屏：容器基础设定 === */
         .hero {
@@ -927,6 +1183,8 @@ overflow: hidden;
 .nav-links a,
 .nav-library-btn,
 .nav-library-btn *,
+.nav-menu-btn,
+.nav-menu-btn *,
 .library-close-btn,
 .library-choice-btn,
 .library-choice-btn *,
@@ -994,6 +1252,8 @@ footer h3 {
 .audio-page-indicator::selection,
 .nav-library-btn::selection,
 .nav-library-btn *::selection,
+.nav-menu-btn::selection,
+.nav-menu-btn *::selection,
 .library-close-btn::selection,
 .library-choice-btn::selection,
 .library-choice-btn *::selection,
@@ -1144,9 +1404,9 @@ footer h3::selection {
 }
 
 .nav-links {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+    position: relative;
+
+    width: auto;
 }
 
 .nav-library-btn {
@@ -1256,9 +1516,24 @@ footer h3::selection {
 }
 
 
+}
 
+
+/* === 手机端：右上角目录索引防止超出屏幕 === */
+@media (max-width: 768px) {
+
+    .site-index-drawer {
+        position: fixed;
+
+        top: 122px;
+        right: 16px;
+        left: auto;
+
+        width: min(310px, calc(100vw - 32px));
+    }
 
 }
+
 /* === 歌曲切换动画 === */
 .music-info h3,
 .music-info p {
@@ -1330,8 +1605,70 @@ will-change: transform, opacity;
 
     <header>
         <a class="logo" id="logoLink"><span class="star">★</span> 马列毛主义万岁！</a>
-  <div class="nav-links">
-    <button type="button" class="nav-library-btn" id="libraryOpenBtn">理论文库</button>
+<div class="nav-links">
+
+<div class="nav-more" id="navMore">
+
+    <button
+        type="button"
+        class="nav-menu-btn"
+        id="navMenuBtn"
+        aria-label="打开目录索引"
+        aria-expanded="false"
+        aria-controls="siteIndexDrawer"
+    >
+        <span class="nav-dot-grid" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+
+    <div class="site-index-mask"></div>
+
+
+    <aside
+        class="site-index-drawer"
+        id="siteIndexDrawer"
+        aria-hidden="true"
+    >
+        <div class="site-index-panel">
+
+            <h2>
+                <span>目录索引</span>
+                <em>SITE INDEX</em>
+            </h2>
+
+            <a href="art.html">
+                <span class="index-name">革命文艺</span>
+            </a>
+
+            <a href="article.html">
+                <span class="index-name">文章时评</span>
+            </a>
+
+        </div>
+    </aside>
+
+</div>
+
+    <button
+        type="button"
+        class="nav-library-btn"
+        id="libraryOpenBtn"
+    >
+        理论文库
+    </button>
+
 </div>
     </header>
 
@@ -1566,6 +1903,97 @@ will-change: transform, opacity;
 const libraryModal = document.getElementById('libraryModal');
 const libraryOpenBtn = document.getElementById('libraryOpenBtn');
 const libraryCloseBtn = document.getElementById('libraryCloseBtn');
+
+// === 九宫格目录索引 ===
+// 打开 / 关闭逻辑完全采用国际共产主义运动页面的索引逻辑
+
+const siteIndexToggle =
+    document.getElementById('navMenuBtn');
+
+const siteIndexDrawer =
+    document.getElementById('siteIndexDrawer');
+
+const siteIndexMask =
+    document.querySelector('.site-index-mask');
+
+const siteIndexLinks =
+    document.querySelectorAll('.site-index-drawer a');
+
+
+function openSiteIndex() {
+    document.body.classList.add('site-index-open');
+
+    siteIndexDrawer.setAttribute(
+        'aria-hidden',
+        'false'
+    );
+
+    siteIndexToggle.setAttribute(
+        'aria-expanded',
+        'true'
+    );
+}
+
+
+function closeSiteIndex() {
+    document.body.classList.remove('site-index-open');
+
+    siteIndexDrawer.setAttribute(
+        'aria-hidden',
+        'true'
+    );
+
+    siteIndexToggle.setAttribute(
+        'aria-expanded',
+        'false'
+    );
+}
+
+
+siteIndexToggle.addEventListener('click', function () {
+
+    if (
+        document.body.classList.contains(
+            'site-index-open'
+        )
+    ) {
+        closeSiteIndex();
+    } else {
+        openSiteIndex();
+    }
+
+});
+
+
+/* 点击菜单之外的任何地方关闭 */
+siteIndexMask.addEventListener(
+    'click',
+    closeSiteIndex
+);
+
+
+/* 点击任意目录项以后关闭 */
+siteIndexLinks.forEach(function (link) {
+
+    link.addEventListener(
+        'click',
+        closeSiteIndex
+    );
+
+});
+
+
+/* Esc 关闭 */
+document.addEventListener(
+    'keydown',
+    function (event) {
+
+        if (event.key === 'Escape') {
+            closeSiteIndex();
+        }
+
+    }
+);
 
 let libraryStarStopTimer = null;
 
