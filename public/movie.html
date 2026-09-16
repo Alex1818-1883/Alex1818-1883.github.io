@@ -1,0 +1,2910 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 提前解析并连接B站播放器域名，稍微缩短初次加载时间 -->
+<link rel="dns-prefetch" href="//player.bilibili.com">
+<link rel="preconnect" href="https://player.bilibili.com" crossorigin>
+
+<title>经典革命电影</title>
+    <link rel="icon" href="red.ico" type="image/x-icon">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+        scroll-behavior: auto;
+            scrollbar-gutter: stable;
+            overflow-y: scroll;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+
+            background-color: #F9F9F9;
+            color: #A80000;
+
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+::selection {
+            background-color: #CC0000;
+            color: #FFFFFF;           
+        }
+        ::-moz-selection { 
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+
+        @keyframes cardRiseIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+     /* === 顶部导航：与毛主席相集完全一致 === */
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    padding: 20px 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    z-index: 100;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 900;
+    color: #CC0000;
+    text-decoration: none;
+    letter-spacing: 1px;
+
+    display: flex;
+    align-items: center;
+
+    transform: scale(1) translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+
+    transition:
+        transform 0.4s
+        cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    transform-origin: left center;
+}
+
+.logo .star {
+    display: inline-block;
+    margin-right: 8px;
+
+    transition:
+        transform 0.5s
+        cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        color 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.15) translateZ(0);
+}
+
+.logo:hover .star {
+    transform:
+        scale(1.4)
+        rotate(36deg)
+        translateZ(0);
+
+    color: #FFD700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+/*
+ * 右侧不可见占位。
+ * 它不显示、不响应点击，但保留原按钮所占宽度，
+ * 从而保持顶部布局和相集页面一致。
+ */
+.nav-placeholder::after {
+    content: "革命文艺";
+
+    display: inline-block;
+    visibility: hidden;
+    pointer-events: none;
+
+    color: #CC0000;
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 8px 22px;
+
+    border: 2px solid #CC0000;
+    border-radius: 30px;
+}
+
+.hero {
+
+    height: 58vh;
+    min-height: 0;
+
+    padding: 10vh 20px 6vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #FFFFFF 0,
+            #FFFFFF 90%,
+            #F9F9F9 90%,
+            #F9F9F9 100%
+        );
+}
+
+/* === 首屏上半部分背景图 === */
+.hero::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 10%;
+
+    z-index: 0;
+
+    background-image: url("calligraphy/goodfilm.svg");
+    background-repeat: no-repeat;
+
+    background-size: 78% auto;
+
+    background-position:
+        center
+        calc(50% - 1px);
+
+    opacity: 0.1;
+
+    pointer-events: none;
+}
+
+        .hero h1 {
+            position: relative;
+            z-index: 1;
+
+            margin-bottom: 18px;
+
+            color: #DD0000;
+            font-size: 3.4rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            line-height: 1.15;
+
+        }
+
+        .hero p {
+            position: relative;
+            z-index: 1;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+
+        }
+
+.hero h1,
+.hero p {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+
+    -webkit-touch-callout: default;
+}
+
+.hero-divider {
+    position: absolute;
+    left: 50%;
+
+    /*
+     * 固定在首屏高度约90%的位置。
+     */
+    top: 90%;
+    bottom: auto;
+
+    z-index: 2;
+
+    width: 100vw;
+    margin-left: -50vw;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    color: #CC0000;
+    font-size: 36px;
+    line-height: 1;
+
+    transform: translateY(-50%);
+
+    pointer-events: none;
+}
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            flex: 1;
+            height: 3px;
+
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        /* === 主体 === */
+        main {
+            flex: 1;
+
+            width: 100%;
+            max-width: 1220px;
+
+            margin: 14px auto 0;
+            padding: 0 28px 82px;
+        }
+
+.dance-category-section {
+    width: min(900px, 100%);
+    margin: 10px auto 64px;
+}
+
+
+        .category-buttons {
+            --slider-x: -4px;
+            --slider-y: -4px;
+            --slider-width: 0px;
+            --slider-height: 0px;
+
+            position: relative;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            width: min(820px, 100%);
+            margin: 0 auto;
+            padding: 5px;
+
+            border: 2px solid #CC0000;
+            border-radius: 999px;
+            background-color: #FFFFFF;
+        }
+
+        .category-buttons::before {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 0;
+
+            width: var(--slider-width);
+            height: var(--slider-height);
+
+            border-radius: 999px;
+            background-color: #CC0000;
+
+            opacity: 0;
+            transform: translate3d(var(--slider-x), var(--slider-y), 0);
+
+            transition:
+                transform 0.26s ease,
+                opacity 0.18s ease;
+        }
+
+        .category-buttons.no-slider-transition::before {
+            transition: none !important;
+        }
+
+        .category-buttons.has-active::before {
+            opacity: 1;
+        }
+
+        .category-btn {
+            position: relative;
+            z-index: 1;
+
+            height: 46px;
+
+            border: none;
+            border-radius: 999px;
+            background-color: transparent;
+
+            color: #CC0000;
+
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+            isolation: isolate;
+
+            transition: color 0.22s ease;
+        }
+
+        .category-btn::before {
+            content: "";
+
+            position: absolute;
+            top: -5px;
+            bottom: -5px;
+            left: -5px;
+            right: -5px;
+            z-index: -1;
+
+            border-radius: 999px;
+            background-color: rgba(204, 0, 0, 0.08);
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: opacity 0.22s ease;
+        }
+
+        .category-btn:hover::before {
+            opacity: 1;
+        }
+
+        .category-btn.active::before,
+        .category-btn.active:hover::before {
+            opacity: 0;
+        }
+
+        .category-btn:hover {
+            color: #FF0000;
+        }
+
+        .category-btn.active,
+        .category-btn.active:hover {
+            color: #FFFFFF;
+        }
+
+
+        .dance-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 34px 32px;
+
+            width: 100%;
+            min-height: 520px;
+
+            transition:
+                opacity 0.3s ease,
+                transform 0.3s ease;
+        }
+
+        .dance-grid.is-changing {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+.dance-card {
+    min-width: 0;
+    overflow: hidden;
+
+    border: 2px solid #FFE1E1;
+    border-radius: 18px;
+    background-color: #FFFFFF;
+
+    opacity: 1;
+    cursor: pointer;
+
+    transition:
+        border-color 0.28s ease,
+        box-shadow 0.28s ease;
+}
+
+.dance-card.is-entering {
+
+    animation: cardRiseIn 0.72s ease-out backwards;
+}
+
+        .dance-card:hover {
+            border-color: rgba(204, 0, 0, 0.72);
+            box-shadow: 0 12px 25px rgba(204, 0, 0, 0.065);
+        }
+
+.dance-thumb {
+    display: block;
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    overflow: hidden;
+    line-height: 0;
+
+    background-color: #F3E8E8;
+}
+
+
+
+.dance-poster {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: var(--poster-position, center center);
+
+
+    transform-origin: 50% 50%;
+
+
+    transform: translate3d(0, 0, 0) scale(1);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    transition: transform 0.45s ease;
+}
+
+.dance-card:hover .dance-poster {
+    transform: translate3d(0, 0, 0) scale(1.025);
+}
+
+      
+        .dance-info {
+            padding: 24px 28px 27px;
+        }
+
+.dance-title {
+    margin-bottom: 16px;
+
+    color: #CC0000;
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.35;
+}
+
+
+.dance-desc {
+    color: #A80000;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.7;
+
+    font-style: normal;
+    text-align: left;
+
+    border-left: none;
+    padding-left: 0;
+    margin: 0;
+
+    text-indent: -1em;
+}
+
+
+
+        .empty-state {
+            grid-column: 1 / -1;
+
+            padding: 70px 20px;
+
+            color: #A80000;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        /* === 视频弹窗：单部播放，不设左右切换 === */
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 28px;
+
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0s linear 0.25s;
+        }
+
+        .video-modal.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0s linear 0s;
+        }
+
+.video-panel {
+    position: relative;
+
+    width: min(1040px, 100%);
+    max-height: calc(100vh - 56px);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+    padding: 0;
+
+    border-left: 7px solid #CC0000;
+    border-radius: 22px;
+    background-color: #FFFFFF;
+
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.25);
+
+    opacity: 0;
+    transform: none;
+
+    transition: opacity 0.25s ease;
+}
+
+.video-header {
+    position: relative;
+    z-index: 5;
+
+    flex: 0 0 auto;
+
+
+   padding: 32px 58px 32px;
+
+    background-color: #FFFFFF;
+}
+
+.video-scroll {
+    position: relative;
+
+    flex: 1 1 auto;
+    min-height: 0;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    margin-right: 12px;
+
+    /*
+     * 顶部不再放可滚动留白。
+     * 标题到视频的32px距离全部固定在header中。
+     */
+    padding: 0 34px 36px 42px;
+
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+}
+
+
+.video-modal.is-visible .video-panel {
+    opacity: 1;
+    transform: none;
+}
+
+.video-close {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    z-index: 6;
+
+    width: 38px;
+    height: 38px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 0 2px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: transparent;
+    color: #CC0000;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.video-close:hover {
+    background-color: #CC0000;
+    color: #FFFFFF;
+}
+
+.video-close:active {
+    background-color: #A80000;
+    color: #FFFFFF;
+}
+
+.video-title {
+    padding: 0 16px;
+    margin: 0;
+
+    color: #CC0000;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+        .video-frame {
+            position: relative;
+
+            width: 100%;
+            aspect-ratio: 16 / 9;
+
+            overflow: hidden;
+
+            border-radius: 14px;
+            background-color: #000000;
+        }
+
+.modal-video {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    border: none;
+    background-color: #000000;
+}
+
+/*
+ * 网站自己的全屏按钮。
+ * 电脑端默认隐藏；手机端覆盖B站右下角全屏图标。
+ */
+.site-fullscreen-btn {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+
+    display: none;
+
+    /*
+     * 只覆盖B站最右侧全屏按钮区域，
+     * 不影响暂停、进度条和弹幕按钮。
+     */
+    width: 48px;
+    height: 44px;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 视频框进入全屏后铺满整个屏幕 */
+.video-frame:fullscreen,
+.video-frame:-webkit-full-screen {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+
+    aspect-ratio: auto;
+    border-radius: 0;
+
+    background-color: #000000;
+}
+
+/* 全屏后让B站iframe铺满视频框 */
+.video-frame:fullscreen .modal-video,
+.video-frame:-webkit-full-screen .modal-video {
+    width: 100%;
+    height: 100%;
+}
+
+.video-frame:fullscreen .site-fullscreen-btn,
+.video-frame:-webkit-full-screen .site-fullscreen-btn {
+    top: auto;
+    left: auto;
+    right: 0;
+    bottom: 0;
+
+    display: block;
+}
+
+/* === B站播放器载入前的网站加载画面 === */
+@keyframes videoLoadingSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+.video-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #350000 0,
+            #170000 42%,
+            #050505 100%
+        );
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.18s ease,
+        visibility 0s linear 0.18s;
+}
+
+.video-loading.is-visible {
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity 0.18s ease,
+        visibility 0s linear 0s;
+}
+
+.video-loading-mark {
+    position: relative;
+
+    width: 66px;
+    height: 66px;
+}
+
+.video-loading-ring {
+    position: absolute;
+    inset: 0;
+
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #CC0000;
+    border-right-color: #CC0000;
+    border-radius: 50%;
+
+    animation: videoLoadingSpin 0.9s linear infinite;
+}
+
+.video-loading-star {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    color: #FF0000;
+
+    font-size: 27px;
+    font-weight: 900;
+    line-height: 1;
+
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+
+        .video-status {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+
+            background-color: #111111;
+            color: #FFFFFF;
+
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 1.9;
+            text-align: center;
+        }
+
+        .video-status.is-visible {
+            display: flex;
+        }
+
+/* === 视频下方的作品资料 === */
+.video-extra {
+    width: min(880px, 100%);
+
+    margin: 42px auto 0;
+
+    color: #222222;
+    text-align: left;
+}
+
+.video-extra-section {
+    margin-bottom: 34px;
+}
+
+.video-extra-section:last-child {
+    margin-bottom: 0;
+}
+
+.video-extra-title {
+    margin: 0 0 16px;
+
+    color: #CC0000;
+
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.4;
+    letter-spacing: 1px;
+}
+
+.video-extra-text {
+    margin: 0;
+
+    color: #222222;
+
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.05;
+
+    text-align: justify;
+}
+
+.video-extra-text + .video-extra-text {
+    margin-top: 14px;
+}
+
+
+
+        /* === 页脚 === */
+        footer {
+            padding: 40px 20px;
+
+            background-color: #CC0000;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        footer h3 {
+            color: #FFFFFF;
+            font-size: 26px;
+            letter-spacing: 4px;
+        }
+
+
+.logo,
+.logo *,
+.nav-links,
+.nav-links *,
+.hero-divider,
+.hero-divider *,
+.category-buttons,
+.category-buttons *,
+.dance-card,
+.dance-card *,
+.video-close,
+.video-title,
+footer h3 {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+}
+
+
+.logo::selection,
+.logo *::selection,
+.nav-links::selection,
+.nav-links *::selection,
+.hero-divider::selection,
+.hero-divider *::selection,
+.category-buttons::selection,
+.category-buttons *::selection,
+.dance-card::selection,
+.dance-card *::selection,
+.video-close::selection,
+.video-title::selection,
+footer h3::selection {
+    background: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid rgba(204, 0, 0, 0.3);
+    outline-offset: 3px;
+}
+
+        /* === 平板 === */
+        @media (max-width: 980px) {
+            main {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .category-buttons {
+                width: min(760px, 100%);
+            }
+
+            .dance-grid {
+                gap: 28px 24px;
+            }
+
+            .dance-title {
+                font-size: 23px;
+            }
+
+            .dance-info {
+                padding: 22px 24px 25px;
+            }
+        }
+
+        /* === 手机端：单列卡片，不另设最小手机断点 === */
+        @media (max-width: 768px) {
+
+header {
+    padding: 15px 20px;
+
+    flex-direction: column;
+    gap: 10px;
+}
+
+.logo {
+    font-size: 22px;
+    transform-origin: center center;
+}
+
+            .hero {
+                min-height: 360px;
+                padding-top: 96px;
+
+                background:
+                    linear-gradient(
+                        to bottom,
+                        #FFFFFF 0,
+                        #FFFFFF calc(100% - 35px),
+                        #F9F9F9 calc(100% - 35px),
+                        #F9F9F9 100%
+                    );
+            }
+
+.hero::before {
+    bottom: 35px;
+
+    background-size: 92% auto;
+    background-position:
+        center
+        calc(50% + 20px);
+}
+
+            .hero h1 {
+                margin-bottom: 14px;
+
+                font-size: 2.45rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+.hero-divider {
+    top: auto;
+    bottom: 20px;
+
+    transform: none;
+
+    gap: 12px;
+    font-size: 30px;
+}
+
+            .hero-divider::before,
+            .hero-divider::after {
+                height: 3px;
+            }
+
+
+.site-fullscreen-btn {
+    display: block;
+}
+
+.video-loading-mark {
+    width: 54px;
+    height: 54px;
+}
+
+.video-loading-ring {
+    border-width: 3px;
+}
+
+.video-loading-star {
+    font-size: 23px;
+}
+
+
+
+            main {
+                margin-top: 20px;
+                padding: 0 16px 58px;
+            }
+
+            .dance-category-section {
+                margin-bottom: 48px;
+            }
+
+
+/* 手机端分类胶囊 */
+.category-buttons {
+
+    grid-template-columns: repeat(2, 1fr);
+
+    padding: 4px;
+
+    row-gap: 8px;
+
+    border-radius: 24px;
+}
+
+.category-btn {
+    height: 42px;
+    font-size: 15px;
+    letter-spacing: 0;
+}
+
+            .dance-grid {
+                grid-template-columns: 1fr;
+                gap: 26px;
+                min-height: 0;
+            }
+
+.dance-card {
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+
+
+            .dance-info {
+                padding: 20px 21px 23px;
+            }
+
+.dance-title {
+    margin-bottom: 13px;
+    font-size: 22px;
+}
+
+.dance-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: left;
+
+    /* 手机端取消引号悬挂，不再向左缩进 */
+    text-indent: 0;
+}
+
+
+            .video-modal {
+                padding: 18px;
+            }
+
+.video-panel {
+    max-height: calc(100vh - 36px);
+
+    padding: 0;
+
+    border-left-width: 6px;
+    border-radius: 18px;
+}
+
+.video-header {
+    padding: 32px 46px 32px;
+}
+
+.video-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+
+    margin-right: 8px;
+
+    padding: 0 18px 22px 22px;
+}
+
+.video-extra {
+    width: 100%;
+    margin-top: 32px;
+}
+
+.video-extra-section {
+    margin-bottom: 28px;
+}
+
+.video-extra-title {
+    margin-bottom: 12px;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.video-extra-text {
+    font-size: 14px;
+    line-height: 1.95;
+    text-align: left;
+}
+
+     .video-close {
+    top: 14px;
+    right: 14px;
+
+    width: 35px;
+    height: 35px;
+
+    font-size: 30px;
+}
+
+.video-title {
+    padding: 0 38px;
+    margin: 0;
+
+    font-size: 21px;
+    letter-spacing: 1px;
+}
+
+            .video-frame {
+                border-radius: 10px;
+            }
+
+            .video-status {
+                padding: 18px;
+                font-size: 14px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <a href="media.html" class="logo">
+        <span class="star">★</span>
+        马列毛主义万岁！
+    </a>
+
+    <div
+        class="nav-links nav-placeholder"
+        aria-hidden="true"
+    ></div>
+</header>
+
+    <section class="hero">
+        <h1>经典革命电影</h1>
+        <p>领袖 · 人民  · 英雄</p>
+
+        <div class="hero-divider" aria-hidden="true">★</div>
+    </section>
+
+    <main>
+<section class="dance-category-section" aria-label="电影分类">
+    <div class="category-buttons" id="categoryButtons">
+        <button
+            class="category-btn active"
+            type="button"
+            data-category="leader"
+        >
+            领袖风范
+        </button>
+
+        <button
+            class="category-btn"
+            type="button"
+            data-category="war"
+        >
+            硝烟战火
+        </button>
+
+        <button
+            class="category-btn"
+            type="button"
+            data-category="heroes"
+        >
+            英模榜样
+        </button>
+
+        <button
+            class="category-btn"
+            type="button"
+            data-category="years"
+        >
+            峥嵘岁月
+        </button>
+    </div>
+</section>
+
+<section class="dance-grid" id="danceGrid" aria-live="polite">
+
+    <!-- 领袖风范：初始HTML直接存在，避免刷新时页面高度闪动 -->
+
+    <article class="dance-card" data-index="0">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/01film.png"
+                alt="开国大典影片封面"
+                style="--poster-position: center center;"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">开国大典</h2>
+
+            <p class="dance-desc">
+                “中华人民共和国中央人民政府，已于本日成立了！”
+            </p>
+        </div>
+    </article>
+
+    <article class="dance-card" data-index="1">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/02film.png"
+                alt="毛泽东的故事影片封面"
+                style="--poster-position: center center;"
+                loading="eager"
+                decoding="async"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">毛泽东的故事</h2>
+
+            <p class="dance-desc">
+                “看看子弟兵好啊，先到部队去。”
+            </p>
+        </div>
+    </article>
+
+    <article class="dance-card" data-index="2">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/03film.png"
+                alt="毛泽东和他的儿子影片封面"
+                style="--poster-position: center 5%;"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">毛泽东和他的儿子</h2>
+
+            <p class="dance-desc">
+                “唉，战争嘛，总要有伤亡，没得关系，谁让他是我毛泽东的儿子”
+            </p>
+        </div>
+    </article>
+
+    <article class="dance-card" data-index="3">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/04film.png"
+                alt="周恩来影片封面"
+                style="--poster-position: center center;"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">周恩来</h2>
+
+            <p class="dance-desc">
+                “延安的生活为什么还这么苦，我当总理，我有责任。”
+            </p>
+        </div>
+    </article>
+
+    <article class="dance-card" data-index="4">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/05film.png"
+                alt="列宁在十月影片封面"
+                style="--poster-position: center center;"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">列宁在十月</h2>
+
+            <p class="dance-desc">
+                “布尔什维克的同志们一向所说必须要进行的这个工农革命，实现了！”
+            </p>
+        </div>
+    </article>
+
+    <article class="dance-card" data-index="5">
+        <div class="dance-thumb">
+            <img
+                class="dance-poster"
+                src="image/06film.png"
+                alt="列宁在1918影片封面"
+                style="--poster-position: center center;"
+                loading="lazy"
+                decoding="async"
+                draggable="false"
+            >
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">列宁在1918</h2>
+
+            <p class="dance-desc">
+                “我们让资产阶级们去发疯吧，让那些无价值的灵魂去哭泣吧！”
+            </p>
+        </div>
+    </article>
+
+</section>
+    </main>
+
+    <div class="video-modal" id="videoModal" aria-hidden="true">
+<div
+    class="video-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="videoModalTitle"
+>
+    <!-- 固定顶部“刘海”区域 -->
+    <div class="video-header">
+        <h2 class="video-title" id="videoModalTitle">
+            经典革命电影
+        </h2>
+
+        <button
+            class="video-close"
+            id="videoCloseBtn"
+            type="button"
+            aria-label="关闭视频弹窗"
+        >
+            ×
+        </button>
+    </div>
+
+    <!-- 只有这一部分可以滚动 -->
+    <div class="video-scroll" id="videoScroll">
+   <div class="video-frame" id="videoFrame">
+<iframe
+    class="modal-video"
+    id="videoPlayer"
+    src="about:blank"
+    title="哔哩哔哩视频播放器"
+    scrolling="no"
+    frameborder="0"
+
+    allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+
+    allowfullscreen
+    webkitallowfullscreen="true"
+    mozallowfullscreen="true"
+></iframe>
+
+<button
+    class="site-fullscreen-btn"
+    id="siteFullscreenBtn"
+    type="button"
+    aria-label="全屏播放"
+></button>
+
+            <!-- 网站自己的加载画面 -->
+            <div
+                class="video-loading"
+                id="videoLoading"
+                role="status"
+                aria-label="视频载入中"
+            >
+                <div class="video-loading-mark" aria-hidden="true">
+                    <span class="video-loading-ring"></span>
+                    <span class="video-loading-star">★</span>
+                </div>
+            </div>
+
+            <!-- 没有视频地址时显示 -->
+            <div class="video-status" id="videoStatus">
+                该作品暂未设置视频嵌入地址。
+            </div>
+        </div>
+
+        <div class="video-extra" id="videoExtra"></div>
+    </div>
+</div>
+</div>
+
+    <footer>
+        <h3>文艺为工农兵服务！</h3>
+    </footer>
+
+    <script>
+
+  const DANCES = [
+    /* ==================== 领袖风范 ==================== */
+
+    {
+        title: "开国大典",
+        category: "leader",
+        desc: "“中华人民共和国中央人民政府，已于本日成立了！”",
+
+                intro: [
+            "《开国大典》以1949年前后中国革命取得全国胜利、中华人民共和国即将诞生的重大历史进程为主线。影片从三大战役胜利以后国共双方力量对比发生根本变化展开，表现蒋介石宣布下野、北平和平解放、中共七届二中全会召开、人民解放军渡江作战以及南京、上海相继解放等一系列重要历史事件。在人民革命不断推进的过程中，国民党在中国大陆的统治迅速瓦解，中国共产党则开始从领导革命战争走向筹建新国家、组织新政权的新的历史阶段。",
+            "随着全国解放形势的发展，影片的叙事逐渐由战场转向新中国的筹建。毛泽东等中国共产党领导人与各民主党派、各界人士共同筹备中国人民政治协商会议，讨论新中国的国号、国旗、国歌以及国家政权建设等重大问题。1949年10月1日，毛泽东登上天安门城楼，向全世界庄严宣告中华人民共和国中央人民政府成立。影片以开国大典这一历史时刻作为全片高潮，把长期革命战争的胜利、人民政权的建立和一个新时代的开始汇聚在天安门广场上欢庆的人群、升起的五星红旗和隆重的庆典之中。"
+        ],
+
+        background: [
+            "影片所表现的历史阶段，是中国近代社会长期革命斗争发生决定性转折的时期。经过土地革命战争、抗日战争和解放战争，中国共产党领导的人民革命力量不断发展壮大。1948年至1949年的辽沈、淮海、平津三大战役基本摧毁了国民党军队的主要军事力量，北平实现和平解放，人民解放军随后渡过长江，南京国民党政权覆灭。与此同时，中国共产党开始着手完成由革命战争向全国执政的转变，通过召开中共七届二中全会和中国人民政治协商会议，为建立中华人民共和国进行政治、组织和制度上的准备。影片正是在这一历史大转折中展开，把战场上的胜利同新国家的诞生连接起来。",
+            "电影《开国大典》由长春电影制片厂于1989年摄制，是为庆祝中华人民共和国成立40周年创作的重大革命历史题材影片，由李前宽、肖桂云执导，古月、孙飞虎等演员塑造毛泽东、蒋介石等历史人物。创作人员面对的是时间跨度大、历史人物众多、重大事件密集的题材，因此影片并没有只表现1949年10月1日当天的庆典，而是把开国大典置于中国革命走向全国胜利的整个历史进程之中。从战争胜负、政治谈判、中央决策到人民群众迎接解放，再到新政协召开和新中国成立，影片试图从多条历史线索共同说明开国大典并不是一个孤立的仪式，而是长期革命斗争发展的历史结果。"
+        ],
+
+        features: [
+            "影片所体现的革命精神，首先在于对民族独立和人民解放的坚定追求。开国大典的礼炮、国旗和欢呼并不是凭空出现的，它们背后连接着长期艰苦的革命战争和无数普通人的斗争与牺牲。影片通过人民解放军向全国进军、解放区不断扩大以及各地群众迎接解放等历史场面，把中华人民共和国的成立表现为中国人民摆脱旧社会压迫、争取自身解放的历史结果。革命胜利因此不仅属于少数历史人物，而是同广大工人、农民、士兵以及参与革命和支持革命的人民群众联系在一起。",
+            "影片同时突出一种由夺取政权走向建设新社会的历史责任感。随着战争胜利，革命所面对的问题已经不只是怎样战胜旧政权，而是怎样建立新的人民政权、组织新的国家生活。中国共产党领导人与各民主党派、各界代表共同商议建国事务，表现革命从军事斗争向政治建设和社会建设的转变。革命者所承担的责任，也由战场上的牺牲和斗争进一步发展为治理国家、恢复生产、团结人民和建设新社会的使命。这种从破旧到立新的变化，使影片中的革命精神不仅表现为战斗意志，也表现为对新中国未来的责任和担当。",
+            "影片最终把这种精神集中在1949年10月1日的开国大典之中。天安门广场上的群众、人民解放军和来自社会各界的代表共同构成庆典的主体，五星红旗的升起象征一个新的国家政权正式建立。影片通过这一历史时刻表现长期革命斗争所形成的共同信念：人民能够通过自己的组织和斗争改变旧的社会秩序，并在革命胜利以后建设新的社会生活。开国大典因此既是革命战争胜利的终点，也是社会主义革命和建设新的历史阶段的起点，集中体现了人民解放、团结奋斗、革命乐观主义以及建设新中国的坚定信念。"
+        ],
+
+        poster: "image/01film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=115649326158772&bvid=BV1WPSsBhEG3&cid=34446967624&p=1"
+    },
+
+    {
+        title: "毛泽东的故事",
+        category: "leader",
+        desc: "“看看子弟兵好啊，先到部队去。”",
+
+          intro: [
+            "《毛泽东的故事》没有把叙事集中在某一次战役、会议或重大政治事件上，而是以20世纪40年代至70年代毛泽东不同历史时期的生活片段为线索，从日常生活和人与人之间的交往切入他的革命生涯。影片从陕北时期人民解放战争即将走向全国胜利的历史环境展开，又延伸到中华人民共和国成立以后，通过毛泽东东渡黄河、重返故乡韶山、参加重要活动以及同身边工作人员和普通群众相处等片段，把几十年的革命历史浓缩在一系列具有生活气息的故事之中。",
+            "影片特别选择毛泽东同警卫战士、普通士兵、农民、列车工作人员以及亲人之间的交往来展开人物。与许多着重描写战争指挥和重大政治决策的领袖题材影片不同，本片更多表现他在生活中的言谈、幽默、思考和情感变化。影片既表现革命胜利以后领袖面对国家和人民事务时的责任，也表现他作为父亲、故乡游子和普通人的情感世界，其中包括毛岸英牺牲所带来的悲痛、重返韶山时面对故乡人民的感情，以及在日常生活中同劳动群众自然朴素的相处。通过这些片段，影片试图把宏大的革命历史同具体而真实的个人生活联系起来。"
+        ],
+
+        background: [
+            "《毛泽东的故事》表现的时间跨度从20世纪40年代一直延伸到70年代。这一时期经历了人民解放战争走向全国胜利、中华人民共和国成立以及新中国社会主义建设等重大历史阶段。毛泽东的身份和任务也由革命战争时期中国共产党的主要领导人，逐渐转向新中国成立以后承担国家建设和社会发展的重要领导责任。影片没有按照完整的历史年表逐项叙述这些事件，而是从这些重大历史进程中选择具有代表性的生活细节，使时代变化通过人物的日常活动和情感经历得到体现。",
+            "电影于1992年上映，由韩三平执导，韩三平、茅毛编剧，古月饰演毛泽东，峨眉电影制片厂制作。创作上的一个重要特点，是有意识地避开单纯依靠重大会议、战争场面和政治事件塑造领袖的传统方式，而把注意力转向历史大背景中的生活细部。影片依据有关历史材料和生活故事，把毛泽东同普通劳动群众、基层战士以及身边工作人员的关系作为重要内容，希望通过这些具体人物和具体事件，表现革命领袖在宏大历史之外的生活状态与情感世界。影片上映后曾获得第一届中国长春电影节评委会特别奖，古月也凭影片获得第一届山东电影节最佳男演员奖。"
+        ],
+
+        features: [
+            "影片所表现的革命精神，首先体现在毛泽东同人民群众之间的联系。片中并不把人民仅仅作为重大历史场面的背景，而是通过农民、战士、列车员和普通工作人员等人物，使领袖与人民之间的关系成为叙事的重要部分。毛泽东同普通群众交谈、了解他们的生活和处境，也保持着来自农村生活的朴素习惯。影片借这些生活细节强调一个基本观念：革命并不是少数人物孤立完成的事业，人民群众既是革命力量的来源，也是革命和建设最终所要服务的主体。",
+            "影片同时表现了革命者在个人感情与革命责任之间所面对的选择和承受。毛泽东并非被塑造成没有私人情感的人物，他同样有亲情、乡情和面对亲人牺牲时的悲痛。毛岸英在抗美援朝战争中牺牲以后，作为父亲的个人悲痛与作为革命领导人的责任同时存在。影片通过这类情节表现革命者并不是因为没有普通人的感情才选择牺牲，而是在具有真实个人感情的同时，把个人和家庭置于更广阔的人民事业之中。这种个人感情与公共责任之间的关系，使革命精神不只是口号和外在行动，也表现为面对损失、困难和责任时所作出的选择。",
+            "影片还通过毛泽东在不同历史阶段始终保持的朴素生活方式，表现共产党人与劳动人民之间不应割裂的关系。从战争年代到新中国成立以后，人物的政治地位发生了巨大变化，但影片反复通过衣食起居、同群众谈话、回到农村和故乡等生活场面，突出一种不脱离人民的价值追求。对于影片而言，革命胜利并不意味着革命者可以同群众生活相隔绝，相反，越是在掌握政权以后，越需要保持同人民实际生活的联系，了解群众的困难和要求，并把为人民服务看作革命者承担责任的重要内容。",
+            "因此，《毛泽东的故事》所集中表现的并不是战场上的单一英雄主义，而是一种贯穿革命与建设时期的人民立场、责任意识和朴素作风。影片把历史人物放回普通人的生活关系之中，使革命精神具体落实到怎样对待群众、怎样面对亲情与牺牲、怎样看待个人地位以及怎样承担公共责任这些问题上。它通过一个个生活片段说明，革命领袖的形象不仅存在于重大历史事件之中，也体现在同人民群众日常相处的态度和长期承担历史责任的实践之中。"
+        ],
+
+         poster: "image/02film.png",
+         embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114645075498550&bvid=BV1UfTUzQEv8&cid=30379935227&p=1"
+    },
+
+    {
+        title: "毛泽东和他的儿子",
+        category: "leader",
+        desc: "“唉，战争嘛，总要有伤亡，没得关系，谁让他是我毛泽东的儿子”",
+
+           intro: [
+            "《毛泽东和他的儿子》以抗美援朝战争初期为历史背景，围绕毛泽东与长子毛岸英之间的父子关系以及毛岸英赴朝参战、壮烈牺牲的经历展开。1950年，朝鲜战争爆发，战火逼近中国东北边境。中共中央作出抗美援朝、保家卫国的战略决策，组织中国人民志愿军入朝作战，并任命彭德怀担任志愿军司令员兼政治委员。毛岸英主动要求随志愿军赴朝，希望以一名普通战士的身份到最艰苦的前线接受锻炼。毛泽东虽然深知战争的危险，最终仍同意儿子的请求，把毛岸英交给即将奔赴朝鲜的彭德怀，让他同千千万万志愿军战士一道走上战场。",
+            "进入朝鲜以后，毛岸英在志愿军总部参加工作。1950年11月25日，志愿军总部遭到敌机轰炸，毛岸英不幸牺牲。噩耗传回北京后，毛泽东陷入巨大的悲痛之中。影片没有把这种悲痛简单处理为领袖人物的情绪片段，而是把一个父亲失去儿子的痛苦同战争年代无数家庭承受的牺牲联系起来。毛泽东一方面回忆毛岸英从苦难童年到成长为革命青年的经历，另一方面又必须继续承担繁重的工作和战争决策。毛岸英的新婚妻子刘思齐在很长一段时间里并不知道丈夫已经牺牲，她对岸英的思念又不断触动毛泽东内心深处的伤痛。影片由此把父子亲情、家庭牺牲和抗美援朝这一重大历史事件交织在一起。",
+            "随着故事发展，毛泽东最终不得不把毛岸英牺牲的消息告诉刘思齐。战争结束以后，面对是否把毛岸英遗体运回祖国安葬的问题，他最终同意让毛岸英和其他牺牲的志愿军烈士一起长眠在朝鲜土地上。影片没有把毛岸英的牺牲表现为一个特殊家庭所独有的悲剧，而是把他置于千千万万赴朝作战的普通志愿军战士之中，使毛泽东作为父亲的个人悲痛最终同整个国家在战争中承担的牺牲联系起来。"
+        ],
+
+        background: [
+            "影片所表现的历史发生在中华人民共和国成立初期。1950年朝鲜战争爆发以后，美国军事力量进入朝鲜半岛，战线迅速向中朝边境推进，中国东北边境的安全受到严重威胁。1950年10月，中共中央作出组成中国人民志愿军、抗美援朝的战略决策，彭德怀率领志愿军跨过鸭绿江进入朝鲜作战。对于刚刚结束长期革命战争、中华人民共和国成立仅一年的中国来说，这场战争既是严峻的军事考验，也关系到新中国的国家安全和东北地区的和平建设。大批人民解放军官兵和青年响应号召奔赴朝鲜，毛岸英就是其中的一员。",
+            "毛岸英早年经历坎坷。他的母亲杨开慧牺牲后，童年时期曾经历颠沛流离，后来赴苏联学习，并经历苏联卫国战争时期的生活。回国以后，毛泽东并没有让他依靠领袖子女的身份获得特殊待遇，而是让他到农村参加劳动、了解普通劳动人民的生活。新中国成立以后，毛岸英已经成家。抗美援朝战争开始后，他要求参加志愿军赴朝作战。影片正是选择这一父子关系中最沉重的一段历史，把毛岸英个人成长、革命家庭的经历以及新中国成立初期的战争环境联系起来。",
+            "《毛泽东和他的儿子》由潇湘电影制片厂于1991年摄制，张今标执导，方涛初、骆炬编剧，是为中国共产党成立七十周年创作的革命历史题材影片。影片没有采用大规模战争史诗的方式来全面表现抗美援朝，而是选择毛岸英牺牲这一历史事件作为叙事中心，把镜头更多放在人物关系和内心世界上。创作者试图通过毛泽东面对儿子赴朝、牺牲以及儿媳刘思齐失去丈夫等情节，从家庭和亲情的角度进入重大革命历史，使观众看到历史人物在承担国家责任的同时，也同普通人一样经历亲情、离别和失去亲人的痛苦。",
+            "影片上映后获得1991年度广播电影电视部优秀故事片奖和首届“五个一工程”奖等荣誉。它也是潇湘电影制片厂革命历史题材创作中的重要作品。影片对毛泽东形象的塑造有意识地强调生活化和情感层面，通过父子之间的关系、毛岸英牺牲以后毛泽东长期压抑的悲痛，以及他面对战争牺牲时的选择，使重大历史题材同真实的人物情感结合起来。"
+        ],
+
+     features: [
+            "影片集中体现了革命者在国家和人民需要面前不搞特殊、勇于承担责任的精神。毛岸英虽然是毛泽东的儿子，却选择同普通志愿军战士一样奔赴战场；毛泽东也没有因为父子关系而让他远离危险。",
+            "毛岸英牺牲以后，毛泽东在巨大悲痛中仍继续承担国家和人民赋予的责任。影片由此表现了个人亲情与革命责任、个人命运与集体事业之间的关系，突出平等、牺牲、责任和集体主义的革命精神。"
+        ],
+
+        poster: "image/03film.png",
+      posterPosition: "center 5%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=115841223887238&bvid=BV1NbisBTEbf&cid=35200894871&p=1"
+    },
+
+    {
+        title: "周恩来",
+        category: "leader",
+        desc: "“延安的生活为什么还这么苦，我当总理，我有责任。”",
+
+        intro: [
+            "《周恩来》以周恩来生命最后十年的革命工作和生活经历为主要内容，把人物置于无产阶级文化大革命以及20世纪70年代国内外政治形势发生重大变化的历史环境之中。影片通过周恩来处理中央和国务院日常工作、参加重大政治活动、开展外交斗争以及同干部群众交往等一系列情节，展现他长期承担繁重革命任务的工作状态和高度负责的精神。",
+            "影片重点表现了周恩来在一系列重大历史事件中的活动。1971年“九一三”事件发生后，他参与中央对有关问题的处理；在国际斗争方面，影片涉及中华人民共和国恢复在联合国的合法席位、中美关系开始走向正常化以及尼克松访华等重要事件。面对复杂的国际形势，周恩来长期承担外交工作，通过谈判、会见和政治协调，为扩大新中国的国际影响、发展同各国人民的关系作出了重要努力。",
+            "进入晚年以后，周恩来被确诊患有癌症，但仍然坚持参加中央和国务院的重要工作。影片表现他在病情不断加重的情况下继续处理国家事务，并赴长沙同毛泽东会面，讨论第四届全国人民代表大会等重大问题。1975年，他在第四届全国人大第一次会议上作政府工作报告，重申实现农业、工业、国防和科学技术现代化的目标。影片最后通过周恩来病逝和人民群众深切悼念的场面，表现他一生长期投身革命事业、为党和人民工作的经历。"
+        ],
+
+        background: [
+            "影片主要表现的历史时期集中在20世纪60年代后期至1976年。这一时期既处于无产阶级文化大革命的历史进程之中，也是中国国内政治生活和国际关系发生重大变化的时期。周恩来作为中国共产党和中华人民共和国的重要领导人，长期主持国务院工作，同时参与中央重大决策，在政治、经济、外交、国防以及国家建设等许多领域承担着繁重任务。",
+            "20世纪70年代初，中国的国际地位发生了一系列重要变化。1971年，中华人民共和国恢复在联合国的一切合法权利；随后中国同越来越多的国家建立和发展外交关系。1972年美国总统尼克松访问中国，中美双方发表《上海公报》，中美关系开始发生重大转变。周恩来长期从事党的统一战线工作和新中国外交工作，在这一系列外交活动中发挥了重要作用。影片通过这些历史事件，表现他在国际政治斗争中的原则性、灵活性和政治经验。",
+            "《周恩来》于1992年上映，由丁荫楠执导，王铁成饰演周恩来。影片没有从青年时代开始完整铺陈周恩来的一生，而是把晚年十年作为主要叙事范围，并通过回忆和历史片段连接他此前长期参加中国革命的经历。创作者把重大政治事件、外交活动、中央工作以及周恩来的家庭生活和疾病经历结合起来，使人物既作为党和国家领导人出现在重大历史进程之中，也作为一名长期为革命事业工作的共产党人呈现在观众面前。"
+        ],
+
+        features: [
+            "影片集中表现了周恩来忠于党、忠于人民、顾全大局和忘我工作的革命精神。在长期而繁重的工作中，他始终把革命事业和人民利益置于个人生活之上，表现出高度的组织纪律性、责任感和为人民服务的精神。",
+            "晚年身患重病以后，周恩来仍然坚持工作，继续承担中央和国家的重要任务。影片通过这些经历，突出共产党人严于律己、勤奋工作、坚持原则并把个人生命同革命事业联系在一起的精神品格。"
+        ],
+
+        poster: "image/04film.png",
+       embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114919114540291&bvid=BV1gj84zHEem&cid=31294687575&p=1"
+    },
+
+    {
+        title: "列宁在十月",
+        category: "leader",
+        desc: "“布尔什维克的同志们一向所说必须要进行的这个工农革命，实现了！”",
+
+          intro: [
+            "《列宁在十月》以1917年俄国十月革命前夕和武装起义的关键历史阶段为主要内容。二月革命以后，沙皇制度已经被推翻，但资产阶级临时政府继续掌握国家政权，并没有解决战争、土地和人民生活等根本问题。随着社会矛盾不断加深，工人、士兵和广大劳动群众中的革命要求迅速发展。影片从列宁秘密返回彼得格勒展开，表现他重新同布尔什维克中央取得联系，并同革命战友一道研究形势、部署起义。",
+            "在临时政府加强搜捕和镇压的情况下，列宁需要不断转移住处并秘密开展工作。影片通过地下联络、中央会议、工厂群众活动以及赤卫队准备武装行动等情节，表现布尔什维克组织革命力量的过程。列宁坚持认为已经出现夺取政权的历史时机，主张由工人和士兵掌握国家政权，并推动党内就武装起义问题作出决定。",
+            "随着起义时刻到来，彼得格勒的工人赤卫队、革命士兵和水兵开始占领交通、电报等重要据点，并向临时政府所在地冬宫推进。影片把攻打冬宫和临时政府垮台作为革命高潮，表现旧政权被推翻、苏维埃政权开始建立的历史转折。十月革命的胜利由此被表现为工人阶级和劳动群众在布尔什维克领导下夺取政权、开始建立新的社会制度的重要历史事件。"
+        ],
+
+        background: [
+            "影片所表现的历史背景是第一次世界大战后期的俄国。长期战争造成严重的经济困难和社会危机，工人生活恶化，农民要求土地，前线士兵厌倦战争。1917年二月革命推翻沙皇统治以后，资产阶级临时政府建立，但俄国仍然继续参加战争，土地等重大社会问题也没有得到根本解决。与此同时，由工人和士兵组成的苏维埃不断发展，俄国社会形成临时政府与苏维埃力量并存的复杂政治局面。",
+            "1917年4月，列宁回到俄国后提出进一步推进革命，主张把政权转到苏维埃手中。此后，随着战争危机、经济困难以及临时政府同革命群众之间的矛盾不断加深，布尔什维克在工人、士兵和水兵中的影响迅速扩大。十月革命前夕，列宁在地下状态中持续推动武装起义的准备。1917年11月7日，即俄历10月25日，彼得格勒武装起义取得决定性胜利，临时政府被推翻，第二次全俄苏维埃代表大会随后宣布政权转归苏维埃。",
+            "《列宁在十月》拍摄于1937年，是为纪念十月革命二十周年创作的苏联革命历史题材电影，由米哈伊尔·罗姆和德米特里·瓦西里耶夫执导，阿列克谢·卡普勒编剧，鲍里斯·史楚金饰演列宁，莫斯科电影制片厂制作。影片把列宁作为主要叙事中心，通过地下工作、党内讨论、工人运动和武装起义等场面，再现十月革命前后的关键事件。影片后来成为苏联革命历史电影中影响较大的列宁题材作品，并在其后形成了《列宁在1918》等相关影片。"
+        ],
+
+        features: [
+            "影片集中表现了无产阶级革命者在重大历史关头敢于斗争、敢于夺取胜利的革命精神。列宁和布尔什维克在严密搜捕和复杂政治斗争中坚持组织工人、士兵和革命群众，把分散的群众力量转化为有组织的政治力量。",
+            "影片突出革命理论、革命组织与群众实践之间的结合，表现工人阶级只有形成自己的政治领导和组织力量，才能把群众的不满转化为推翻旧政权、建立新政权的革命行动。"
+        ],
+
+        poster: "image/05film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114933777829882&bvid=BV1Y58QzfEWi&cid=31344822685&p=1"
+    },
+
+    {
+        title: "列宁在1918",
+        category: "leader",
+        desc: "“我们让资产阶级们去发疯吧，让那些无价值的灵魂去哭泣吧！”",
+
+          intro: [
+            "《列宁在1918》承接《列宁在十月》的故事，把叙事从十月革命胜利后的政权建立，推进到新生苏维埃国家面临严峻考验的1918年。革命胜利以后，俄国并没有立即进入和平时期，国内战争不断扩大，旧统治阶级和反革命力量试图重新夺回政权，经济困难、粮食短缺和战争压力也同时加剧。影片以莫斯科的苏维埃中央机关、工厂和城市生活为主要空间，表现列宁在极其复杂的局势中领导党和苏维埃政权继续推进革命。",
+            "影片一方面表现列宁处理国家事务、关心粮食供应和工人群众生活，另一方面把反革命阴谋作为重要叙事线索。敌对力量企图利用国内困难制造混乱，并策划针对苏维埃领导人的暗杀活动。随着阴谋逐渐发展，革命机关开始展开调查和保卫工作，敌我双方围绕新生政权展开尖锐斗争。",
+            "影片的高潮集中在列宁遇刺事件上。列宁在米赫尔松工厂参加群众活动以后遭到枪击并身负重伤。这一事件使革命政权和广大群众面临新的严峻考验。影片随后表现列宁在治疗和休养期间仍然牵挂国家工作，并在身体尚未完全恢复的情况下重新投入革命领导工作，以此表现革命领导者同新生苏维埃政权共同经受危机考验的过程。"
+        ],
+
+        background: [
+            "影片所表现的1918年，是俄国十月革命胜利后极为关键的一年。布尔什维克虽然已经建立苏维埃政权，但国内外反革命力量并没有停止斗争。国内战争逐步扩大，白卫军及其他反苏维埃武装力量在多地活动，同时外国军事力量开始干涉俄国内战。新生的工农政权既要组织红军保卫革命，又要面对经济困难、交通破坏和城市粮食供应紧张等现实问题。",
+            "这一时期，苏维埃政府还采取了一系列巩固革命政权的措施。列宁和布尔什维克把保卫工农政权、恢复经济、组织粮食供应和建设新的国家机构联系在一起。革命由夺取政权的阶段进入保卫和建设政权的阶段，斗争形式也由1917年的武装起义，转向更加长期和复杂的国内战争、经济组织与国家建设。",
+            "1918年8月30日，列宁在莫斯科米赫尔松工厂参加活动后遭到枪击并严重受伤。这一历史事件成为影片的重要叙事中心。影片把遇刺事件同当时的反革命活动联系起来，并通过列宁受伤以后仍然重新投入工作的情节，强化对人物意志和革命责任的表现。",
+            "《列宁在1918》于1939年上映，由米哈伊尔·罗姆执导，阿列克谢·卡普勒、塔季扬娜·兹拉托戈罗娃编剧，鲍里斯·史楚金继续饰演列宁，是《列宁在十月》的续作。影片由莫斯科电影制片厂制作，延续前作对列宁和十月革命历史的银幕塑造，并把重点从革命起义转向苏维埃政权建立以后面对的国内战争和反革命斗争。影片后来成为苏联早期列宁题材电影中的代表作品之一。"
+        ],
+
+        features: [
+            "影片集中表现了革命胜利以后继续保卫革命成果的精神。面对国内战争、经济困难和反革命阴谋，列宁和布尔什维克仍然坚持依靠工人和劳动群众巩固苏维埃政权，表现出坚定的革命意志和高度的责任感。",
+            "列宁遇刺以后仍然重新投入工作，使影片进一步突出革命者在严重困难和个人危险面前坚持斗争、不向敌人屈服的精神，也表现了个人生命同无产阶级革命事业紧密联系的革命信念。"
+        ],
+
+        poster: "image/06film.png",
+         embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114404725097966&bvid=BV1a3LozKEPD&cid=29628696691&p=1"
+    },
+
+
+    /* ==================== 硝烟战火 ==================== */
+
+    {
+        title: "四渡赤水",
+        category: "war",
+        desc: "“这武器正在破坏革命，沉掉，一切没用的东西统统沉掉。”",
+
+        intro: [
+            "《四渡赤水》以1935年中央红军长征途中四渡赤水的历史进程为主线。遵义会议以后，中央红军面对国民党军队从四面围追堵截的严峻局势，开始根据敌情变化重新调整战略和作战方向。影片从红军离开遵义、向川黔边境转移展开，通过土城战斗、一渡赤水以及红军不断改变行军方向等情节，表现毛泽东等领导人根据战场实际情况重新掌握战争主动权的过程。",
+            "中央红军一渡赤水进入川南以后，敌军主力随之调动。毛泽东根据敌军部署的变化，决定突然挥师东进，二渡赤水，重新进入贵州。红军随后攻克娄山关、再占遵义，并在运动中歼灭和击溃大量敌军，取得长征以来的重要胜利。影片通过连续变化的敌我态势，表现红军不拘泥于固定作战计划，而是利用敌军调动中的空隙，以快速机动打乱国民党军队的围堵部署。",
+            "此后，中央红军又三渡、四渡赤水，通过反复改变行军方向不断调动敌军。红军四渡赤水后迅速南渡乌江，并以佯攻贵阳等行动吸引和调动敌军，随后乘机向云南方向疾进，最终巧渡金沙江，摆脱数十万国民党军队的围追堵截。影片把四渡赤水表现为红军由被动转向主动的重要军事行动，也通过毛泽东、周恩来、朱德等领导人与广大红军指战员的共同斗争，再现长征途中这一具有决定意义的历史阶段。"
+        ],
+
+        background: [
+            "四渡赤水发生在中央红军长征最为艰难的阶段。第五次反“围剿”失利以后，中央红军被迫进行战略转移，并在湘江战役中遭受严重损失。长征初期军事指挥中的教条主义使红军行动受到很大束缚，部队面临极其危险的局面。1935年1月，中共中央在遵义召开政治局扩大会议，总结此前军事指挥上的经验教训，改组中央领导机构，毛泽东重新进入中央军事领导核心。遵义会议由此成为中国共产党和红军长征中具有重大转折意义的历史事件。",
+            "遵义会议以后，中央红军面对的是力量远远超过自己的国民党军队。蒋介石调集中央军和川、黔、滇等地方部队，企图在川黔滇地区包围并消灭中央红军。红军兵力有限，又处在没有稳定根据地、需要连续行军作战的困难条件下，因此不能同优势敌军进行简单的阵地决战。毛泽东等根据不断变化的敌情，采取高度机动的运动战方针，通过忽东忽西、声东击西和不断改变作战方向，使敌军难以判断红军真正的战略意图。",
+            "1935年1月至3月，中央红军先后四次渡过赤水河。二渡赤水以后取得娄山关、遵义战斗的胜利；三渡、四渡赤水又进一步调动和迷惑敌军。随后红军南渡乌江、佯攻贵阳、进入云南，并于5月巧渡金沙江，彻底摆脱敌军主力的围追堵截。四渡赤水因此成为中央红军长征由被动逐渐转向主动的重要军事行动，也集中体现了遵义会议以后根据中国革命战争实际情况独立自主解决军事问题的实践。",
+            "电影《四渡赤水》由八一电影制片厂摄制，于1983年上映，蔡继渭、谷德显执导，古月饰演毛泽东，苏林饰演周恩来，刘怀正饰演朱德。影片以中央红军四渡赤水的真实历史为基础，把中央领导层的军事决策、红军部队的行军作战以及普通红军战士的经历结合起来，再现这一时期复杂多变的战争进程。影片获得1984年第四届中国电影金鸡奖特别奖，是较早系统表现四渡赤水和长征军事斗争的重要革命历史题材电影之一。"
+        ],
+
+        features: [
+            "影片集中表现了红军在极端困难条件下坚持独立自主、实事求是和灵活机动的革命精神。面对优势敌军的重重包围，红军不是机械执行固定方案，而是根据实际情况不断调整战略，以运动战调动敌人、寻找战机，逐步由被动转向主动。",
+            "影片也突出共产党人与红军指战员在危急局势中坚定信念、敢于斗争和团结奋斗的精神。四渡赤水的胜利体现了正确领导同广大红军战士英勇实践的结合，表现了在困难和挫折面前坚持革命方向、依靠实际斗争打开新局面的意志。"
+        ],
+
+        poster: "image/07film.png",
+       embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114430880777893&bvid=BV1huGizKEZd&cid=29730472747&p=1"
+    },
+
+    {
+        title: "风雨下钟山",
+        category: "war",
+        desc: "“我们是共产党，敌人纵然是狼，我们有打狼的汉子。”",
+
+        intro: [
+            "《风雨下钟山》以1948年冬至1949年南京解放前后的重大历史进程为主线。辽沈、淮海、平津三大战役接近结束，国民党政权在军事上陷入全面被动。面对人民解放军不断推进的形势，蒋介石发表元旦文告，提出所谓和平主张，试图通过和谈争取时间、保存力量。影片由此展开国共双方在军事、政治和谈判领域的多重较量，并把南京作为旧政权即将覆灭的重要历史舞台。",
+            "影片一方面表现毛泽东、周恩来等中国共产党领导人根据全国革命形势制定战略方针，要求和平谈判必须以人民利益和革命胜利为基础；另一方面也展现国民党内部在继续战争、划江而治、进行和谈等问题上的矛盾。随着北平和平解放和三大战役胜利结束，人民解放军已经形成压倒性的军事优势，而南京国民党政权内部则日益分裂，李宗仁、蒋介石以及各派政治力量围绕战争与和谈展开复杂斗争。",
+            "当国民党政府拒绝接受国内和平协定后，人民解放军发动渡江战役。百万雄师突破长江防线，迅速向江南推进，国民党军队的长江防御体系随之瓦解。1949年4月23日，人民解放军占领南京，统治中国二十二年的国民党南京政权宣告覆灭。影片以南京解放作为全片高潮，把军事胜利、政治斗争和人民革命的历史进程汇聚在一起，表现中国革命即将取得全国胜利、新中国即将诞生的重大历史转折。"
+        ],
+
+        background: [
+            "影片所表现的历史时期，是解放战争进入决定性胜利阶段的1948年至1949年。经过辽沈、淮海、平津三大战役，国民党军队的主力遭到严重打击，人民解放军在全国战场上逐渐掌握战略主动。国民党政权在军事失败、经济危机和政治矛盾的共同作用下迅速衰落，而中国共产党领导的人民革命力量则不断扩大，革命胜利已经成为不可逆转的历史趋势。",
+            "1949年初，围绕是否继续内战以及如何实现国内和平的问题，国共双方展开谈判。中国共产党提出以惩办战争罪犯、废除伪宪法、改编反动军队等条件作为和平基础，目的在于彻底结束国民党反动统治和长期内战。国民党方面则存在复杂矛盾，一部分力量希望通过谈判维持既有统治和军事力量，甚至设想以长江为界形成南北对峙。谈判最终没有能够阻止人民解放战争继续发展。",
+            "1949年4月，人民解放军第二、第三野战军在长江沿线发动渡江战役，突破国民党军队经营多时的江防体系。南京、镇江等地相继解放，随后人民解放军继续向上海、杭州以及华东、华南各地推进。南京解放不仅是一场重要军事胜利，也标志着国民党南京政权的覆灭，为中华人民共和国成立创造了重要政治和军事条件。",
+            "《风雨下钟山》由八一电影制片厂摄制，1982年完成，袁先、韦林玉、里坡执导，艾煊、梁信编剧。张克瑶饰演毛泽东，王铁成饰演周恩来，刘锡田饰演陈毅，孙飞虎饰演蒋介石。编剧艾煊和导演袁先都曾亲历解放战争，其中艾煊还以战地记者身份参加过渡江战役和南京解放，这些亲身经历成为影片创作的重要基础。影片后来获得文化部优秀影片奖，并在第三届中国电影金鸡奖上获得最佳化妆、最佳烟火等奖项。"
+        ],
+
+        features: [
+            "影片集中表现了中国共产党和人民解放军将革命进行到底、反对妥协分裂的坚定精神。面对所谓划江而治和各种拖延革命进程的主张，影片突出革命必须以人民根本利益为出发点，不能让已经取得的胜利停留在半途。",
+            "渡江战役和南京解放又体现了人民军队不畏艰险、敢于夺取彻底胜利的斗争精神。影片通过军事斗争与政治斗争的结合，表现人民革命力量不断壮大并最终推翻旧政权、开辟新社会的历史信念。"
+        ],
+
+        poster: "image/12film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114596186693394&bvid=BV12J7WzBEvk&cid=30229334349&p=1"
+    },
+
+    {
+        title: "大决战 · 辽沈战役",
+        category: "war",
+        desc: "“电报不要写别的，就请林彪到军委来好了，我到他那里去。”",
+
+         intro: [
+            "《大决战·辽沈战役》以1948年人民解放战争进入战略决战阶段为背景，围绕中共中央和中央军委决定在东北首先同国民党军队展开战略决战的历史进程展开。影片从毛泽东、周恩来等率领中共中央机关来到西柏坡写起，一方面表现中央统帅部对全国战局的判断和战略部署，另一方面展现东北野战军在林彪、罗荣桓等指挥下不断集结力量、准备决战的过程。随着东北敌我力量对比发生重大变化，是否迅速南下北宁线、攻取锦州并封闭东北国民党军队撤向关内的通道，逐渐成为整个战役的关键问题。",
+            "毛泽东和中央军委根据全国战争形势，反复强调首先攻取锦州，把国民党军队封闭在东北加以歼灭。面对国民党军队从沈阳和华北方向组织增援的企图，东北野战军最终集中主力攻打锦州。经过激烈攻坚战，人民解放军攻克锦州，从根本上切断东北国民党军队经辽西撤向关内的主要通道。与此同时，长春守军在军事和政治压力下发生起义和投诚，东北战局进一步向有利于人民解放军的方向发展。",
+            "锦州解放以后，蒋介石仍企图调集廖耀湘兵团向辽西推进，重新打通锦州方向。东北野战军迅速转移兵力，在黑山、大虎山等地区阻击并包围敌军主力，随后对廖耀湘兵团展开大规模围歼。敌军指挥体系在连续打击中瓦解，大批部队被歼灭。人民解放军乘胜向沈阳、营口等地推进，国民党在东北的军事力量最终全面崩溃。影片以沈阳解放和东北全境基本解放作为战役的胜利结局，表现辽沈战役如何改变全国敌我力量对比，并为此后的淮海战役和平津战役创造更加有利的战略条件。"
+        ],
+
+        background: [
+            "1948年，人民解放战争已经发生根本性变化。经过两年多作战，人民解放军由战略防御转入战略进攻，解放区不断扩大，国民党军队则在各个战场持续遭到削弱。在东北，东北野战军经过长期作战和根据地建设，已经在兵力、群众基础和战场主动权方面取得明显优势；国民党军队则主要收缩在沈阳、长春、锦州等少数大城市和交通线上，彼此之间联系困难，处于相对孤立的状态。",
+            "东北又具有十分重要的全国战略地位。锦州位于东北通往华北的重要交通线上，如果人民解放军首先攻克锦州，就能够切断东北国民党军队撤入关内的主要通道，把敌军主力封闭在东北进行歼灭。因此，中共中央和中央军委把攻占锦州作为辽沈战役的关键。围绕先打哪里、怎样调动敌军以及如何防止东北敌军南逃等问题，中央军委同东北野战军之间进行了多次电报讨论和战略部署，最终形成以锦州为突破口、在东北同敌军进行战略决战的作战方针。",
+            "辽沈战役于1948年9月展开。东北野战军首先切断北宁线，随后集中兵力攻打锦州。10月中旬锦州被攻克，东北国民党军队通往关内的陆上主要通道被切断。此后长春守军起义、投诚，人民解放军又在辽西地区围歼廖耀湘兵团，并乘胜解放沈阳等地。到11月初，辽沈战役胜利结束，国民党在东北的主要军事力量被消灭，东北全境基本解放。辽沈战役的胜利使全国军事力量对比发生重大变化，人民解放军在数量上也开始取得优势，战略决战由此进入新的阶段。",
+            "《大决战·辽沈战役》由中国人民解放军八一电影制片厂摄制，1991年上映，是《大决战》系列三部曲的第一部。李俊担任总导演，杨光远担任首席导演，韦廉、景慕逵、翟俊杰、蔡继渭等参与导演，王军、史超、李平分担任编剧，古月饰演毛泽东，苏林饰演周恩来，马绍信饰演林彪，赵恒多饰演蒋介石。影片以战略决策和大规模战争场面并行的方式，再现辽沈战役从决策、部署到最终胜利的全过程，是20世纪90年代中国重大革命历史题材电影中的代表作品之一。"
+        ],
+
+        features: [
+            "影片集中体现了共产党人从全局出发、敢于战略决战的革命精神。围绕攻打锦州这一关键决策，影片突出实事求是判断敌我力量、抓住主要矛盾并在关键时刻敢于集中力量夺取决定性胜利的战略胆识。",
+            "同时，辽沈战役的胜利也体现了人民军队高度组织纪律、英勇战斗和团结协同的精神。影片把中央统帅部的战略决策同前线广大指战员的实际斗争联系起来，表现正确领导、人民军队和群众力量共同推动革命战争走向全国胜利的历史进程。"
+        ],
+
+        poster: "image/09film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=115791462666172&bvid=BV16bByBREDk&cid=35360147803&p=1"
+    },
+
+    {
+        title: "大决战 · 淮海战役",
+        category: "war",
+        desc: "“六十万对八十万，这是一锅夹生饭。夹生就夹生，也要把它吃下去！”",
+
+        intro: [
+            "《大决战·淮海战役》以1948年11月至1949年1月的淮海战役为主线，表现人民解放战争进入战略决战阶段以后，中共中央和中央军委根据全国战局，指挥华东野战军和中原野战军在以徐州为中心的广大地区同国民党军队展开大规模决战的历史进程。辽沈战役取得决定性胜利后，国民党在东北的主力已经覆灭，而华东、中原战场成为决定全国战争走向的又一关键地区。影片从华东野战军追击、包围黄百韬兵团以及中原野战军向徐蚌线展开行动写起，使整个淮海战场迅速进入激烈的战略决战。",
+            "战役开始后，华东野战军迅速切断黄百韬兵团向徐州撤退的道路，将其包围在碾庄地区；中原野战军则攻占宿县，切断徐州与蚌埠之间的重要交通线。面对规模不断扩大的战局，中共中央决定成立由刘伯承、陈毅、邓小平、粟裕、谭震林组成的淮海战役总前委，统一指挥华东野战军和中原野战军。经过连续激战，人民解放军首先歼灭黄百韬兵团，使国民党徐州集团失去重要支撑，战场主动权进一步转到人民解放军手中。",
+            "随后，国民党黄维兵团由华中地区向徐州方向增援，被中原野战军和华东野战军协同包围在双堆集地区。人民解放军在复杂困难的条件下连续作战，最终歼灭黄维兵团。与此同时，杜聿明率领国民党军主力撤离徐州，企图南下突围，也被人民解放军包围在陈官庄地区。经过战略包围、军事打击和政治攻势，1949年1月人民解放军发起总攻，杜聿明集团被歼，杜聿明被俘。至此，历时六十多天的淮海战役胜利结束，国民党在长江以北的一支主要军事集团遭到决定性打击，为人民解放军渡江作战和解放全国创造了极为有利的条件。"
+        ],
+
+        background: [
+            "1948年秋，人民解放战争已经进入战略决战阶段。辽沈战役开始以后，全国各战场敌我力量对比继续发生重大变化。国民党军队虽然仍然拥有相当数量的兵力，但长期战争造成其有生力量不断损失，各战略集团之间又受到交通、补给和地区分割的限制。华东和中原地区既是国民党统治的重要区域，也是连接南京、徐州、武汉等地的战略地带，因此徐州一带集中了大量国民党军队，成为双方进行战略决战的重要战场。",
+            "淮海战役的形成并不是一次预先完全固定的单一作战计划，而是在战争实践中随着敌我态势变化不断发展扩大的。华东野战军最初围绕歼灭黄百韬兵团展开作战，中原野战军同时向徐蚌线实施攻击。随着战局迅速发展，中共中央和中央军委决定把两个野战军的行动统一起来，由淮海战役总前委负责前线统一指挥。刘伯承、陈毅、邓小平、粟裕、谭震林等共同研究和组织战役，使华东野战军与中原野战军能够在广阔战场上相互配合、连续作战。",
+            "战役先后经历围歼黄百韬兵团、围歼黄维兵团以及歼灭杜聿明集团等主要阶段。人民解放军采取分割、包围、各个歼灭的作战方针，使国民党各兵团难以形成有效协同。在战役后期，为配合正在进行的平津战役，中央军委又从全国战略全局出发调整攻击时间，使华北、华东和中原几个战场之间形成相互配合。1949年1月10日，杜聿明集团被全部解决，淮海战役宣告胜利结束。战役的胜利使南京、上海以及长江中下游地区直接暴露在人民解放军面前，全国解放战争的胜利进程进一步加快。",
+            "淮海战役也是人民群众大规模支援革命战争的集中体现。战役地域广阔、参战部队众多，粮食、弹药、伤员运输和道路保障都需要大量后勤力量。解放区广大农民和支前群众组织起来，以担架、车辆和肩挑人扛等方式向前线运输物资、抢救伤员，为人民解放军连续作战提供重要保障。前线部队的军事行动同根据地群众的支援结合起来，使这场规模巨大的战略决战具有鲜明的人民战争特点。",
+            "《大决战之淮海战役》由中国人民解放军八一电影制片厂摄制，于1991年8月1日上映，是《大决战》三部曲的第二部。李俊担任总导演，蔡继渭担任首席导演，韦廉、杨光远、景慕逵、翟俊杰等参与导演，古月、苏林、卢奇、傅学诚、赵恒多等出演主要历史人物。影片以中央统帅部、战役总前委、前线部队和国民党方面多条线索同时展开，对淮海战役从决策、部署到最终胜利的全过程进行大规模银幕再现，并获得第十二届中国电影金鸡奖最佳故事片等奖项。"
+        ],
+
+        features: [
+            "影片集中表现了人民解放军顾全全国战局、统一指挥和协同作战的革命精神。华东野战军与中原野战军在总前委统一领导下相互配合，连续完成对敌军各集团的分割和围歼，体现了高度的组织纪律性和集体主义精神。",
+            "影片同时突出人民战争的力量。广大人民群众以支前运输、粮食供应和救护伤员等方式直接参加战争实践，使前线军事斗争得到强大的群众支持，体现了革命战争依靠人民、为了人民，并最终由人民共同推动胜利的精神。"
+        ],
+
+        poster: "image/10film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=115791462666172&bvid=BV16bByBREDk&cid=35017326858&p=2"
+    },
+
+    {
+        title: "大决战 · 平津战役",
+        category: "war",
+        desc: "“百万大军堵在门口，还想和我们二一添做五，未免太浪漫了吧。”",
+
+          intro: [
+            "《大决战·平津战役》以1948年11月至1949年1月的平津战役为主线，表现辽沈战役胜利以后，中共中央和中央军委抓住全国战局发生根本变化的有利时机，调动东北野战军秘密入关，并同华北人民解放军协同作战，对傅作义指挥的国民党华北集团展开战略包围的历史进程。此时国民党军队主要集中在北平、天津、张家口等地区，既可能向西撤退，也可能经天津、塘沽从海上南撤。为了把敌军留在华北并逐步分割歼灭，人民解放军采取隐蔽行动和快速部署，使敌军在尚未完全察觉战略意图的情况下逐渐陷入包围。",
+            "战役展开以后，人民解放军按照中央军委的战略部署，把北平、天津、张家口等地的国民党军队分割成彼此孤立的集团，并采取“隔而不围、围而不打”等方式控制战场节奏。傅作义派出第三十五军向西增援后，人民解放军迅速将其包围在新保安地区并予以歼灭，随后解放张家口，使傅作义集团向西撤退的道路被切断。与此同时，东北野战军主力进入北平、天津周围地区，切断敌军之间的联系，使整个平津地区的国民党军队逐渐失去机动作战和大规模撤退的可能。",
+            "在完成战略分割以后，人民解放军把天津作为重要攻击目标。1949年1月14日，东北野战军向天津守军发起总攻，经过激烈战斗迅速突破城防，于次日解放天津，国民党守军主力被歼灭。天津战役的胜利进一步改变了北平守军的处境，使傅作义已经没有依靠军事力量长期固守的现实可能。与此同时，中国共产党继续通过谈判争取北平和平解放，希望在取得军事优势的基础上避免古都遭受大规模战争破坏。",
+            "在人民解放军强大的军事压力和政治争取下，傅作义最终接受和平解决方案。国民党军队按照协议陆续开出北平城，接受人民解放军改编，1949年1月31日北平实现和平解放。影片以这一历史进程作为全片的重要高潮，并进一步表现毛泽东、周恩来等人在西柏坡接见傅作义，以及革命胜利以后中国共产党开始思考由革命战争转向全国执政的问题。平津战役至此胜利结束，华北广大地区获得解放，辽沈、淮海、平津三大战役的战略决战也宣告取得全面胜利。"
+        ],
+
+        background: [
+            "1948年秋冬，人民解放战争已经进入决定全国胜负的战略决战阶段。辽沈战役胜利以后，东北全境基本解放，东北野战军成为一支可以投入关内作战的强大战略力量。与此同时，淮海战役正在华东、中原地区激烈进行。国民党华北“剿总”总司令傅作义指挥的大批部队集中在北平、天津、张家口、塘沽等地区，其战略选择既关系到华北战场，也会影响全国战争的发展。如果这些部队及时南撤或西撤，就可能增加人民解放军以后作战的困难。",
+            "中共中央和中央军委因此决定调东北野战军迅速秘密入关，同华北军区部队共同发起平津战役。为了防止傅作义集团逃跑，人民解放军首先不是立即全面攻城，而是通过快速穿插和分割包围，切断北平、天津、张家口等敌军集团之间的联系，并堵住向西和向海上撤退的道路。这种战略部署使几十万国民党军队被限制在相互孤立的据点之中，为以后各个解决创造了条件。",
+            "平津战役在军事斗争之外还具有鲜明的政治斗争特点。对于天津等军事防御坚固、又具有重要交通地位的城市，人民解放军采取坚决军事打击，以迅速歼灭拒绝投降的守军；对于具有重要历史文化价值的北平，中国共产党则在形成绝对军事优势以后积极开展和平谈判，争取通过政治方式解决问题。最终天津通过攻坚战获得解放，北平则实现和平解放。这种军事进攻与政治争取相结合的方式，使平津战役在三大战役中具有鲜明特点。",
+            "平津战役从1948年11月29日开始，到1949年1月31日北平和平解放结束。随着张家口、新保安、天津相继解决以及北平和平解放，国民党在华北的一支主要军事集团被歼灭或接受改编。三大战役结束以后，国民党军队的主要战略力量遭到决定性打击，长江以北广大地区基本解放，人民解放军已经具备继续向全国进军的有利条件，中国革命开始迅速接近全国胜利。",
+            "《大决战之平津战役》由中国人民解放军八一电影制片厂摄制，1992年上映，是《大决战》系列继《辽沈战役》《淮海战役》之后的第三部。李俊担任总导演，蔡继渭、杨光远、韦廉、赵继烈、翟俊杰等参加导演，古月饰演毛泽东，苏林饰演周恩来，马绍信饰演林彪，赵恒多饰演蒋介石。影片以中央统帅部、东北野战军和华北部队、傅作义集团以及北平和平谈判等多条线索并行展开，完整再现战略包围、天津攻坚和北平和平解放的历史过程，并获得中国电影金鸡奖最佳故事片等奖项。"
+        ],
+
+        features: [
+            "影片集中体现了人民解放军从全国战争全局出发、统一部署和协同作战的革命精神。通过秘密入关、分割包围和各个解决敌军集团，表现了革命军队高度的组织纪律性、战略主动性以及敢于夺取全国胜利的坚定意志。",
+            "影片同时突出军事斗争与政治斗争相结合的革命智慧。既坚决消灭拒绝抵抗到底的敌军，又通过政治争取实现北平和平解放，体现了从人民根本利益出发、既坚持革命原则又根据实际情况灵活采取斗争方式的精神。"
+        ],
+
+        poster: "image/11film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114505908492110&bvid=BV15eEvzQEiL&cid=29956639887&p=1"
+    },
+
+    {
+        title: "上甘岭",
+        category: "war",
+        desc: "“在这片辽阔的土地上，到处都有明媚的风光。”",
+
+          intro: [
+            "《上甘岭》以1952年抗美援朝战争中的上甘岭战役为背景，围绕中国人民志愿军某部八连坚守阵地的战斗经历展开。敌军以优势兵力和强大炮火向上甘岭阵地发动连续进攻，八连在连长张忠发率领下投入激烈战斗。经过反复争夺，表面阵地一度受到严重破坏，部队转入坑道继续坚持斗争。影片没有全面铺开整个战役，而是把主要视角集中在一个连队和一条坑道之中，通过普通志愿军战士的战斗和生活表现上甘岭前线的残酷环境。",
+            "进入坑道以后，志愿军战士面临的不只是敌军的炮火和进攻，还有缺水、缺粮、伤员增加以及同后方联系困难等严峻考验。敌军不断封锁坑道出口和运输道路，送水成为极其危险的任务。为了把物资送到前线，坑道外的战士和运输人员不断冒着炮火穿越封锁线；坑道中的战士则把有限的水和食物优先留给伤员和最需要的人。影片通过一只苹果在战士之间反复传递等情节，把艰苦环境中的战友情谊、纪律观念和集体主义表现得十分集中。",
+            "在极端困难的条件下，八连始终没有放弃阵地。卫生员王兰用歌声鼓舞战士，《我的祖国》在坑道中响起，使战士们对祖国、家乡和和平生活的感情同眼前的战斗联系起来。随着增援力量和反击时机到来，志愿军重新向敌军占据的阵地发起冲锋。经过连续激战，战士们最终重新夺回阵地。影片以八连的坚守和反击表现整个上甘岭战场上的顽强斗争，使普通志愿军战士成为故事真正的主体。"
+        ],
+
+        background: [
+            "上甘岭战役发生在1952年秋，当时抗美援朝战争已经进入边打边谈的阶段，朝鲜停战谈判仍在进行，双方围绕军事分界线等问题长期处于军事和政治较量之中。1952年10月，以美国军队为主的“联合国军”和韩国军队向朝鲜中部上甘岭地区的志愿军阵地发动大规模进攻，企图通过夺取重要高地改善战场态势。中国人民志愿军依托阵地进行顽强防御，双方围绕有限的山头反复争夺。",
+            "上甘岭战役持续四十余天，战斗极其激烈。敌军凭借航空兵、炮兵和大量装备对志愿军阵地进行密集轰炸，山地表面工事遭到严重破坏。志愿军则依靠坑道体系保存力量，在敌军占领部分表面阵地以后继续坚持作战，并通过夜间反击、阵地争夺和后方支援不断消耗敌军。坑道中的缺水、缺粮和伤员救治成为战斗中非常突出的困难，而向前线运输弹药、食品和饮水同样需要付出巨大牺牲。",
+            "战役中，志愿军广大指战员在极端困难的条件下反复争夺阵地，大量英雄人物和英雄集体由此产生。前线战士的坚守同后方运输、医疗救护、炮兵支援和其他部队的协同作战紧密联系在一起。上甘岭因此不仅成为一场山地阵地争夺战，也成为抗美援朝战争中集中体现志愿军战斗意志和集体主义精神的重要战役。",
+            "电影《上甘岭》由长春电影制片厂摄制，于1956年上映，沙蒙、林杉执导并参与编剧，高保成饰演八连连长张忠发，徐林格、刘玉茹等参加演出。创作人员在拍摄前曾赴朝鲜前线采访大量上甘岭战役参加者，搜集战斗经历，并在这些素材基础上创作电影文学剧本《二十四天》。影片没有试图把整个战役按照军事史完整搬上银幕，而是选择一个连队、一条坑道作为主要叙事空间，以普通志愿军战士的经历反映整个上甘岭战役。",
+            "影片中的插曲《我的祖国》由乔羽作词、刘炽作曲，后来成为广泛传唱的经典歌曲。它没有直接描写炮火和冲锋，而是从家乡的河流、田野和生活写起，把志愿军为什么战斗同对祖国和和平生活的感情联系起来。这首歌也成为《上甘岭》最具有代表性的文化记忆之一。"
+        ],
+
+        features: [
+            "影片集中体现了志愿军战士不畏强敌、坚守阵地和英勇斗争的革命英雄主义精神。在极端缺水、缺粮和连续炮火轰击的条件下，战士们仍然相互鼓励、服从集体需要，把个人安危同整个阵地和战友的命运联系在一起。",
+            "影片同时突出爱国主义、国际主义和集体主义精神。战士们保卫阵地不仅是为了完成军事任务，也是为了祖国、人民和和平生活而战；坑道中的互助、让水、让苹果和共同坚持，则表现了个人服从集体、战友生死与共的革命情谊。"
+        ],
+
+        poster: "image/26film.png",
+        posterPosition: "center 1%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114803704075873&bvid=BV1EaGFzyEBr&cid=30875781064&p=1"
+    },
+
+    {
+        title: "地道战",
+        category: "war",
+        desc: "“你们要各自为战，打一枪换一个地方，不许放空枪。开火！”",
+
+          intro: [
+            "《地道战》以抗日战争时期冀中平原敌后根据地的群众斗争为主线。1942年，日军对冀中抗日根据地发动大规模“扫荡”，高家庄群众在党支部书记高老忠和民兵队长高传宝的带领下，为躲避敌人的袭击和保存抗日力量，把各家的地窖、土洞逐渐挖通，形成能够相互联系的地下通道。最初的地道主要用于隐蔽和转移群众，但在实际斗争中还存在出口少、防御能力弱等问题。",
+            "一次夜间偷袭中，黑风口据点的日军突然进犯高家庄。高老忠为了及时向群众报警，坚持敲钟示警并壮烈牺牲，原有地道也受到敌人破坏。这次损失使高家庄群众认识到，地道不能只作为躲避敌人的藏身之处，还必须成为能够主动打击敌人的战斗工事。在党组织和民兵带领下，群众总结经验，对地道进行重新改造，增加射击孔、翻口、隐蔽出口和各种防御设施，使村庄地下逐渐形成既能藏身、转移，又能观察和攻击敌人的地道体系。",
+            "随着斗争深入，高传宝率领民兵不断运用地道打击敌人。民兵利用地下通道迅速转移，在敌人意想不到的位置突然出击，又借助地道摆脱敌军追击。高家庄的地道也从村内逐渐向村外延伸，同周围村庄和野外阵地相互连接，使原来分散的防御设施逐渐发展成为纵横交错的地下战斗网络。日伪军虽然多次组织进攻，甚至采用封锁、搜查等手段企图破坏地道，却不断受到民兵的打击。",
+            "在后来的战斗中，高家庄民兵同八路军主力、游击队密切配合，把地道战同伏击、围点打援等战术结合起来。群众不仅利用地道保护自己，还主动从地下接近敌人、打击据点和切断敌军行动。最终，抗日军民共同攻克黑风口据点，消灭进犯高家庄的日伪军。影片通过地道从简单藏身设施发展为完整战斗体系的过程，表现冀中人民在长期抗战实践中不断总结经验、创造新的斗争方法并逐渐掌握战争主动权的过程。"
+        ],
+
+        background: [
+            "影片所表现的历史背景，是抗日战争时期中国共产党领导的华北敌后抗日根据地斗争。冀中地区地势平坦开阔，缺少山地等天然屏障，日军依靠据点、公路和炮楼不断对根据地实施封锁和“扫荡”。特别是在1942年前后，冀中抗日根据地面临十分严峻的斗争环境。为了保存群众和抗日武装力量，各地军民根据平原地区的实际条件，广泛探索地雷战、地道战、麻雀战等灵活多样的游击战争方式。",
+            "地道最初主要由农村原有地窖和隐蔽洞穴发展而来。在长期反“扫荡”斗争中，群众不断总结经验，把分散的地窖相互连接，并增加秘密出口、射击孔、观察口、防水防烟设施等，使地道逐渐从单纯保护群众的隐蔽设施发展为可以进行作战的地下工事。村庄、道路、院落和田野由此形成相互联系的战斗空间，敌军即使进入村内，也很难判断民兵所在的位置。这种战法是冀中抗日军民在具体战争环境中创造和发展起来的群众性游击战形式。",
+            "地道战的形成和发展同中国共产党在敌后根据地实行群众路线、组织民兵和发动人民参加抗战密切相关。村干部、民兵和普通农民共同参与挖掘和维护地道，群众既是地道体系的建设者，也是情报、运输、警戒和战斗的重要参与者。八路军主力部队、地方武装和民兵之间相互配合，使地道战并不是孤立的防御手段，而成为敌后人民战争体系中的一个组成部分。",
+            "电影《地道战》由中国人民解放军八一电影制片厂摄制，任旭东执导，任旭东、徐国腾、王俊益、潘云山编剧，朱龙广饰演高传宝，王炳彧饰演高老忠，张勇手饰演赵区长。影片于1965年完成并上映，采用黑白摄影。创作最初带有军事教育片性质，要求既能够介绍地道战的基本战术和斗争方法，又不能成为简单枯燥的军事教材，因此影片把军事知识同人物、情节和群众生活结合起来，以高家庄民兵不断改造地道、总结经验和战胜敌人的故事，集中表现冀中平原地道战的历史实践。影片部分外景在河北冉庄等地拍摄。"
+        ],
+
+        features: [
+            "影片集中体现了中国共产党领导下依靠人民群众进行人民战争的革命精神。高家庄的地道不是少数人单独创造的，而是在党组织领导下由民兵和群众共同建设、共同改进，并在实际斗争中不断发展起来，突出人民群众的主动性和创造力量。",
+            "影片同时表现了实事求是、总结经验和敢于斗争的精神。抗日军民在遭受损失以后并没有消沉，而是从斗争实践中寻找办法，把原本用于藏身的地道改造成主动打击敌人的战斗堡垒，体现了在困难条件下依靠群众智慧不断创造新的斗争形式。"
+        ],
+
+        poster: "image/08film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114736108869521&bvid=BV14CKuzqE2j&cid=30666064152&p=1"
+    },
+
+    {
+        title: "地雷战",
+        category: "war",
+        desc: "“这一战打得好啊，真是地雷一响，旗开得胜啊！”",
+
+          intro: [
+            "《地雷战》以抗日战争时期山东胶东海阳地区的群众抗战为背景，围绕赵家庄民兵学习、制造和运用地雷打击日本侵略军的过程展开。面对日军不断进行“扫荡”和袭扰，赵家庄民兵虽然有保卫家乡的决心，但武器装备十分有限，单纯依靠步枪和少量弹药很难同装备占优势的敌军正面作战。民兵队长赵虎带领群众一边坚持游击斗争，一边寻找更加适合当地实际条件的作战办法。",
+            "在党组织和上级抗日力量的帮助下，赵家庄民兵开始学习地雷的制造和使用方法。雷主任等人向群众传授爆破知识，民兵则结合农村现有材料进行反复试验。面对炸药和金属材料不足的困难，群众并没有等待外来装备，而是自己想办法制造土炸药、石雷等武器，并不断改进埋雷和引爆方法。原本简单的爆炸装置逐渐发展出多种形式，使敌军越来越难以判断地雷埋设的位置和方式。",
+            "日军在连续遭到地雷打击以后，开始采取搜雷、排雷和抓捕群众等手段进行对付。赵虎和民兵则根据敌人的变化继续改进战术，把地雷同冷枪、伏击、诱敌和群众联防结合起来。敌人刚刚找到一种排雷办法，民兵就创造新的埋雷方式；敌军试图避开道路上的地雷，群众又把地雷设置在敌人意想不到的位置。影片通过这种反复较量，表现人民群众在战争实践中不断学习、创造和提高斗争能力的过程。",
+            "随着各村民兵之间的联系不断加强，地雷战不再只是赵家庄一个村庄的防御手段，而逐渐成为多个村庄共同进行反“扫荡”的重要战术。民兵利用熟悉地形和群众支持的优势，布设地雷阵、诱使敌军进入伏击区域，并同八路军和其他抗日武装相互配合。最终，抗日军民通过地雷战和联合作战重创进犯的日军，取得反“扫荡”的胜利。影片以赵虎、玉兰等普通民兵的成长，表现胶东人民由学习战斗到主动掌握战争方法、保卫家乡的过程。"
+        ],
+
+        background: [
+            "影片所表现的历史背景，是抗日战争时期山东胶东敌后根据地的群众武装斗争。日本侵略军占领部分城镇和交通线以后，通过建立据点、修筑公路以及反复进行“扫荡”，企图控制广大农村地区。八路军和地方抗日武装则依靠农村群众建立抗日根据地，组织民兵、妇救会和各种群众抗日组织，以游击战争同敌军长期斗争。",
+            "胶东地区民兵在实际斗争中面临一个突出问题，就是武器和弹药不足。正规枪支数量有限，而敌军在装备和火力方面占有明显优势，因此群众必须根据当地条件寻找成本低、容易制造又能够有效杀伤敌人的武器。地雷由此成为敌后民兵广泛使用的重要武器之一。群众利用土炸药、石头、铁器和各种日常材料制造地雷，并通过长期实践不断改进埋设和引爆方式。",
+            "地雷战并不是一种固定不变的技术，而是在敌我双方不断较量中逐渐发展起来的。敌军学会排除普通地雷后，民兵便改变地雷结构和埋设方式；敌军试图避开主要道路，民兵又根据其行动规律重新设置雷区。地雷也同游击战、伏击战、麻雀战以及村庄联防结合起来，使数量有限、装备简陋的民兵能够利用熟悉地形和群众基础的优势打击敌军。这种从战争实践中不断总结经验、创造战法的过程，是胶东敌后抗战的重要特点之一。",
+            "电影《地雷战》由中国人民解放军八一电影制片厂摄制，1962年上映，唐英奇、吴健海执导，陈广生、柳琪辉、屈鸿超编剧，白大钧饰赵虎，张长瑞饰雷主任，鲁在蕴饰玉兰。影片在创作上具有明显的军事教育性质，把地雷的制作、使用和反排雷方法融入故事情节之中，使观众在观看人物和战斗故事的同时，也能够理解地雷战的基本原理和敌后民兵的斗争方法。影片的军事顾问为王耀南，他同时参与过《地道战》等影片的军事指导工作。"
+        ],
+
+        features: [
+            "影片集中体现了人民群众在中国共产党领导下自力更生、依靠自身力量进行抗战的革命精神。面对武器匮乏和敌强我弱的困难，民兵没有消极等待，而是发动群众制造地雷、研究战法，把普通农村群众的智慧转化为打击侵略者的力量。",
+            "影片同时突出实践、创造和集体主义精神。民兵在一次次同敌人的较量中不断总结经验、改进武器，并通过各村联防和军民配合形成更强大的战斗力量，体现了人民战争依靠群众、发动群众并由群众共同创造胜利的特点。"
+        ],
+
+        poster: "image/13film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=294899213&bvid=BV1NF41167RM&cid=464218706&p=1"
+    },
+
+    {
+        title: "英雄儿女",
+        category: "war",
+        desc: "“为了胜利，向我开炮！”",
+
+          intro: [
+            "《英雄儿女》以抗美援朝战争中的中国人民志愿军为背景，通过志愿军战士王成的英勇牺牲和妹妹王芳在革命集体中的成长，表现前线将士保卫和平、英勇战斗的英雄精神。影片开始时，志愿军某部正在朝鲜战场坚守阵地。刚从医院归队的王成主动要求重新参加战斗，并把父亲王复标勉励他英勇杀敌、为国立功的来信交给张团长和政委王文清看。王文清由此得知，眼前的王成正是自己多年未见的老战友王复标的儿子。",
+            "激烈的阵地战很快打响。面对敌军连续进攻，王成和战友们依托阵地顽强阻击。在身边战友相继伤亡、阵地上只剩自己继续战斗以后，王成仍然没有后退。他利用步话机同指挥所保持联系，一边报告敌情，一边用枪支和手榴弹继续抗击逼近阵地的敌军。敌军越来越接近阵地，在无法依靠个人力量继续阻挡敌人的最后时刻，王成要求炮兵把火力直接覆盖到自己所在的位置，以自己的生命阻止敌军突破。",
+            "王成壮烈牺牲以后，他的事迹迅速传遍部队。志愿军部队开展学习王成的活动，把他的英雄行动作为教育和鼓舞广大指战员的力量。王成的妹妹王芳是部队文工团员，哥哥牺牲使她十分悲痛，但在王文清和同志们的帮助下，她逐渐把个人悲痛转化为宣传英雄、鼓舞战士的力量。她以王成以及千千万万志愿军英雄的事迹为内容投入文艺创作，并在部队中演唱《英雄赞歌》，使王成的精神从一个人的英雄行动转化为整个革命集体共同的精神力量。",
+            "在同王芳的接触中，王文清逐渐确认了一个埋藏多年的事实：王芳实际上是自己失散十八年的亲生女儿。早年王文清从事地下革命工作时，妻子被敌人杀害，自己也遭到逮捕，年幼的女儿被老工人王复标收养。从此王复标把她当作自己的亲生女儿抚养成人，并将她培养成为革命队伍的一员。王文清虽然认出了王芳，却没有立即同她相认，而是继续以部队领导和革命前辈的身份帮助她经受哥哥牺牲后的考验。",
+            "后来，王芳到前线为战士们演出时遭到敌机袭击。为了掩护正在转移的炊事员，她在危险中负伤，被送回祖国治疗。伤愈后，王芳重新回到朝鲜前线；与此同时，王复标也随祖国慰问团来到朝鲜。多年失散的王文清、王复标和王芳终于在战场上重新相聚，王芳也得知自己的真实身世。影片没有把这个团圆简单处理成家庭故事，而是让两位父亲共同勉励王芳继承王成和志愿军英雄的精神，在革命事业中继续前进，使亲情、战友情和革命理想最终汇合在一起。"
+        ],
+
+        background: [
+            "影片所表现的历史背景是抗美援朝战争。1950年朝鲜战争爆发以后，战火逼近中国东北边境。中国人民志愿军赴朝作战，同朝鲜人民军并肩进行长期而艰苦的战争。志愿军在武器装备、后勤运输和战场条件十分困难的情况下，依靠顽强的战斗意志和严密的组织纪律进行作战。大量志愿军指战员在阵地防御、反击和后勤保障等战斗中英勇牺牲，形成了抗美援朝战争中广泛流传的革命英雄主义事迹。",
+            "《英雄儿女》的文学基础是巴金创作的中篇小说《团圆》。抗美援朝期间，巴金曾赴朝鲜前线深入志愿军部队体验生活，同前线指战员共同生活并采访大量战斗事迹。回国以后，这些经历长期留在他的记忆中。1961年，他在《上海文学》发表《团圆》，以朝鲜战场上一对失散多年的父女重新相认为故事核心，把革命战争同普通人的家庭命运结合起来。",
+            "电影改编时，武兆堤和毛烽在《团圆》原有故事基础上进行了较大扩充。小说中的王成原本只是一个篇幅很少、在战斗中牺牲的人物，电影则把他发展成为全片最重要的英雄形象之一。创作者吸收了抗美援朝战场上多位志愿军英雄的真实事迹，把坚守阵地、通过步话机呼叫炮火以及最后同敌人战斗到底等内容集中到王成身上。因此，电影中的王成不是对某一位烈士经历的简单复制，而是由许多志愿军英雄事迹凝聚而成的艺术形象。",
+            "电影还进一步扩大了原作中“团圆”的意义。王文清同王芳的父女重逢、王复标十八年的养育之情、王成的英勇牺牲以及部队学习英雄的活动共同构成影片叙事。影片把一个家庭在革命年代的离散和重新相聚，同人民军队的共同理想结合起来。剧本最初曾使用《他乡遇故知》《团圆》等名称，后来最终定名为《英雄儿女》，也使影片主题从家庭团圆进一步转向对整个志愿军英雄集体的歌颂。",
+            "电影《英雄儿女》由长春电影制片厂摄制，于1964年上映，武兆堤执导，武兆堤、毛烽编剧，田方饰王文清，周文彬饰王复标，刘世龙饰王成，刘尚娴饰王芳，郭振清饰张团长。影片插曲《英雄赞歌》由公木作词、刘炽作曲。公木观看影片样片并了解故事以后完成歌词，刘炽随后谱曲，歌曲同王成牺牲以及王芳宣传英雄的情节紧密结合。影片上映以后，王成的英雄形象和《英雄赞歌》一同广泛传播，成为抗美援朝题材电影中极具代表性的银幕记忆。"
+        ],
+
+        features: [
+            "影片集中体现了中国人民志愿军英勇顽强、不怕牺牲和为了集体胜利战斗到底的革命英雄主义精神。王成在阵地被围、战友相继牺牲的情况下仍然坚持战斗，最终把个人生命置于战斗胜利之后，成为影片所塑造的英雄精神的集中体现。",
+            "影片同时强调英雄精神并不只属于某一个人，而是在革命集体中不断传承。王成牺牲以后，王芳把悲痛转化为宣传和学习英雄的力量，《英雄赞歌》又把个人英雄上升为千千万万志愿军战士的共同形象，突出爱国主义、集体主义以及革命精神代代传承的主题。"
+        ],
+
+        poster: "image/27film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114766978816176&bvid=BV1tu3AzPEZa&cid=30762272293&p=1"
+    },
+
+    {
+        title: "南征北战",
+        category: "war",
+        desc: "“不是我们无能，而是共军太狡猾了！”",
+
+        intro: [
+            "《南征北战》以人民解放战争时期华东战场的军事斗争为背景，围绕人民解放军某部在敌强我弱的形势下主动后撤、诱敌深入，最后集中优势兵力各个歼灭敌人的作战过程展开。1947年冬，国民党军队向华东解放区发动重点进攻。面对敌军重兵压境，人民解放军并没有同敌人硬拼，而是根据整个战场形势实行大踏步后退。高营长率部撤到山东沂蒙山区桃村一带时，一些战士和群众对连续后撤一时不能理解，认为既然过去能够打胜仗，为什么现在反而不断向后转移。",
+            "高营长向战士们解释，上级并不是害怕敌人，而是要通过主动转移调动敌人，使敌军离开坚固据点、拉长战线并暴露弱点。桃村村长赵玉敏也向群众说明部队的作战意图，组织群众继续支援人民解放军。国民党军队却把人民解放军的主动后撤误认为溃败，认为决战时机已经到来，于是集中大批兵力向解放区纵深推进，企图从几个方向合围人民解放军。敌军不断深入的同时，也一步步进入人民解放军预定的作战区域。",
+            "为了进一步调动和消耗敌军，人民解放军在桃村附近的大沙河一线进行顽强阻击。高营长率部连续坚守六个昼夜，多次打退敌人的进攻。就在战士们认为应该继续守住阵地的时候，上级再次命令部队撤退。高营长坚决执行命令，率领部队冒着风雨急行军赶往凤凰山地区。与此同时，敌李军长所属部队已经在凤凰山陷入人民解放军的包围，张军长则率领援军企图赶来解围。高营长奉命迅速抢占摩天岭，阻止敌军增援。",
+            "在摩天岭阻击战中，高营长和战士们利用有利地形坚决阻击张军长的援军，为主力围歼凤凰山之敌争取时间。敌军虽然连续发动进攻，却始终无法突破人民解放军阵地。凤凰山战斗结束后，李军长所属部队被歼灭，李军长本人被俘。原本企图围歼人民解放军的张军长部由进攻转为仓皇后撤，整个战场形势由此发生根本变化。此前看似不断后退的人民解放军开始迅速转入反攻，高营长又率部担任追击先锋，向南追击逃跑的敌军。",
+            "敌军退到大沙河以南以后仍企图负隅顽抗，高营长率部抄小路偷渡大沙河，攻占将军庙车站，切断敌人的退路。赵玉敏则带领地方民兵配合主力作战，阻击逃敌。走投无路的敌军企图炸毁上游水坝，用洪水阻止人民解放军追击，赵玉敏带领游击队及时剪断炸药导火线，保护了水坝。人民解放军随后迅速渡河，对敌军形成包围并发动总攻，最终全歼张军长所属部队，俘虏张军长及其参谋长。影片以整个战役由主动后撤转向全面胜利的过程，集中表现运动战中保存自己、调动敌人、集中兵力和各个歼敌的作战思想。"
+        ],
+
+        background: [
+            "影片所表现的历史背景，是人民解放战争由战略防御逐渐向战略进攻发展的重要阶段。1947年前后，国民党军队在全面进攻解放区受到挫折以后，开始把主要兵力集中到陕北和山东等地区实施重点进攻。华东战场成为双方进行大规模军事较量的重要地区。面对数量和装备一度占有优势的国民党军队，人民解放军并不以争夺一城一地作为主要目标，而是通过运动战调动敌人，在运动中寻找有利战机。",
+            "这种作战方式的重要特点，是敢于在必要的时候主动放弃某些地区，以空间换取调动敌军和创造战机的条件。表面上的后退并不意味着战争失败，而是为了使敌军分散、疲惫和暴露，在有利条件形成以后再集中优势兵力歼灭其中一部。影片中高营长最初面对战士和群众对后撤的不理解，正是通过这一矛盾把军事战略转化为观众可以理解的故事：真正决定战争胜负的不是一时一地的进退，而是能否掌握战争主动权并有效消灭敌人的有生力量。",
+            "影片还把人民群众的支援作为战争胜利的重要组成部分。桃村群众在赵玉敏带领下支持部队作战，民兵在主力转移以后继续坚持地方斗争，并在最后追歼敌军时协同作战。保护水坝、阻击敌人和支援前线等情节，使影片没有把战争表现成单纯由正规军完成的军事行动，而是把人民解放军、地方民兵和根据地群众放在同一个战争体系中，体现解放战争中军队与人民群众之间的密切联系。",
+            "《南征北战》的创作源头可以追溯到1951年华东军区解放军艺术剧院创作的话剧《战线》。在陈毅的建议和推动下，华东军区政治部决定把这一题材改编成电影，沈默君、顾宝璋等参与电影剧本创作，原话剧作者沈西蒙也参加后续修改。电影在创作过程中受到华东战场实际战争经验的深刻影响，陈毅曾对影片创作提出意见，粟裕也参与有关军事场面的研究和安排，使影片能够较为系统地在银幕上表现运动战、阻击战和围歼战之间的战略联系。",
+            "电影《南征北战》由上海电影制片厂摄制，于1952年推出，成荫、汤晓丹执导，沈西蒙、沈默君、顾宝璋编剧，陈戈饰师长，汤化达饰师政委，冯喆饰高营长，张瑞芳饰赵玉敏，项堃等参加演出。为了完成大规模战争场面的拍摄，摄制工作得到人民解放军和当地群众的大力配合，大批部队官兵直接参加影片中的战斗场面。影片通过大沙河阻击、摩天岭争夺、凤凰山围歼和最后追击等多个大型战争段落，把战略决策、基层指挥和群众支前结合起来，成为新中国早期军事战争题材电影中具有代表性的作品。"
+        ],
+
+        features: [
+            "影片集中体现了从战争全局出发、服从统一指挥和敢于夺取胜利的革命精神。高营长和战士们从最初对后撤存在疑问，到坚决执行命令、完成阻击和追击任务，表现人民军队把局部行动服从于整体战略，并在复杂战局中始终保持坚定战斗意志。",
+            "影片同时突出人民战争和军民团结的力量。人民解放军在前线作战，赵玉敏和根据地群众、地方民兵则在后方和敌后积极支援与配合，使战略上的主动同广大群众的支持结合起来，体现依靠人民、团结协作以及在暂时困难面前坚定革命胜利信念的精神。"
+        ],
+
+        poster: "image/28film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=12156240&bvid=BV16x411q77N&cid=20043626&p=1"
+    },
+
+
+
+    /* ==================== 英模榜样 ==================== */
+
+    {
+        title: "董存瑞",
+        category: "heroes",
+        desc: "“为了新中国，前进！”",
+
+          intro: [
+            "《董存瑞》以抗日战争后期到解放战争时期为历史背景，围绕董存瑞从普通农村青年成长为人民军队战士，并最终在隆化战斗中英勇牺牲的经历展开。1945年，年轻的董存瑞和同村伙伴郅振标一心要求参加八路军，希望能够像其他青年一样拿起武器抗击敌人。但由于年龄较小，他们最初没有得到批准。董存瑞性格倔强、好胜，虽然有强烈的革命热情，却还缺乏真正的战斗经验和组织纪律观念。",
+            "在一次反“扫荡”斗争中，区党委书记王平壮烈牺牲，并在临终前托付董存瑞代为缴纳最后一次党费。董存瑞和郅振标完成这一任务后，也终于参加了八路军。进入革命队伍以后，董存瑞开始在实际战斗中经受锻炼。他从最初性格急躁、容易冲动的年轻人，逐渐懂得纪律、集体和责任的重要性，并在一次次战斗中成长为勇敢坚定的人民军队战士。",
+            "解放战争时期，董存瑞继续参加部队作战，并加入中国共产党。随着革命战争不断发展，他逐渐成为战斗骨干。1948年5月，在解放隆化的战斗中，董存瑞担任爆破任务。敌军桥型暗堡的火力严重阻挡部队前进，在无法找到合适支撑点安放炸药包的紧急情况下，他毅然用自己的身体托起炸药包实施爆破，为部队打开进攻道路。影片以这一壮烈行动达到高潮，并以董存瑞的牺牲完成对一个普通青年成长为革命英雄的完整塑造。"
+        ],
+
+        background: [
+            "董存瑞的成长经历跨越抗日战争后期和解放战争时期。抗日战争时期，中国共产党领导的八路军和敌后根据地群众长期坚持抗击日本侵略者，大批农村青年在群众斗争和根据地生活中受到革命影响，主动要求参加人民军队。抗日战争胜利以后，中国社会又进入新的历史斗争阶段，人民解放军在广大解放区群众支持下同国民党军队展开解放战争。董存瑞正是在这样的革命环境中由农村青年逐渐成长为人民军队的一员。",
+            "1948年春，人民解放战争继续向有利于人民解放军的方向发展。华北战场上，人民解放军展开一系列攻坚作战，隆化是连接承德和北部地区的重要据点。敌军依托坚固工事进行防守，给进攻部队造成很大困难。1948年5月25日，董存瑞在隆化战斗中担任爆破任务，并在关键时刻托起炸药包炸毁敌军暗堡，壮烈牺牲。此后，他的事迹在人民军队和全国广泛传播，成为解放战争时期革命英雄主义的重要象征之一。",
+            "电影《董存瑞》由长春电影制片厂摄制，于1955年上映，郭维执导，丁洪、赵寰等参与编剧，张良饰演董存瑞，杨启天饰演郅振标。影片改编自歌剧《舍身炸碉堡》，创作者在筹备过程中采访有关战斗参加者和董存瑞战友，并在已有舞台作品基础上进一步丰富人物经历。影片没有把全部篇幅集中在最后的英雄壮举，而是用了较大篇幅表现董存瑞参军以前的少年性格、进入部队后的锻炼以及思想逐渐成熟的过程，使英雄形象建立在普通青年的成长基础上。",
+            "影片上映后产生广泛影响，并获得文化部1949—1955年优秀影片荣誉奖。张良塑造的董存瑞形象也成为新中国早期革命英雄题材电影中的经典人物。影片通过个人成长同抗日战争、解放战争相结合，使董存瑞的牺牲不仅成为一次战斗中的英雄行动，也成为人民军队教育、集体生活和革命实践培养普通青年成长为革命战士的集中表现。"
+        ],
+
+        features: [
+            "影片集中表现了革命英雄来自人民、成长于革命集体的精神。董存瑞并不是天生的英雄，而是在党的教育、部队生活和实际战斗中不断克服自身弱点，逐渐形成坚定信念和高度责任感。",
+            "在隆化战斗的关键时刻，他把战友和整个部队的胜利置于个人生命之上，以牺牲自己完成爆破任务，集中体现了忠于人民、勇于担当、不怕牺牲和为了革命胜利奋勇向前的革命英雄主义精神。"
+        ],
+
+        poster: "image/14film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114821487925866&bvid=BV1PmGxz8E1e&cid=30932668138&p=1"
+    },
+
+    {
+        title: "雷锋",
+        category: "heroes",
+        desc: "“人的生命是有限的，可是为人民服务是无限的。”",
+
+           intro: [
+            "《雷锋》以雷锋参加社会主义建设和人民解放军后的生活经历为主线，通过一系列平凡而具体的事件，表现他从普通青年逐渐成长为共产主义战士的过程。影片没有依靠宏大的战争场面塑造人物，而是从学习、劳动、军营生活和为群众服务等日常实践展开，使雷锋的思想和精神面貌通过一件件普通小事逐渐显现出来。",
+            "影片通过雷锋向少先队员讲述自己的童年经历，回顾他在旧社会遭受苦难、在新社会获得新生活的成长过程。正是新旧社会生活的鲜明对比，使雷锋更加珍惜人民翻身解放后的生活，并逐渐形成热爱党、热爱社会主义新社会的思想感情。他把自己个人命运的变化同劳动人民的解放联系起来，也把这种认识转化为参加社会主义建设、积极工作和为人民服务的实际行动。",
+            "进入人民解放军以后，雷锋把自己看作革命集体中的普通一员。他主动学习政治理论，认真完成部队交给的任务，并在日常生活中处处关心战友和群众。战友遇到困难时，他主动帮助；群众需要帮助时，他把为人民服务看作自己的责任；面对集体任务，他总是把方便让给别人，把困难留给自己。影片通过这些细小的生活情节，表现雷锋并不是依靠一次惊天动地的壮举成为英雄，而是在长期坚持为集体和人民做事的过程中形成自己的精神品格。",
+            "影片还表现了雷锋参加抗洪抢险、帮助群众、支援集体以及担任少先队校外辅导员等经历。无论是在部队、工地还是群众中，他始终把个人生活同集体需要联系在一起。影片最终通过雷锋短暂而充实的一生，说明一个普通劳动者和人民战士，只要自觉把个人力量投入社会主义革命和建设事业，同人民群众站在一起，同样能够在平凡岗位上创造有意义的人生。"
+        ],
+
+        background: [
+            "雷锋成长的年代正处在中华人民共和国成立以后社会主义革命和建设不断发展的时期。旧的社会制度被推翻以后，广大工农群众成为新社会建设的重要力量，大批青年参加工业建设、农业生产和人民解放军，在劳动和集体生活中接受教育和锻炼。雷锋正是在这样的社会环境中成长起来的。他先后参加农业生产、工业建设，后来加入中国人民解放军，把个人成长同新中国的社会主义建设联系在一起。",
+            "雷锋出生于湖南一个贫苦农民家庭，童年时期经历了旧社会劳动人民的苦难。新中国成立以后，他的生活发生根本变化，得到学习、劳动和参加社会建设的机会。成年以后，他先后参加社会主义建设，并于1960年参加中国人民解放军。在部队生活中，雷锋坚持学习革命理论，积极参加各项任务，把为人民服务、热爱集体和艰苦朴素落实到日常行动之中。1962年8月15日，雷锋因公殉职，年仅22岁。",
+            "雷锋牺牲以后，他的日记和生前事迹逐渐在全国传播。1963年3月，毛泽东题词“向雷锋同志学习”，全国随后广泛开展学习雷锋活动。雷锋所体现的为人民服务、热爱集体、艰苦奋斗和无私奉献精神，在社会主义教育和群众文化生活中产生广泛影响。雷锋也由一名普通人民解放军战士，成为社会主义时期广为人知的先进典型。",
+            "电影《雷锋》由中国人民解放军八一电影制片厂拍摄，董兆琪执导，陆柱国、丁洪等参与编剧，董金棠饰演雷锋，于1965年上映。影片根据雷锋真实事迹进行艺术创作，选取入伍、帮助群众、抗洪、参加集体活动以及同战友相处等具有代表性的生活片段组织叙事。为了接近人物，主演董金棠还曾到雷锋生前所在部队体验生活。影片没有把雷锋塑造成脱离群众的传奇英雄，而是着重表现一个普通青年怎样在社会主义集体生活和革命教育中逐步形成坚定的思想和行为准则。"
+        ],
+
+        features: [
+            "影片集中体现了全心全意为人民服务、热爱集体和无私奉献的共产主义精神。雷锋把帮助群众、关心战友和完成集体任务看作革命战士应尽的责任，在平凡生活中始终把人民利益和集体需要放在个人得失之前。",
+            "影片同时表现了艰苦朴素、勤奋学习和干一行爱一行的精神。雷锋并不是通过一次壮举成为先进典型，而是在长期劳动和生活实践中坚持做好每一件普通事情，体现了个人成长同社会主义集体、劳动人民和革命事业相结合的精神品格。"
+        ],
+
+        poster: "image/15film.png",
+        posterPosition: "center 20%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=431945810&bvid=BV1oG411L7jH&cid=873417913&p=1"
+    },
+
+    {
+        title: "白求恩大夫",
+        category: "heroes",
+        desc: "“我从你们身上学到了，如何成为一个真正的革命战士。”",
+
+            intro: [
+            "《白求恩大夫》以抗日战争时期加拿大共产党员、外科医生诺尔曼·白求恩来到中国以后参加抗日医疗工作的经历为主线。1938年，白求恩不远万里来到中国，在到达延安并了解中国共产党领导的抗日斗争以后，主动要求前往战斗环境更加艰苦的晋察冀抗日根据地。他没有把自己看作远离战场的外国专家，而是希望把医学技术直接用于前线，为受伤的八路军战士和根据地群众服务。",
+            "到达晋察冀以后，白求恩很快投入紧张的战地医疗工作。面对药品、医疗器械和专业医务人员严重不足的困难，他一面抢救伤员，一面设法改善根据地的医疗条件。他根据游击战争频繁转移的特点研究战地医疗方式，改进能够随部队行动的医疗设备和手术条件，并主动培训医生、护士和卫生员，希望使有限的医疗技术能够迅速传播到更多部队和基层医疗单位。",
+            "随着战争不断发展，白求恩越来越深入前线。他常常把手术室设在距离战斗很近的地方，在炮火和转移中连续抢救伤员。影片通过紧张的手术、战地行军、培训医务人员以及同八路军干部战士和根据地群众相处等情节，表现他逐渐真正融入中国人民抗战队伍的过程。最初来自遥远异国的医生，在共同劳动和共同斗争中逐渐成为八路军战士和根据地群众亲密的同志。",
+            "1939年，在一次前线救治伤员的过程中，白求恩的手指受到感染。即使病情不断恶化，他仍然坚持继续工作和抢救伤员，直到身体再也无法支撑。最终，白求恩因感染发展为败血症，在河北唐县逝世。影片通过他生命最后阶段的坚持，把一个医生的职业责任同共产主义者的国际主义信念结合起来，使他的牺牲成为全片最深沉的情感落点。"
+        ],
+
+        background: [
+            "白求恩来到中国时，正值中国人民抗日战争进入极其艰苦的阶段。日本侵略军占领大片城市和交通线以后，中国共产党领导的八路军深入华北敌后，建立抗日根据地并广泛开展游击战争。晋察冀抗日根据地就是其中重要的敌后根据地之一。由于长期处在战争和封锁环境中，根据地物资极度匮乏，药品、医疗器械和经过专业训练的医务人员尤其不足，大批伤员的救治面临十分困难的条件。",
+            "白求恩原本是加拿大著名外科医生，同时也是加拿大共产党员。面对世界法西斯主义不断扩张，他把中国人民的抗日战争看作世界人民反法西斯斗争的一部分。1938年，他在国际援华力量和加拿大、美国共产主义者支持下来到中国，3月抵达延安，随后前往晋察冀抗日根据地。从这一时期开始，他把自己的医学知识和全部工作能力投入八路军和敌后群众的医疗事业之中。",
+            "在晋察冀工作期间，白求恩不仅亲自进行大量手术，还十分重视建立能够长期为人民军队服务的医疗体系。他培训医务人员、研究战地救护方法、改进手术设备，并强调医疗人员应当到伤员最需要的地方去。在极端有限的物质条件下，他同根据地医务工作者一起探索适应游击战争环境的医疗工作方式，使个人医学技术逐渐转化为整个革命队伍可以掌握和使用的力量。",
+            "1939年11月，白求恩在抢救伤员时因手指感染最终发展为败血症，于河北唐县逝世。毛泽东随后写下《纪念白求恩》，高度评价他的国际主义精神和毫无自私自利之心的共产主义品格。白求恩由此成为中国革命历史中共产主义国际主义的重要象征，他的名字也长期同救死扶伤、为人民服务和国际主义联系在一起。",
+            "电影《白求恩大夫》根据周而复同名文学作品改编。1962年，张骏祥等创作者沿着白求恩当年的活动路线深入采访曾经同他共同工作和生活的八路军医务人员及当地群众，搜集大量第一手材料，随后完成电影剧本。影片于1965年拍摄完成，由张骏祥、李舒田、高正联合执导，谭宁邦饰演白求恩。摄影师吴印咸本人曾在抗战时期拍摄过白求恩在晋察冀前线工作的真实影像，后来又参加本片摄影工作，使影片的历史再现同真实的革命经历之间具有特殊联系。"
+        ],
+
+        features: [
+            "影片集中体现了无产阶级国际主义和毫不利己、专门利人的共产主义精神。白求恩跨越国界来到中国，不是为了个人利益，而是把中国人民反抗日本侵略的斗争看作世界人民共同的反法西斯事业，并把自己的医学技术完全服务于八路军战士和根据地群众。",
+            "影片同时突出极端负责、艰苦奋斗和为人民服务的精神。无论医疗条件多么困难、战斗环境多么危险，白求恩始终把伤员放在首位，并努力把自己的技术传授给更多医务人员，体现了共产主义者把个人能力、劳动乃至生命都同人民解放事业联系起来的革命品格。"
+        ],
+
+        poster: "image/25film.png",
+        posterPosition: "center 1%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=797932452&bvid=BV1ky4y167XN&cid=259606279&p=1"
+    },
+
+    {
+        title: "狼牙山五壮士",
+        category: "heroes",
+        desc: "“亲爱的党，亲爱的乡亲们，亲爱的同志们，永别了。”",
+
+            intro: [
+            "《狼牙山五壮士》以1941年秋抗日战争时期晋察冀抗日根据地的反“扫荡”斗争为背景，围绕八路军五名战士为掩护部队和群众转移，在狼牙山同日军顽强战斗的英雄事迹展开。日军向根据地发动大规模“扫荡”，八路军七连奉命阻击敌人，为主力部队和当地群众安全转移争取时间。经过连续战斗，连队完成主要掩护任务后开始转移，六班被留下承担最后的掩护任务。",
+            "班长马宝玉带领葛振林、宋学义、胡德林、胡福才等战士继续阻击追击的日军。为了不让敌人发现主力部队和群众转移的方向，他们没有沿着可以同部队会合的道路撤退，而是主动把敌人引向狼牙山崎岖险峻的棋盘陀。五名战士利用山地地形不断射击、投掷手榴弹，同人数和装备都占优势的敌军展开激烈战斗，使日军把注意力集中到狼牙山上，为主力和群众争取了宝贵的转移时间。",
+            "随着战斗持续，五名战士逐渐退到狼牙山顶峰。他们依靠岩石和山势继续阻击敌人，在弹药即将耗尽以后，甚至用石块继续向山下的日军还击。此时他们已经没有可以继续撤退的道路，但仍然坚持战斗，不让敌人轻易接近阵地。影片通过山路追击、阵地阻击和山顶决战等情节，把五名普通八路军战士置于越来越严峻的战斗环境之中，使他们保卫群众、完成任务的决心不断得到强化。",
+            "在弹药耗尽、敌人不断逼近的最后时刻，五名战士没有选择向敌人投降。班长马宝玉首先砸毁枪支，战士们高呼抗日和革命口号，相继纵身跳下悬崖。影片以五壮士跳崖作为全片最壮烈的高潮，把他们为了保护主力部队和人民群众而坚持到最后的行动，同整个晋察冀根据地军民坚持抗战的斗争联系起来。"
+        ],
+
+        background: [
+            "影片所表现的历史发生在抗日战争进入相持阶段以后。华北敌后地区已经建立起多个由中国共产党领导的抗日根据地，八路军、地方武装、民兵和广大群众依靠根据地开展长期游击战争。为了摧毁这些抗日力量，日本侵略军不断进行大规模“扫荡”，通过封锁、分割和军事进攻企图消灭八路军主力、破坏根据地并控制农村群众。",
+            "1941年秋，日军对晋察冀边区发动大规模“扫荡”。狼牙山地区地势险峻，是当地八路军和群众进行转移、隐蔽和抗敌的重要区域。在反“扫荡”过程中，晋察冀军区第一军分区一团七连承担掩护部队和群众转移的任务。七连完成阻击任务后，六班战士继续留下掩护，并通过主动吸引敌军改变追击方向，使大批群众和主力部队能够安全撤离。",
+            "最后坚持在狼牙山上的五名战士是马宝玉、葛振林、宋学义、胡德林和胡福才。他们把追击的日军引向棋盘陀方向，在山上进行长时间阻击。当弹药耗尽、退路断绝以后，五人集体跳下悬崖。马宝玉、胡德林、胡福才壮烈牺牲，葛振林和宋学义被山腰树木等阻挡而幸存。五名战士的事迹随后在晋察冀根据地和全国广泛传播，被称为“狼牙山五壮士”，成为抗日战争时期八路军革命英雄主义的重要象征。",
+            "电影《狼牙山五壮士》由中国人民解放军八一电影制片厂摄制，于1958年上映，史文炽执导，邢野、孙福田、和谷岩等参与编剧。李长华饰演马宝玉，高保成饰演葛振林，李力饰演宋学义，张怀志饰演胡德林，霍德集饰演胡福才。影片采用黑白摄影，以五名战士掩护群众、诱敌上山和最后跳崖为主要叙事线索，对这一真实抗战英雄事迹进行了故事片形式的再现。",
+            "为了使影片建立在真实历史基础上，编剧曾访问晋察冀军区第一军分区司令员杨成武、一团团长邱蔚以及五壮士幸存者葛振林，并查阅有关材料。导演史文炽在拍摄前也率摄制组前往狼牙山当地了解情况、考察战斗环境。影片因此没有只把五壮士的故事处理成最后一刻的牺牲，而是着重表现他们接受任务、掩护群众、主动诱敌以及一步步走向最后决战的完整过程。"
+        ],
+
+        features: [
+            "影片集中体现了八路军战士忠于人民、英勇顽强和勇于牺牲的革命英雄主义精神。五名战士为了掩护主力部队和人民群众安全转移，主动把敌人引向自己所在的绝地，把集体和人民的安危置于个人生命之上。",
+            "在弹尽路绝的最后时刻，他们仍然坚持战斗、宁死不屈，表现出坚定的革命信念。影片也通过五个人共同完成任务的过程，突出革命军队高度的组织纪律、战友团结和个人服从集体的精神。"
+        ],
+
+        poster: "image/16film.png",
+        posterPosition: "center 1%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=383937196&bvid=BV1wZ4y1a7gX&cid=716403900&p=1"
+    },
+
+    {
+        title: "赵一曼",
+        category: "heroes",
+        desc: "“敌人一定要失败，胜利是我们的，我们要坚强地斗争下去！”",
+
+           intro: [
+            "《赵一曼》以九一八事变以后东北人民的抗日斗争为背景，围绕共产党员赵一曼在哈尔滨和珠河地区组织群众、开展抗日斗争并最终英勇牺牲的经历展开。1931年以后，日本侵略者加紧对东北的殖民统治和军事占领，赵一曼受党组织派遣来到哈尔滨，担任哈尔滨总工会书记。她同老曹等地下党员一道深入工人群众，发动和组织电车工人开展反日罢工，把工人争取生存权利的斗争同反抗日本侵略联系起来。",
+            "随着斗争环境日益严峻，地下党组织不断遭到敌人破坏，老曹等同志先后被捕牺牲。赵一曼没有因此停止革命活动。1934年，她来到珠河地区，担任中共珠河县委委员兼铁北区委书记，进一步深入农村和抗日武装之中，发动农民群众，组织地方抗日力量，同日伪军展开游击战争。影片通过她同农民、自卫队员和抗日部队共同生活、共同战斗的经历，表现她逐渐成为东北抗日斗争重要组织者和领导者的过程。",
+            "在一次同日军的激烈战斗中，赵一曼所率部队遭到敌军包围。为了掩护主力转移，她坚持留下阻击敌人，最终因寡不敌众而负伤被俘。敌人把她视为掌握重要党组织和抗日武装情况的关键人物，对她进行严刑拷打和威逼利诱，企图从她口中获得地下党和抗日力量的情报。赵一曼始终拒绝屈服，没有向敌人泄露党的秘密和战友情况。",
+            "在被囚禁和押解期间，赵一曼仍然坚持革命立场，并利用一切可能继续进行斗争。面对敌人的酷刑和死亡威胁，她始终保持坚定态度。影片最终以赵一曼走向刑场、英勇就义作为故事高潮，把她个人的牺牲同东北人民长期坚持的抗日斗争联系起来，塑造了一名在民族危亡和阶级压迫面前始终忠于革命事业的共产党员形象。"
+        ],
+
+        background: [
+            "影片所表现的历史背景，是九一八事变以后东北人民长期而艰苦的抗日斗争。1931年日本帝国主义发动九一八事变并迅速占领东北大部分地区，建立殖民统治。东北工人、农民和爱国群众不断开展反日斗争，中国共产党也在城市地下工作和农村抗日游击战争中组织群众、发展抗日力量。哈尔滨等城市既是日本殖民统治的重要据点，也是工人运动和地下党活动十分活跃的地区。",
+            "随着日本侵略势力向东北农村进一步扩张，中国共产党领导和组织的抗日游击队、人民革命军以及后来形成的东北抗日联军不断发展。珠河等地区成为东北抗日斗争的重要区域。抗日武装在极端艰苦的自然环境和敌强我弱的条件下依靠群众开展游击战争，同时还要面对日伪军的封锁、搜捕和残酷镇压。赵一曼正是在这样的斗争环境中长期从事党的地下工作和抗日武装工作。",
+            "赵一曼原名李坤泰，四川宜宾人，早年参加革命并加入中国共产党。她接受党组织派遣赴东北工作后，先后参加哈尔滨工人运动和珠河地区抗日斗争。1935年，她在战斗中负伤被俘，敌人为了获取抗日组织情报，对她进行长期审讯和酷刑。赵一曼始终没有屈服，1936年8月英勇就义。她的事迹后来在东北抗日斗争史和全国革命历史中广泛传播，成为中国共产党人和东北抗日联军坚贞不屈精神的重要象征。",
+            "电影《赵一曼》由东北电影制片厂摄制，1950年上映，沙蒙执导，于敏编剧，石联星饰演赵一曼，张平、张莹、王炎等参加演出。影片的创作同东北抗日联军历史有直接联系。东北抗联将领冯仲云曾向刚建立不久的东北电影制片厂建议，把东北抗联在冰天雪地中坚持抗战的英雄事迹搬上银幕，并向电影工作者讲述赵一曼的故事。影片由此成为新中国成立初期较早以真实革命英雄为主人公的传记电影之一。"
+        ],
+
+        features: [
+            "影片集中表现了共产党人在敌强我弱和残酷镇压面前坚定信念、忠于革命的精神。赵一曼从城市工人运动到农村抗日游击战争，始终把个人命运同民族解放和人民抗日斗争联系在一起。",
+            "被俘以后，她面对酷刑和死亡始终没有泄露党的秘密，以生命维护革命者的忠诚和气节。影片由此突出不畏牺牲、坚贞不屈以及依靠群众坚持抗日斗争的革命精神。"
+        ],
+
+        poster: "image/17film.png",
+        posterPosition: "center 60%",
+       embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=389139449&bvid=BV1kd4y117zv&cid=864597854&p=1"
+    },
+
+    {
+        title: "刘胡兰",
+        category: "heroes",
+        desc: "“要杀要剐由你们，要我自白，妄想！”",
+
+            intro: [
+            "《刘胡兰》以山西文水云周西村的革命斗争为背景，围绕刘胡兰从普通农村少女逐渐成长为共产党员，并最终英勇牺牲的经历展开。刘胡兰从小生活在农村，对旧社会劳动人民所遭受的压迫有着直接感受。随着共产党领导的革命力量在当地开展群众工作，她逐渐接触革命思想，并开始参加儿童团、妇女工作和各种群众活动，在实际斗争中不断提高自己的思想觉悟。",
+            "抗日战争胜利以后，刘胡兰积极参加党组织领导的妇女工作和群众运动。她同党员干部和革命群众一道发动群众、支援前线、组织妇女参加革命活动，并在一次次实际斗争中逐渐成长。随着思想觉悟和革命经验不断提高，她加入中国共产党，开始承担更加重要的革命任务。面对日益复杂和危险的斗争环境，她没有因为年龄小而退缩，而是主动要求留在家乡坚持革命工作。",
+            "人民解放战争初期，国民党军队和地方反动武装向解放区发动进攻，云周西村的斗争环境越来越严峻。刘胡兰继续秘密联系群众，传递消息，配合革命武装开展工作。1947年1月，敌军突然包围云周西村，刘胡兰被捕。敌人企图通过威胁、利诱以及公开杀害革命群众迫使她供出党的组织和革命同志，但她始终拒绝屈服，没有向敌人泄露革命秘密。",
+            "面对敌人的铡刀和死亡威胁，刘胡兰仍然坚持自己的革命信念，从容走向刑场，壮烈牺牲。影片以她生命最后时刻的坚定选择作为全片高潮，把一个普通农村少女的成长同广大人民群众争取翻身解放的革命斗争联系起来，表现她从参加群众工作、接受革命教育，到最终以生命捍卫革命信仰的完整成长过程。"
+        ],
+
+        background: [
+            "影片所表现的历史发生在抗日战争胜利以后到人民解放战争初期。山西文水一带长期存在封建地主势力和地方反动武装，广大贫苦农民在旧社会承受着沉重的经济和政治压迫。中国共产党在当地开展群众工作以后，组织农民、妇女和青年参加革命斗争，推动群众组织和土地改革运动的发展，使越来越多普通劳动群众开始参加到改变自身命运的革命实践之中。",
+            "刘胡兰出生于山西省文水县云周西村的一个农民家庭。少年时期，她就积极参加儿童团和抗日活动，后来又参加妇女干部训练，并在家乡从事妇女工作。随着革命斗争的发展，她逐渐成长为青年革命骨干，参加发动群众、支援前线以及配合革命武装开展工作的实践，并加入中国共产党。",
+            "1946年以后，国民党军队向解放区发动进攻，部分地区重新进入激烈的敌我斗争状态。面对危险环境，刘胡兰没有选择离开，而是继续留在当地坚持革命工作。1947年1月12日，敌军突袭云周西村，刘胡兰被捕。敌人企图迫使她放弃革命立场并供出党的秘密，但她始终坚贞不屈，最终英勇牺牲，牺牲时尚未满十五周岁。",
+            "电影《刘胡兰》由东北电影制片厂摄制，于1950年上映，冯白鲁执导，林杉编剧，胡宗温饰演刘胡兰。影片根据刘胡兰的真实革命事迹创作，把她参加群众斗争、接受革命教育、成长为共产党员以及最后英勇就义的经历组织成完整故事，是新中国成立初期较早表现青年革命烈士成长历程的传记题材影片之一。"
+        ],
+
+        features: [
+            "影片集中体现了坚定信念、不屈不挠和忠于革命的精神。刘胡兰在年纪尚轻时便主动参加群众斗争，并在危险环境中坚持革命工作，把个人命运同人民解放事业联系在一起。",
+            "面对敌人的威胁和死亡，她始终没有背叛组织和同志，以生命坚持自己的革命信仰，集中表现了敢于担当、勇于牺牲和坚贞不屈的革命品格。"
+        ],
+
+        poster: "image/18film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=237205628&bvid=BV1ve411y7rT&cid=1365084600&p=1"
+    },
+
+
+    /* ==================== 峥嵘岁月 ==================== */
+
+    {
+        title: "青春之歌",
+        category: "years",
+        desc: "“共产主义，像初升的太阳，一定会普照全世界。”",
+
+           intro: [
+            "《青春之歌》以20世纪30年代民族危机不断加深、青年学生积极投身抗日救亡运动的时代为背景，围绕女青年林道静从追求个人自由逐渐走上革命道路的成长过程展开。林道静出身于一个封建家庭，为反抗包办婚姻和家庭束缚离家出走。走投无路之际，她在北戴河一度产生轻生念头，被北大学生余永泽救下。余永泽热情、有文化，也同情她的遭遇，使林道静一度把个人自由和新的生活希望寄托在同他的感情关系之中。",
+            "九一八事变以后，日本帝国主义加紧侵略中国，民族危机不断加深。林道静在北平逐渐接触到进步学生和革命青年，并结识共产党员卢嘉川。卢嘉川向她介绍马克思主义思想，使她开始认识到个人的不幸并不是孤立存在的，而同整个社会制度、民族危机和广大劳动人民的命运联系在一起。随着思想发生变化，她越来越不满足于余永泽所追求的个人安逸生活，开始主动阅读进步书籍、参加学生运动，并逐步走向更广阔的革命斗争。",
+            "卢嘉川从事革命活动后遭到反动当局追捕和逮捕，余永泽在关键时刻表现出的软弱和个人主义，使林道静进一步看清两人在政治立场和人生道路上的根本差别。她最终同余永泽决裂，开始更加积极地参加革命活动，秘密散发传单、联系进步青年。由于缺乏斗争经验和叛徒告密，她也遭到逮捕和迫害，但这些挫折没有使她放弃革命，反而使她更加清楚地认识到，仅靠个人反抗不能真正找到出路，必须参加有组织的革命斗争。",
+            "在党组织和共产党员的教育帮助下，林道静进一步深入群众、参加实际革命工作，并在一次次斗争和考验中逐渐成熟。她经历逮捕、监禁和敌人的威逼，却始终没有放弃自己的政治选择。最终，在共产党员林红等人的帮助和影响下，她加入中国共产党，并投入不断高涨的抗日救亡运动。影片以一二·九学生运动的革命洪流作为重要高潮，把林道静个人的成长同广大青年学生和人民群众反对日本侵略、争取民族解放的斗争联系起来。"
+        ],
+
+        background: [
+            "影片所表现的主要历史时期，是从1931年九一八事变到1935年一二·九运动前后的中国社会。九一八事变后，日本帝国主义侵占中国东北，并不断扩大对华侵略，中国民族危机日益严重。国民党政府对外妥协退让，对内继续压制工人、学生和进步力量，引起广大青年学生和人民群众日益强烈的不满。在这种历史环境中，越来越多知识青年开始思考中国的前途以及个人应当走什么样的人生道路。",
+            "20世纪30年代的青年学生运动是中国革命斗争的重要组成部分。北平、上海等地的大批学生积极参加抗日救亡活动，通过游行、请愿、宣传和组织群众反对日本侵略以及国民党当局的妥协政策。中国共产党和共产主义青年团在青年学生中开展工作，把单纯的爱国热情逐渐同工农群众的革命斗争以及反帝反封建的社会变革联系起来，使一批原本只关心个人命运的青年知识分子逐渐走上有组织的革命道路。",
+            "1935年，日本帝国主义进一步向华北扩张，民族危机更加严重。同年12月9日，在中国共产党领导和影响下，北平学生举行大规模抗日救国示威游行，反对华北自治和日本侵略，要求停止内战、一致抗日。一二·九运动迅速影响全国，推动青年学生和广大群众投入抗日救亡运动。影片把林道静的个人成长放在这一历史进程中，使她由个人反抗走向参加革命组织的变化，同整个青年知识界的政治觉醒联系在一起。",
+            "电影《青春之歌》由北京电影制片厂摄制，于1959年上映，崔嵬、陈怀皑联合执导，杨沫根据自己的同名长篇小说亲自改编剧本，谢芳饰演林道静，康泰饰演卢嘉川，于洋饰演江华，秦怡饰演林红，于是之饰演余永泽。影片作为中华人民共和国成立十周年献礼作品之一，把原著中跨度较大的知识青年成长故事浓缩为电影叙事，并以林道静的思想转变作为贯穿全片的主要线索。",
+            "原著小说《青春之歌》由杨沫创作，并于1958年出版。作品以作者亲历和同时代青年知识分子的革命经历为重要生活基础，集中表现九一八事变以后知识青年在民族危机和社会斗争中的道路选择。电影在改编时进一步突出林道静由追求个人自由到接受马克思主义、由个人反抗到参加集体革命斗争的过程，使作品成为新中国电影中表现青年知识分子革命成长的重要代表作品。"
+        ],
+
+        features: [
+            "影片集中表现了青年知识分子从个人反抗走向集体革命斗争的觉醒过程。林道静只有在接触马克思主义、参加群众运动并接受党的教育以后，才逐渐认识到个人解放必须同民族解放和人民革命联系起来。",
+            "影片同时突出青年一代追求真理、勇于斗争和不断改造自己的革命精神。林道静在挫折、监禁和政治考验中不断克服个人主义和软弱性，最终把个人青春投入党领导的抗日救亡和人民革命事业之中。"
+        ],
+
+        poster: "image/19film.png",
+        posterPosition: "center 20%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=334272050&bvid=BV1aw41197cJ&cid=373510211&p=1"
+    },
+
+    {
+        title: "烈火中永生",
+        category: "years",
+        desc: "“头可断，血可流，共产党员的意志你是永远打垮不了的。”",
+
+        intro: [
+            "《烈火中永生》以1948年至1949年重庆解放前夕的地下革命斗争和狱中斗争为主线，围绕江姐、许云峰等共产党员同国民党反动派进行的斗争展开。人民解放战争不断取得胜利，国民党统治已经走向崩溃，但在仍被国民党控制的重庆，地下党组织和革命群众依然处在十分危险的环境之中。江姐的丈夫彭松涛在革命斗争中被敌人杀害，她忍住悲痛，继续接受党的任务，前往华蓥山地区参加农村武装斗争，把个人痛苦转化为继续革命的力量。",
+            "与此同时，重庆地下党领导人许云峰继续组织城市地下斗争，并努力保护党的组织和同志。由于叛徒甫志高的出卖，地下党组织遭到严重破坏，许云峰、江姐等人先后被捕。华蓥山游击队司令员双枪老太婆率领游击队试图营救江姐，但敌人已经秘密改变押送路线。江姐最终被押往重庆，关进国民党特务控制的监狱，开始了影片中最为集中和沉重的狱中斗争。",
+            "敌人企图从许云峰和江姐身上打开突破口，获得重庆地下党和华蓥山游击队的秘密。面对威逼利诱，许云峰始终保持沉着坚定；敌人又对江姐施以残酷刑讯，企图迫使她供出党组织情况，但她始终没有屈服。进入监狱以后，江姐和许云峰同被关押的共产党员、革命群众以及小萝卜头等难友团结在一起，通过拒绝敌人的欺骗和迫害、保护同志、传递消息等方式继续进行斗争。监狱由敌人镇压革命者的场所，逐渐成为共产党人坚持政治斗争和革命信念的又一个战场。",
+            "随着人民解放军渡过长江、南京解放，全国革命形势迅速发展，重庆的解放已经越来越近。监狱中的革命者虽然被铁窗和高墙隔绝，却始终关注着外面的革命进程。长期以装疯隐蔽真实身份的华子良利用外出机会同狱外党组织取得联系，并把中华人民共和国成立的消息带回监狱。得知新中国已经成立以后，江姐和难友们激动地用红色被面制作五星红旗，在黑暗的牢狱中迎接革命胜利的曙光。",
+            "面对即将到来的失败，敌人开始准备最后的疯狂屠杀。被单独囚禁的许云峰秘密用双手和简单工具挖掘牢墙，为同志们留下越狱的通道。江姐和许云峰最终在重庆解放前夕英勇就义，没有看到自己为之奋斗的新社会真正来到重庆。华子良和部分难友则按照狱中党组织的计划，从许云峰留下的通道冲出监狱，同前来接应的解放军和华蓥山游击队会合。影片以革命者倒在黎明前、而他们为之奋斗的革命事业最终取得胜利作为结局，形成了“烈火中永生”的主题。"
+        ],
+
+        background: [
+            "影片所表现的历史背景，是人民解放战争进入全国胜利阶段以后重庆地区仍然十分残酷的地下革命斗争。1948年至1949年，辽沈、淮海、平津三大战役相继取得胜利，人民解放军随后渡过长江，国民党政权在全国范围内迅速崩溃。但重庆作为国民党统治的重要中心之一，仍集中了大量军警和特务机关。中国共产党重庆地下组织一方面发动群众、传递情报、开展宣传和组织工作，另一方面还要面对国民党特务机关的搜捕、破坏和镇压。",
+            "重庆歌乐山一带的渣滓洞、白公馆等监狱，是国民党特务机关长期关押共产党员和进步人士的重要场所。大量地下党员、革命群众和爱国人士被囚禁在这里，遭受审讯和酷刑。即使在失去自由的情况下，狱中共产党人仍然建立秘密联系、传递消息、组织斗争，并通过各种方式同狱外革命力量保持联系。影片中的江姐、许云峰、华子良等人物，就是在这一历史环境和真实革命人物事迹的基础上进行艺术塑造的。",
+            "1949年以后，全国革命胜利已经成为不可阻挡的历史趋势。中华人民共和国于10月1日成立，但重庆直到11月底才获得解放。在新中国已经诞生、人民解放军迅速向西南进军的情况下，国民党特务机关仍然对被关押的革命者进行最后的迫害和屠杀。许多共产党员和爱国人士牺牲在重庆解放前夕。正是在这种黎明即将到来而斗争又异常残酷的历史条件下，形成了后来被称为“红岩精神”的革命记忆。",
+            "电影《烈火中永生》改编自罗广斌、杨益言创作的长篇小说《红岩》。在《红岩》出版以前，相关革命经历已经通过革命回忆录《在烈火中永生》等作品得到整理和传播。《红岩》以重庆地下党和歌乐山监狱斗争为重要内容，把江姐、许云峰、华子良、小萝卜头等人物塑造成具有广泛影响的革命形象，出版后迅速在全国传播，并成为新中国革命文学的重要作品。",
+            "1962年前后，导演水华开始进行《红岩》的电影改编工作。为了尽可能深入了解历史人物和斗争环境，主创人员先后前往重庆、贵阳等地调查访问，采访江姐的亲友和战友、许云峰人物原型相关亲属、华子良原型韩子栋以及其他历史见证者，并整理了大量人物和历史材料。在剧本几经修改以后，夏衍参加改编，决定以江姐作为贯穿全片的重要人物，并将影片最终定名为《烈火中永生》。电影由北京电影制片厂摄制，水华执导，夏衍编剧，于蓝饰演江姐，赵丹饰演许云峰，项堃饰演徐鹏飞，蔡松龄饰演华子良，方舒饰演小萝卜头，于1965年上映。"
+        ],
+
+        features: [
+            "影片集中体现了共产党人在严刑、监禁和死亡面前坚定信仰、忠于革命的精神。江姐、许云峰等人在失去自由甚至面对生命威胁时，始终没有出卖组织和同志，而是把监狱继续当作革命斗争的战场。",
+            "影片同时突出革命乐观主义、集体主义和勇于牺牲的精神。即使身处黑暗牢狱，革命者仍然相信人民革命必将取得胜利；他们保护同志、组织斗争、绣制红旗并为后来者留下生路，用自己的生命迎接新中国的黎明，集中体现了坚贞不屈、视死如归的红岩精神。"
+        ],
+
+        poster: "image/20film.png",
+        posterPosition: "center 20%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=547694127&bvid=BV1Kq4y1T7Qj&cid=397821130&p=1"
+    },
+
+    {
+        title: "永不消逝的电波",
+        category: "years",
+        desc: "“同志们，永别了，我想念你们。”",
+
+            intro: [
+            "《永不消逝的电波》以抗日战争和人民解放战争时期上海地下党的秘密电台斗争为主线，围绕共产党员李侠长期潜伏在敌人严密统治下开展无线电通讯和情报工作的经历展开。1939年，上海地下电台遭到破坏以后，党中央派长期从事无线电工作的李侠来到上海，重新建立秘密通讯联系。为了便于隐蔽身份，党组织安排党员女工何兰芬同他假扮夫妻，两人在普通市民生活的掩护下，把狭小的住所变成秘密电台工作地点。",
+            "秘密电台的工作始终处在极端危险的环境之中。李侠必须利用深夜发送和接收电报，同时随时防备敌人的无线电侦测和突然搜查。何兰芬起初缺乏地下斗争经验，但在李侠的帮助和实际斗争锻炼中逐渐成熟，开始主动承担掩护、联络等任务。两人在长期共同工作中建立起深厚的革命感情，后来经党组织批准结为真正的夫妻，使革命伴侣关系和地下工作的战斗关系紧密结合在一起。",
+            "太平洋战争爆发以后，上海的斗争环境更加严峻。日军和特务机关不断加强无线电侦察，李侠在一次秘密工作中不幸被捕。敌人对他进行严刑拷打和威逼利诱，企图迫使他交代地下党组织和秘密电台情况，但他始终没有泄露党的秘密。脱险以后，李侠没有因此退出地下斗争，而是继续接受任务，并利用复杂的敌我关系深入敌人内部获取情报，在更加危险的环境中坚持秘密战线工作。",
+            "抗日战争胜利以后，李侠继续留在上海从事地下情报和无线电通讯工作。人民解放战争不断取得胜利，上海即将迎来解放，国民党特务机关也开始疯狂搜捕共产党地下组织和秘密电台。党组织考虑到李侠长期从事秘密工作、身份已经越来越危险，决定安排他转移。但就在准备撤离的时候，两份关系前线作战的重要情报急需立即向党中央发送。为了不耽误战机，李侠毅然决定留下完成最后一次发报任务。",
+            "敌人的无线电侦测逐渐逼近秘密电台，李侠已经意识到自己很可能无法撤离，但仍然坚持把全部情报完整发送出去。随着敌人包围住所，他在电键前完成最后的通讯，并向远方的战友发出告别信号。影片把李侠最后发报的身影同人民解放军胜利进军的画面联系起来，使一个地下工作者无声的战斗同全国人民解放事业汇合在一起，也使“永不消逝的电波”成为革命者生命虽然结束、革命事业和信念却继续传递的象征。"
+        ],
+
+        background: [
+            "影片所表现的地下电台斗争，是中国共产党隐蔽战线工作的重要组成部分。抗日战争全面爆发以后，上海处于日本侵略军和各种敌伪特务机关严密控制之下，但这里同时也是重要的政治、经济和情报中心。地下党组织需要把上海以及敌占区获得的重要情报及时传递给党中央，也需要接收上级指示，因此秘密无线电通讯成为连接敌占区地下组织和革命根据地的重要纽带。",
+            "秘密电台工作具有极高危险性。无线电发报会产生可以被侦测的信号，敌人能够利用测向设备逐步缩小电台位置，因此地下报务人员不仅需要具有熟练的无线电技术，还必须严格控制发报时间、功率和工作规律，并不断改变活动方式。电台设备本身也必须尽量隐蔽，一旦遭到搜查，工作人员和整个地下组织都可能面临严重危险。影片把这种无线电技术上的较量同地下党员的政治纪律和革命意志结合起来，形成了区别于正面战场影片的特殊斗争形式。",
+            "影片主人公李侠的主要原型是共产党员李白。李白早年参加中国工农红军并从事无线电通讯工作，参加过长征。抗日战争时期，他受党组织派遣来到上海开展秘密电台工作，同党中央建立无线电联系。他与共产党员裘慧英按照组织安排以夫妻身份进行掩护，后来在共同革命工作中成为真正的革命伴侣。长期潜伏期间，他们在敌人严密监视下坚持通讯工作，使上海地下组织同党中央之间保持着重要的电波联系。",
+            "1948年12月30日深夜，李白在上海发送重要情报时遭国民党特务侦破并被捕。此后数月中，他遭到审讯和刑讯，却始终没有泄露党的秘密。1949年5月7日，距离上海解放只有二十天，李白同其他地下党员一起被国民党特务杀害。电影并没有简单照搬李白个人经历，而是以他的事迹为核心，同时吸收秦鸿钧、张困斋等隐蔽战线烈士的斗争经历，塑造出李侠这一具有代表性的地下党员形象。",
+            "电影《永不消逝的电波》由中国人民解放军八一电影制片厂摄制，1958年上映，王苹执导，黄钢、李强等参与编剧，孙道临饰演李侠，袁霞饰演何兰芬，王心刚、陆丽珠、黄婉苏等参加演出。李白牺牲以后，李克农曾提出以他的事迹为基础拍摄一部表现中国共产党隐蔽战线斗争的电影，最终形成了这部作品。影片把无线电通讯、秘密潜伏、夫妻掩护、刑讯考验和最后发报等情节结合起来，成为新中国较早系统表现共产党地下情报战线的经典电影。"
+        ],
+
+        features: [
+            "影片集中表现了隐蔽战线共产党员忠于组织、严守纪律和不怕牺牲的革命精神。李侠长期身处敌人的严密监视之下，把个人生活完全服从于党的地下工作，即使遭受逮捕和严刑拷打也始终守护党的秘密。",
+            "影片同时突出革命事业高于个人生命的责任感。上海解放已经临近，李侠本可以奉命转移，但为了把重要情报及时送出，他选择留下完成最后一次发报，用生命保证电波畅通，体现了无名战线革命者坚定信仰、忠于人民和勇于献身的精神。"
+        ],
+
+        poster: "image/21film.png",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=27232350&bvid=BV1os411E7BW&cid=46919661&p=1"
+    },
+
+    {
+        title: "红色娘子军",
+        category: "years",
+        desc: "“老爷，尝尝奴才的子弹吧！”",
+
+          intro: [
+            "《红色娘子军》以第二次国内革命战争时期海南岛的革命斗争为背景，围绕贫苦女子吴琼花从受压迫的女奴成长为红军战士的过程展开。吴琼花长期受到大地主南霸天的残酷压迫，多次试图逃离椰林寨，却一次次被抓回并遭受毒打。在一次逃亡过程中，她再次陷入危险，被化装成华侨商人的红军党代表洪常青发现并救下。洪常青了解到她的遭遇以后，帮助她摆脱南霸天的控制，并向她指出只有参加革命、依靠广大受压迫群众的共同斗争，才能真正改变自己的命运。",
+            "在洪常青的指引下，吴琼花来到红军根据地，同红莲等受压迫妇女一起参加由女战士组成的红色娘子军。第一次真正拥有武器以后，琼花强烈希望立即向南霸天复仇。但她此时更多还是从个人仇恨出发，对革命军队的纪律和整体斗争还缺乏理解。一次执行侦察任务时，她突然遇到南霸天，因无法控制个人仇恨而擅自开枪，不仅没有消灭敌人，反而影响了原定行动，因此受到部队的批评和教育。",
+            "经过革命集体的教育和实际战斗锻炼，吴琼花逐渐认识到，个人受到的压迫并不是孤立的，而是千千万万劳动人民共同遭受的阶级压迫。红军决定进攻椰林寨时，洪常青再次化装潜入敌人内部，吴琼花也参与行动。娘子军和红军主力里应外合攻入椰林寨，一度抓住南霸天，但南霸天趁混乱逃脱。琼花在追击中负伤，这次经历进一步使她认识到革命斗争不能只凭个人勇气和仇恨，而必须服从组织、依靠集体力量。",
+            "后来，国民党军队向海南红军根据地发动进攻，革命形势变得更加严峻。吴琼花在战斗和政治教育中不断成熟，并主动申请加入中国共产党。洪常青率领娘子军执行阻击任务，为掩护部队转移坚持战斗，负伤后不幸被俘。面对敌人的威胁，他始终坚贞不屈，最终英勇牺牲。洪常青的牺牲使琼花更加理解一个共产党员所承担的责任，也使她由一个主要怀着个人仇恨参加革命的战士真正成长为具有坚定政治信念的革命者。",
+            "在新的战斗中，吴琼花继承洪常青的革命意志，承担起更重要的领导责任。娘子军重新向椰林寨发动进攻，最终打败南霸天的反动武装，并继续投入新的革命斗争。影片通过吴琼花前后思想和行动的变化，把个人解放、妇女解放同广大劳动人民的革命斗争结合起来，完整表现了一个受压迫妇女从自发反抗走向自觉革命、从个人复仇走向为整个被压迫阶级奋斗的成长道路。"
+        ],
+
+        background: [
+            "影片所表现的历史背景，是20世纪30年代初中国共产党领导的琼崖革命斗争。海南岛当时存在严重的封建压迫和阶级矛盾，广大贫苦农民特别是劳动妇女受到地主势力、封建礼教和旧社会制度的多重压迫。随着中国共产党在琼崖地区发动农民群众、建立苏维埃政权和发展红军武装，越来越多普通劳动妇女开始参加革命，从过去被排斥在政治和军事活动之外的受压迫者，逐渐成为革命斗争的直接参加者。",
+            "1931年5月1日，在中共琼崖特委支持下，中国工农红军第二独立师第三团女子军特务连在今天海南琼海阳江地区正式成立。首批女战士主要来自当地农村，许多人过去只是普通农民、童养媳或受到封建家庭束缚的劳动妇女。参加红军以后，她们接受军事训练和政治教育，并同男战士一样承担警卫、侦察、宣传以及直接作战任务。后来女子军继续扩编，成为琼崖红军武装斗争中极具代表性的一支革命力量。",
+            "女子军特务连成立以后参加了沙帽岭伏击战、文市炮楼战斗以及根据地反“围剿”等多次作战。在敌强我弱和生活条件极端困难的情况下，女战士们同红军主力和当地群众一起坚持斗争。1932年国民党军队向琼崖革命根据地发动大规模进攻时，女子军还承担过掩护领导机关和主力部队转移等任务。真实的红色娘子军虽然存在时间并不长，但她们以实际行动证明劳动妇女同样能够拿起武器参加革命，并成为琼崖革命和中国妇女解放历史中的重要象征。",
+            "电影剧本由军旅作家梁信创作。1957年，梁信在海南接触到红色娘子军老战士及其革命经历以后受到启发，开始以女子军特务连的历史为基础创作电影剧本，最初题名《琼岛英雄花》。导演谢晋看到剧本以后对这个题材产生浓厚兴趣，并邀请梁信进一步修改，最终将影片定名为《红色娘子军》。电影没有直接把真实女子军历史拍成纪录式传记，而是集中创造吴琼花、洪常青、南霸天等人物，通过吴琼花的成长把琼崖革命、阶级斗争和妇女解放结合在一条完整的故事线上。",
+            "为了拍摄影片，谢晋曾长期深入海南考察环境和生活，走访琼中、陵水、通什等地寻找外景。正式拍摄前，祝希娟等演员还到海南体验生活，在原女子军战士的帮助下进行军事训练、劳动和生活体验。影片由谢晋执导、梁信编剧，祝希娟饰吴琼花，王心刚饰洪常青，陈强饰南霸天，向梅等参加演出，于1961年上映。影片上映后产生广泛影响，并在第一届大众电影百花奖中获得最佳故事片、最佳导演、最佳女演员和最佳男配角等重要奖项，《娘子军连歌》《万泉河水清又清》等电影音乐也成为长期流传的经典作品。"
+        ],
+
+        features: [
+            "影片集中表现了劳动妇女在革命斗争中争取自身解放并成长为革命战士的精神。吴琼花从个人复仇走向有组织的阶级斗争，逐渐认识到真正的解放不能依靠个人力量，而必须同广大劳动群众共同奋斗。",
+            "影片同时突出党的领导、革命纪律和集体主义对于个人成长的重要作用。琼花在战斗实践和洪常青等人的教育下不断克服个人主义和盲目复仇思想，最终把个人仇恨上升为为劳动人民解放而斗争的自觉信念，体现了勇敢战斗、服从组织和妇女翻身解放的革命精神。"
+        ],
+
+        poster: "image/22film.png",
+        posterPosition: "center 1%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=940307526&bvid=BV1WW4y1r7JA&cid=755945599&p=1"
+    },
+
+    {
+        title: "闪闪的红星",
+        category: "years",
+        desc: "“等满山的映山红开了，红军就回来了。”",
+
+           intro: [
+            "《闪闪的红星》以20世纪30年代江西中央苏区的革命斗争为背景，围绕少年潘冬子在红军和革命群众教育下逐渐成长的经历展开。故事开始时，柳溪一带仍受到大土豪胡汉三的压迫，潘冬子的父亲潘行义是一名红军战士。胡汉三为了追查红军活动，对潘冬子和当地群众进行威逼迫害。随着红军打进柳溪，胡汉三逃走，群众建立起红色政权，潘冬子也第一次亲身感受到劳动人民翻身后的新生活，并对父亲和红军产生更加深厚的敬仰。",
+            "潘行义在战斗中负伤后，仍然表现出革命军人的坚定意志和对战友的关心，这些经历都深深影响着年幼的潘冬子。1934年秋，红军主力准备撤离中央苏区，潘行义随部队踏上新的征程。临行以前，他把军帽上的一颗红五星留给冬子。这颗红星从此成为贯穿全片的重要象征，它不仅寄托着冬子对父亲的思念，也代表着红军、革命理想和他心中逐渐形成的坚定信念。",
+            "红军主力转移以后，原来逃走的胡汉三重新回到柳溪，对革命群众进行报复。潘冬子和母亲随游击队转入山区，坚持秘密斗争。冬子的母亲积极参加党的工作，并在危险环境中掩护游击队和乡亲们。后来，为了保护群众和革命同志，她被胡汉三等人包围，在烈火中英勇牺牲。亲眼面对母亲牺牲，使冬子经历了巨大的痛苦，也使他迅速成长起来。他不再只是等待父亲归来的孩子，而开始主动承担革命斗争中的任务。",
+            "在吴修竹、宋大爹和游击队员的帮助下，潘冬子逐渐学会在复杂环境中同敌人斗争。他为山上的游击队送消息、送物资，并利用自己的儿童身份通过敌人的封锁线。为了把急需的盐送上山，他把盐化成盐水浸入棉衣，成功骗过敌人的检查；进入胡汉三控制的米店以后，他又秘密掌握敌人的情况，设法破坏敌人的行动。在一次次斗争实践中，冬子从最初主要依靠勇气和仇恨行动，逐渐学会沉着、机智地完成组织交给他的任务。",
+            "随着革命形势的发展，山上的游击斗争终于迎来新的局面。抗日战争全面展开后，红军游击队准备改编并开赴抗日前线，潘行义也再次回到队伍中。多年等待以后，冬子终于同父亲重新相见。经历父亲远征、母亲牺牲和长期地下斗争以后，他已经不再是当初那个年幼的孩子，而成长为能够参加革命队伍的小战士。影片最后，潘冬子戴上那颗珍藏多年的红五星，跟随革命队伍走向新的战场，完成了从红军子弟到革命战士的成长。"
+        ],
+
+        background: [
+            "影片所表现的历史背景主要是20世纪30年代中央革命根据地的斗争。中国共产党领导工农群众在江西等地建立革命根据地和红色政权，组织中国工农红军开展武装斗争，并在根据地实行新的政治和社会制度。广大贫苦农民第一次大规模参加政治生活和革命斗争，许多普通家庭的父母、青年甚至儿童都以不同形式参加红军、赤卫队、儿童团和群众组织。",
+            "1934年，由于第五次反“围剿”失利，中央红军主力撤离中央苏区，开始长征。红军主力离开以后，南方根据地仍有大量党员、红军游击队员和群众继续坚持斗争。他们面对国民党军队和地方反动势力的封锁与进攻，在山林和农村地区开展长期游击战争。电影中潘行义随主力转移，而潘冬子、母亲和吴修竹等人留在根据地坚持斗争，就是以这一历史环境作为基本背景。",
+            "在这种艰苦的游击战争环境中，普通群众和儿童也成为革命斗争的重要参加者。秘密传递情报、掩护伤员、运送粮食和食盐、侦察敌情，都可能成为群众支援红军和游击队的实际方式。影片中潘冬子把盐化成水浸在棉衣中穿过封锁线的情节，就来源于苏区群众同敌人斗争的真实故事。电影通过儿童视角，把宏大的革命战争转化为潘冬子能够亲身经历和参与的一件件具体事情。",
+            "《闪闪的红星》根据军旅作家李心田的同名儿童小说改编。李心田早在20世纪60年代就开始构思这部作品，最初名为《战斗的童年》，后来经过长期修改，于1972年以《闪闪的红星》为名出版。小说创作吸收了多位革命战争年代儿童和红军后代的真实经历，其中父亲留下红军帽和红五星、孩子依靠这一信物寻找革命队伍等情节，都来自作者长期搜集的战争年代故事。",
+            "小说出版后很快受到广泛欢迎，八一电影制片厂随后决定将其搬上银幕。电影由李俊、李昂执导，王愿坚、陆柱国编剧，祝新运饰潘冬子，赵汝平饰潘行义，李雪红饰冬子母亲，刘江饰胡汉三，薄贯君饰吴修竹。影片于1974年10月1日上映。与原著相比，电影进一步集中潘冬子的成长线，把他从学习斗争、敢于斗争到逐渐善于斗争作为主要叙事结构。同时，傅庚辰创作的《红星歌》《红星照我去战斗》《映山红》等音乐同红五星、映山红、红旗等视觉形象结合，使潘冬子的成长故事形成了鲜明而富有抒情色彩的革命儿童电影风格。"
+        ],
+
+        features: [
+            "影片集中表现了革命后代在党的教育、家庭影响和实际斗争中不断成长的精神。潘冬子经历父亲远征和母亲牺牲以后，没有被困难压倒，而是在游击队和革命群众帮助下主动承担任务，把对亲人的感情逐渐转化为参加革命斗争的坚定信念。",
+            "影片同时突出勇敢、机智、自立和坚定理想的革命精神。潘冬子从依赖父母的孩子逐渐成长为能够独立完成任务的小战士，而父亲留下的红五星始终象征着革命信仰和前进方向，表现了革命理想在一代又一代人之间的传承。"
+        ],
+
+        poster: "image/23film.png",
+        posterPosition: "center 10%",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114636502335595&bvid=BV1XiTMzLE5j&cid=30354312411&p=1"
+    },
+
+    {
+        title: "小兵张嘎",
+        category: "years",
+        desc: "“你可是秋后的蚂蚱，蹦跶不了几天了。”",
+
+             intro: [
+            "《小兵张嘎》以抗日战争时期河北白洋淀地区的敌后斗争为背景，围绕少年张嘎从一个天真、倔强而又有些莽撞的农村孩子成长为八路军小侦察员的过程展开。嘎子从小同奶奶相依为命，八路军侦察连长钟亮负伤以后秘密住在他们家中养伤。嘎子十分敬佩八路军，一心希望自己将来也能拿起枪参加抗日斗争。日军突然进村搜捕八路军，为了掩护钟亮，嘎子的奶奶被敌人杀害，钟亮也不幸被捕，这使嘎子第一次直接面对侵略者给自己和乡亲们带来的灾难。",
+            "失去奶奶以后，嘎子怀着为亲人报仇、寻找八路军的强烈愿望离开村庄。他在寻找抗日队伍的过程中遇到侦察排长罗金保，却因为罗金保执行秘密任务时的装扮，误以为对方是汉奸，还想用自己的木头手枪把他制服。误会解除以后，嘎子终于找到了八路军，并开始跟随罗金保等人活动。他聪明大胆、反应敏捷，又熟悉白洋淀一带的环境，很快表现出成为小侦察员的潜质。",
+            "但是刚刚进入革命队伍的嘎子还保留着孩子的任性和个人英雄主义。他非常渴望拥有一支真正的手枪，同胖墩摔跤输了以后不肯认输，还赌气堵住胖墩家的烟囱。在一次战斗中，嘎子终于从敌人手中缴获一支手枪，却因为舍不得上交，偷偷把枪藏到树上的老鸹窝里。这些行为使他受到批评和教育。区队长和罗金保并没有简单责备他，而是帮助他逐渐懂得，八路军打仗不是为了个人逞强，武器也不是个人的战利品，而必须服从革命队伍的统一纪律和战斗需要。",
+            "经过实际斗争的锻炼，嘎子开始逐渐成熟。在一次伏击战中，他勇敢参加战斗并负伤。伤势好转以后，他急于追赶部队，在行动途中又落入敌人手中。面对日军和伪军的盘问，嘎子没有屈服，也没有出卖八路军。敌人把他关进据点以后，他一面寻找逃脱和破坏敌人的机会，一面等待外面的八路军发动进攻。",
+            "最后，区队长和罗金保带领战士们化装成送粮队伍进入敌人据点，准备营救被俘的钟亮并拔掉敌军岗楼。战斗打响后，嘎子在据点内部机智行动，放火制造混乱，同外面的八路军形成里应外合。敌军据点最终被攻破，钟亮获救，嘎子也为奶奶报了仇。战斗结束以后，他主动把先前私藏的手枪取出来交给组织，区队长看到他的成长，又正式把这支枪交给他使用。影片通过这一前后呼应，表现嘎子真正懂得了革命纪律，也完成了从顽皮少年到八路军小侦察员的成长。"
+        ],
+
+        background: [
+            "影片所表现的历史背景，是抗日战争时期华北敌后根据地的群众抗战。河北白洋淀水域河港纵横、芦苇密布，复杂的水乡环境为当地八路军、游击队和群众开展敌后斗争提供了有利条件。日本侵略军虽然控制部分城镇、交通线和据点，却很难真正控制广大的农村和水乡地区。当地抗日武装依靠群众，通过侦察、伏击、破袭和水上游击等多种形式不断打击敌人。",
+            "白洋淀地区曾活跃着著名的水上抗日武装，军民依靠熟悉水路和芦苇荡的优势开展游击斗争。普通渔民、农民以及青少年都以不同方式参加抗战，有人负责侦察敌情，有人传递消息，有人掩护八路军伤员和地下工作人员。影片中的奶奶、胖墩一家以及帮助八路军的乡亲们，正体现了抗日战争并不仅仅是正规军之间的军事较量，而是一场有广大人民群众参加和支持的敌后人民战争。",
+            "《小兵张嘎》的作者徐光耀本人曾参加八路军，对冀中抗日生活有直接体验。创作张嘎这个人物时，他并没有照搬某一个真实人物，而是把自己战争年代接触和听说过的许多少年侦察员、小八路的形象集中到张嘎身上。其中给他留下深刻印象的，包括赵县县大队的少年侦察员以及他早期作品中名叫“瞪眼虎”的少年形象。这些孩子机灵、勇敢、顽皮而又倔强，后来共同成为张嘎人物性格的重要生活来源。",
+            "徐光耀于1958年开始创作《小兵张嘎》，最初先动笔写电影文学剧本，后来又转而完成同名中篇小说，并在小说基础上继续修改电影剧本。小说于1961年在《河北文学》发表，随后由中国少年儿童出版社出版，很快受到读者欢迎。作品没有把张嘎塑造成没有缺点的少年英雄，而是保留了他的淘气、争强好胜、爱枪甚至犯错误的一面，把革命教育和战斗实践作为人物成长的重要过程。",
+            "1963年，北京电影制片厂把《小兵张嘎》搬上银幕，由崔嵬、欧阳红樱联合执导，徐光耀担任编剧，安吉斯饰张嘎，张莹饰罗金保，张平饰钟亮，吴克勤饰胖墩，于绍康饰区队长，葛存壮饰龟田。摄制组曾深入白洋淀等地体验和拍摄，导演崔嵬尤其强调不能把嘎子简单拔高成一个脱离生活的英雄，而应当保留农村孩子特有的“嘎气”和童真。正因为如此，摔跤、堵烟囱、藏手枪等生活化情节同抗日斗争结合在一起，使张嘎成为中国革命儿童电影中极具鲜明个性的少年形象。"
+        ],
+
+        features: [
+            "影片集中表现了革命少年在人民军队和群众集体中接受教育、经受斗争锻炼并不断成长的精神。张嘎最初参加抗日主要带着为奶奶报仇和得到一支枪的个人愿望，后来逐渐懂得革命斗争必须服从组织、遵守纪律，并把个人勇敢转化为完成集体任务的自觉行动。",
+            "影片同时突出机智勇敢、爱憎分明和不怕困难的革命精神。嘎子虽然年纪很小，却敢于同侵略者斗争，在被捕和危险面前也没有退缩；而他从私藏手枪到主动交枪的变化，则表现了一个普通少年在八路军和人民群众教育下由个人英雄主义走向集体主义的成长。"
+        ],
+
+        poster: "image/24film.png",
+        posterPosition: "center center",
+        embedSrc: "https://player.bilibili.com/player.html?isOutside=true&aid=114800214480211&bvid=BV1Sw3dzUExz&cid=30866932435&p=1"
+    }
+];
+
+        const categoryButtons = document.getElementById("categoryButtons");
+        const danceGrid = document.getElementById("danceGrid");
+        const videoModal = document.getElementById("videoModal");
+        const videoPlayer = document.getElementById("videoPlayer");
+const videoStatus = document.getElementById("videoStatus");
+const videoModalTitle = document.getElementById("videoModalTitle");
+const videoCloseBtn = document.getElementById("videoCloseBtn");
+
+const videoScroll = document.getElementById("videoScroll");
+const videoExtra = document.getElementById("videoExtra");
+const videoLoading = document.getElementById("videoLoading");
+const videoFrame = document.getElementById("videoFrame");
+const siteFullscreenBtn = document.getElementById("siteFullscreenBtn");
+
+let activeCategory = "leader";
+        let categoryTimer = null;
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+        }
+
+     function createFallbackPoster() {
+    const svg = `
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 960 540"
+        >
+            <!-- 淡红白色背景 -->
+            <rect
+                width="960"
+                height="540"
+                fill="#FFF9F9"
+            />
+
+            <!-- 顶部深红色飘带 -->
+            <path
+                d="M0 95 C170 20 315 150 485 75 C645 4 790 112 960 36 L960 0 L0 0 Z"
+                fill="#CC0000"
+                opacity="0.96"
+            />
+
+            <!-- 顶部浅红色波浪线 -->
+            <path
+                d="M0 120 C185 45 320 180 500 100 C680 20 815 136 960 70"
+                fill="none"
+                stroke="#F3A6A6"
+                stroke-width="8"
+                opacity="0.7"
+            />
+        </svg>
+    `;
+
+    return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+
+/*
+ * 给当前页面中的卡片绑定图片错误处理和点击播放。
+ *
+ * 初始革命斗争卡片来自HTML；
+ * 切换分类后的卡片来自renderCards函数。
+ * 两种卡片统一使用这里的事件。
+ */
+function bindDanceCards() {
+    /*
+     * 图片载入失败时显示备用图。
+     */
+    danceGrid.querySelectorAll(".dance-poster").forEach(image => {
+        /*
+         * 防止同一张图片重复绑定错误事件。
+         */
+        if (image.dataset.errorBound === "true") return;
+
+        image.dataset.errorBound = "true";
+
+        function applyFallbackPoster() {
+            /*
+             * 使用一次后移除，防止备用图也失败时无限循环。
+             */
+            image.removeEventListener(
+                "error",
+                applyFallbackPoster
+            );
+
+            image.src =
+                image.dataset.fallback ||
+                createFallbackPoster();
+        }
+
+        image.addEventListener(
+            "error",
+            applyFallbackPoster
+        );
+
+        /*
+         * 如果图片在JavaScript执行前就已经失败，
+         * 这里也能补上备用图。
+         */
+        if (
+            image.complete &&
+            image.naturalWidth === 0
+        ) {
+            applyFallbackPoster();
+        }
+    });
+
+
+    danceGrid.querySelectorAll(".dance-card").forEach(card => {
+        /*
+         * 防止同一张卡片重复绑定点击事件。
+         */
+        if (card.dataset.clickBound === "true") return;
+
+        card.dataset.clickBound = "true";
+
+        card.addEventListener("click", function () {
+            const danceIndex = Number(this.dataset.index);
+            const dance = DANCES[danceIndex];
+
+            if (!dance) return;
+
+            openVideoModal(dance);
+        });
+    });
+}
+
+     function renderCards(category, useAnimation = false) {
+            const list = DANCES.filter(item => item.category === category);
+
+            if (list.length === 0) {
+                danceGrid.innerHTML = `<div class="empty-state">该分类暂未收录电影资料。</div>`;
+                return;
+            }
+
+danceGrid.innerHTML = list.map((dance, index) => {
+const fallback = createFallbackPoster();
+
+    const animationClass = useAnimation ? " is-entering" : "";
+    const animationDelay = useAnimation
+        ? `style="animation-delay: ${index * 0.08}s;"`
+        : "";
+
+return `
+    <article
+        class="dance-card${animationClass}"
+        data-index="${DANCES.indexOf(dance)}"
+        ${animationDelay}
+    >
+        <div class="dance-thumb">
+<img
+    class="dance-poster"
+    src="${escapeHtml(dance.poster)}"
+    data-fallback="${fallback}"
+    alt="${escapeHtml(dance.title)}影片封面"
+    style="--poster-position: ${escapeHtml(
+        dance.posterPosition || "center center"
+    )};"
+    loading="${index < 2 ? "eager" : "lazy"}"
+    fetchpriority="${index === 0 ? "high" : "auto"}"
+    decoding="async"
+    draggable="false"
+>
+        </div>
+
+        <div class="dance-info">
+            <h2 class="dance-title">
+                ${escapeHtml(dance.title)}
+            </h2>
+
+            <p class="dance-desc">
+                ${escapeHtml(dance.desc)}
+            </p>
+
+
+        </div>
+    </article>
+`;
+            }).join("");
+
+
+bindDanceCards();
+
+danceGrid
+    .querySelectorAll(".dance-card.is-entering")
+    .forEach(card => {
+        card.addEventListener(
+            "animationend",
+            function () {
+                this.classList.remove("is-entering");
+                this.style.removeProperty("animation-delay");
+            },
+            { once: true }
+        );
+    });
+
+}
+
+        function switchCategory(category) {
+            if (category === activeCategory) return;
+
+            activeCategory = category;
+
+            document.querySelectorAll(".category-btn").forEach(button => {
+                button.classList.toggle("active", button.dataset.category === category);
+            });
+
+            updateCategorySlider();
+
+            clearTimeout(categoryTimer);
+            danceGrid.classList.add("is-changing");
+
+categoryTimer = setTimeout(() => {
+    renderCards(category, true);
+    danceGrid.classList.remove("is-changing");
+}, 300);
+
+}
+
+        function updateCategorySlider() {
+            const activeButton = document.querySelector(".category-btn.active");
+
+            if (!activeButton || !categoryButtons) return;
+
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            const extraWidth = isMobile ? 12 : 18;
+            const extraHeight = isMobile ? 12 : 18;
+
+            const x = activeButton.offsetLeft - extraWidth / 2;
+            const y = activeButton.offsetTop - extraHeight / 2;
+            const width = activeButton.offsetWidth + extraWidth;
+            const height = activeButton.offsetHeight + extraHeight;
+
+            categoryButtons.style.setProperty("--slider-x", `${x}px`);
+            categoryButtons.style.setProperty("--slider-y", `${y}px`);
+            categoryButtons.style.setProperty("--slider-width", `${width}px`);
+            categoryButtons.style.setProperty("--slider-height", `${height}px`);
+            categoryButtons.classList.add("has-active");
+        }
+
+        function initCategoryButtons() {
+            document.querySelectorAll(".category-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    switchCategory(this.dataset.category);
+                });
+            });
+
+            categoryButtons.classList.add("no-slider-transition", "has-active");
+            updateCategorySlider();
+            categoryButtons.offsetHeight;
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    categoryButtons.classList.remove("no-slider-transition");
+                });
+            });
+        }
+
+function showVideoLoading() {
+    /*
+     * 开始加载B站播放器时：
+     * 隐藏iframe，显示网站自己的加载画面。
+     */
+    videoStatus.classList.remove("is-visible");
+    videoLoading.classList.add("is-visible");
+    videoPlayer.style.visibility = "hidden";
+}
+
+function hideVideoLoading() {
+    /*
+     * B站播放器页面已经载入：
+     * 隐藏网站加载画面，显示B站播放器。
+     */
+    videoLoading.classList.remove("is-visible");
+    videoPlayer.style.visibility = "visible";
+}
+
+function showVideoError() {
+    /*
+     * 没有嵌入地址时：
+     * 关闭加载动画，显示无视频提示。
+     */
+    videoLoading.classList.remove("is-visible");
+    videoStatus.classList.add("is-visible");
+    videoPlayer.style.visibility = "hidden";
+}
+
+function clearVideoError() {
+    videoStatus.classList.remove("is-visible");
+}
+
+function normalizeVideoParagraphs(content) {
+    if (Array.isArray(content)) {
+        return content.filter(item => {
+            return typeof item === "string" && item.trim() !== "";
+        });
+    }
+
+    if (typeof content === "string" && content.trim() !== "") {
+        return [content];
+    }
+
+    return [];
+}
+
+function renderVideoExtra(dance) {
+    if (!videoExtra || !dance) return;
+
+const sections = [
+    {
+        title: "剧情介绍",
+        content: dance.intro
+    },
+    {
+        title: "创作背景",
+        content: dance.background
+    },
+    {
+        title: "革命精神",
+        content: dance.features
+    }
+];
+
+    const html = sections.map(section => {
+        const paragraphs = normalizeVideoParagraphs(section.content);
+
+        if (paragraphs.length === 0) {
+            return "";
+        }
+
+        return `
+            <section class="video-extra-section">
+                <h3 class="video-extra-title">
+                    ${escapeHtml(section.title)}
+                </h3>
+
+                ${paragraphs.map(paragraph => {
+                    return `
+                        <p class="video-extra-text">
+                            ${escapeHtml(paragraph)}
+                        </p>
+                    `;
+                }).join("")}
+            </section>
+        `;
+    }).join("");
+
+    videoExtra.innerHTML = html;
+    videoExtra.style.display = html ? "block" : "none";
+}
+
+function openVideoModal(dance) {
+    if (!dance) return;
+
+    videoModalTitle.textContent = dance.title;
+    videoPlayer.title = `${dance.title}视频播放器`;
+
+    renderVideoExtra(dance);
+    clearVideoError();
+
+    if (videoScroll) {
+        videoScroll.scrollTop = 0;
+    }
+
+    /*
+     * 先打开弹窗，使加载画面立刻出现。
+     */
+    videoModal.classList.add("is-visible");
+    videoModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+
+    const embedSrc =
+        typeof dance.embedSrc === "string"
+            ? dance.embedSrc.trim()
+            : "";
+
+    if (embedSrc) {
+        /*
+         * 在B站播放器出现之前，
+         * 先显示网站自己的加载动画。
+         */
+        showVideoLoading();
+
+        /*
+         * 下一帧再设置iframe地址，
+         * 让浏览器有机会先绘制弹窗和加载动画。
+         */
+        requestAnimationFrame(() => {
+            if (!videoModal.classList.contains("is-visible")) {
+                return;
+            }
+
+            videoPlayer.src = embedSrc;
+        });
+    } else {
+        videoPlayer.src = "about:blank";
+        showVideoError();
+    }
+}
+
+videoPlayer.addEventListener("load", () => {
+    const currentSrc = videoPlayer.getAttribute("src");
+
+    /*
+     * about:blank载入时不处理。
+     */
+    if (!currentSrc || currentSrc === "about:blank") {
+        return;
+    }
+
+    /*
+     * 弹窗已经关闭时不处理旧的载入事件。
+     */
+    if (!videoModal.classList.contains("is-visible")) {
+        return;
+    }
+
+    hideVideoLoading();
+});
+
+function closeVideoModal() {
+    if (!videoModal.classList.contains("is-visible")) return;
+
+    /*
+     * 先关闭弹窗状态。
+     */
+    videoModal.classList.remove("is-visible");
+    videoModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+
+    /*
+     * 清理所有播放器状态。
+     */
+    videoLoading.classList.remove("is-visible");
+    videoStatus.classList.remove("is-visible");
+
+    videoPlayer.style.visibility = "hidden";
+    videoPlayer.src = "about:blank";
+}
+
+
+/*
+ * 网站自己的视频全屏功能
+ */
+async function toggleSiteVideoFullscreen() {
+    if (!videoFrame || !siteFullscreenBtn) return;
+
+    const fullscreenElement =
+        document.fullscreenElement ||
+        document.webkitFullscreenElement;
+
+    try {
+        /*
+         * 当前没有全屏：进入全屏
+         */
+        if (!fullscreenElement) {
+            if (videoFrame.requestFullscreen) {
+                await videoFrame.requestFullscreen();
+            } else if (videoFrame.webkitRequestFullscreen) {
+                videoFrame.webkitRequestFullscreen();
+            } else {
+                throw new Error("当前浏览器不支持网页全屏");
+            }
+
+            return;
+        }
+
+        /*
+         * 当前已经全屏：退出全屏
+         */
+        if (document.exitFullscreen) {
+            await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    } catch (error) {
+        console.error("视频全屏失败：", error);
+
+        alert(
+            "浏览器拒绝了全屏请求。\n\n" +
+            "fullscreenEnabled：" +
+            String(document.fullscreenEnabled) +
+            "\n页面协议：" +
+            location.protocol +
+            "\n是否为顶层页面：" +
+            String(window.top === window.self)
+        );
+    }
+}
+
+
+function updateSiteFullscreenButton() {
+    if (!siteFullscreenBtn) return;
+
+    const isFullscreen = Boolean(
+        document.fullscreenElement ||
+        document.webkitFullscreenElement
+    );
+
+    siteFullscreenBtn.setAttribute(
+        "aria-label",
+        isFullscreen ? "退出全屏" : "全屏播放"
+    );
+
+    siteFullscreenBtn.setAttribute(
+        "title",
+        isFullscreen ? "退出全屏" : "全屏播放"
+    );
+}
+
+/* 点击自己的按钮进入或退出全屏 */
+siteFullscreenBtn.addEventListener(
+    "click",
+    toggleSiteVideoFullscreen
+);
+
+/* 监听标准全屏状态变化 */
+document.addEventListener(
+    "fullscreenchange",
+    updateSiteFullscreenButton
+);
+
+/* 兼容部分WebKit浏览器 */
+document.addEventListener(
+    "webkitfullscreenchange",
+    updateSiteFullscreenButton
+);
+
+
+        videoCloseBtn.addEventListener("click", closeVideoModal);
+
+        videoModal.addEventListener("click", event => {
+            if (event.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+
+        window.addEventListener("keydown", event => {
+            if (event.key === "Escape") {
+                closeVideoModal();
+            }
+        });
+
+        window.addEventListener("resize", updateCategorySlider);
+
+
+bindDanceCards();
+
+initCategoryButtons();
+    </script>
+</body>
+</html>
