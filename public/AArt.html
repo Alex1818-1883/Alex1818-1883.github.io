@@ -7,7 +7,7 @@
     <link rel="icon" href="red.ico" type="image/x-icon">
 <link
     rel="preload"
-    href="calligraphy/luxun.svg"
+    href="calligraphy/dance1.svg"
     as="image"
     type="image/svg+xml"
 >
@@ -1021,18 +1021,18 @@ min-width: 0;
         aria-live="polite"
     >
                     <!-- 初始内容必须与数据库第一项一致，避免刷新布局跳动。 -->
-              <img
-class="art-figure"
+<img
+    class="art-figure"
     id="artFigure"
-    src="calligraphy/luxun.svg"
-    alt="鲁迅——革命文学形象"
+    src="calligraphy/dance1.svg"
+    alt="革命舞蹈形象"
     draggable="false"
     loading="eager"
     decoding="sync"
     fetchpriority="high"
 >
 
-                    <div class="figure-placeholder" id="figurePlaceholder">文学</div>
+              <div class="figure-placeholder" id="figurePlaceholder">舞蹈</div>
           </div>
 
 <div class="stage-controls">
@@ -1045,22 +1045,22 @@ class="art-figure"
     ‹
 </button>
 
-             <a
+<a
     class="category-entry"
     id="categoryEntry"
-    href="literature.html"
-    aria-label="进入文学分类"
+    href="dance.html"
+    aria-label="进入舞蹈分类"
 >
     <span
         class="category-entry-label"
         aria-hidden="true"
     >
-        <span
-            class="category-entry-text is-visible"
-            id="categoryEntryTextA"
-        >
-            文学
-        </span>
+<span
+    class="category-entry-text is-visible"
+    id="categoryEntryTextA"
+>
+    舞蹈
+</span>
 
         <span
             class="category-entry-text"
@@ -1090,80 +1090,86 @@ class="art-figure"
     <script>
 
 const ART_CATEGORIES = [
-    {
-        name: "文学",
-        image: "calligraphy/luxun.svg",
-        href: "literature.html",
-        alt: "鲁迅——革命文学形象",
 
-        desktopScale: 1.55,
-        mobileScale: 1.22,
-
-        offsetY: 0,
-        mobileOffsetY: 0
-    },
     {
         name: "舞蹈",
         image: "calligraphy/dance1.svg",
         href: "dance.html",
         alt: "革命舞蹈形象",
 
-        desktopScale: 1.55,
+        desktopScale: 1.4,
         mobileScale: 1.14,
 
-        offsetY: 0,
+        offsetY: 35,
         mobileOffsetY: 0
     },
-    {
-        name: "音乐",
-        image: "calligraphy/music.svg",
-        href: "music.html",
-        alt: "革命音乐形象",
 
-        desktopScale: 1.45,
-        mobileScale: 1.18,
-
-        offsetY: 0,
-        mobileOffsetY: 0
-    },
-    {
-        name: "美术",
-        image: "calligraphy/huihua.svg",
-        href: "fine-art.html",
-        alt: "革命美术形象",
-
-        desktopScale: 1.55,
-        mobileScale: 1.20,
-
-        offsetY: 0,
-        mobileOffsetY: 0
-    },
-    {
-        name: "戏剧",
-        image: "calligraphy/hondengji.svg",
-        href: "drama.html",
-        alt: "《红灯记》——革命戏剧形象",
-
-        desktopScale: 1.55,
-        mobileScale: 1.12,
-
-        offsetY: 0,
-        mobileOffsetY: 0
-    },
     {
         name: "电影",
         image: "calligraphy/film0.svg",
         href: "film.html",
         alt: "革命电影形象",
 
-        desktopScale: 1.55,
+        desktopScale: 1.3,
         mobileScale: 1.18,
 
-        offsetY: 0,
+        offsetY: 30,
+        mobileOffsetY: 0
+    },
+
+    {
+        name: "戏剧",
+        image: "calligraphy/hondengji.svg",
+        href: "drama.html",
+        alt: "《红灯记》——革命戏剧形象",
+
+        desktopScale: 1.4,
+        mobileScale: 1.12,
+
+        offsetY: 25,
+        mobileOffsetY: 0
+    },
+
+    {
+        name: "音乐",
+        image: "calligraphy/music.svg",
+        href: "music.html",
+        alt: "革命音乐形象",
+
+        desktopScale: 1.35,
+        mobileScale: 1.18,
+
+        offsetY: 30,
+        mobileOffsetY: 0
+    },
+
+    {
+        name: "美术",
+        image: "calligraphy/huihua.svg",
+        href: "fine-art.html",
+        alt: "革命美术形象",
+
+        desktopScale: 1.4,
+        mobileScale: 1.20,
+
+        offsetY: 25,
+        mobileOffsetY: 0
+    },
+
+    {
+        name: "文学",
+        image: "calligraphy/luxun.svg",
+        href: "literature.html",
+        alt: "鲁迅——革命文学形象",
+
+        desktopScale: 1.4,
+        mobileScale: 1.22,
+
+        offsetY: 35,
         mobileOffsetY: 0
     }
-];
 
+];
         const artFigure = document.getElementById("artFigure");
         const figurePlaceholder = document.getElementById("figurePlaceholder");
         const categoryEntry = document.getElementById("categoryEntry");
