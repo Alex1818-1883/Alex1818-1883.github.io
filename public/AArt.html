@@ -1186,18 +1186,162 @@ const categoryEntryTextB =
         const nextCategory = document.getElementById("nextCategory");
         const mobileMedia = window.matchMedia("(max-width: 768px)");
 
-        let currentCategoryIndex = 0;
-        let switchTimer = null;
-        let switchRequestId = 0;
+let currentCategoryIndex = 0;
+let switchRequestId = 0;
 
 let activeCategoryTextLayer = 0;
 
-        function preloadCategoryImages() {
-            ART_CATEGORIES.forEach(category => {
-                const loader = new Image();
-                loader.src = category.image;
-            });
+const categoryImageCache =
+    new Map();
+
+
+function ensureImageReady(src) {
+
+    if (
+        categoryImageCache.has(src)
+    ) {
+        return categoryImageCache
+            .get(src)
+            .promise;
+    }
+
+
+    const image =
+        new Image();
+
+
+    const promise =
+        new Promise(
+            (resolve, reject) => {
+
+                image.onload =
+                    async () => {
+
+                        try {
+
+                            if (
+                                typeof image.decode ===
+                                "function"
+                            ) {
+                                await image.decode();
+                            }
+
+                        } catch (error) {
+                            /*
+                             * onload 已经成功，
+                             * decode 失败时不阻止使用。
+                             */
+                        }
+
+
+                        resolve();
+                    };
+
+
+                image.onerror =
+                    () => {
+
+                        categoryImageCache
+                            .delete(src);
+
+                        reject(
+                            new Error(
+                                `SVG 加载失败：${src}`
+                            )
+                        );
+                    };
+            }
+        );
+
+
+    categoryImageCache.set(
+        src,
+        {
+            image,
+            promise
         }
+    );
+
+
+    image.src =
+        src;
+
+
+    return promise;
+}
+
+
+function preloadCategoryImages() {
+
+    ART_CATEGORIES.forEach(
+        category => {
+
+            ensureImageReady(
+                category.image
+            ).catch(
+                () => {}
+            );
+
+        }
+    );
+}
+
+
+function waitForFigureFadeOut() {
+
+    return new Promise(resolve => {
+
+        let finished =
+            false;
+
+
+        const finish =
+            () => {
+
+                if (finished) {
+                    return;
+                }
+
+                finished =
+                    true;
+
+
+                artFigure.removeEventListener(
+                    "transitionend",
+                    handleTransitionEnd
+                );
+
+
+                resolve();
+            };
+
+
+        const handleTransitionEnd =
+            event => {
+
+                if (
+                    event.target ===
+                        artFigure &&
+                    event.propertyName ===
+                        "opacity"
+                ) {
+                    finish();
+                }
+            };
+
+
+        artFigure.addEventListener(
+            "transitionend",
+            handleTransitionEnd
+        );
+
+
+        window.setTimeout(
+            finish,
+            450
+        );
+    });
+}
 
 
 function applyFigureSize(category) {
@@ -1365,72 +1509,194 @@ function updateCategoryEntry(category) {
     );
 }
 
-        function updateCategoryContent(index) {
-            const category = ART_CATEGORIES[index];
+async function showCategory(
+    nextIndex
+) {
 
-            applyFigureSize(category);
-
-            artFigure.alt = category.alt;
-            figurePlaceholder.textContent = category.name;
+    const length =
+        ART_CATEGORIES.length;
 
 
-            artFigure.onload = () => {
-                artFigure.style.display = "block";
-                figurePlaceholder.style.display = "none";
-            };
+    currentCategoryIndex =
+        (
+            nextIndex +
+            length
+        ) %
+        length;
 
-            artFigure.onerror = () => {
-                artFigure.style.display = "none";
-                figurePlaceholder.style.display = "flex";
-            };
 
-            artFigure.src = category.image;
-        }
+    switchRequestId += 1;
 
-        /* 允许连续点击，新点击会取消旧计时。 */
-        function showCategory(nextIndex) {
-            const length = ART_CATEGORIES.length;
 
-            currentCategoryIndex = (nextIndex + length) % length;
-            switchRequestId += 1;
+    const requestId =
+        switchRequestId;
 
-            const requestId = switchRequestId;
 
-const targetCategory =
-    ART_CATEGORIES[
-        currentCategoryIndex
-    ];
+    const targetCategory =
+        ART_CATEGORIES[
+            currentCategoryIndex
+        ];
 
-updateCategoryEntry(
-    targetCategory
-);
 
-            if (switchTimer !== null) {
-                clearTimeout(switchTimer);
+    /*
+     * 分类按钮文字和链接
+     * 立即开始切换。
+     */
+    updateCategoryEntry(
+        targetCategory
+    );
+
+
+    /*
+     * 下一张 SVG
+     * 立即开始准备。
+     *
+     * 与当前图片淡出同时进行，
+     * 不浪费时间。
+     */
+    let imageReady =
+        true;
+
+
+    const imageReadyPromise =
+        ensureImageReady(
+            targetCategory.image
+        ).catch(
+            () => {
+
+                imageReady =
+                    false;
+
             }
+        );
 
-            artFigure.classList.add("is-changing");
 
-            switchTimer = window.setTimeout(() => {
-                if (requestId !== switchRequestId) {
-                    return;
-                }
+    /*
+     * 当前图片开始完整淡出。
+     */
+    artFigure.classList.add(
+        "is-changing"
+    );
 
-                updateCategoryContent(currentCategoryIndex);
 
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        if (requestId !== switchRequestId) {
-                            return;
-                        }
+    /*
+     * 同时等待：
+     *
+     * 1. 当前图片完全淡出
+     * 2. 下一张 SVG 真正加载完成
+     */
+    await Promise.all(
+        [
+            waitForFigureFadeOut(),
+            imageReadyPromise
+        ]
+    );
 
-                        artFigure.classList.remove("is-changing");
-                    });
-                });
 
-                switchTimer = null;
-            }, 190);
+    /*
+     * 如果等待期间用户又点了箭头，
+     * 旧请求直接作废。
+     */
+    if (
+        requestId !==
+        switchRequestId
+    ) {
+        return;
+    }
+
+
+    /*
+     * 下一张图片加载失败。
+     */
+    if (!imageReady) {
+
+        artFigure.style.display =
+            "none";
+
+
+        figurePlaceholder.textContent =
+            targetCategory.name;
+
+
+        figurePlaceholder.style.display =
+            "flex";
+
+
+        artFigure.classList.remove(
+            "is-changing"
+        );
+
+
+        return;
+    }
+
+
+    /*
+     * 新 SVG 已经准备完成，
+     * 现在才真正更新尺寸和位置。
+     */
+    applyFigureSize(
+        targetCategory
+    );
+
+
+    artFigure.alt =
+        targetCategory.alt;
+
+
+    figurePlaceholder.textContent =
+        targetCategory.name;
+
+
+    figurePlaceholder.style.display =
+        "none";
+
+
+    artFigure.style.display =
+        "block";
+
+
+    /*
+     * 当前仍然 opacity: 0，
+     * 所以此时换 src 用户完全看不到。
+     */
+    artFigure.src =
+        targetCategory.image;
+
+
+    /*
+     * 再让真正显示用的 img
+     * 完成一次 decode。
+     *
+     * 此时 SVG 已在缓存中，
+     * 通常非常快。
+     */
+    try {
+
+        if (
+            typeof artFigure.decode ===
+            "function"
+        ) {
+            await artFigure.decode();
         }
+
+    } catch (error) {
+
+    }
+
+
+    if (
+        requestId !==
+        switchRequestId
+    ) {
+        return;
+    }
+
+
+    artFigure.classList.remove(
+        "is-changing"
+    );
+}
 
         function showPreviousCategory() {
             showCategory(currentCategoryIndex - 1);
