@@ -1170,7 +1170,37 @@ const ART_CATEGORIES = [
     }
 
 ];
-        const artFigure = document.getElementById("artFigure");
+
+const artFigure =
+    document.getElementById(
+        "artFigure"
+    );
+
+const figureFrame =
+    document.getElementById(
+        "figureFrame"
+    );
+
+
+figureFrame.addEventListener(
+    "dragstart",
+    event => {
+        event.preventDefault();
+    },
+    true
+);
+
+
+figureFrame.addEventListener(
+    "mousedown",
+    event => {
+
+        if (event.button === 0) {
+            event.preventDefault();
+        }
+
+    }
+);
         const figurePlaceholder = document.getElementById("figurePlaceholder");
         const categoryEntry = document.getElementById("categoryEntry");
 const categoryEntryTextA =
