@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>经典革命美术</title>
+    <link rel="icon" href="red.ico" type="image/x-icon">
+    <link rel="preload" href="calligraphy/goodart.svg" as="image" type="image/svg+xml">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: auto;
+            scrollbar-gutter: stable;
+            overflow-y: scroll;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+
+            background-color: #F9F9F9;
+            color: #A80000;
+
+            font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", "Helvetica Neue", sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        ::selection {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        ::-moz-selection {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        button,
+        a {
+            font-family: inherit;
+        }
+
+        @keyframes cardRiseIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* === 顶部导航：保持原舞蹈页面风格 === */
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+
+            padding: 20px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 900;
+            color: #CC0000;
+            text-decoration: none;
+            letter-spacing: 1px;
+
+            display: flex;
+            align-items: center;
+
+            transform: scale(1) translateZ(0);
+            will-change: transform;
+            backface-visibility: hidden;
+
+            transition:
+                transform 0.4s
+                cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+            transform-origin: left center;
+        }
+
+        .logo .star {
+            display: inline-block;
+            margin-right: 8px;
+
+            transition:
+                transform 0.5s
+                cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                color 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.15) translateZ(0);
+        }
+
+        .logo:hover .star {
+            transform:
+                scale(1.4)
+                rotate(36deg)
+                translateZ(0);
+
+            color: #FFD700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* 右侧不可见占位，保持顶部视觉居中 */
+        .nav-placeholder::after {
+            content: "革命文艺";
+
+            display: inline-block;
+            visibility: hidden;
+            pointer-events: none;
+
+            color: #CC0000;
+            font-size: 18px;
+            font-weight: bold;
+
+            padding: 8px 22px;
+
+            border: 2px solid #CC0000;
+            border-radius: 30px;
+        }
+
+        /* === 首屏 === */
+        .hero {
+            height: 58vh;
+            min-height: 0;
+
+            padding: 10vh 20px 6vh;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    #FFFFFF 0,
+                    #FFFFFF 90%,
+                    #F9F9F9 90%,
+                    #F9F9F9 100%
+                );
+        }
+
+        .hero::before {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 10%;
+
+            z-index: 0;
+
+            background-image: url("calligraphy/goodart.svg");
+            background-repeat: no-repeat;
+            background-size: 50% auto;
+            background-position: center calc(50% - 45px);
+
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            position: relative;
+            z-index: 1;
+
+            margin-bottom: 18px;
+
+            color: #DD0000;
+            font-size: 3.4rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            line-height: 1.15;
+        }
+
+        .hero p {
+            position: relative;
+            z-index: 1;
+
+            color: #A80000;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .hero h1,
+        .hero p {
+            user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            -webkit-touch-callout: default;
+        }
+
+        .hero-divider {
+            position: absolute;
+            left: 50%;
+            top: 90%;
+            bottom: auto;
+
+            z-index: 2;
+
+            width: 100vw;
+            margin-left: -50vw;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+
+            color: #CC0000;
+            font-size: 36px;
+            line-height: 1;
+
+            transform: translateY(-50%);
+
+            pointer-events: none;
+        }
+
+        .hero-divider::before,
+        .hero-divider::after {
+            content: "";
+            flex: 1;
+            height: 3px;
+
+            background-color: #CC0000;
+            border-radius: 999px;
+        }
+
+        /* === 主体 === */
+        main {
+            flex: 1;
+
+            width: 100%;
+            max-width: 1220px;
+
+            margin: 14px auto 0;
+            padding: 0 28px 82px;
+        }
+
+        .art-category-section {
+            width: min(1000px, 100%);
+            margin: 10px auto 58px;
+        }
+
+        /* === 六分类胶囊 === */
+        .category-buttons {
+            --slider-x: -4px;
+            --slider-y: -4px;
+            --slider-width: 0px;
+            --slider-height: 0px;
+
+            position: relative;
+
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+
+            width: min(980px, 100%);
+            margin: 0 auto;
+            padding: 5px;
+
+            border: 2px solid #CC0000;
+            border-radius: 999px;
+            background-color: #FFFFFF;
+        }
+
+        .category-buttons::before {
+            content: "";
+
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 0;
+
+            width: var(--slider-width);
+            height: var(--slider-height);
+
+            border-radius: 999px;
+            background-color: #CC0000;
+
+            opacity: 0;
+            transform: translate3d(var(--slider-x), var(--slider-y), 0);
+
+            transition:
+                transform 0.26s ease,
+                opacity 0.18s ease;
+        }
+
+        .category-buttons.no-slider-transition::before {
+            transition: none !important;
+        }
+
+        .category-buttons.has-active::before {
+            opacity: 1;
+        }
+
+        .category-btn {
+            position: relative;
+            z-index: 1;
+
+            height: 46px;
+
+            border: none;
+            border-radius: 999px;
+            background-color: transparent;
+
+            color: #CC0000;
+
+            font-size: 17px;
+            font-weight: 900;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+            isolation: isolate;
+
+            transition: color 0.22s ease;
+        }
+
+        .category-btn::before {
+            content: "";
+
+            position: absolute;
+            top: -5px;
+            bottom: -5px;
+            left: -5px;
+            right: -5px;
+            z-index: -1;
+
+            border-radius: 999px;
+            background-color: rgba(204, 0, 0, 0.08);
+
+            opacity: 0;
+            pointer-events: none;
+
+            transition: opacity 0.22s ease;
+        }
+
+        .category-btn:hover::before {
+            opacity: 1;
+        }
+
+        .category-btn.active::before,
+        .category-btn.active:hover::before {
+            opacity: 0;
+        }
+
+        .category-btn:hover {
+            color: #FF0000;
+        }
+
+        .category-btn.active,
+        .category-btn.active:hover {
+            color: #FFFFFF;
+        }
+
+        /* === 美术图片墙：第一张头条 + 后续三列 === */
+        .art-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 26px 24px;
+
+            width: 100%;
+            min-height: 360px;
+
+            transition:
+                opacity 0.3s ease,
+                transform 0.3s ease;
+        }
+
+        .art-grid.is-changing {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        .art-card {
+            appearance: none;
+            -webkit-appearance: none;
+
+            display: block;
+            min-width: 0;
+            width: 100%;
+
+            padding: 0;
+            margin: 0;
+
+            border: none;
+            outline: none;
+            border-radius: 16px;
+
+            background: transparent;
+
+            overflow: hidden;
+            cursor: pointer;
+            line-height: 0;
+
+            animation: cardRiseIn 0.72s ease-out backwards;
+        }
+
+        /* 每个分类的第一张图：独占一整行，作为头条大图 */
+        .art-card.featured {
+            grid-column: 1 / -1;
+        }
+
+        .art-thumb {
+            display: block;
+            position: relative;
+
+            width: 100%;
+         aspect-ratio: 4.5 / 3;
+
+            overflow: hidden;
+            border-radius: 16px;
+
+            background: transparent;
+        }
+
+/* === 电脑端指定竖图 === */
+@media (min-width: 769px) {
+
+.art-card.portrait-desktop .art-thumb {
+    aspect-ratio: 3 / 4.5;
+}
+
+    .art-card.portrait-desktop .art-image {
+        object-position: center center;
+    }
+
+}
+
+.art-image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: var(--art-position, center center);
+
+    border-radius: inherit;
+
+    transform: scale(1);
+    transform-origin: 50% 50%;
+
+    transition: transform 0.45s ease;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* 当前正在操作的图片进入稳定合成层 */
+.art-card.gpu-stable .art-image {
+    transform: translate3d(0, 0, 0) scale(1);
+
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/* GPU层准备好以后再放大 */
+.art-card.gpu-stable.is-hovering .art-image {
+    transform: translate3d(0, 0, 0) scale(1.025);
+}
+
+
+
+        .art-card:focus-visible {
+            outline: 3px solid rgba(204, 0, 0, 0.28);
+            outline-offset: 4px;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            padding: 70px 20px;
+
+            color: #A80000;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        /* === 毛主席相集同类：无边框全屏大图查看 === */
+        .photo-modal {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+
+            background-color: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(4px);
+
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+
+            transition:
+                opacity 0.25s ease,
+                visibility 0s linear 0.25s;
+        }
+
+        .photo-modal.is-visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+
+            transition: opacity 0.25s ease;
+        }
+
+        .photo-modal.is-closing {
+            opacity: 0;
+            visibility: visible;
+            pointer-events: none;
+
+            transition: opacity 0.25s ease;
+        }
+
+        .modal-content {
+            width: 100%;
+            height: 100%;
+
+            margin: 0;
+            padding: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: transparent;
+            border: none;
+            border-radius: 0;
+
+            position: relative;
+        }
+
+        .modal-img {
+            display: block;
+
+            width: auto;
+            height: auto;
+
+            max-width: 94vw;
+            max-height: 90vh;
+
+            object-fit: contain;
+
+            border-radius: 8px;
+            margin: 0;
+
+            background-color: transparent;
+
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .close-btn {
+            appearance: none;
+            -webkit-appearance: none;
+
+            position: fixed;
+            top: 24px;
+            right: 28px;
+            z-index: 3100;
+
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+
+            border: none;
+            border-radius: 50%;
+
+            background-color: transparent;
+            color: #CC0000;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #CC0000;
+            color: #FFFFFF;
+        }
+
+        .close-btn:active {
+            background-color: #A80000;
+            color: #FFFFFF;
+        }
+
+        /* === 页脚 === */
+        footer {
+            padding: 40px 20px;
+
+            background-color: #CC0000;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        footer h3 {
+            color: #FFFFFF;
+            font-size: 26px;
+            letter-spacing: 4px;
+        }
+
+        /* === 禁止图片和交互元素拖选 / 拖拽 === */
+        .logo,
+        .logo *,
+        .nav-links,
+        .nav-links *,
+        .hero-divider,
+        .hero-divider *,
+        .category-buttons,
+        .category-buttons *,
+        .art-card,
+        .art-card *,
+        .photo-modal,
+        .photo-modal *,
+        .close-btn,
+        .close-btn *,
+        footer h3 {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-drag: none;
+        }
+
+        /* === 平板 === */
+        @media (max-width: 980px) {
+            main {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .category-buttons {
+                grid-template-columns: repeat(3, 1fr);
+                width: min(760px, 100%);
+                border-radius: 28px;
+                row-gap: 8px;
+            }
+
+            .art-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 24px 20px;
+            }
+        }
+
+        /* === 手机端 === */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+                transform-origin: center center;
+            }
+
+            .hero {
+                min-height: 360px;
+                padding-top: 96px;
+
+                background:
+                    linear-gradient(
+                        to bottom,
+                        #FFFFFF 0,
+                        #FFFFFF calc(100% - 35px),
+                        #F9F9F9 calc(100% - 35px),
+                        #F9F9F9 100%
+                    );
+            }
+
+            .hero::before {
+                bottom: 35px;
+                background-size: 115% auto;
+                background-position: center calc(50% + 20px);
+            }
+
+            .hero h1 {
+                margin-bottom: 14px;
+                font-size: 2.45rem;
+                letter-spacing: 2px;
+            }
+
+            .hero p {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .hero-divider {
+                top: auto;
+                bottom: 20px;
+
+                transform: none;
+
+                gap: 12px;
+                font-size: 30px;
+            }
+
+            .hero-divider::before,
+            .hero-divider::after {
+                height: 3px;
+            }
+
+            main {
+                margin-top: 20px;
+                padding: 0 16px 58px;
+            }
+
+            .art-category-section {
+                margin-bottom: 44px;
+            }
+
+            .category-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 4px;
+                row-gap: 8px;
+                border-radius: 24px;
+            }
+
+            .category-btn {
+                height: 42px;
+                font-size: 15px;
+                letter-spacing: 0;
+            }
+
+  .art-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 12px;
+    min-height: 0;
+}
+
+.art-card.portrait-mobile .art-thumb {
+    aspect-ratio: 3 / 4.5;
+}
+
+.art-card.portrait-mobile .art-image {
+    object-position: center center;
+}
+
+            .art-card,
+            .art-thumb {
+                border-radius: 14px;
+            }
+
+            .modal-content {
+                padding: 18px;
+            }
+
+            .modal-img {
+                max-width: 96vw;
+                max-height: 88vh;
+            }
+
+            .close-btn {
+                top: 18px;
+                right: 18px;
+
+                width: 40px;
+                height: 40px;
+
+                font-size: 28px;
+            }
+
+            footer h3 {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="Art.html" class="logo">
+            <span class="star">★</span>
+            马列毛主义万岁！
+        </a>
+
+        <div class="nav-links nav-placeholder" aria-hidden="true"></div>
+    </header>
+
+    <section class="hero">
+        <h1>经典革命美术</h1>
+        <p>毛主席革命文艺路线胜利万岁！</p>
+
+        <div class="hero-divider" aria-hidden="true">★</div>
+    </section>
+
+    <main>
+        <section class="art-category-section" aria-label="革命美术分类">
+            <div class="category-buttons" id="categoryButtons">
+                <button class="category-btn active" type="button" data-category="poster">宣传画</button>
+                <button class="category-btn" type="button" data-category="newyear">年画</button>
+                <button class="category-btn" type="button" data-category="oil">油画</button>
+                <button class="category-btn" type="button" data-category="print">版画</button>
+                <button class="category-btn" type="button" data-category="chinese">中国画</button>
+                <button class="category-btn" type="button" data-category="sculpture">雕塑</button>
+            </div>
+        </section>
+
+        <section class="art-grid" id="artGrid" aria-live="polite"></section>
+    </main>
+
+    <div id="photoModal" class="photo-modal" aria-hidden="true">
+        <div class="modal-content">
+            <button
+                type="button"
+                class="close-btn"
+                id="closeModalBtn"
+                aria-label="关闭大图"
+            >×</button>
+
+            <img
+                id="modalImg"
+                class="modal-img"
+                src=""
+                alt="革命美术大图"
+                draggable="false"
+            >
+        </div>
+    </div>
+
+    <footer>
+        <h3>文艺为工农兵服务！</h3>
+    </footer>
+
+    <script>
+
+    const ARTWORKS = [
+
+    /* ==================== 宣传画 ==================== */
+
+    {
+        category: "poster",
+        src: "finearts/p99.png",
+        position: "center 99%"
+    },
+
+    {
+        category: "poster",
+        src: "finearts/p3.png",
+        position: "center 99%"
+    },
+
+    {
+        category: "poster",
+        src: "finearts/p4.png",
+        position: "center 99%"
+    },
+
+    {
+        category: "poster",
+        src: "finearts/p6.png",
+        position: "center 90%"
+    },
+
+    {
+        category: "poster",
+        src: "finearts/p9.png",
+        position: "center 60%"
+    },
+
+   {
+        category: "poster",
+        src: "finearts/p10.png",
+        position: "center 60%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p79.jpg",
+        position: "center 72%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p11.png",
+        desktopPortrait: true,
+        mobilePortrait: true
+    },
+
+    {
+        category: "poster",
+        src: "finearts/p14.png",
+        desktopPortrait: true
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p17.jpg",
+        desktopPortrait: true
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p106.jpg",
+        position: "center 10%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p127.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p109.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p18.png",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p45.png",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p46.png",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p1.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p12.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p8.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p19.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p21.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p22.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p30.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p36.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p43.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p5.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p15.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p16.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p112.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p113.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p108.jpg",
+        position: "center 1%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p118.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p146.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p149.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p13.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p26.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p37.png",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p27.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p28.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p147.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p119.jpg",
+        position: "center 60%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p122.jpg",
+        position: "center 60%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p131.jpg",
+        position: "center 60%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p91.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p93.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p97.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p96.jpg",
+        position: "center 60%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p105.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p103.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p144.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p100.jpg",
+        position: "center 85%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p101.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p92.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p104.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p121.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p58.jpg",
+        position: "center 99%"
+    },
+
+
+  {
+        category: "poster",
+        src: "finearts/p56.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p55.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p65.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p75.jpg",
+        position: "center 99%"
+    },
+
+
+  {
+        category: "poster",
+        src: "finearts/p73.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p120.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p124.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p135.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p138.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p130.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p145.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p33.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p23.jpg",
+        position: "center 99%"
+    },
+
+
+  {
+        category: "poster",
+        src: "finearts/p34.jpg",
+        position: "center 1%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p137.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p128.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p107.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p150.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p152.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p148.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p153.jpg",
+        position: "center 50%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p154.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p155.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p74.jpg",
+        desktopPortrait: true,
+    },
+
+
+  {
+        category: "poster",
+        src: "finearts/p76.jpg",
+        desktopPortrait: true,
+    },
+
+
+  {
+        category: "poster",
+        src: "finearts/p98.jpg",
+        desktopPortrait: true,
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p61.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p156.jpg",
+        position: "center 99%"
+    },
+
+
+ {
+        category: "poster",
+        src: "finearts/p49.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p7.png",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p42.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p44.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p125.jpg",
+        desktopPortrait: true,
+    },
+
+
+  {
+        category: "poster",
+        src: "finearts/p82.jpg",
+        desktopPortrait: true,
+    },
+
+
+  {
+        category: "poster",
+        src: "finearts/p81.jpg",
+        desktopPortrait: true,
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p86.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p95.jpg",
+        position: "center 50%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p123.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p110.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p114.jpg",
+        position: "center 50%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p116.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p136.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p134.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p139.jpg",
+        desktopPortrait: true,
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p52.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p54.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p53.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p159.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p162.jpg",
+        position: "center 99%"
+    },
+
+ {
+        category: "poster",
+        src: "finearts/p161.jpg",
+        position: "center 99%"
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p59.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p85.jpg",
+        desktopPortrait: true,
+    },
+
+  {
+        category: "poster",
+        src: "finearts/p87.jpg",
+        desktopPortrait: true,
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ==================== 年画 ==================== */
+
+    {
+        category: "newyear",
+        src: "image/art/newyear01.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "newyear",
+        src: "image/art/newyear02.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "newyear",
+        src: "image/art/newyear03.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "newyear",
+        src: "image/art/newyear04.jpg",
+        position: "center 50%"
+    },
+
+
+    /* ==================== 油画 ==================== */
+
+    {
+        category: "oil",
+        src: "image/art/oil01.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "oil",
+        src: "image/art/oil02.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "oil",
+        src: "image/art/oil03.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "oil",
+        src: "image/art/oil04.jpg",
+        position: "center 50%"
+    },
+
+
+    /* ==================== 版画 ==================== */
+
+    {
+        category: "print",
+        src: "image/art/print01.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "print",
+        src: "image/art/print02.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "print",
+        src: "image/art/print03.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "print",
+        src: "image/art/print04.jpg",
+        position: "center 50%"
+    },
+
+
+    /* ==================== 中国画 ==================== */
+
+    {
+        category: "chinese",
+        src: "image/art/chinese01.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "chinese",
+        src: "image/art/chinese02.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "chinese",
+        src: "image/art/chinese03.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "chinese",
+        src: "image/art/chinese04.jpg",
+        position: "center 50%"
+    },
+
+
+    /* ==================== 雕塑 ==================== */
+
+    {
+        category: "sculpture",
+        src: "image/art/sculpture01.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "sculpture",
+        src: "image/art/sculpture02.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "sculpture",
+        src: "image/art/sculpture03.jpg",
+        position: "center 50%"
+    },
+
+    {
+        category: "sculpture",
+        src: "image/art/sculpture04.jpg",
+        position: "center 50%"
+    }
+
+];
+
+        const categoryButtons = document.getElementById("categoryButtons");
+        const buttons = Array.from(document.querySelectorAll(".category-btn"));
+        const artGrid = document.getElementById("artGrid");
+
+        const photoModal = document.getElementById("photoModal");
+        const modalImg = document.getElementById("modalImg");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+
+        let currentCategory = "poster";
+        let renderTimer = null;
+        let modalCloseTimer = null;
+        let lastGpuCard = null;
+
+        function moveCategorySlider(button) {
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            const extraWidth = isMobile ? 12 : 18;
+            const extraHeight = isMobile ? 12 : 18;
+
+            const x = button.offsetLeft - extraWidth / 2;
+            const y = button.offsetTop - extraHeight / 2;
+            const width = button.offsetWidth + extraWidth;
+            const height = button.offsetHeight + extraHeight;
+
+            categoryButtons.style.setProperty("--slider-x", `${x}px`);
+            categoryButtons.style.setProperty("--slider-y", `${y}px`);
+            categoryButtons.style.setProperty("--slider-width", `${width}px`);
+            categoryButtons.style.setProperty("--slider-height", `${height}px`);
+        }
+
+        function createArtworkCard(artwork, index) {
+            const card = document.createElement("button");
+            card.type = "button";
+            card.className = `art-card${index === 0 ? " featured" : ""}`;
+if (artwork.desktopPortrait) {
+    card.classList.add("portrait-desktop");
+}
+
+if (artwork.mobilePortrait) {
+    card.classList.add("portrait-mobile");
+}
+            card.setAttribute("aria-label", `查看${artwork.alt || "革命美术作品"}大图`);
+            card.style.animationDelay = `${Math.min(index, 8) * 0.055}s`;
+
+            const thumb = document.createElement("span");
+            thumb.className = "art-thumb";
+
+            const image = document.createElement("img");
+            image.className = "art-image";
+            image.src = artwork.src;
+            image.alt = artwork.alt || "革命美术作品";
+            image.draggable = false;
+            image.loading = index === 0 ? "eager" : "lazy";
+            image.decoding = "async";
+
+            if (artwork.position) {
+                image.style.setProperty("--art-position", artwork.position);
+            }
+
+            image.addEventListener("dragstart", event => {
+                event.preventDefault();
+            });
+
+            thumb.appendChild(image);
+            card.appendChild(thumb);
+
+card.addEventListener("mouseenter", () => {
+    const previousCard = lastGpuCard;
+
+    lastGpuCard = card;
+
+    card.classList.add("gpu-stable");
+
+    /*
+     * 先让浏览器建立稳定的合成层，
+     * 下一帧再真正开始放大。
+     */
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            if (card.matches(":hover")) {
+                card.classList.add("is-hovering");
+            }
+        });
+    });
+
+
+});
+
+card.addEventListener("mouseleave", () => {
+    card.classList.remove("is-hovering");
+
+
+    window.setTimeout(() => {
+        if (!card.matches(":hover")) {
+            card.classList.remove("gpu-stable");
+
+            if (lastGpuCard === card) {
+                lastGpuCard = null;
+            }
+        }
+    }, 500);
+});
+
+            card.addEventListener("click", () => {
+                openModal(artwork);
+            });
+
+            return card;
+        }
+
+        function renderCategory(category, animate = true) {
+            currentCategory = category;
+            clearTimeout(renderTimer);
+
+            const render = () => {
+                const artworks = ARTWORKS.filter(item => item.category === category);
+                artGrid.innerHTML = "";
+
+                if (artworks.length === 0) {
+                    artGrid.innerHTML = `
+                        <div class="empty-state">
+                            该分类暂未添加图片
+                        </div>
+                    `;
+                } else {
+                    const fragment = document.createDocumentFragment();
+
+                    artworks.forEach((artwork, index) => {
+                        fragment.appendChild(
+                            createArtworkCard(artwork, index)
+                        );
+                    });
+
+                    artGrid.appendChild(fragment);
+                }
+
+                requestAnimationFrame(() => {
+                    artGrid.classList.remove("is-changing");
+                });
+            };
+
+            if (!animate) {
+                artGrid.classList.remove("is-changing");
+                render();
+                return;
+            }
+
+            artGrid.classList.add("is-changing");
+            renderTimer = window.setTimeout(render, 180);
+        }
+
+        function openModal(artwork) {
+            clearTimeout(modalCloseTimer);
+
+            modalImg.src = artwork.src;
+            modalImg.alt = artwork.alt || "革命美术大图";
+
+            photoModal.style.display = "block";
+            photoModal.classList.remove("is-closing");
+            photoModal.setAttribute("aria-hidden", "false");
+
+            document.body.classList.add("modal-open");
+
+            void photoModal.offsetWidth;
+            photoModal.classList.add("is-visible");
+        }
+
+        function closeModal() {
+            clearTimeout(modalCloseTimer);
+
+            photoModal.classList.remove("is-visible");
+            photoModal.classList.add("is-closing");
+            photoModal.setAttribute("aria-hidden", "true");
+
+            document.body.classList.remove("modal-open");
+
+            modalCloseTimer = window.setTimeout(() => {
+                photoModal.style.display = "none";
+                photoModal.classList.remove("is-closing");
+                modalImg.src = "";
+            }, 250);
+        }
+
+        function initCategories() {
+            const activeButton = document.querySelector(".category-btn.active");
+
+            categoryButtons.classList.add(
+                "no-slider-transition",
+                "has-active"
+            );
+
+            moveCategorySlider(activeButton);
+            categoryButtons.offsetHeight;
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    categoryButtons.classList.remove("no-slider-transition");
+                });
+            });
+
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    buttons.forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+
+                    categoryButtons.classList.add("has-active");
+                    moveCategorySlider(this);
+
+                    renderCategory(this.dataset.category, true);
+                });
+            });
+
+            window.addEventListener("resize", () => {
+                const current = document.querySelector(".category-btn.active");
+
+                if (current) {
+                    moveCategorySlider(current);
+                }
+            });
+        }
+
+        closeModalBtn.addEventListener("click", closeModal);
+
+        photoModal.addEventListener("click", event => {
+            if (
+                event.target === photoModal ||
+                event.target.classList.contains("modal-content")
+            ) {
+                closeModal();
+            }
+        });
+
+        window.addEventListener("keydown", event => {
+            if (
+                event.key === "Escape" &&
+                photoModal.classList.contains("is-visible")
+            ) {
+                closeModal();
+            }
+        });
+
+        /* 阻止图片区域产生浏览器原生拖拽虚影 */
+        document.addEventListener(
+            "dragstart",
+            event => {
+                if (
+                    event.target.closest(".art-card") ||
+                    event.target.closest(".photo-modal")
+                ) {
+                    event.preventDefault();
+                }
+            },
+            true
+        );
+
+        renderCategory(currentCategory, false);
+        initCategories();
+    </script>
+</body>
+</html>
