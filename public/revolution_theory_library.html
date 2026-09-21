@@ -1747,40 +1747,6 @@ footer h3 {
 ];
 
 
-// === PDF 文件统一使用本站 PDF.js 阅读器打开 ===
-function toPdfViewerLink(link) {
-    if (!link) {
-        return link;
-    }
-
-    // 已经是 PDF.js 阅读器地址时，不重复处理
-    if (link.startsWith("pdfjs/web/viewer.html?file=")) {
-        return link;
-    }
-
-    // HTML 等非 PDF 文件保持原样
-    if (!/\.pdf(?:$|[?#])/i.test(link)) {
-        return link;
-    }
-
-    // 当前页面位于网站根目录，
-    // PDF.js Viewer 位于 pdfjs/web/，
-    // 因此 Viewer 内部访问原文件需要 ../../
-    return `pdfjs/web/viewer.html?file=../../${link}`;
-}
-
-// 统一处理普通书籍和多卷书籍
-BOOKS.forEach(book => {
-    if (book.link) {
-        book.link = toPdfViewerLink(book.link);
-    }
-
-    if (Array.isArray(book.parts)) {
-        book.parts.forEach(part => {
-            part.link = toPdfViewerLink(part.link);
-        });
-    }
-});
 
 function getBookCategories(book) {
     return Array.isArray(book.category) ? book.category : [book.category];
