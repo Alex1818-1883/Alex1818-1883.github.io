@@ -8204,3 +8204,135 @@ dialog :link{
     display:none;
   }
 }
+
+/* ==================================================
+   网站自定义 PDF.js 加载动画
+   保留 PDF.js 原生 #loadingBar 的显示 / 隐藏逻辑
+   ================================================== */
+
+#loadingBar {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 10000;
+
+    width: auto;
+    height: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #F9F9F9;
+
+    border: none;
+
+    pointer-events: none;
+}
+
+
+/*
+ * PDF.js 加载完成后会隐藏 loadingBar。
+ * 明确覆盖我们上面的 display:flex。
+ */
+#loadingBar.hidden,
+#loadingBar[hidden] {
+    display: none;
+}
+
+
+/*
+ * 隐藏 PDF.js 原来的顶部细加载条，
+ * 但保留其 HTML 结构供原有逻辑使用。
+ */
+#loadingBar > .progress {
+    display: none;
+}
+
+
+/* === 加载动画容器 === */
+
+.site-pdf-loading-mark {
+    position: relative;
+
+    width: 82px;
+    height: 82px;
+}
+
+
+/* === 外部旋转圆环 === */
+
+.site-pdf-loading-ring {
+    position: absolute;
+
+    inset: 0;
+
+    border:
+        5px
+        solid
+        rgba(204, 0, 0, 0.16);
+
+    border-top-color: #CC0000;
+    border-right-color: #CC0000;
+
+    border-radius: 50%;
+
+    animation:
+        sitePdfLoadingSpin
+        0.9s
+        linear
+        infinite;
+}
+
+
+/* === 中央红星 === */
+
+.site-pdf-loading-star {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    color: #CC0000;
+
+    font-size: 34px;
+    font-weight: 900;
+    line-height: 1;
+
+    transform:
+        translate(-50%, -50%);
+}
+
+
+/* === 圆环旋转 === */
+
+@keyframes sitePdfLoadingSpin {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* === 手机端 === */
+
+@media (max-width: 768px) {
+
+    .site-pdf-loading-mark {
+        width: 66px;
+        height: 66px;
+    }
+
+    .site-pdf-loading-ring {
+        border-width: 4px;
+    }
+
+    .site-pdf-loading-star {
+        font-size: 28px;
+    }
+}

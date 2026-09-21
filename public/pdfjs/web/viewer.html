@@ -789,11 +789,25 @@ See https://github.com/adobe-type-tools/cmap-resources
                 </div>
               </div>
             </div>
-            <div id="loadingBar">
-              <div class="progress">
-                <div class="glimmer"></div>
-              </div>
-            </div>
+      <div
+    id="loadingBar"
+    role="status"
+    aria-label="PDF 载入中"
+>
+    <!-- 保留 PDF.js 原来的加载条结构 -->
+    <div class="progress" aria-hidden="true">
+        <div class="glimmer"></div>
+    </div>
+
+    <!-- 网站自己的加载动画 -->
+    <div
+        class="site-pdf-loading-mark"
+        aria-hidden="true"
+    >
+        <span class="site-pdf-loading-ring"></span>
+        <span class="site-pdf-loading-star">★</span>
+    </div>
+</div>
           </div>
         </div>
 
