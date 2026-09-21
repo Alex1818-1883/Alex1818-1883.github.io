@@ -8291,11 +8291,11 @@ dialog :link{
     left: 50%;
     top: 50%;
 
-    color: #CC0000;
+    width: 34px;
+    height: 34px;
 
-    font-size: 34px;
-    font-weight: 900;
-    line-height: 1;
+    display: block;
+    overflow: visible;
 
     transform:
         translate(-50%, -50%);
@@ -8329,7 +8329,8 @@ dialog :link{
         border-width: 4px;
     }
 
-    .site-pdf-loading-star {
-        font-size: 28px;
-    }
+.site-pdf-loading-star {
+    width: 28px;
+    height: 28px;
+}
 }
