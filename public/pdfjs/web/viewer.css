@@ -8210,7 +8210,7 @@ dialog :link{
    保留 PDF.js 原生 #loadingBar 的显示 / 隐藏逻辑
    ================================================== */
 
-#loadingBar {
+#toolbarContainer #loadingBar {
     position: fixed;
 
     inset: 0;
@@ -8232,12 +8232,9 @@ dialog :link{
 }
 
 
-/*
- * PDF.js 加载完成后会隐藏 loadingBar。
- * 明确覆盖我们上面的 display:flex。
- */
-#loadingBar.hidden,
-#loadingBar[hidden] {
+
+#toolbarContainer #loadingBar.hidden,
+#toolbarContainer #loadingBar[hidden] {
     display: none;
 }
 
@@ -8246,7 +8243,7 @@ dialog :link{
  * 隐藏 PDF.js 原来的顶部细加载条，
  * 但保留其 HTML 结构供原有逻辑使用。
  */
-#loadingBar > .progress {
+#toolbarContainer #loadingBar > .progress {
     display: none;
 }
 
