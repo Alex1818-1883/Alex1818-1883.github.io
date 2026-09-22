@@ -453,6 +453,16 @@ body.site-index-open .site-index-drawer {
                按钮现在死死钉在原地，只有颜色和阴影会发生过渡。 */
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+
+/* 默认电脑端：保持原来的一整行 */
+.memorial-desktop-text {
+    display: inline;
+}
+
+/* 默认电脑端不显示手机专用排版 */
+.memorial-mobile-text {
+    display: none;
+}
         
         /* 🌟 悬停爆发：红底白字，光晕浮现，绝对不动！ */
         .memorial-link:hover {
@@ -1358,14 +1368,47 @@ footer h3::selection {
         gap: 10px;
     }
 
-    .hero h1 {
-        font-size: 40px;
-        letter-spacing: 1px;
-    }
+.hero h1 {
+    font-size: 36px;
+    letter-spacing: 1px;
+}
 
     .hero p {
         font-size: 1.2rem;
     }
+
+/* === 手机端：纪念毛主席五十周年按钮两行排版 === */
+
+.memorial-desktop-text {
+    display: none;
+}
+
+.memorial-mobile-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.memorial-mobile-title {
+    display: block;
+    font-size: 18px;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.memorial-mobile-subtitle {
+    display: block;
+    margin-top: 6px;
+
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: 3px;
+}
+
+.memorial-link {
+    padding: 13px 20px;
+}
 
 .liaoyuan-fullscreen-section {
     min-height: 88vh;
@@ -1671,7 +1714,20 @@ will-change: transform, opacity;
         <p>学习 · 批判 · 实践</p>
 
         <div class="memorial-link-wrapper">
-            <a href="memorial.html" class="memorial-link">★ 纪念伟大领袖毛主席逝世五十周年 ★</a>
+          <a href="memorial.html" class="memorial-link">
+    <span class="memorial-desktop-text">
+        ★ 纪念伟大领袖毛主席逝世五十周年 ★
+    </span>
+
+    <span class="memorial-mobile-text">
+        <span class="memorial-mobile-title">
+            ★ 纪念伟大领袖毛主席 ★
+        </span>
+        <span class="memorial-mobile-subtitle">
+            逝世五十周年
+        </span>
+    </span>
+</a>
         </div>
         
 
