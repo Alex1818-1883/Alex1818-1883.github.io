@@ -868,14 +868,37 @@ footer h3 {
         }
 
 /* === 🚀 全局搜索枢纽弹窗 (完美对标 classics) === */
-        .library-modal {
-            position: fixed; inset: 0; z-index: 3500;
-            display: flex; align-items: center; justify-content: center;
-            padding: 24px; background-color: rgba(0, 0, 0, 0.55); backdrop-filter: blur(5px);
-            opacity: 1; visibility: visible; pointer-events: auto;
-            transition: opacity 0.25s ease, visibility 0.25s ease;
-        }
-        .library-modal.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.library-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3500;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transition: opacity 0.25s ease;
+}
+
+.library-modal.is-closing {
+    opacity: 0;
+    visibility: visible;
+    pointer-events: none;
+}
+
+.library-modal.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
         .library-panel {
             width: min(520px, 100%); padding: 42px 40px 38px; position: relative;
             background-color: #FFF5F5; border-left: 7px solid #CC0000; border-radius: 20px;
@@ -1918,13 +1941,22 @@ const searchResults = document.getElementById("searchResults");
 // === 🚀 搜索分支枢纽控制系统 ===
 const searchChoiceModal = document.getElementById('searchChoiceModal');
 
+let searchChoiceCloseTimer = null;
+
 function toggleSearchChoiceModal(show) {
+    clearTimeout(searchChoiceCloseTimer);
+
     if (show) {
-        searchChoiceModal.classList.remove('is-hidden');
+        searchChoiceModal.classList.remove('is-hidden', 'is-closing');
         searchChoiceModal.setAttribute('aria-hidden', 'false');
     } else {
-        searchChoiceModal.classList.add('is-hidden');
+        searchChoiceModal.classList.add('is-closing');
         searchChoiceModal.setAttribute('aria-hidden', 'true');
+
+        searchChoiceCloseTimer = setTimeout(() => {
+            searchChoiceModal.classList.add('is-hidden');
+            searchChoiceModal.classList.remove('is-closing');
+        }, 250);
     }
 }
 
