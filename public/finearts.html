@@ -2280,6 +2280,11 @@
         let renderTimer = null;
         let modalCloseTimer = null;
         let lastGpuCard = null;
+let currentModalArtworks = [];
+let currentModalIndex = -1;
+
+let modalTouchStartX = 0;
+let modalTouchStartY = 0;
 
         function moveCategorySlider(button) {
             const isMobile = window.matchMedia("(max-width: 768px)").matches;
@@ -2369,9 +2374,9 @@ card.addEventListener("mouseleave", () => {
     }, 500);
 });
 
-            card.addEventListener("click", () => {
-                openModal(artwork);
-            });
+card.addEventListener("click", () => {
+    openModal(artwork, index);
+});
 
             return card;
         }
@@ -2417,21 +2422,45 @@ card.addEventListener("mouseleave", () => {
             renderTimer = window.setTimeout(render, 180);
         }
 
-        function openModal(artwork) {
-            clearTimeout(modalCloseTimer);
+function showModalArtwork(index) {
+    const artwork = currentModalArtworks[index];
 
-            modalImg.src = artwork.src;
-            modalImg.alt = artwork.alt || "革命美术大图";
+    if (!artwork) return;
 
-            photoModal.style.display = "block";
-            photoModal.classList.remove("is-closing");
-            photoModal.setAttribute("aria-hidden", "false");
+    modalImg.src = artwork.src;
+    modalImg.alt = artwork.alt || "革命美术大图";
+}
 
-            document.body.classList.add("modal-open");
+function changeModalArtwork(direction) {
+    if (currentModalArtworks.length <= 1) return;
 
-            void photoModal.offsetWidth;
-            photoModal.classList.add("is-visible");
-        }
+    currentModalIndex =
+        (currentModalIndex + direction + currentModalArtworks.length)
+        % currentModalArtworks.length;
+
+    showModalArtwork(currentModalIndex);
+}
+
+function openModal(artwork, index) {
+    clearTimeout(modalCloseTimer);
+
+    currentModalArtworks = ARTWORKS.filter(
+        item => item.category === artwork.category
+    );
+
+    currentModalIndex = index;
+
+    showModalArtwork(currentModalIndex);
+
+    photoModal.style.display = "block";
+    photoModal.classList.remove("is-closing");
+    photoModal.setAttribute("aria-hidden", "false");
+
+    document.body.classList.add("modal-open");
+
+    void photoModal.offsetWidth;
+    photoModal.classList.add("is-visible");
+}
 
         function closeModal() {
             clearTimeout(modalCloseTimer);
@@ -2486,6 +2515,41 @@ card.addEventListener("mouseleave", () => {
                 }
             });
         }
+
+modalImg.addEventListener("touchstart", event => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+    if (event.touches.length !== 1) return;
+
+    modalTouchStartX = event.touches[0].clientX;
+    modalTouchStartY = event.touches[0].clientY;
+}, { passive: true });
+
+modalImg.addEventListener("touchend", event => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+    if (event.changedTouches.length !== 1) return;
+
+    const touchEndX = event.changedTouches[0].clientX;
+    const touchEndY = event.changedTouches[0].clientY;
+
+    const deltaX = touchEndX - modalTouchStartX;
+    const deltaY = touchEndY - modalTouchStartY;
+
+    // 横向移动不足 50px：当作普通点击，不切图
+    if (Math.abs(deltaX) < 50) return;
+
+    // 上下滑动距离比左右还大：说明不是在左右翻图
+    if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+    // 手指向左滑 → 下一张
+    if (deltaX < 0) {
+        changeModalArtwork(1);
+    }
+
+    // 手指向右滑 → 上一张
+    else {
+        changeModalArtwork(-1);
+    }
+}, { passive: true });
 
         closeModalBtn.addEventListener("click", closeModal);
 
