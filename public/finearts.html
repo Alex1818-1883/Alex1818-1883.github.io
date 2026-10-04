@@ -2286,6 +2286,12 @@ let currentModalIndex = -1;
 let modalTouchStartX = 0;
 let modalTouchStartY = 0;
 
+// 当前这一轮手势是否允许左右切图
+let modalSwipeEnabled = false;
+
+// 这一轮手势只要曾经出现过双指，就禁止切图
+let modalHadMultiTouch = false;
+
         function moveCategorySlider(button) {
             const isMobile = window.matchMedia("(max-width: 768px)").matches;
             const extraWidth = isMobile ? 12 : 18;
@@ -2516,16 +2522,91 @@ function openModal(artwork, index) {
             });
         }
 
+
+
 modalImg.addEventListener("touchstart", event => {
     if (!window.matchMedia("(max-width: 768px)").matches) return;
-    if (event.touches.length !== 1) return;
+
+    /*
+     * 只要出现两根或更多手指，
+     * 就认定这是缩放手势。
+     * 这一整轮触摸都禁止左右切图。
+     */
+    if (event.touches.length > 1) {
+        modalHadMultiTouch = true;
+        modalSwipeEnabled = false;
+        return;
+    }
+
+    /*
+     * 如果页面当前已经处于放大状态，
+     * 单指拖动应该用于查看放大的图片，
+     * 也不允许切换图片。
+     */
+    if (
+        window.visualViewport &&
+        window.visualViewport.scale > 1.01
+    ) {
+        modalSwipeEnabled = false;
+        return;
+    }
+
+    modalHadMultiTouch = false;
+    modalSwipeEnabled = true;
 
     modalTouchStartX = event.touches[0].clientX;
     modalTouchStartY = event.touches[0].clientY;
+
 }, { passive: true });
+
+
+modalImg.addEventListener("touchmove", event => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+
+    /*
+     * 手势过程中只要出现双指，
+     * 立即永久取消这一轮的左右切图资格。
+     */
+    if (event.touches.length > 1) {
+        modalHadMultiTouch = true;
+        modalSwipeEnabled = false;
+    }
+
+}, { passive: true });
+
 
 modalImg.addEventListener("touchend", event => {
     if (!window.matchMedia("(max-width: 768px)").matches) return;
+
+    /*
+     * 双指缩放过，或者本轮不允许切图：
+     * 直接退出。
+     *
+     * 特别重要：
+     * 双指缩放时即使其中一根手指先抬起来，
+     * 也绝对不会被误判成左右滑动。
+     */
+    if (
+        modalHadMultiTouch ||
+        !modalSwipeEnabled ||
+        (
+            window.visualViewport &&
+            window.visualViewport.scale > 1.01
+        )
+    ) {
+
+        /*
+         * 两根手指都彻底离开以后，
+         * 才为下一轮新手势重置状态。
+         */
+        if (event.touches.length === 0) {
+            modalHadMultiTouch = false;
+            modalSwipeEnabled = false;
+        }
+
+        return;
+    }
+
     if (event.changedTouches.length !== 1) return;
 
     const touchEndX = event.changedTouches[0].clientX;
@@ -2534,21 +2615,31 @@ modalImg.addEventListener("touchend", event => {
     const deltaX = touchEndX - modalTouchStartX;
     const deltaY = touchEndY - modalTouchStartY;
 
-    // 横向移动不足 50px：当作普通点击，不切图
+    // 当前这次单指手势已经结束
+    modalSwipeEnabled = false;
+
+    // 横向移动不足 50px：不切图
     if (Math.abs(deltaX) < 50) return;
 
-    // 上下滑动距离比左右还大：说明不是在左右翻图
+    // 上下移动大于左右移动：不切图
     if (Math.abs(deltaX) <= Math.abs(deltaY)) return;
 
-    // 手指向左滑 → 下一张
+    // 单指向左滑 → 下一张
     if (deltaX < 0) {
         changeModalArtwork(1);
     }
 
-    // 手指向右滑 → 上一张
+    // 单指向右滑 → 上一张
     else {
         changeModalArtwork(-1);
     }
+
+}, { passive: true });
+
+
+modalImg.addEventListener("touchcancel", () => {
+    modalSwipeEnabled = false;
+    modalHadMultiTouch = false;
 }, { passive: true });
 
         closeModalBtn.addEventListener("click", closeModal);
