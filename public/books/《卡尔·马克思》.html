@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 <title>列宁全集第二十六卷——卡尔·马克思（传略和马克思主义概述）（1914年11月）</title>
 <link rel="stylesheet" href="./《卡尔·马克思》_files/MIA01.css" type="text/css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
+<style>
 /* === 手机端文库阅读适配 === */
 @media (max-width: 768px) {
 
@@ -27,21 +27,62 @@
         overflow-wrap: break-word;
     }
 
+    /* 解除正文表格固定宽度限制 */
+    body > table {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    /* 内部表格自适应 */
+    table {
+        max-width: 100% !important;
+    }
+
+    table[width="450"] {
+        width: 100% !important;
+        max-width: 450px !important;
+    }
+
+    /* 正文表格文字适配 */
+    td {
+        font-size: 17px !important;
+        line-height: 1.85 !important;
+        overflow-wrap: break-word;
+    }
+
     /* 文章主标题 */
-    body > p:first-of-type {
+    .title1 {
         font-size: 25px !important;
         line-height: 1.5 !important;
         letter-spacing: 1px !important;
+        text-align: center;
     }
 
-    /* 文章章节标题 */
+    /* 作者、副标题及日期 */
+    .author,
+    .date {
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+        text-align: center;
+    }
+
+    /* 文章一级章节标题 */
     h3 {
         font-size: 21px;
         font-weight: 900;
         letter-spacing: 0.5px;
         line-height: 1.5;
-
         margin: 24px 0 16px;
+    }
+
+    /* 文章二级章节标题 */
+    h4 {
+        font-size: 19px;
+        font-weight: 900;
+        letter-spacing: 0.5px;
+        line-height: 1.5;
+        margin: 20px 0 12px;
     }
 
     /* 引用段落 */
